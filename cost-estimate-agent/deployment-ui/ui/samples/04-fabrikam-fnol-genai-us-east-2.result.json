@@ -1,0 +1,198 @@
+{
+  "sample": "04-fabrikam-fnol-genai-us-east-2.json",
+  "session_id": "sample-04-fabrikam-fnol-genai-us-east-2-7b9e3db16872",
+  "seconds": 157,
+  "status": "success",
+  "error": null,
+  "data": {
+    "calculator_url": "https://calculator.aws/#/estimate?id=4462edf13b86066a5c08e2f216902d77990de46f",
+    "data": {
+      "calculator_url": "https://calculator.aws/#/estimate?id=4462edf13b86066a5c08e2f216902d77990de46f",
+      "currency": "USD",
+      "environments": {
+        "Production": {
+          "services": [
+            {
+              "config": {
+                "avgInputTokensPerRequest": 6000.0,
+                "avgOutputTokensPerRequest": 1500.0,
+                "avgRequestsPerMin": 2.0,
+                "hoursPerDayAtThisRate": 15.0,
+                "inferenceRoute": "In Region",
+                "inferenceType": "On Demand - Standard",
+                "location": "us-east-2",
+                "model": "Claude Sonnet 4.6",
+                "promptCaching": "No",
+                "rate_type": "flat"
+              },
+              "description": "Field extraction, coverage reasoning, follow-up e-mail drafts; 54,000 requests/mo. The calculator takes requests per minute and hours per day, so this uses 2 requests/min for 15 hours/day, which comes to about 54.7K requests/mo. The 3x storm peak is not included.",
+              "name": "Amazon Bedrock - Anthropic Claude Sonnet 4.6 (on-demand, in-region)",
+              "service_code": "AmazonBedrock"
+            },
+            {
+              "config": {
+                "averageTokensPerDocument": 20000.0,
+                "documentsPerMonth": 467.0,
+                "embeddingModel": "Titan Text Embeddings V2",
+                "inferenceRoute": "In-Region",
+                "inferenceType": "On Demand - Standard",
+                "location": "us-east-2",
+                "rate_type": "flat"
+              },
+              "description": "The calculator has no Knowledge Bases entry, so this uses Titan Text Embeddings V2 as the closest billable equivalent. 1,400 policy PDFs re-synced quarterly, about 467 docs/mo at 20,000 tokens each (the token count is an assumption). The vector store is priced separately.",
+              "name": "Amazon Bedrock Knowledge Bases (modeled as Titan Text Embeddings V2 ingestion)",
+              "service_code": "AmazonBedrock"
+            },
+            {
+              "config": {
+                "instanceFamily": "Memory optimized",
+                "instanceType": "r7g.large.search",
+                "location": "us-east-2",
+                "nodes": 2.0,
+                "pricingModel": "OnDemand",
+                "quantity": 2.0,
+                "rate_type": "hourly",
+                "storageGB": 20.0,
+                "storageType": "GP3",
+                "utilizationPercent": 100.0
+              },
+              "description": "The estimate tooling cannot save OpenSearch Serverless OCU pricing, because its validation rejected that configuration. So this uses provisioned OpenSearch as a stand-in: 2 x r7g.large.search on-demand, no dedicated master, no UltraWarm, GP3 20 GB. The requested 1 indexing OCU + 1 search OCU is not priced directly. Re-price this line in the calculator before using the total.",
+              "name": "Amazon OpenSearch Service (stand-in for OpenSearch Serverless vector collection)",
+              "service_code": "AmazonES"
+            },
+            {
+              "config": {
+                "location": "us-east-2",
+                "numberOfPages": 70000.0,
+                "percentPagesWithFormsAndTables": 100.0,
+                "percentPagesWithTextOnly": 0.0,
+                "quantity": 70000.0,
+                "rate_type": "flat"
+              },
+              "description": "AnalyzeDocument forms + tables, 70,000 pages/mo",
+              "name": "Amazon Textract",
+              "service_code": "AmazonTextract"
+            },
+            {
+              "config": {
+                "apiCall": "Asynchronous",
+                "averageCharactersPerDocument": 1000.0,
+                "documentsPerMonth": 200000.0,
+                "location": "us-east-2",
+                "quantity": 2000000.0,
+                "rate_type": "flat"
+              },
+              "description": "DetectPiiEntities, 2,000,000 units of 100 characters per month, entered as 200,000 async docs x 1,000 chars",
+              "name": "Amazon Comprehend - Detect PII",
+              "service_code": "AmazonComprehend"
+            },
+            {
+              "config": {
+                "architecture": "arm64",
+                "durationMs": 1500.0,
+                "ephemeralStorageMB": 512.0,
+                "freeTier": "excluded",
+                "location": "us-east-2",
+                "memoryMB": 1024.0,
+                "quantity": 900000.0,
+                "rate_type": "flat",
+                "requestsPerMonth": 900000.0
+              },
+              "description": "Intake, orchestration and ClaimCenter integration; arm64, 1024 MB, 1500 ms, Free Tier excluded",
+              "name": "AWS Lambda",
+              "service_code": "AWSLambda"
+            },
+            {
+              "config": {
+                "apiType": "REST",
+                "location": "us-east-2",
+                "quantity": 1500000.0,
+                "rate_type": "flat",
+                "requestsPerMonth": 1500000.0
+              },
+              "description": "REST API for the review UI and web-form API",
+              "name": "Amazon API Gateway",
+              "service_code": "AmazonApiGateway"
+            },
+            {
+              "config": {
+                "getRequests": 1200000.0,
+                "location": "us-east-2",
+                "putCopyPostListRequests": 300000.0,
+                "quantity": 2000.0,
+                "rate_type": "flat",
+                "storageGB": 2000.0,
+                "volumeType": "Standard"
+              },
+              "description": "S3 Standard for attachments and policy documents",
+              "name": "Amazon S3",
+              "service_code": "AmazonS3"
+            },
+            {
+              "config": {
+                "capacityMode": "on-demand",
+                "location": "us-east-2",
+                "quantity": 25.0,
+                "rate_type": "flat",
+                "readRequestsPerMonth": 15000000.0,
+                "storageGB": 25.0,
+                "tableClass": "Standard",
+                "writeRequestsPerMonth": 5000000.0
+              },
+              "description": "On-demand capacity for FNOL state, review decisions, audit trail",
+              "name": "Amazon DynamoDB",
+              "service_code": "AmazonDynamoDB"
+            },
+            {
+              "config": {
+                "location": "us-east-2",
+                "monthlyActiveUsers": 60.0,
+                "quantity": 60.0,
+                "rate_type": "flat",
+                "samlOidcFederatedMAU": 60.0,
+                "tier": "Essentials"
+              },
+              "description": "Essentials tier, 60 MAU, all signing in via SAML federation with Microsoft Entra ID",
+              "name": "Amazon Cognito",
+              "service_code": "AmazonCognito"
+            },
+            {
+              "config": {
+                "customMetrics": 40.0,
+                "dashboards": 2.0,
+                "location": "us-east-2",
+                "logStorage": "1 month retention",
+                "quantity": 60.0,
+                "rate_type": "flat",
+                "standardAlarms": 25.0,
+                "standardLogsIngestedGB": 60.0
+              },
+              "description": "Logs, custom metrics, dashboards and alarms",
+              "name": "Amazon CloudWatch",
+              "service_code": "AmazonCloudWatch"
+            },
+            {
+              "config": {
+                "customerManagedKeys": 3.0,
+                "location": "us-east-2",
+                "quantity": 3.0,
+                "rate_type": "flat",
+                "symmetricRequestsPerMonth": 2000000.0
+              },
+              "description": "Encryption at rest",
+              "name": "AWS Key Management Service",
+              "service_code": "awskms"
+            }
+          ]
+        }
+      },
+      "estimate_id": "4462edf13b86066a5c08e2f216902d77990de46f",
+      "estimate_name": "Fabrikam Insurance - Claims FNOL assistant (Production)",
+      "region": "us-east-2"
+    },
+    "estimate_id": "4462edf13b86066a5c08e2f216902d77990de46f",
+    "success": true
+  },
+  "created_at": "2026-10-24T21:20:08.321575",
+  "updated_at": "2026-10-24T21:22:44.288257"
+}

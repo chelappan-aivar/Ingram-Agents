@@ -1,0 +1,32 @@
+Kick-off call transcript - Tailspin Toys DevOps platform
+Date: 22 October 2026, 45 minutes, Microsoft Teams
+Ingram Micro: Priya Nair (seller), Tomas Novak (DevOps architect)
+Tailspin Toys: Daniel Weber (CTO), Sophie Klein (IT Operations Lead), Jonas Becker (Lead Developer, E-commerce)
+
+Priya Nair: Thanks everyone. The migration team is moving the servers to Frankfurt. Today is about how you build and release the shop.
+Daniel Weber: Right. We release once a month, on a Saturday, six hours of downtime. Two or three releases a quarter go wrong and we roll back by hand.
+Sophie Klein: Two people know the deployment scripts. If one of them is on holiday we do not release.
+Tomas Novak: What does the e-commerce platform look like?
+Jonas Becker: Nine .NET services. Six are .NET 8 already, three are still .NET Framework 4.8. A React storefront. SQL Server behind it. Code is in Azure DevOps, builds run on one Jenkins box.
+Tomas Novak: The six .NET 8 services and the storefront are good candidates for containers on EKS. The three Framework services would stay on Windows EC2 for now, but we can still give them proper pipelines.
+Daniel Weber: Agreed. We bought GitHub Enterprise for next year, so we want to move the code and the pipelines to GitHub Actions.
+Tomas Novak: Then we would write reusable workflows: build, unit test, code and dependency scanning, image build, image scan, deploy to dev, test and prod with approvals.
+Sophie Klein: And infrastructure? Today every environment is a bit different.
+Tomas Novak: Everything in Terraform, one set of modules, three environments. No more drift.
+Daniel Weber: Christmas is the big one. Mid-November to Christmas Eve we see five times normal traffic. Last year the site was slow for two evenings.
+Tomas Novak: Karpenter will add nodes as the load grows. And before the code freeze we run a load test at five times peak, roughly two and a half thousand requests per second.
+Daniel Weber: The code freeze starts on the first of November 2027. The platform must be live and tested before that.
+Sophie Klein: We have no central logging. Customers tell us when something is broken.
+Tomas Novak: Container Insights and CloudWatch Logs, Managed Prometheus and Grafana for metrics and dashboards, alarms to Teams and PagerDuty. And runbooks for the top ten incidents.
+Daniel Weber: How do we stop a bad release?
+Tomas Novak: Canary releases with Argo Rollouts. A small share of traffic first; if error rate or latency breaks the SLO, it rolls back automatically.
+Sophie Klein: GDPR. Everything stays in Frankfurt, logs included.
+Tomas Novak: Yes, eu-central-1 only. Secrets go to Secrets Manager, findings to Security Hub, images scanned by Inspector.
+Priya Nair: How will you measure success?
+Daniel Weber: Weekly releases at least, without downtime. Change failure under ten percent. When something breaks, fixed within the hour.
+Jonas Becker: And lead time. Today a one-line fix takes three weeks to reach production. I want it under a day.
+Sophie Klein: My platform team is four people. They must be able to run all of this after you leave.
+Tomas Novak: We pair with them during the build and finish with handover workshops and runbooks.
+Priya Nair: Timeline and budget?
+Daniel Weber: Twelve weeks from the first of March. We have about one hundred and fifty thousand euros for delivery.
+Priya Nair: Thanks. We will send the statement of work.

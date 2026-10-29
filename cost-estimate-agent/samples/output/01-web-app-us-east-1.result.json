@@ -1,0 +1,113 @@
+{
+  "sample": "01-web-app-us-east-1.txt",
+  "session_id": "sample-01-web-app-us-east-1-d5003367b540",
+  "seconds": 52,
+  "status": "success",
+  "error": null,
+  "data": {
+    "calculator_url": "https://calculator.aws/#/estimate?id=ce5a8af288f1fd8290e77fe4ddb91123a6c9de79",
+    "data": {
+      "calculator_url": "https://calculator.aws/#/estimate?id=ce5a8af288f1fd8290e77fe4ddb91123a6c9de79",
+      "currency": "USD",
+      "environments": {
+        "Production": {
+          "services": [
+            {
+              "config": {
+                "capacitystatus": "Used",
+                "instanceType": "t3.medium",
+                "location": "us-east-1",
+                "operatingSystem": "Linux",
+                "preInstalledSw": "NA",
+                "pricingModel": "On-Demand",
+                "quantity": 2.0,
+                "rate_type": "hourly",
+                "tenancy": "Shared",
+                "utilization": 100.0
+              },
+              "description": "EC2 t3.medium Linux On-Demand x2",
+              "name": "Amazon EC2",
+              "service_code": "AmazonEC2"
+            },
+            {
+              "config": {
+                "dataProcessedGBPerMonth": 50.0,
+                "location": "us-east-1",
+                "numberOfLoadBalancers": 1.0,
+                "productFamily": "Load Balancer-Application",
+                "quantity": 1.0,
+                "rate_type": "hourly"
+              },
+              "description": "Application Load Balancer",
+              "name": "Elastic Load Balancing",
+              "service_code": "AWSELB"
+            },
+            {
+              "config": {
+                "databaseEngine": "PostgreSQL",
+                "deploymentOption": "Multi-AZ",
+                "instanceType": "db.t3.medium",
+                "location": "us-east-1",
+                "pricingModel": "On-Demand",
+                "quantity": 1.0,
+                "rate_type": "hourly",
+                "storageGB": 100.0,
+                "utilization": 100.0,
+                "volumeType": "General Purpose-GP3"
+              },
+              "description": "RDS PostgreSQL db.t3.medium Multi-AZ",
+              "name": "Amazon RDS for PostgreSQL",
+              "service_code": "AmazonRDS"
+            },
+            {
+              "config": {
+                "getRequests": 1000000.0,
+                "location": "us-east-1",
+                "putRequests": 100000.0,
+                "quantity": 500.0,
+                "rate_type": "flat",
+                "storageGB": 500.0,
+                "volumeType": "Standard"
+              },
+              "description": "S3 Standard storage",
+              "name": "Amazon S3",
+              "service_code": "AmazonS3"
+            },
+            {
+              "config": {
+                "dataTransferOutTB": 1.0,
+                "edgeRegion": "United States",
+                "httpsRequests": 10000000.0,
+                "location": "us-east-1",
+                "quantity": 1.0,
+                "rate_type": "flat"
+              },
+              "description": "CloudFront CDN",
+              "name": "Amazon CloudFront",
+              "service_code": "AmazonCloudFront"
+            },
+            {
+              "config": {
+                "hostedZones": 1.0,
+                "location": "us-east-1",
+                "quantity": 1.0,
+                "rate_type": "flat",
+                "standardQueries": 5000000.0
+              },
+              "description": "Route 53 hosted zone and queries",
+              "name": "Amazon Route 53",
+              "service_code": "AmazonRoute53"
+            }
+          ]
+        }
+      },
+      "estimate_id": "ce5a8af288f1fd8290e77fe4ddb91123a6c9de79",
+      "estimate_name": "Contoso Web Portal - Production",
+      "region": "us-east-1"
+    },
+    "estimate_id": "ce5a8af288f1fd8290e77fe4ddb91123a6c9de79",
+    "success": true
+  },
+  "created_at": "2026-10-24T21:20:00.949338",
+  "updated_at": "2026-10-24T21:20:48.319149"
+}

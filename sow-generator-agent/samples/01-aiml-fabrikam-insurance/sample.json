@@ -1,0 +1,7 @@
+{
+  "title": "Fabrikam Insurance: claims FNOL assistant",
+  "customer_name": "Fabrikam Insurance",
+  "opportunity_id": "OPP-2026-0517",
+  "template_id": "aiml/ai-ml",
+  "summary": "Generative AI claims intake (Bedrock, RAG, Textract). Transcript, notes, diagram and full upstream data."
+}

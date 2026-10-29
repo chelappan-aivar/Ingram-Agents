@@ -1,0 +1,13 @@
+Northwind Traders - invoice processing with generative AI (quick test: project details only)
+
+Northwind Traders is a food distributor in Seattle with about 400 employees. The accounts payable team (6 people)
+processes about 4,000 supplier invoices per month as PDF e-mail attachments, typing them into Microsoft Dynamics 365
+Business Central. It takes about 6 minutes per invoice and 4% have errors.
+
+They want an AI assistant on AWS that reads the invoices (Amazon Textract and Amazon Bedrock), extracts supplier,
+invoice number, dates, line items, tax and totals, matches them to purchase orders, and creates a draft purchase
+invoice in Business Central for an AP clerk to approve. Exceptions (no PO match, price differences over 2%) go to a
+review queue.
+
+Targets: under 1 minute of clerk time per invoice, error rate under 1%. Region us-west-2. Timeline 8 weeks.
+Budget about USD 90,000 one-time; expected AWS run-rate about USD 1,200 per month.

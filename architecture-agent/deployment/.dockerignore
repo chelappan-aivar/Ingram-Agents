@@ -1,0 +1,16 @@
+# Build context is this deployment/ folder; only agent/ (minus tests) goes into the image.
+.state
+.venv
+.aws-sam
+build
+config.env
+samples
+tools
+api
+ui
+scripts
+agent/tests
+**/__pycache__
+**/.pytest_cache
+**/*.egg-info
+**/.DS_Store

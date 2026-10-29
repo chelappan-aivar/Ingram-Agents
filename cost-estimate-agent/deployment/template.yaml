@@ -1,0 +1,347 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Project Catalyst - Cost estimate agent (on demand). Web UI (Amplify Hosting) -> API Gateway (HTTP API)
+  -> Lambda ingram-cost-api (open, cost guards) -> Lambda ingram-cost-worker (async)
+  -> AgentCore Runtime ingram_cost_agent (container: free-text infrastructure -> AWS Pricing Calculator estimate
+  via the calculator MCP server) -> Amazon Bedrock. Runs in DynamoDB.
+
+Metadata:
+  cfn-lint:
+    config:
+      ignore_checks:
+        - W3005   # explicit DependsOn kept for readability
+
+Parameters:
+  UiOrigin:
+    Type: String
+    Default: http://localhost:5173
+    Description: Extra origin allowed by CORS for running the UI locally (the Amplify URL is always allowed).
+  ContainerUri:
+    Type: String
+    AllowedPattern: "^[0-9]{12}\\.dkr\\.ecr\\.[a-z0-9-]+\\.amazonaws\\.com/[a-z0-9._/-]+@sha256:[0-9a-f]{64}$"
+    Description: Agent image pinned by digest (set by scripts/deploy.sh).
+  EcrRepositoryName:
+    Type: String
+    Default: ingram-cost-agent
+    AllowedPattern: "^[a-z][a-z0-9._/-]{1,100}$"
+    Description: ECR repository holding the agent image (created by scripts/deploy.sh).
+  RuntimeName:
+    Type: String
+    Default: ingram_cost_agent
+    AllowedPattern: "^[a-zA-Z][a-zA-Z0-9_]{0,47}$"
+  ModelId:
+    Type: String
+    Default: global.anthropic.claude-sonnet-5-5
+    Description: Bedrock inference profile for the estimate agent, the checklist extractor and the coverage judge.
+  InferenceProfilePattern:
+    Type: String
+    Default: global.anthropic.claude-sonnet-5-5
+    AllowedPattern: "^[a-z0-9.*:-]+$"
+    Description: IAM resource pattern of the inference profiles the agent may call.
+  MaxOutputTokens:
+    Type: Number
+    Default: 32000
+    MinValue: 1024
+    Description: Output token limit per model call (build_estimate carries the whole estimate as JSON).
+  RunsPerDay:
+    Type: Number
+    Default: 40
+    MinValue: 1
+    Description: Cost guard for the open API - estimates per day across all users (each is several Bedrock calls).
+  RunsPerIpHour:
+    Type: Number
+    Default: 6
+    MinValue: 1
+    Description: Cost guard for the open API - estimates one caller IP may start per hour.
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Architectures: [arm64]
+    MemorySize: 256
+    Timeout: 29
+
+Resources:
+  # ------------------------------------------------------------------ DynamoDB: runs, results, activity log
+  RunsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: ingram-cost-runs
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - { AttributeName: pk, AttributeType: S }
+        - { AttributeName: sk, AttributeType: S }
+        - { AttributeName: owner, AttributeType: S }
+        - { AttributeName: created_at, AttributeType: S }
+      KeySchema:
+        - { AttributeName: pk, KeyType: HASH }
+        - { AttributeName: sk, KeyType: RANGE }
+      GlobalSecondaryIndexes:            # run history: only RUN#/META items carry `owner`
+        - IndexName: owner-created
+          KeySchema:
+            - { AttributeName: owner, KeyType: HASH }
+            - { AttributeName: created_at, KeyType: RANGE }
+          Projection:
+            ProjectionType: INCLUDE
+            NonKeyAttributes: [run_id, title, status, stage, finished_at, user_name, estimate_name, services_count]
+      PointInTimeRecoverySpecification: { PointInTimeRecoveryEnabled: true }
+      SSESpecification: { SSEEnabled: true }
+      TimeToLiveSpecification:          # expires the cost-guard counters (DAY#, IP#)
+        AttributeName: ttl
+        Enabled: true
+
+  # ------------------------------------------------------------------ AgentCore Runtime: the Cost estimate agent (container)
+  # Least privilege, per https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-permissions.html.
+  # The agent is stateless: it pulls its image, writes logs/traces/metrics, calls Bedrock and (from the MCP server
+  # inside the container) the public AWS Pricing Calculator. No S3 or DynamoDB.
+  AgentRuntimeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: { Service: bedrock-agentcore.amazonaws.com }
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals: { aws:SourceAccount: !Ref AWS::AccountId }
+              ArnLike: { aws:SourceArn: !Sub "arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:*" }
+      Policies:
+        - PolicyName: cost-agent
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: PullAgentImage
+                Effect: Allow
+                Action: [ecr:BatchGetImage, ecr:GetDownloadUrlForLayer]
+                Resource: !Sub "arn:${AWS::Partition}:ecr:${AWS::Region}:${AWS::AccountId}:repository/${EcrRepositoryName}"
+              - Sid: EcrToken
+                Effect: Allow
+                Action: ecr:GetAuthorizationToken
+                Resource: "*"
+              - Sid: Logs
+                Effect: Allow
+                Action: [logs:CreateLogGroup, logs:CreateLogStream, logs:PutLogEvents, logs:DescribeLogStreams]
+                Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/bedrock-agentcore/runtimes/*"
+              - Sid: LogGroups
+                Effect: Allow
+                Action: logs:DescribeLogGroups
+                Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:*"
+              - Sid: Tracing
+                Effect: Allow
+                Action: [xray:PutTraceSegments, xray:PutTelemetryRecords, xray:GetSamplingRules, xray:GetSamplingTargets]
+                Resource: "*"
+              - Sid: Metrics
+                Effect: Allow
+                Action: cloudwatch:PutMetricData
+                Resource: "*"
+                Condition:
+                  StringEquals: { cloudwatch:namespace: bedrock-agentcore }
+              - Sid: WorkloadAccessToken
+                Effect: Allow
+                Action:
+                  - bedrock-agentcore:GetWorkloadAccessToken
+                  - bedrock-agentcore:GetWorkloadAccessTokenForJWT
+                  - bedrock-agentcore:GetWorkloadAccessTokenForUserId
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:workload-identity-directory/default"
+                  - !Sub "arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:workload-identity-directory/default/workload-identity/${RuntimeName}-*"
+              # A global.* inference profile is authorised on three resources: the profile in this Region, the
+              # foundation model in this Region and the Region-less global foundation model
+              # (arn:aws:bedrock:::foundation-model/..., see "Global cross-Region inference" in the Bedrock guide).
+              # A us.* profile needs the profile plus the foundation model in each US Region: covered as well.
+              - Sid: InvokeInferenceProfiles
+                Effect: Allow
+                Action: [bedrock:InvokeModel, bedrock:InvokeModelWithResponseStream]
+                Resource: !Sub "arn:${AWS::Partition}:bedrock:${AWS::Region}:${AWS::AccountId}:inference-profile/${InferenceProfilePattern}"
+              - Sid: InvokeAnthropicFoundationModels
+                Effect: Allow
+                Action: [bedrock:InvokeModel, bedrock:InvokeModelWithResponseStream]
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:bedrock:*::foundation-model/anthropic.*"
+                  - !Sub "arn:${AWS::Partition}:bedrock:::foundation-model/anthropic.*"
+
+  CostAgentRuntime:
+    Type: AWS::BedrockAgentCore::Runtime
+    Properties:
+      AgentRuntimeName: !Ref RuntimeName
+      Description: Free-text AWS infrastructure to a saved AWS Pricing Calculator estimate (Strands, Bedrock, calculator MCP)
+      RoleArn: !GetAtt AgentRuntimeRole.Arn
+      AgentRuntimeArtifact:
+        ContainerConfiguration:
+          ContainerUri: !Ref ContainerUri
+      ProtocolConfiguration: HTTP
+      NetworkConfiguration:
+        NetworkMode: PUBLIC   # Amazon Bedrock + the public AWS Pricing Calculator (calculator.aws) from the MCP server
+      LifecycleConfiguration:
+        IdleRuntimeSessionTimeout: 900
+        MaxLifetime: 3600     # one session per run; an estimate takes a few minutes
+      # Read by cost_estimate/mcp_tool.py. The image sets MCP_COMMAND, HOME and the npm cache (all under /tmp).
+      EnvironmentVariables:
+        AWS_REGION: !Ref AWS::Region
+        MODEL_ID: !Ref ModelId
+        MAX_OUTPUT_TOKENS: !Ref MaxOutputTokens
+        MCP_COMMAND: sample-aws-pricing-calculator-mcp
+
+  # ------------------------------------------------------------------ API Gateway + Lambda (UI API) + worker
+  CostHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      Description: Cost estimate agent API (open, no sign-in; throttled, with per-IP and daily run caps)
+      CorsConfiguration:
+        # deploy.sh adds config.env CORS_EXTRA_ORIGINS after the stack deploy (SAM breaks intrinsic origin lists).
+        AllowOrigins:
+          - !Sub https://main.${UiApp.DefaultDomain}   # hosted UI (Amplify)
+          - !Ref UiOrigin                               # local dev
+        AllowHeaders: [content-type]
+        AllowMethods: [GET, POST, OPTIONS]
+        MaxAge: 600
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 20
+        ThrottlingRateLimit: 10
+      RouteSettings:          # the route that costs money
+        "POST /runs": { ThrottlingBurstLimit: 3, ThrottlingRateLimit: 1 }
+
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ingram-cost-api
+      Description: Cost estimate UI API - start estimates, read results from DynamoDB
+      CodeUri: api/
+      Handler: handler.handler
+      LoggingConfig:
+        LogGroup: !Ref ApiLogGroup
+      Environment:
+        Variables:
+          RUNS_TABLE: !Ref RunsTable
+          WORKER_FUNCTION: !Ref WorkerFunction
+          RUNS_PER_DAY: !Ref RunsPerDay
+          RUNS_PER_IP_HOUR: !Ref RunsPerIpHour
+      Policies:
+        - Statement:
+            - Sid: Runs
+              Effect: Allow
+              Action: [dynamodb:PutItem, dynamodb:UpdateItem, dynamodb:GetItem, dynamodb:Query]
+              Resource:
+                - !GetAtt RunsTable.Arn
+                - !Sub "${RunsTable.Arn}/index/owner-created"
+            - Sid: StartWorker
+              Effect: Allow
+              Action: lambda:InvokeFunction
+              Resource: !GetAtt WorkerFunction.Arn
+      Events:
+        GetSession:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CostHttpApi, Method: GET, Path: /session }
+        StartRun:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CostHttpApi, Method: POST, Path: /runs }
+        ListRuns:
+          Type: HttpApi
+          Properties: { ApiId: !Ref CostHttpApi, Method: GET, Path: /runs }
+        GetRun:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref CostHttpApi
+            Method: GET
+            Path: /runs/{id}
+
+  ApiLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/ingram-cost-api
+      RetentionInDays: 30
+
+  WorkerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ingram-cost-worker
+      Description: Runs one estimate on the AgentCore Runtime and stores the result in DynamoDB
+      CodeUri: api/
+      Handler: worker.handler
+      MemorySize: 512
+      Timeout: 900            # AgentCore's synchronous request limit is 15 minutes too
+      LoggingConfig:
+        LogGroup: !Ref WorkerLogGroup
+      EventInvokeConfig:
+        MaximumRetryAttempts: 0   # every attempt costs model calls; the UI offers a new run instead
+        MaximumEventAgeInSeconds: 900
+      Environment:
+        Variables:
+          RUNS_TABLE: !Ref RunsTable
+          AGENT_RUNTIME_ARN: !GetAtt CostAgentRuntime.AgentRuntimeArn
+      Policies:
+        - Statement:
+            - Sid: Runs
+              Effect: Allow
+              Action: [dynamodb:PutItem, dynamodb:UpdateItem, dynamodb:GetItem]
+              Resource: !GetAtt RunsTable.Arn
+            - Sid: InvokeAgent
+              Effect: Allow
+              Action: bedrock-agentcore:InvokeAgentRuntime
+              Resource:
+                - !GetAtt CostAgentRuntime.AgentRuntimeArn
+                - !Sub "${CostAgentRuntime.AgentRuntimeArn}/*"
+
+  WorkerLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/ingram-cost-worker
+      RetentionInDays: 30
+
+  # ------------------------------------------------------------------ Web UI: AWS Amplify Hosting (manual deploys)
+  UiApp:
+    Type: AWS::Amplify::App
+    Properties:
+      Name: ingram-cost-ui
+      Description: Ingram Cost estimate agent web UI (static; uploaded by scripts/deploy.sh)
+      Platform: WEB
+      CustomHeaders: |
+        customHeaders:
+          - pattern: '**'
+            headers:
+              - key: Strict-Transport-Security
+                value: max-age=31536000; includeSubDomains
+              - key: X-Content-Type-Options
+                value: nosniff
+              - key: X-Frame-Options
+                value: SAMEORIGIN
+              - key: Referrer-Policy
+                value: strict-origin-when-cross-origin
+          - pattern: 'config.js'
+            headers:
+              - key: Cache-Control
+                value: no-cache
+
+  UiBranch:
+    Type: AWS::Amplify::Branch
+    Properties:
+      AppId: !GetAtt UiApp.AppId
+      BranchName: main
+      Stage: PRODUCTION
+      EnableAutoBuild: false
+
+Outputs:
+  UiUrl:
+    Description: Hosted web UI
+    Value: !Sub https://main.${UiApp.DefaultDomain}
+  UiAppId:
+    Value: !GetAtt UiApp.AppId
+  ApiUrl:
+    Description: Base URL for the web UI (written to ui/config.js by deploy.sh)
+    Value: !Sub https://${CostHttpApi}.execute-api.${AWS::Region}.amazonaws.com
+  AgentRuntimeArn:
+    Value: !GetAtt CostAgentRuntime.AgentRuntimeArn
+  AgentRuntimeId:
+    Value: !GetAtt CostAgentRuntime.AgentRuntimeId
+  AgentRuntimeVersion:
+    Value: !GetAtt CostAgentRuntime.AgentRuntimeVersion
+  LogGroup:
+    Value: !Sub "/aws/bedrock-agentcore/runtimes/${CostAgentRuntime.AgentRuntimeId}-DEFAULT"
+  RepositoryName:
+    Value: !Ref EcrRepositoryName
+  RunsTableName:
+    Value: !Ref RunsTable

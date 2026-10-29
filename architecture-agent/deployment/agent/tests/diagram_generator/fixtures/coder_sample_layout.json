@@ -1,0 +1,19 @@
+{
+  "subtitle": "Vehicle telemetry flows from IoT Core through Kinesis into DynamoDB and S3, with an operations API on top",
+  "groups": [
+    {"id": "aws_cloud", "x": 230, "y": 140, "w": 1330, "h": 690},
+    {"id": "region_use1", "x": 250, "y": 190, "w": 1290, "h": 620},
+    {"id": "vpc_main", "x": 870, "y": 240, "w": 300, "h": 250},
+    {"id": "subnet_private", "x": 890, "y": 290, "w": 260, "h": 180}
+  ],
+  "nodes": [
+    {"id": "vehicle_fleet", "x": 50, "y": 330},
+    {"id": "fleet_ops", "x": 50, "y": 656},
+    {"id": "iot_core", "x": 360, "y": 330},
+    {"id": "kinesis_stream", "x": 660, "y": 330},
+    {"id": "stream_processor", "x": 960, "y": 330},
+    {"id": "telemetry_table", "x": 1360, "y": 230},
+    {"id": "archive_bucket", "x": 1360, "y": 470},
+    {"id": "ops_api", "x": 660, "y": 656}
+  ]
+}

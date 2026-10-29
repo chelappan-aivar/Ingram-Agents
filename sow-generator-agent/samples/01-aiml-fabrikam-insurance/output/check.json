@@ -1,0 +1,133 @@
+{
+  "rules": [
+    {
+      "id": "scope-section-present",
+      "name": "Scope section present",
+      "description": "Every SOW must carry a Scope section defining in-scope work.",
+      "severity": "required",
+      "status": "pass",
+      "detail": "Found section 'Scope of Work \u2013 Technical Project Plan - AI Solution'."
+    },
+    {
+      "id": "pricing-section-present",
+      "name": "Pricing section present",
+      "description": "A Pricing / Commercials section must state the engagement price.",
+      "severity": "required",
+      "status": "pass",
+      "detail": "Found section 'Pricing'."
+    },
+    {
+      "id": "pricing-refers-to-cost-estimate",
+      "name": "Pricing refers to the cost estimate",
+      "description": "The pricing section must carry the cost calculator link and must not restate or tabulate AWS run-rate figures. The cost estimate agent's calculator is the single source of truth; duplicating its numbers in the SOW lets the two drift apart.",
+      "severity": "required",
+      "status": "pass",
+      "detail": "The pricing section refers to the cost estimate link without restating it."
+    },
+    {
+      "id": "services-covered",
+      "name": "Architecture services covered in scope",
+      "description": "Every architecture service should appear in scope or be explicitly out of scope.",
+      "severity": "advisory",
+      "status": "pass",
+      "detail": "Every architecture service is covered in scope or out of scope."
+    },
+    {
+      "id": "timeline-consistent",
+      "name": "SOW timeline matches intake",
+      "description": "The schedule in the SOW must be consistent with the intake timeline.",
+      "severity": "advisory",
+      "status": "pass",
+      "detail": "Timeline duration matches intake ([10] weeks)."
+    }
+  ],
+  "issues": [
+    {
+      "id": "open_integration_design_in_fixed_price",
+      "severity": "high",
+      "section": "AI System Design and Development / Technical Enhancements",
+      "title": "Key ingestion and attachment approaches left TBD under a fixed price",
+      "detail": "The shared-mailbox and phone-transcript integration is 'confirmed with Fabrikam during design', and 'the approach for Word-format attachments will be confirmed during the design workshops'. The architecture lists no mailbox ingestion service, no Word/DOCX conversion step (Textract does not read Word files), and no hosting for the review UI. These are open-ended effort items inside a USD 190,000 fixed price.",
+      "suggestion": "Fix the ingestion mechanisms (for example SES or Microsoft Graph for the mailbox, S3/SFTP drop for transcripts) and the Word handling approach in scope. Add the missing components to the architecture, or state that changes arising from design go through change control.",
+      "source": "model"
+    },
+    {
+      "id": "compressed_test_uat_and_short_pilot_window",
+      "severity": "high",
+      "section": "Schedule I: Estimated Project Schedule",
+      "title": "Weeks 6\u20137 overloaded; 2-week pilot cannot prove business-impact targets",
+      "detail": "Weeks 6\u20137 hold end-to-end testing, 500-FNOL accuracy evaluation, storm-peak load testing, security validation, optimization, documentation, UAT and knowledge transfer. Weeks 8\u20139 give only two weeks of pilot, yet success requires handling time under 8 minutes and rework under 3%. Rework is a lagging metric, and the sandbox only arrives in week 2, with no buffer if it slips.",
+      "suggestion": "Add a UAT/remediation buffer, or split testing and UAT across more weeks. Define how handling time and rework are measured (sample size, period, who counts a rework). Consider a longer measurement window or an interim indicator.",
+      "source": "model"
+    },
+    {
+      "id": "accuracy_metric_undefined",
+      "severity": "high",
+      "section": "Project Success Criteria",
+      "title": "95% extraction accuracy lacks a measurable definition",
+      "detail": "'Field extraction accuracy of at least 95% on the agreed test set of 500 historical FNOLs' does not say whether this is per field, per FNOL (all 32 fields correct), or weighted. It does not say how confidence scores or normalization (dates, addresses) affect scoring. It also does not say whether the set must represent the channel mix (55% phone, 30% e-mail, 15% web), Spanish submissions (about 18%) and attachments.",
+      "suggestion": "Define the metric formula, the scoring rules, the required composition of the test set (including Spanish and attachment-dependent fields), and who adjudicates disagreements with ground truth.",
+      "source": "model"
+    },
+    {
+      "id": "commercial_terms_incomplete",
+      "severity": "high",
+      "section": "Pricing",
+      "title": "No payment milestones, AWS billing ownership, or post-handover support terms",
+      "detail": "Pricing gives a fixed USD 190,000 fee and an AWS run-rate of USD 8,500 per month. It does not say whether the AWS costs are billed to Fabrikam's account or resold by Ingram Micro, or when the run-rate starts (pilot or go-live). It has no invoicing milestones, and the run-rate is an estimate with no stated overage treatment. Engagement type is 'pilot to production', yet there is no hypercare or support after week 10.",
+      "suggestion": "Add payment milestones tied to deliverables and acceptance, name the AWS account owner and billing model, and state how run-rate variance is handled. Add post-handover support terms, or state that none are included.",
+      "source": "model"
+    },
+    {
+      "id": "coverage_check_no_acceptance_measure",
+      "severity": "medium",
+      "section": "Project Success Criteria",
+      "title": "Coverage check and citation quality have no acceptance threshold",
+      "detail": "Coverage assessment with clause citations is a headline capability, but the only quantified quality criterion is field extraction accuracy. 'Citation of policy wording in coverage checks' is tested without any correctness or relevance target. The SOW also does not say that extraction from Spanish-language FNOLs is supported, only Spanish follow-up e-mails.",
+      "suggestion": "Add an acceptance measure, such as adjuster-rated correct citation rate on a sample set. State that the output is advisory and the intake agent remains accountable. Clarify Spanish-language input handling.",
+      "source": "model"
+    },
+    {
+      "id": "photo_processing_mismatch",
+      "severity": "medium",
+      "section": "Technical Enhancements / Document Handling",
+      "title": "Photo handling is described with a service that only does OCR",
+      "detail": "The SOW promises 'text and form extraction from police reports, repair estimates, and photos' and 'handling of up to 10 photos per claim' using Amazon Textract. Textract does not interpret damage or scene photos. It is unclear whether photos only get stored and displayed or are analysed, for example with Claude vision.",
+      "suggestion": "State explicitly whether photos are stored only, OCR'd for text, or analysed by a multimodal model. List which of the 32 fields depend on photos.",
+      "source": "model"
+    },
+    {
+      "id": "missing_risks_section",
+      "severity": "medium",
+      "section": "Assumptions / Customer Dependency",
+      "title": "No risks section despite several known delivery risks",
+      "detail": "The SOW has no Risks section. Obvious risks include late ClaimCenter sandbox access (week 2 is a hard dependency), quality and labelling of the 500 historical FNOLs, OCR quality on scanned police reports, Bedrock model or quota changes, and Entra ID tenant approvals. There is no mitigation or schedule-impact language beyond 'may impact project timelines'.",
+      "suggestion": "Add a risk and mitigation table with owners. Include a rule that sandbox access later than week 2 shifts milestones day-for-day.",
+      "source": "model"
+    },
+    {
+      "id": "availability_and_hours_ambiguity",
+      "severity": "low",
+      "section": "Testing & Validation / Standard Business Needs",
+      "title": "'Business hours' undefined; delivery hours in IST vs. Ohio customer",
+      "detail": "99.9% availability 'during business hours' is a success criterion, but business hours and time zone are not defined. Ingram Micro's team works 9:00 AM\u20136:00 PM IST, which barely overlaps with Columbus, Ohio, and this is not addressed for workshops, UAT and pilot support.",
+      "suggestion": "Define the availability window, time zone and measurement method. Specify overlap hours and pilot support coverage for the US-based agents.",
+      "source": "model"
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "advisory": 0
+  },
+  "can_export": true,
+  "ai_review": {
+    "requested": true,
+    "status": "ok",
+    "issues_added": 8,
+    "model_id": "global.anthropic.claude-sonnet-5-5",
+    "detail": ""
+  },
+  "custom_rule_results": []
+}

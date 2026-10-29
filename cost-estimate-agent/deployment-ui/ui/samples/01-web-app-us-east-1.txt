@@ -1,0 +1,9 @@
+Contoso Web Portal - production web application in us-east-1 (sample data, fictional customer)
+
+Production in us-east-1, running 24x7:
+- 2 x Amazon EC2 t3.medium, Linux, On-Demand, behind an Application Load Balancer
+- Application Load Balancer: 1 ALB, about 50 GB processed per month
+- Amazon RDS for PostgreSQL db.t3.medium, Multi-AZ, 100 GB gp3 storage
+- Amazon S3 Standard: 500 GB stored, 1 million GET and 100,000 PUT requests per month
+- Amazon CloudFront: 1 TB data transfer out per month to the United States, 10 million HTTPS requests
+- Amazon Route 53: 1 hosted zone, 5 million queries per month

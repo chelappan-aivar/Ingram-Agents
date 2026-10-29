@@ -1,0 +1,228 @@
+{
+  "meta": {
+    "schema_version": "1.0",
+    "opportunity_id": "OPP-2026-0517",
+    "template_id": "aiml/ai-ml",
+    "source_agents": [
+      "intake",
+      "discovery",
+      "architecture",
+      "cost-estimate"
+    ],
+    "created_at": "2026-10-22T10:30:00Z",
+    "generated_by": "sample-data"
+  },
+  "intake": {
+    "customer_name": "Fabrikam Insurance",
+    "industry": "Insurance (property and casualty)",
+    "contacts": [
+      {
+        "name": "Laura Chen",
+        "role": "VP Claims Operations (executive sponsor)",
+        "email": "laura.chen@fabrikam-insurance.example.com"
+      },
+      {
+        "name": "Marcus Reid",
+        "role": "Director, Enterprise Architecture",
+        "email": "marcus.reid@fabrikam-insurance.example.com"
+      },
+      {
+        "name": "Elena Torres",
+        "role": "Claims Intake Manager",
+        "email": "elena.torres@fabrikam-insurance.example.com"
+      }
+    ],
+    "engagement_type": "Generative AI solution build (pilot to production)",
+    "template_hint": "aiml/ai-ml",
+    "problem_statement": "Claims intake agents re-key about 18,000 first notice of loss (FNOL) reports per month from phone, e-mail and web forms into Guidewire ClaimCenter. Average handling time is 22 minutes per FNOL, 9% of new claims need rework, and storm peaks (3x volume) create a 2-day backlog.",
+    "goals": [
+      "Reduce average FNOL handling time from 22 minutes to under 8 minutes",
+      "Reduce claim rework from 9% to under 3%",
+      "Reach at least 95% field extraction accuracy on 500 historical FNOLs",
+      "Absorb 3x storm-peak volumes without a backlog"
+    ],
+    "timeline": "10 weeks",
+    "budget_range": "USD 180,000 - 200,000 one-time",
+    "constraints": [
+      "Human approval before any claim is created in ClaimCenter",
+      "All data stays in the US (us-east-2)",
+      "SOC 2 Type II controls; no customer data used for model training",
+      "Single sign-on with Microsoft Entra ID"
+    ]
+  },
+  "discovery": {
+    "source": "discovery",
+    "findings": [
+      "FNOLs arrive 55% by phone (transcribed by the contact centre), 30% by e-mail and 15% by web form",
+      "Attachments: police reports (PDF), repair estimates (PDF/Word), up to 10 photos per claim",
+      "Guidewire ClaimCenter 10 exposes REST APIs for draft claim creation (Cloud API)",
+      "Policy wording: about 1,400 PDF documents across 6 product lines, updated quarterly",
+      "Spanish is used in about 18% of FNOLs"
+    ],
+    "requirements": [
+      "Extract 32 FNOL fields with a confidence score per field",
+      "Coverage check with citations to the policy wording",
+      "Draft follow-up e-mail for missing information (English and Spanish)",
+      "Supervisor dashboard: volume, handling time, extraction accuracy, approval rate",
+      "PII redaction in application logs"
+    ],
+    "stakeholders": [
+      {
+        "name": "Laura Chen",
+        "role": "VP Claims Operations"
+      },
+      {
+        "name": "Marcus Reid",
+        "role": "Director, Enterprise Architecture"
+      },
+      {
+        "name": "Elena Torres",
+        "role": "Claims Intake Manager"
+      },
+      {
+        "name": "Sam Patel",
+        "role": "Information Security Officer"
+      }
+    ],
+    "transcript_refs": [],
+    "notes": "Pilot with the auto claims team (40 intake agents) before home claims."
+  },
+  "architecture": {
+    "diagram_images": [],
+    "services": [
+      {
+        "name": "Amazon Bedrock",
+        "purpose": "Claude models for extraction, coverage reasoning and e-mail drafts"
+      },
+      {
+        "name": "Amazon Bedrock AgentCore",
+        "purpose": "Runtime for the FNOL agent"
+      },
+      {
+        "name": "Amazon Bedrock Knowledge Bases",
+        "purpose": "RAG over the policy wording documents"
+      },
+      {
+        "name": "Amazon OpenSearch Serverless",
+        "purpose": "Vector store for the knowledge base"
+      },
+      {
+        "name": "Amazon Textract",
+        "purpose": "Text and form extraction from PDF and image attachments"
+      },
+      {
+        "name": "Amazon Comprehend",
+        "purpose": "PII detection and redaction in logs"
+      },
+      {
+        "name": "AWS Lambda",
+        "purpose": "Intake, orchestration and ClaimCenter integration functions"
+      },
+      {
+        "name": "Amazon API Gateway",
+        "purpose": "API for the review UI and the web form"
+      },
+      {
+        "name": "Amazon S3",
+        "purpose": "Attachments and policy document storage"
+      },
+      {
+        "name": "Amazon DynamoDB",
+        "purpose": "FNOL state, review decisions and audit trail"
+      },
+      {
+        "name": "Amazon Cognito",
+        "purpose": "Federated sign-in with Microsoft Entra ID"
+      },
+      {
+        "name": "Amazon CloudWatch",
+        "purpose": "Logs, metrics, alarms and the supervisor dashboard"
+      }
+    ],
+    "assumptions": [
+      "Fabrikam provides a ClaimCenter sandbox with Cloud API access by week 2",
+      "The contact centre already produces text transcripts of phone FNOLs",
+      "500 labelled historical FNOLs are available for the test set"
+    ],
+    "nfrs": [
+      "Draft claim ready in under 2 minutes for 95% of FNOLs",
+      "Handle 1,800 FNOLs per day at storm peak",
+      "99.9% availability during business hours",
+      "Encryption at rest (KMS) and in transit (TLS 1.2+)"
+    ]
+  },
+  "cost": {
+    "currency": "USD",
+    "monthly_total": 8500,
+    "annual_total": 102000,
+    "region": "us-east-2",
+    "line_items": [
+      {
+        "service": "Amazon Bedrock (Claude)",
+        "monthly": 4200,
+        "annual": 50400,
+        "notes": "~18,000 FNOLs, ~25k tokens each"
+      },
+      {
+        "service": "Amazon Bedrock AgentCore Runtime",
+        "monthly": 650,
+        "annual": 7800,
+        "notes": "Agent sessions"
+      },
+      {
+        "service": "Amazon OpenSearch Serverless",
+        "monthly": 1400,
+        "annual": 16800,
+        "notes": "Vector store, 2 OCU minimum"
+      },
+      {
+        "service": "Amazon Textract",
+        "monthly": 1100,
+        "annual": 13200,
+        "notes": "~70,000 pages per month"
+      },
+      {
+        "service": "Amazon Comprehend",
+        "monthly": 300,
+        "annual": 3600,
+        "notes": "PII detection"
+      },
+      {
+        "service": "AWS Lambda and Amazon API Gateway",
+        "monthly": 250,
+        "annual": 3000,
+        "notes": ""
+      },
+      {
+        "service": "Amazon S3",
+        "monthly": 120,
+        "annual": 1440,
+        "notes": "Attachments, 1-year retention"
+      },
+      {
+        "service": "Amazon DynamoDB",
+        "monthly": 180,
+        "annual": 2160,
+        "notes": "On-demand"
+      },
+      {
+        "service": "Amazon CloudWatch",
+        "monthly": 200,
+        "annual": 2400,
+        "notes": "Logs, metrics, dashboards"
+      },
+      {
+        "service": "Amazon Cognito",
+        "monthly": 100,
+        "annual": 1200,
+        "notes": "Federated users"
+      }
+    ],
+    "assumptions": [
+      "On-demand pricing in us-east-2, October 2026",
+      "18,000 FNOLs per month on average, 3x for storm peaks a few days per month"
+    ],
+    "source_link": "https://calculator.aws/#/estimate?id=sample-fabrikam-fnol",
+    "source_file": null
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "project": "Fabrikam Insurance - Claims FNOL assistant (generative AI)",
+  "region": "us-east-2",
+  "environment": "Production",
+  "source": "Architecture agent handoff (sample data, fictional customer)",
+  "workload": {
+    "fnol_reports_per_month": 18000,
+    "attachment_pages_per_month": 70000,
+    "peak": "3x normal volume for a few days per month after storms"
+  },
+  "services": {
+    "ai": [
+      {
+        "service": "Amazon Bedrock",
+        "model": "Anthropic Claude Sonnet (on-demand)",
+        "requests_per_month": 54000,
+        "average_input_tokens_per_request": 6000,
+        "average_output_tokens_per_request": 1500,
+        "purpose": "Field extraction, coverage reasoning, follow-up e-mail drafts (3 calls per FNOL)"
+      },
+      {
+        "service": "Amazon Bedrock Knowledge Bases",
+        "documents": 1400,
+        "purpose": "RAG over policy wording PDFs, re-synced quarterly"
+      },
+      {
+        "service": "Amazon OpenSearch Serverless",
+        "collection_type": "vector search",
+        "indexing_ocu": 1,
+        "search_ocu": 1,
+        "storage_gb": 20,
+        "purpose": "Vector store for the knowledge base"
+      },
+      {
+        "service": "Amazon Textract",
+        "api": "AnalyzeDocument (forms + tables)",
+        "pages_per_month": 70000,
+        "purpose": "Police reports, repair estimates and photos"
+      },
+      {
+        "service": "Amazon Comprehend",
+        "api": "DetectPiiEntities",
+        "units_of_100_characters_per_month": 2000000,
+        "purpose": "PII redaction in application logs"
+      }
+    ],
+    "compute_and_api": [
+      {
+        "service": "AWS Lambda",
+        "invocations_per_month": 900000,
+        "memory_mb": 1024,
+        "average_duration_ms": 1500,
+        "architecture": "arm64",
+        "purpose": "Intake, orchestration and ClaimCenter integration"
+      },
+      {
+        "service": "Amazon API Gateway",
+        "type": "REST API",
+        "requests_per_month": 1500000,
+        "purpose": "Review UI and web-form API"
+      }
+    ],
+    "data": [
+      {
+        "service": "Amazon S3",
+        "storage_class": "S3 Standard",
+        "storage_gb": 2000,
+        "put_requests_per_month": 300000,
+        "get_requests_per_month": 1200000,
+        "purpose": "Attachments (1-year retention) and policy documents"
+      },
+      {
+        "service": "Amazon DynamoDB",
+        "capacity_mode": "on-demand",
+        "storage_gb": 25,
+        "write_request_units_per_month": 5000000,
+        "read_request_units_per_month": 15000000,
+        "purpose": "FNOL state, review decisions, audit trail"
+      }
+    ],
+    "security_and_operations": [
+      {
+        "service": "Amazon Cognito",
+        "monthly_active_users": 60,
+        "federation": "SAML with Microsoft Entra ID",
+        "purpose": "Sign-in for intake agents and supervisors"
+      },
+      {
+        "service": "Amazon CloudWatch",
+        "log_ingestion_gb_per_month": 60,
+        "custom_metrics": 40,
+        "dashboards": 2,
+        "alarms": 25,
+        "purpose": "Logs, metrics, alarms, supervisor dashboard"
+      },
+      {
+        "service": "AWS Key Management Service",
+        "customer_managed_keys": 3,
+        "requests_per_month": 2000000,
+        "purpose": "Encryption at rest"
+      }
+    ]
+  }
+}

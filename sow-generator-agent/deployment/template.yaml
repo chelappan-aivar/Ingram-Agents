@@ -1,0 +1,384 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Project Catalyst - SOW generator agent (on demand). Web UI (Amplify Hosting) -> API Gateway (HTTP API)
+  -> Lambda ingram-sow-api (open, cost guards) -> AgentCore Runtime ingram_sow_agent (code zip, Strands)
+  -> Amazon Bedrock. Jobs and progress in DynamoDB, SOW inputs / drafts / .docx files in S3.
+
+Parameters:
+  UiOrigin:
+    Type: String
+    Default: http://localhost:5173
+    Description: Extra origin allowed by CORS for running the UI locally (the Amplify URL is always allowed).
+  AgentCodeBucket:
+    Type: String
+    Description: S3 bucket holding the agent code zip (set by scripts/deploy.sh).
+  AgentCodeKey:
+    Type: String
+    AllowedPattern: "^sow-agent/[A-Za-z0-9._-]+\\.zip$"
+    Description: S3 key of the agent code zip (set by scripts/deploy.sh; changes with every code change).
+  RuntimeName:
+    Type: String
+    Default: ingram_sow_agent
+    AllowedPattern: "^[a-zA-Z][a-zA-Z0-9_]{0,47}$"
+  GenerationModelId:
+    Type: String
+    Default: us.anthropic.claude-sonnet-4-5-20250929-v1:0
+    Description: Bedrock inference profile for drafting the SOW and for the AI editor.
+  VerificationModelId:
+    Type: String
+    Default: us.anthropic.claude-sonnet-4-5-20250929-v1:0
+    Description: Bedrock inference profile for the AI reviewer (Check draft with AI review).
+  InferenceProfilePattern:
+    Type: String
+    Default: us.anthropic.claude-sonnet-4-5-20250929-v1:0
+    AllowedPattern: "^[a-z0-9.*:-]+$"
+    Description: IAM resource pattern of the inference profiles the agent may call (us.anthropic.* allows any Claude).
+  RunsPerDay:
+    Type: Number
+    Default: 60
+    MinValue: 1
+    Description: Cost guard for the open API - generations, AI edits and AI reviews per day across all users.
+  RunsPerIpHour:
+    Type: Number
+    Default: 15
+    MinValue: 1
+    Description: Cost guard for the open API - generations, AI edits and AI reviews one caller IP may start per hour.
+  DataRetentionDays:
+    Type: Number
+    Default: 365
+    MinValue: 30
+    Description: Days the SOW inputs, drafts and .docx files are kept in the data bucket.
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Architectures: [arm64]
+    MemorySize: 256
+    Timeout: 29
+
+Resources:
+  # ------------------------------------------------------------------ DynamoDB: jobs, activity log, cost-guard counters
+  RunsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: ingram-sow-runs
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - { AttributeName: pk, AttributeType: S }
+        - { AttributeName: sk, AttributeType: S }
+        - { AttributeName: owner, AttributeType: S }
+        - { AttributeName: created_at, AttributeType: S }
+      KeySchema:
+        - { AttributeName: pk, KeyType: HASH }
+        - { AttributeName: sk, KeyType: RANGE }
+      GlobalSecondaryIndexes:            # generation history: only generation JOB#/META items carry `owner`
+        - IndexName: owner-created
+          KeySchema:
+            - { AttributeName: owner, KeyType: HASH }
+            - { AttributeName: created_at, KeyType: RANGE }
+          Projection:
+            ProjectionType: INCLUDE
+            NonKeyAttributes: [job_id, kind, status, stage, finished_at, customer_name, template_id, opportunity_id, chars]
+      PointInTimeRecoverySpecification: { PointInTimeRecoveryEnabled: true }
+      SSESpecification: { SSEEnabled: true }
+      TimeToLiveSpecification:          # expires edit / check jobs and the cost-guard counters (DAY#, IP#)
+        AttributeName: ttl
+        Enabled: true
+
+  # ------------------------------------------------------------------ S3: SOW inputs, drafts, .docx exports (private)
+  DataBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !Sub ingram-sow-data-${AWS::AccountId}-${AWS::Region}
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault: { SSEAlgorithm: AES256 }
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      LifecycleConfiguration:
+        Rules:
+          - Id: abort-incomplete-uploads
+            Status: Enabled
+            AbortIncompleteMultipartUpload: { DaysAfterInitiation: 1 }
+          - Id: expire-job-results          # large edit / check results (the jobs themselves expire after 30 days)
+            Status: Enabled
+            Prefix: sow/jobs/
+            ExpirationInDays: 30
+          - Id: expire-sow-files
+            Status: Enabled
+            Prefix: sow/
+            ExpirationInDays: !Ref DataRetentionDays
+
+  DataBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref DataBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: TlsOnly
+            Effect: Deny
+            Principal: "*"
+            Action: s3:*
+            Resource: [!GetAtt DataBucket.Arn, !Sub "${DataBucket.Arn}/*"]
+            Condition:
+              Bool: { aws:SecureTransport: "false" }
+
+  # ------------------------------------------------------------------ AgentCore Runtime: the SOW generator (code zip)
+  # Least privilege, per https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-permissions.html,
+  # plus the job item in DynamoDB and the sow/ prefix of the data bucket.
+  AgentRuntimeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: { Service: bedrock-agentcore.amazonaws.com }
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals: { aws:SourceAccount: !Ref AWS::AccountId }
+              ArnLike: { aws:SourceArn: !Sub "arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:*" }
+      Policies:
+        - PolicyName: sow-agent
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: AgentCode
+                Effect: Allow
+                Action: s3:GetObject
+                Resource: !Sub "arn:${AWS::Partition}:s3:::${AgentCodeBucket}/sow-agent/*"
+              - Sid: Logs
+                Effect: Allow
+                Action: [logs:CreateLogGroup, logs:CreateLogStream, logs:PutLogEvents, logs:DescribeLogStreams]
+                Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/bedrock-agentcore/runtimes/*"
+              - Sid: LogGroups
+                Effect: Allow
+                Action: logs:DescribeLogGroups
+                Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:*"
+              - Sid: Tracing
+                Effect: Allow
+                Action: [xray:PutTraceSegments, xray:PutTelemetryRecords, xray:GetSamplingRules, xray:GetSamplingTargets]
+                Resource: "*"
+              - Sid: Metrics
+                Effect: Allow
+                Action: cloudwatch:PutMetricData
+                Resource: "*"
+                Condition:
+                  StringEquals: { cloudwatch:namespace: bedrock-agentcore }
+              - Sid: WorkloadAccessToken
+                Effect: Allow
+                Action:
+                  - bedrock-agentcore:GetWorkloadAccessToken
+                  - bedrock-agentcore:GetWorkloadAccessTokenForJWT
+                  - bedrock-agentcore:GetWorkloadAccessTokenForUserId
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:workload-identity-directory/default"
+                  - !Sub "arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:workload-identity-directory/default/workload-identity/${RuntimeName}-*"
+              # A us.* inference profile routes to the model in several US Regions: the profile and the
+              # Anthropic foundation models in any Region are both needed. Strands streams (ConverseStream).
+              - Sid: InvokeInferenceProfiles
+                Effect: Allow
+                Action: [bedrock:InvokeModel, bedrock:InvokeModelWithResponseStream]
+                Resource: !Sub "arn:${AWS::Partition}:bedrock:${AWS::Region}:${AWS::AccountId}:inference-profile/${InferenceProfilePattern}"
+              - Sid: InvokeAnthropicFoundationModels
+                Effect: Allow
+                Action: [bedrock:InvokeModel, bedrock:InvokeModelWithResponseStream]
+                Resource: !Sub "arn:${AWS::Partition}:bedrock:*::foundation-model/anthropic.*"
+              - Sid: JobProgress
+                Effect: Allow
+                Action: [dynamodb:PutItem, dynamodb:UpdateItem, dynamodb:GetItem]
+                Resource: !GetAtt RunsTable.Arn
+              - Sid: SowFiles
+                Effect: Allow
+                Action: [s3:GetObject, s3:PutObject]
+                Resource: !Sub "${DataBucket.Arn}/sow/*"
+
+  SowAgentRuntime:
+    Type: AWS::BedrockAgentCore::Runtime
+    Properties:
+      AgentRuntimeName: !Ref RuntimeName
+      Description: Drafts Ingram Micro SOWs from a template and customer inputs, checks them, edits them, exports .docx
+      RoleArn: !GetAtt AgentRuntimeRole.Arn
+      AgentRuntimeArtifact:
+        CodeConfiguration:
+          Runtime: PYTHON_3_12
+          EntryPoint: [main.py]
+          Code:
+            S3:
+              Bucket: !Ref AgentCodeBucket
+              Prefix: !Ref AgentCodeKey
+      ProtocolConfiguration: HTTP
+      NetworkConfiguration:
+        NetworkMode: PUBLIC   # only calls Amazon Bedrock, DynamoDB and S3
+      LifecycleConfiguration:
+        IdleRuntimeSessionTimeout: 900
+        MaxLifetime: 3600     # one session per draft; a generation takes 2-5 minutes
+      # Read by sow_generator/core/config.py and sow_generator/jobs.py.
+      EnvironmentVariables:
+        AWS_REGION: !Ref AWS::Region
+        RUNS_TABLE: !Ref RunsTable
+        DATA_BUCKET: !Ref DataBucket
+        SOW_S3_ROOT_PREFIX: sow
+        SOW_GENERATION_MODEL: !Ref GenerationModelId
+        SOW_VERIFICATION_MODEL: !Ref VerificationModelId
+
+  # ------------------------------------------------------------------ API Gateway + Lambda
+  SowHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      Description: SOW generator API (open, no sign-in; throttled, with per-IP and daily caps on AI runs)
+      CorsConfiguration:
+        # deploy.sh adds config.env CORS_EXTRA_ORIGINS after the stack deploy (SAM breaks intrinsic origin lists).
+        AllowOrigins:
+          - !Sub https://main.${UiApp.DefaultDomain}   # hosted UI (Amplify)
+          - !Ref UiOrigin                               # local dev
+        AllowHeaders: [content-type]
+        AllowMethods: [GET, POST, OPTIONS]
+        MaxAge: 600
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 20
+        ThrottlingRateLimit: 10
+      RouteSettings:          # routes that cost money (model calls) or CPU (docx rendering)
+        "POST /generations": { ThrottlingBurstLimit: 3, ThrottlingRateLimit: 1 }
+        "POST /edits": { ThrottlingBurstLimit: 5, ThrottlingRateLimit: 1 }
+        "POST /wa-reviews": { ThrottlingBurstLimit: 5, ThrottlingRateLimit: 2 }
+        "POST /checks": { ThrottlingBurstLimit: 5, ThrottlingRateLimit: 2 }
+        "POST /exports/docx": { ThrottlingBurstLimit: 5, ThrottlingRateLimit: 2 }
+
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ingram-sow-api
+      Description: SOW UI API - start generations, edits and checks on the runtime, read jobs, presign .docx downloads
+      CodeUri: api/
+      Handler: handler.handler
+      MemorySize: 512         # request bodies carry base64 files (up to 4.5 MB)
+      LoggingConfig:
+        LogGroup: !Ref ApiLogGroup
+      Environment:
+        Variables:
+          RUNS_TABLE: !Ref RunsTable
+          DATA_BUCKET: !Ref DataBucket
+          DATA_PREFIX: sow
+          AGENT_RUNTIME_ARN: !GetAtt SowAgentRuntime.AgentRuntimeArn
+          RUNS_PER_DAY: !Ref RunsPerDay
+          RUNS_PER_IP_HOUR: !Ref RunsPerIpHour
+      Policies:
+        - Statement:
+            - Sid: Jobs
+              Effect: Allow
+              Action: [dynamodb:PutItem, dynamodb:UpdateItem, dynamodb:GetItem, dynamodb:Query]
+              Resource:
+                - !GetAtt RunsTable.Arn
+                - !Sub "${RunsTable.Arn}/index/owner-created"
+            - Sid: ReadSowFiles   # large results + presigned .docx downloads
+              Effect: Allow
+              Action: s3:GetObject
+              Resource: !Sub "${DataBucket.Arn}/sow/*"
+            - Sid: InvokeAgent
+              Effect: Allow
+              Action: bedrock-agentcore:InvokeAgentRuntime
+              Resource:
+                - !GetAtt SowAgentRuntime.AgentRuntimeArn
+                - !Sub "${SowAgentRuntime.AgentRuntimeArn}/*"
+      Events:
+        GetSession:
+          Type: HttpApi
+          Properties: { ApiId: !Ref SowHttpApi, Method: GET, Path: /session }
+        ListTemplates:
+          Type: HttpApi
+          Properties: { ApiId: !Ref SowHttpApi, Method: GET, Path: /templates }
+        GetTemplate:
+          Type: HttpApi
+          Properties: { ApiId: !Ref SowHttpApi, Method: GET, Path: "/templates/{category}/{stem}" }
+        StartGeneration:
+          Type: HttpApi
+          Properties: { ApiId: !Ref SowHttpApi, Method: POST, Path: /generations }
+        StartEdit:
+          Type: HttpApi
+          Properties: { ApiId: !Ref SowHttpApi, Method: POST, Path: /edits }
+        StartWaReview:                  # Well-Architected review of the SOW, before the diagram
+          Type: HttpApi
+          Properties: { ApiId: !Ref SowHttpApi, Method: POST, Path: /wa-reviews }
+        StartCheck:
+          Type: HttpApi
+          Properties: { ApiId: !Ref SowHttpApi, Method: POST, Path: /checks }
+        ListJobs:
+          Type: HttpApi
+          Properties: { ApiId: !Ref SowHttpApi, Method: GET, Path: /jobs }
+        GetJob:
+          Type: HttpApi
+          Properties: { ApiId: !Ref SowHttpApi, Method: GET, Path: "/jobs/{id}" }
+        ExportDocx:
+          Type: HttpApi
+          Properties: { ApiId: !Ref SowHttpApi, Method: POST, Path: /exports/docx }
+
+  ApiLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/ingram-sow-api
+      RetentionInDays: 30
+
+  # ------------------------------------------------------------------ Web UI: AWS Amplify Hosting (manual deploys)
+  UiApp:
+    Type: AWS::Amplify::App
+    Properties:
+      Name: ingram-sow-ui
+      Description: Ingram SOW generator web UI (static; uploaded by scripts/deploy.sh)
+      Platform: WEB
+      CustomHeaders: |
+        customHeaders:
+          - pattern: '**'
+            headers:
+              - key: Strict-Transport-Security
+                value: max-age=31536000; includeSubDomains
+              - key: X-Content-Type-Options
+                value: nosniff
+              - key: X-Frame-Options
+                value: SAMEORIGIN
+              - key: Referrer-Policy
+                value: strict-origin-when-cross-origin
+          - pattern: 'config.js'
+            headers:
+              - key: Cache-Control
+                value: no-cache
+
+  UiBranch:
+    Type: AWS::Amplify::Branch
+    Properties:
+      AppId: !GetAtt UiApp.AppId
+      BranchName: main
+      Stage: PRODUCTION
+      EnableAutoBuild: false
+
+Outputs:
+  UiUrl:
+    Description: Hosted web UI
+    Value: !Sub https://main.${UiApp.DefaultDomain}
+  UiAppId:
+    Value: !GetAtt UiApp.AppId
+  ApiUrl:
+    Description: Base URL for the web UI (written to ui/config.js by deploy.sh)
+    Value: !Sub https://${SowHttpApi}.execute-api.${AWS::Region}.amazonaws.com
+  AgentRuntimeArn:
+    Value: !GetAtt SowAgentRuntime.AgentRuntimeArn
+  AgentRuntimeId:
+    Value: !GetAtt SowAgentRuntime.AgentRuntimeId
+  LogGroup:
+    Value: !Sub "/aws/bedrock-agentcore/runtimes/${SowAgentRuntime.AgentRuntimeId}-DEFAULT"
+  RunsTableName:
+    Value: !Ref RunsTable
+  DataBucketName:
+    Value: !Ref DataBucket

@@ -1,0 +1,105 @@
+{
+  "_comment": "Matching is intended to be case-insensitive substring against component name / aws_service / id. must_have lists only what the source document states unambiguously. must_not_have_components are services NOT in the document and must not be invented.",
+  "fixtures": [
+    {
+      "file": "a_clean.md",
+      "expect_status": "COMPLETED",
+      "must_have_components": [
+        "Application Load Balancer", "NAT Gateway", "Internet Gateway", "ACM",
+        "FrontEnd", "Backend", "VoiceAgent",
+        "Amazon ECS", "Amazon ECR", "LiveKit", "Deepgram", "Amazon Bedrock", "Qdrant",
+        "Amazon DocumentDB", "Amazon S3",
+        "AWS KMS", "AWS IAM", "Amazon CloudWatch", "AWS CloudTrail", "AWS Config",
+        "Amazon GuardDuty", "AWS Security Hub"
+      ],
+      "must_have_connections": [
+        ["Application Load Balancer", "FrontEnd"],
+        ["FrontEnd", "Backend"],
+        ["VoiceAgent", "LiveKit"],
+        ["VoiceAgent", "Deepgram"],
+        ["Backend", "Qdrant"],
+        ["Backend", "Amazon Bedrock"],
+        ["Backend", "Amazon DocumentDB"]
+      ],
+      "must_not_have_components": [
+        "AWS WAF", "Amazon CloudFront", "Amazon RDS", "Amazon SQS", "AWS Lambda",
+        "Amazon EKS", "Amazon Route 53"
+      ],
+      "expect_unclear_items_min": 0,
+      "boundaries_expected": ["region", "vpc", "az", "public_subnet", "private_subnet", "external"]
+    },
+    {
+      "file": "b_prose.pdf",
+      "expect_status": "COMPLETED",
+      "must_have_components": [
+        "Amazon CloudFront", "Amazon S3", "Amazon Cognito", "Amazon API Gateway",
+        "AWS Lambda", "Amazon DynamoDB", "Amazon SQS", "AWS Step Functions",
+        "Amazon EventBridge", "Amazon SES", "PayFlow"
+      ],
+      "must_have_connections": [
+        ["Amazon CloudFront", "Amazon S3"],
+        ["Amazon API Gateway", "AWS Lambda"],
+        ["AWS Lambda", "Amazon DynamoDB"],
+        ["AWS Lambda", "Amazon SQS"],
+        ["Amazon SQS", "AWS Lambda"],
+        ["AWS Step Functions", "Amazon EventBridge"],
+        ["Amazon EventBridge", "AWS Lambda"],
+        ["AWS Lambda", "Amazon SES"],
+        ["AWS Lambda", "PayFlow"]
+      ],
+      "must_not_have_components": [
+        "AWS WAF", "Amazon RDS", "Amazon SNS", "Amazon Kinesis", "Amazon ElastiCache", "Amazon ECS"
+      ],
+      "expect_unclear_items_min": 0,
+      "boundaries_expected": ["region", "external"]
+    },
+    {
+      "file": "c_tables.docx",
+      "expect_status": "COMPLETED",
+      "must_have_components": [
+        "SQL Server", "Site-to-Site VPN", "AWS DMS", "Amazon S3", "AWS Glue",
+        "AWS Lake Formation", "Amazon Athena", "Amazon Redshift Serverless",
+        "Amazon QuickSight", "endpoint", "AWS KMS", "Amazon CloudWatch"
+      ],
+      "must_have_connections": [
+        ["SQL Server", "AWS DMS"],
+        ["AWS DMS", "Amazon S3"],
+        ["AWS Glue", "Amazon S3"],
+        ["Amazon Athena", "AWS Glue"],
+        ["Amazon QuickSight", "Amazon Athena"],
+        ["Amazon QuickSight", "Amazon Redshift Serverless"],
+        ["Amazon Redshift Serverless", "Amazon S3"]
+      ],
+      "must_not_have_components": [
+        "Amazon Kinesis", "Amazon EMR", "AWS Lambda", "Amazon RDS", "Amazon MSK", "AWS Direct Connect"
+      ],
+      "expect_unclear_items_min": 0,
+      "boundaries_expected": ["region", "vpc", "private_subnet", "on_prem"]
+    },
+    {
+      "file": "d_vague.md",
+      "expect_status": "COMPLETED",
+      "must_have_components": ["load balancer", "CRM"],
+      "must_have_connections": [],
+      "must_not_have_components": [
+        "Amazon RDS", "Amazon Aurora", "Amazon DynamoDB", "Amazon DocumentDB",
+        "Amazon SQS", "Amazon SNS", "AWS Lambda", "Amazon ECS", "Amazon EKS",
+        "AWS Fargate", "Amazon CloudFront", "AWS WAF", "Amazon Cognito", "Amazon API Gateway",
+        "Salesforce", "HubSpot"
+      ],
+      "expect_unclear_items_min": 3,
+      "boundaries_expected": [],
+      "notes": "Document names no concrete AWS services. Database, queue, containers, storage, monitoring and CRM vendor are gaps and belong in unclear_items/assumptions. Generic components (database, queue, container service) may appear with aws_service null or generic kind, but no specific AWS product may be chosen. Region, VPC and subnets are not stated and must not be drawn."
+    },
+    {
+      "file": "e_scanned.pdf",
+      "expect_status": "FAILED",
+      "expect_error_contains": "scanned/image-only PDFs are not supported yet",
+      "must_have_components": [],
+      "must_have_connections": [],
+      "must_not_have_components": [],
+      "expect_unclear_items_min": 0,
+      "boundaries_expected": []
+    }
+  ]
+}

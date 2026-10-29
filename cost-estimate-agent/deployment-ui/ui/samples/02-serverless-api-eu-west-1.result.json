@@ -1,0 +1,104 @@
+{
+  "sample": "02-serverless-api-eu-west-1.txt",
+  "session_id": "sample-02-serverless-api-eu-west-1-9dd4b0650601",
+  "seconds": 29,
+  "status": "success",
+  "error": null,
+  "data": {
+    "calculator_url": "https://calculator.aws/#/estimate?id=382ccc496123510a8ff2337c53dbfe2b4e995b93",
+    "data": {
+      "calculator_url": "https://calculator.aws/#/estimate?id=382ccc496123510a8ff2337c53dbfe2b4e995b93",
+      "currency": "USD",
+      "environments": {
+        "Production": {
+          "services": [
+            {
+              "config": {
+                "apiType": "HTTP",
+                "averageRequestSizeKb": 34.0,
+                "location": "eu-west-1",
+                "rate_type": "flat",
+                "requestsPerMonthMillions": 20.0
+              },
+              "description": "HTTP API requests",
+              "name": "Amazon API Gateway",
+              "service_code": "AmazonApiGateway"
+            },
+            {
+              "config": {
+                "architecture": "arm64",
+                "durationMs": 200.0,
+                "ephemeralStorageMb": 512.0,
+                "freeTier": "excluded",
+                "location": "eu-west-1",
+                "memoryMb": 512.0,
+                "rate_type": "flat",
+                "requestsPerMonthMillions": 20.0
+              },
+              "description": "Lambda arm64 handler",
+              "name": "AWS Lambda",
+              "service_code": "AWSLambda"
+            },
+            {
+              "config": {
+                "averageItemSizeKb": 1.0,
+                "capacityMode": "on-demand",
+                "location": "eu-west-1",
+                "rate_type": "flat",
+                "readRequestUnitsMillionsPerMonth": 100.0,
+                "storageGb": 50.0,
+                "tableClass": "Standard",
+                "writeRequestUnitsMillionsPerMonth": 30.0
+              },
+              "description": "DynamoDB on-demand",
+              "name": "Amazon DynamoDB",
+              "service_code": "AmazonDynamoDB"
+            },
+            {
+              "config": {
+                "location": "eu-west-1",
+                "queueType": "Standard",
+                "rate_type": "flat",
+                "requestsPerMonthMillions": 10.0
+              },
+              "description": "SQS standard queue",
+              "name": "Amazon Simple Queue Service",
+              "service_code": "AWSQueueService"
+            },
+            {
+              "config": {
+                "eventType": "Custom events",
+                "eventsPerMonthMillions": 5.0,
+                "location": "eu-west-1",
+                "payloadSizeKb": 1.0,
+                "rate_type": "flat"
+              },
+              "description": "EventBridge custom events",
+              "name": "Amazon EventBridge",
+              "service_code": "AWSEvents"
+            },
+            {
+              "config": {
+                "location": "eu-west-1",
+                "logStorage": "1 month retention",
+                "rate_type": "flat",
+                "standardLogsIngestedGb": 20.0,
+                "standardResolutionAlarms": 10.0
+              },
+              "description": "Logs and alarms",
+              "name": "Amazon CloudWatch",
+              "service_code": "AmazonCloudWatch"
+            }
+          ]
+        }
+      },
+      "estimate_id": "382ccc496123510a8ff2337c53dbfe2b4e995b93",
+      "estimate_name": "Northwind Orders API",
+      "region": "eu-west-1"
+    },
+    "estimate_id": "382ccc496123510a8ff2337c53dbfe2b4e995b93",
+    "success": true
+  },
+  "created_at": "2026-10-24T21:20:01.171919",
+  "updated_at": "2026-10-24T21:20:29.920173"
+}

@@ -1,0 +1,135 @@
+{
+  "sample": "03-dev-and-prod-ap-south-1.txt",
+  "session_id": "sample-03-dev-and-prod-ap-south-1-eb686e2c12e4",
+  "seconds": 57,
+  "status": "success",
+  "error": null,
+  "data": {
+    "calculator_url": "https://calculator.aws/#/estimate?id=7e0245dca178be475a6e050755726c08ae5f2430",
+    "data": {
+      "calculator_url": "https://calculator.aws/#/estimate?id=7e0245dca178be475a6e050755726c08ae5f2430",
+      "currency": "USD",
+      "environments": {
+        "Development": {
+          "services": [
+            {
+              "config": {
+                "capacitystatus": "Used",
+                "instanceType": "t3.small",
+                "location": "ap-south-1",
+                "operatingSystem": "Linux",
+                "preInstalledSw": "NA",
+                "quantity": 1.0,
+                "rate_type": "hourly",
+                "tenancy": "Shared"
+              },
+              "description": "Dev EC2 t3.small Linux, business hours (200 hrs/month, 27.4% utilization), On-Demand",
+              "name": "Amazon EC2",
+              "service_code": "AmazonEC2"
+            },
+            {
+              "config": {
+                "databaseEngine": "MySQL",
+                "deploymentOption": "Single-AZ",
+                "instanceType": "db.t3.micro",
+                "location": "ap-south-1",
+                "quantity": 1.0,
+                "rate_type": "hourly",
+                "storageGB": 20.0,
+                "volumeType": "General Purpose-GP3"
+              },
+              "description": "Dev RDS MySQL db.t3.micro Single-AZ, 20 GB gp3, On-Demand",
+              "name": "Amazon RDS",
+              "service_code": "AmazonRDS"
+            },
+            {
+              "config": {
+                "location": "ap-south-1",
+                "quantity": 50.0,
+                "rate_type": "flat",
+                "volumeType": "Standard"
+              },
+              "description": "Dev S3 Standard 50 GB",
+              "name": "Amazon S3",
+              "service_code": "AmazonS3"
+            }
+          ]
+        },
+        "Production": {
+          "services": [
+            {
+              "config": {
+                "capacitystatus": "Used",
+                "instanceType": "m6i.large",
+                "location": "ap-south-1",
+                "operatingSystem": "Linux",
+                "preInstalledSw": "NA",
+                "quantity": 3.0,
+                "rate_type": "hourly",
+                "tenancy": "Shared"
+              },
+              "description": "Prod EC2 m6i.large Linux 24x7 x3, On-Demand",
+              "name": "Amazon EC2",
+              "service_code": "AmazonEC2"
+            },
+            {
+              "config": {
+                "location": "ap-south-1",
+                "productFamily": "Load Balancer-Application",
+                "quantity": 1.0,
+                "rate_type": "hourly"
+              },
+              "description": "Prod Application Load Balancer (assumed 1 GB/hour processed)",
+              "name": "Elastic Load Balancing",
+              "service_code": "AWSELB"
+            },
+            {
+              "config": {
+                "databaseEngine": "MySQL",
+                "deploymentOption": "Multi-AZ",
+                "instanceType": "db.m6i.large",
+                "location": "ap-south-1",
+                "quantity": 1.0,
+                "rate_type": "hourly",
+                "storageGB": 200.0,
+                "volumeType": "General Purpose-GP3"
+              },
+              "description": "Prod RDS MySQL db.m6i.large Multi-AZ, 200 GB gp3, On-Demand",
+              "name": "Amazon RDS",
+              "service_code": "AmazonRDS"
+            },
+            {
+              "config": {
+                "location": "ap-south-1",
+                "quantity": 1024.0,
+                "rate_type": "flat",
+                "volumeType": "Standard"
+              },
+              "description": "Prod S3 Standard 1 TB",
+              "name": "Amazon S3",
+              "service_code": "AmazonS3"
+            },
+            {
+              "config": {
+                "backupType": "RDS",
+                "location": "ap-south-1",
+                "quantity": 300.0,
+                "rate_type": "flat"
+              },
+              "description": "Prod AWS Backup 300 GB backup storage (modeled as RDS Backup, 300 GB, 1-day daily warm retention)",
+              "name": "AWS Backup",
+              "service_code": "AWSBackup"
+            }
+          ]
+        }
+      },
+      "estimate_id": "7e0245dca178be475a6e050755726c08ae5f2430",
+      "estimate_name": "Tailspin ERP - Dev and Prod (ap-south-1)",
+      "region": "ap-south-1"
+    },
+    "estimate_id": "7e0245dca178be475a6e050755726c08ae5f2430",
+    "success": true
+  },
+  "created_at": "2026-10-24T21:20:02.501834",
+  "updated_at": "2026-10-24T21:20:56.142353"
+}

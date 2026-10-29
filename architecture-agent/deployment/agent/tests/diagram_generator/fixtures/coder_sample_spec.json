@@ -1,0 +1,53 @@
+{
+  "title": "Fleet Telemetry Ingestion",
+  "components": [
+    {
+      "id": "fleet_ops", "name": "Fleet Operators", "service": null, "kind": "actor", "boundary": null, "origin": "stated",
+      "icon": {"shape": "users", "style": "general", "category": "general", "fill_color": "#232F3D", "tint_color": "#F5F5F5", "stroke_color": "#666666", "category_label": "", "matched": true}
+    },
+    {
+      "id": "vehicle_fleet", "name": "Vehicle Fleet", "service": null, "kind": "external", "boundary": null, "origin": "stated",
+      "icon": {"shape": "internet", "style": "general", "category": "general", "fill_color": "#232F3D", "tint_color": "#F5F5F5", "stroke_color": "#666666", "category_label": "", "matched": true}
+    },
+    {
+      "id": "iot_core", "name": "Telemetry Intake", "service": "AWS IoT Core", "kind": "aws_service", "boundary": "region_use1", "origin": "stated",
+      "icon": {"shape": "iot_core", "style": "resource_icon", "category": "iot", "fill_color": "#1A9C37", "tint_color": "#E8F5E9", "stroke_color": "#1A9C37", "category_label": "IoT", "matched": true}
+    },
+    {
+      "id": "kinesis_stream", "name": "Telemetry Stream", "service": "Amazon Kinesis Data Streams", "kind": "aws_service", "boundary": "region_use1", "origin": "stated",
+      "icon": {"shape": "kinesis_data_streams", "style": "resource_icon", "category": "analytics", "fill_color": "#8C4FFF", "tint_color": "#EDE7F6", "stroke_color": "#8C4FFF", "category_label": "Analytics", "matched": true}
+    },
+    {
+      "id": "stream_processor", "name": "Stream Processor", "service": "AWS Lambda", "kind": "aws_service", "boundary": "subnet_private", "origin": "inferred",
+      "icon": {"shape": "lambda", "style": "resource_icon", "category": "compute", "fill_color": "#ED7100", "tint_color": "#FFF2E8", "stroke_color": "#ED7100", "category_label": "Compute", "matched": true}
+    },
+    {
+      "id": "telemetry_table", "name": "Vehicle State", "service": "Amazon DynamoDB", "kind": "data_store", "boundary": "region_use1", "origin": "stated",
+      "icon": {"shape": "dynamodb", "style": "resource_icon", "category": "database", "fill_color": "#C925D1", "tint_color": "#F5E6F7", "stroke_color": "#C925D1", "category_label": "Database", "matched": true}
+    },
+    {
+      "id": "archive_bucket", "name": "Raw Archive", "service": "Amazon S3", "kind": "data_store", "boundary": "region_use1", "origin": "stated",
+      "icon": {"shape": "s3", "style": "resource_icon", "category": "storage", "fill_color": "#3F8624", "tint_color": "#E8F5E9", "stroke_color": "#3F8624", "category_label": "Storage", "matched": true}
+    },
+    {
+      "id": "ops_api", "name": "Operations API", "service": "Amazon API Gateway", "kind": "aws_service", "boundary": "region_use1", "origin": "assumed",
+      "icon": {"shape": "api_gateway", "style": "resource_icon", "category": "networking", "fill_color": "#8C4FFF", "tint_color": "#EDE7F6", "stroke_color": "#8C4FFF", "category_label": "API", "matched": true}
+    }
+  ],
+  "boundaries": [
+    {"id": "aws_cloud", "type": "aws_cloud", "name": "AWS Cloud", "parent": null, "origin": "stated"},
+    {"id": "region_use1", "type": "region", "name": "Region: us-east-1", "parent": "aws_cloud", "origin": "stated"},
+    {"id": "vpc_main", "type": "vpc", "name": "VPC", "parent": "region_use1", "origin": "stated"},
+    {"id": "subnet_private", "type": "subnet_private", "name": "Private subnet", "parent": "vpc_main", "origin": "stated"}
+  ],
+  "relationships": [
+    {"id": "r1", "source": "vehicle_fleet", "target": "iot_core", "label": "publish telemetry", "direction": "one_way", "origin": "stated"},
+    {"id": "r2", "source": "iot_core", "target": "kinesis_stream", "label": "stream readings", "direction": "one_way", "origin": "stated"},
+    {"id": "r3", "source": "kinesis_stream", "target": "stream_processor", "label": "trigger", "direction": "one_way", "origin": "inferred"},
+    {"id": "r4", "source": "stream_processor", "target": "telemetry_table", "label": "store state", "direction": "one_way", "origin": "stated"},
+    {"id": "r5", "source": "stream_processor", "target": "archive_bucket", "label": "archive raw", "direction": "one_way", "origin": "stated"},
+    {"id": "r6", "source": "fleet_ops", "target": "ops_api", "label": "view dashboards", "direction": "one_way", "origin": "assumed"},
+    {"id": "r7", "source": "ops_api", "target": "telemetry_table", "label": "read status", "direction": "one_way", "origin": "assumed"},
+    {"id": "r8", "source": "ops_api", "target": "archive_bucket", "label": "download reports", "direction": "one_way", "origin": "assumed"}
+  ]
+}

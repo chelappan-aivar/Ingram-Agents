@@ -1,0 +1,102 @@
+# SOW draft compliance & consistency rules (Layer 1 — deterministic).
+#
+# These rules run AFTER generation against the SOW *draft* markdown, and are
+# separate from the intake completeness policies in company_policies.yaml.
+# The backend only interprets a fixed, safe set of `rule.type` primitives
+# (see sow_generator/services/draft_rules/ — no arbitrary code is executed from this
+# file). Only these deterministic rules set legal pass/fail; the optional LLM
+# verifier contributes advisory issues only.
+#
+# Fields per rule:
+#   id          Stable, unique slug (React key / debugging / issue id).
+#   name        Short human label shown in the compliance table.
+#   description Optional one-line explanation of the rule's intent.
+#   severity    "required" surfaces a blocking banner on failure.
+#               "advisory" is shown but never blocks.
+#   rule        A single rule object (see supported types below).
+#
+# Supported rule types (evaluator | what it checks | evidence):
+#   section_present        {sections: [...]}
+#       At least one heading in the draft matches one of the given section
+#       names (case-insensitive substring). Evidence: the matched heading.
+#   numeric_compare        {label, op, value, [unit]}
+#       Extracts a labelled percentage/number from a table row or "Label: NN%"
+#       line and compares it to `value` with `op`
+#       (lt|le|gt|ge|eq). Evidence: the extracted value and the row it came from.
+#       not_applicable when the label is absent.
+#       NOTE: scrapes the rendered document — use upstream_numeric_compare for
+#       legal gates where the structured value is authoritative.
+#   upstream_numeric_compare {field, op, value, [unit]}
+#       LEGAL GATE primitive. Compares an authoritative number read from a
+#       dotted UpstreamInputs path to `value`
+#       with `op`. Reads the structured source of truth, NOT the document, so a
+#       mis-rendered draft cannot make it pass. Evidence: the upstream value.
+#       not_applicable when the field is unset or non-numeric.
+#   upstream_link_in_sow   {source}
+#       The draft's pricing section must carry upstream.cost.source_link (the cost
+#       estimate agent's calculator URL) and must NOT restate the monthly/annual
+#       run-rate or tabulate it. The calculator is the single source of truth, so a
+#       SOW that copies its numbers drifts from it the moment the estimate changes.
+#       Evidence: the link, or the restated figure / table that was found.
+#       not_applicable when no cost block or no source_link is supplied.
+#   services_coverage      {}
+#       Every upstream.architecture.services[].name should be mentioned in a
+#       scope/architecture/deliverables section (falling back to the whole
+#       draft), matched by full name, a majority of its name tokens, or its
+#       parenthetical tokens. Evidence: per-service covered/missing.
+#       not_applicable when no architecture services are supplied.
+#   timeline_match         {}
+#       The intake timeline (normalised weeks/months) must appear in a schedule
+#       or timeline section of the draft. Evidence: intake vs draft durations.
+#       not_applicable when no intake timeline is supplied.
+
+version: 1
+
+rules:
+  - id: scope-section-present
+    name: "Scope section present"
+    description: "Every SOW must carry a Scope section defining in-scope work."
+    severity: required
+    rule:
+      type: section_present
+      sections:
+        - "Scope"
+        - "Scope of Work"
+        - "Scope of Services"
+
+  - id: pricing-section-present
+    name: "Pricing section present"
+    description: "A Pricing / Commercials section must state the engagement price."
+    severity: required
+    rule:
+      type: section_present
+      sections:
+        - "Pricing"
+        - "Commercials"
+        - "Fees"
+        - "Investment"
+
+  - id: pricing-refers-to-cost-estimate
+    name: "Pricing refers to the cost estimate"
+    description: >-
+      The pricing section must carry the cost calculator link and must not restate or
+      tabulate AWS run-rate figures. The cost estimate agent's calculator is the single
+      source of truth; duplicating its numbers in the SOW lets the two drift apart.
+    severity: required
+    rule:
+      type: upstream_link_in_sow
+      source: cost
+
+  - id: services-covered
+    name: "Architecture services covered in scope"
+    description: "Every architecture service should appear in scope or be explicitly out of scope."
+    severity: advisory
+    rule:
+      type: services_coverage
+
+  - id: timeline-consistent
+    name: "SOW timeline matches intake"
+    description: "The schedule in the SOW must be consistent with the intake timeline."
+    severity: advisory
+    rule:
+      type: timeline_match
