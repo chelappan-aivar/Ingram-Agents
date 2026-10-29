@@ -1,0 +1,32 @@
+{
+  "title": "Pilot | Intake\nPortal",
+  "customer": null,
+  "context": "",
+  "region": "eu-west-1",
+  "requirements": [
+    {"id": "REQ-01", "text": "Accept uploads | scan them\nfor malware", "kind": null},
+    "not an object"
+  ],
+  "decisions": [
+    {"id": "ADR-001", "title": "Use S3", "consequences": null, "rejected_alternatives": ["EFS", {"option": "FSx", "reason": null}]}
+  ],
+  "boundaries": [
+    {"id": "vpc1", "type": "vpc", "name": "Pilot VPC", "parent": null},
+    {"id": "priv", "type": "subnet_private", "name": "", "parent": "vpc1"}
+  ],
+  "components": [
+    {"id": "C-01", "name": "Upload API", "service": "AWS Lambda", "category": "compute", "boundary": "priv",
+     "configuration": [{"key": "memory_mb", "value": 256}, {"key": "architecture", "value": "arm64"}],
+     "quantity": "3", "purpose": "Receives uploads | validates\nthem"},
+    {"id": "C-02", "name": "Upload bucket", "service": "Amazon S3", "category": "storage", "boundary": "no_such_boundary",
+     "configuration": null, "assumed": "yes", "assumption_reason": "Bucket not named in the SRS"},
+    {"id": "C-03", "service": "Amazon CloudWatch", "configuration": {"retention": null, "log_group": "uploads"}}
+  ],
+  "relationships": [
+    {"id": "F-01", "source": "C-01", "target": "C-02", "label": "stores files"},
+    {"id": "F-02", "source": "C-01", "target": "C-99", "sentence": "", "label": "calls", "protocol": "HTTPS", "port": 443}
+  ],
+  "security_operations": null,
+  "assumptions": [{"id": "A-01", "text": "Fewer than 50 uploads per day."}],
+  "open_questions": ["Is malware scanning in scope?"]
+}

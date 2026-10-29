@@ -1,0 +1,57 @@
+/* Cards, source tiles, forms and buttons. */
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); min-width: 0; }
+.card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.card-head h2 { font-size: 14.5px; font-weight: 650; }
+.tile-icon { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 9px; background: var(--brand-soft); color: var(--brand); flex: none; }
+.tile-icon svg { width: 17px; height: 17px; }
+.tile-icon.sm { width: 28px; height: 28px; border-radius: 8px; }
+.tile-icon.sm svg { width: 15px; height: 15px; }
+
+.badge { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 10.5px; font-weight: 700; letter-spacing: .06em; }
+.badge-pilot { background: var(--brand-soft); color: var(--brand); }
+.badge-state { margin-left: auto; background: var(--tile); color: var(--mute); border: 1px solid var(--line); }
+.badge-state[data-state="live"] { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
+.badge-state[data-state="wait"] { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+.badge-state[data-state="bad"] { background: var(--bad-soft); color: var(--bad); border-color: transparent; }
+.badge-state[data-state="done"] { background: var(--brand-soft); color: var(--brand); border-color: transparent; }
+
+#start-form { margin-top: 14px; display: grid; gap: 12px; }
+.source-list { display: grid; gap: 10px; }
+.source { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--tile); transition: border-color .15s; }
+.source:has(input[type="radio"]:checked) { border-color: var(--brand); background: var(--card); box-shadow: 0 0 0 1px var(--brand) inset; }
+.source-head { display: flex; align-items: flex-start; gap: 10px; padding: 11px 12px; cursor: pointer; }
+.source-head input { margin: 8px 0 0; accent-color: var(--brand); flex: none; }
+.source-head b { display: block; font-size: 12.5px; font-weight: 650; }
+.source-head small { display: block; color: var(--mute); font-size: 11.5px; line-height: 1.4; margin-top: 1px; }
+.source-body { padding: 0 12px 12px 12px; display: grid; gap: 8px; }
+
+.field { display: grid; gap: 5px; }
+.field > span { font-size: 12px; font-weight: 600; }
+.field.inline { display: flex; align-items: center; gap: 10px; }
+input[type="text"], input[type="url"], select, textarea { width: 100%; padding: 9px 11px; border: 1px solid var(--line-strong);
+  border-radius: 9px; background: var(--card); min-width: 0; }
+textarea { resize: vertical; min-height: 110px; line-height: 1.45; }
+input::placeholder, textarea::placeholder { color: var(--mute); opacity: .75; }
+.options { border: 1px dashed var(--line-strong); border-radius: var(--radius-sm); padding: 8px 12px; }
+.options summary { cursor: pointer; font-size: 12.5px; font-weight: 600; color: var(--mute); }
+.options[open] { display: grid; gap: 10px; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 16px; border-radius: 999px;
+  border: 1px solid var(--line-strong); background: var(--card); font-weight: 600; font-size: 13px; cursor: pointer; }
+.btn svg { width: 15px; height: 15px; }
+.btn:hover:not(:disabled) { border-color: var(--brand); color: var(--brand); }
+.btn:disabled { opacity: .55; cursor: default; }
+.btn-block { width: 100%; }
+.btn-primary { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); padding: 11px 16px; }
+.btn-primary:hover:not(:disabled) { filter: brightness(1.08); color: var(--brand-ink); }
+.btn-danger { color: var(--bad); }
+.btn-danger:hover:not(:disabled) { border-color: var(--bad); color: var(--bad); }
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.file-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.file-item { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; padding: 8px 10px;
+  border: 1px solid var(--line); border-radius: 9px; background: var(--card); font-size: 12.5px; }
+.file-item .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-item select { width: auto; padding: 5px 8px; font-size: 12px; }
+.file-item button { border: 0; background: transparent; color: var(--mute); cursor: pointer; font-size: 18px; line-height: 1; padding: 2px 6px; }
+.file-item button:hover { color: var(--bad); }

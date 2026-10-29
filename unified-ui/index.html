@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ingram Agent Hub</title>
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:;
+                 connect-src 'self' https://*.execute-api.us-east-1.amazonaws.com https://*.s3.amazonaws.com https://*.s3.us-east-1.amazonaws.com;
+                 frame-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <span class="brand"><b>INGRAM</b> MICRO</span><span class="app">Agent Hub</span><span class="tag">PILOT</span>
+</header>
+
+<nav class="flow" aria-label="Agents">
+  <button class="tab pipe" data-tab="pipeline">▶ Pipeline Run</button>
+  <span class="sep"></span>
+  <button class="tab" data-tab="intake"><i>1</i>Intake</button><span class="arrow">→</span>
+  <button class="tab" data-tab="live"><i>2</i>Live Assist</button><span class="arrow">→</span>
+  <button class="tab" data-tab="discovery"><i>3</i>Discovery</button><span class="arrow">→</span>
+  <button class="tab" data-tab="sow"><i>4</i>SOW Generator</button><span class="arrow">→</span>
+  <button class="tab" data-tab="arch"><i>5</i>Architecture</button><span class="arrow">→</span>
+  <button class="tab" data-tab="cost"><i>6</i>Cost Estimate</button>
+</nav>
+
+<main>
+<section class="view" id="v-pipeline">
+  <header class="phead">
+    <div><h1>Pipeline Runs</h1>
+      <p>Intake → Live Assist → Discovery → SOW → Architecture → Cost → final SOW. Run it end to end, or run any agent on its own.</p></div>
+    <div class="actions"><button id="p-run" class="primary pill">Run pipeline</button><button id="p-exit" class="ghost pill" hidden>Exit pipeline</button></div>
+  </header>
+  <ol class="overview" aria-label="Pipeline stages"><li data-step="intake"><span class="num">1</span><div><b>Intake</b><span>Find and structure the opportunity</span></div></li><li data-step="la1"><span class="num">2</span><div><b>Live Assist</b><span>Capture context, list open gaps</span></div></li><li data-step="discovery"><span class="num">3</span><div><b>Discovery</b><span>Use cases, hidden needs, open questions</span></div></li><li data-step="la2"><span class="num">4</span><div><b>Live Assist follow-up</b><span>Turn the Discovery report into next questions</span></div></li><li data-step="sow"><span class="num">5</span><div><b>SOW draft + Well-Architected review</b><span>Draft from Intake, Live Assist and Discovery</span></div></li><li data-step="arch"><span class="num">6</span><div><b>Architecture</b><span>Design, ADR and diagram from the SOW</span></div></li><li data-step="cost"><span class="num">7</span><div><b>Cost estimate</b><span>Price the architecture</span></div></li><li data-step="combined"><span class="num">8</span><div><b>Combined SOW</b><span>Regenerate with architecture and cost</span></div></li><li data-step="final"><span class="num">9</span><div><b>Final review + delivery</b><span>Well-Architected review, rule check, export</span></div></li></ol>
+  <div class="card">
+    <h2>Pipeline Run</h2>
+    <p class="hint">One run: fetch from Outlook and Dynamics 365 → Intake agent → <b>you select the opportunity</b> → Live Assist call check → Discovery → SOW → Architecture → Cost Estimate → combined SOW. Everything stays empty until you run it; <b>Exit pipeline</b> clears it all.</p>
+    <h3>Sources</h3>
+    <div class="source">
+      <label class="check"><input id="p-outlook" type="checkbox" checked> <b>Outlook</b> emails from the last</label>
+      <select id="p-days" aria-label="Outlook window"><option value="1">1 day</option><option value="7" selected>7 days</option><option value="30">30 days</option></select>
+      <button id="p-connect" class="ghost">Connect Outlook</button><span id="p-ms" class="status"></span>
+    </div>
+    <div id="p-code" class="detail" hidden></div>
+    <div class="source">
+      <label class="check"><input id="p-dyn" type="checkbox" checked> <b>Dynamics 365</b> open opportunities, up to</label>
+      <input id="p-limit" type="number" min="1" max="50" value="25" aria-label="Dynamics opportunity limit" class="num">
+    </div>
+    <details><summary>Add seller notes or files (optional)</summary>
+      <label for="p-notes">Seller notes</label>
+      <textarea id="p-notes" rows="4" placeholder="Paste seller notes or an email thread…"></textarea>
+      <label for="p-files">CRM / notes files (.csv .xlsx .pdf .docx)</label>
+      <input id="p-files" type="file" multiple accept=".csv,.xlsx,.pdf,.docx">
+    </details>
+    <label for="p-lakey">Live Assist access key (optional)</label>
+    <input id="p-lakey" type="password" autocomplete="off" placeholder="Kept in memory only">
+    <label class="check"><input id="p-pause" type="checkbox"> Pause for my approval after the SOW draft review, before Architecture</label>
+    <div class="actions">
+      <button id="p-continue" class="primary" hidden>Continue with the selected opportunity</button>
+      <button id="p-cancel" class="ghost" hidden>Cancel</button>
+      <button id="p-resume" class="ghost" hidden>Resume from failed stage</button>
+      <span id="p-msg" class="status"></span>
+    </div>
+  </div>
+  <div class="card" id="p-stage-card" hidden><h2>Stages</h2><ol id="p-steps" class="steps"></ol></div>
+  <div class="card" id="p-opps-card" hidden><h2>Intake: opportunities</h2><p class="hint" id="p-opps-hint"></p><div id="p-opps"></div></div>
+  <div class="card" id="p-la-card" hidden><h2>Live Assist</h2><div id="p-la"></div></div>
+  <div class="card" id="p-disc-card" hidden><h2>Discovery report</h2><div id="p-disc"></div></div>
+  <div class="card" id="p-arch-card" hidden><h2>Architecture</h2><div id="p-arch"></div></div>
+  <div class="card" id="p-cost-card" hidden><h2>Cost estimate</h2><div id="p-cost"></div></div>
+  <div class="card" id="p-final-card" hidden><h2 id="p-sow-title">SOW</h2><div id="p-checks"></div><div id="p-final" class="md"></div><div class="actions"><button id="p-docx" class="ghost">Export .docx</button><span id="p-docx-status" class="hint"></span></div></div>
+  <div class="card" id="p-log-card" hidden><h2>Run log</h2><div id="p-log" class="log"></div><button id="p-export-log" class="ghost">Download log</button></div>
+</section>
+
+<section class="view frame" id="v-intake" hidden><iframe title="Intake Agent" data-src="apps/intake/index.html"></iframe></section>
+<section class="view frame" id="v-live" hidden><iframe title="Live Assist Agent" data-src="apps/live-assist/index.html"></iframe></section>
+<section class="view frame" id="v-discovery" hidden><iframe title="Discovery Agent" data-src="apps/discovery/index.html"></iframe></section>
+<section class="view" id="v-sow" hidden>
+  <div class="card"><div class="head"><h2>Opportunities</h2>
+    <div class="actions"><button id="s-clear" class="danger">Clear opportunities</button>
+    <button id="s-chain" class="primary">Re-run Intake → Live Assist → Discovery → SOW</button></div></div>
+    <p class="hint">Clear empties the Intake, Live Assist, Discovery and SOW outputs held by the hub (and anything built from them). Your inputs stay, so you can run the four agents again in order, each using the previous agent's output. Progress shows on the Pipeline Run tab.</p>
+    <div id="s-opps"></div><div id="s-note" class="status"></div></div>
+  <div class="frame-inner"><iframe title="SOW Generator Agent" data-src="apps/sow-generator/index.html"></iframe></div>
+</section>
+<section class="view frame" id="v-arch" hidden><iframe title="Architecture Agent" data-src="apps/architecture/index.html"></iframe></section>
+<section class="view frame" id="v-cost" hidden><iframe title="Cost Estimate Agent" data-src="apps/cost/index.html"></iframe></section>
+</main>
+<script src="config.js"></script>
+<script src="js/markdown.js"></script>
+<script src="js/vendor/jszip.min.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

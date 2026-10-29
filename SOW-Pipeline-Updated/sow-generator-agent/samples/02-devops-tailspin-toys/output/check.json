@@ -1,0 +1,133 @@
+{
+  "rules": [
+    {
+      "id": "scope-section-present",
+      "name": "Scope section present",
+      "description": "Every SOW must carry a Scope section defining in-scope work.",
+      "severity": "required",
+      "status": "pass",
+      "detail": "Found section 'Scope of Work \u2013 Technical Project Plan - DevOps Platform'."
+    },
+    {
+      "id": "pricing-section-present",
+      "name": "Pricing section present",
+      "description": "A Pricing / Commercials section must state the engagement price.",
+      "severity": "required",
+      "status": "pass",
+      "detail": "Found section 'Pricing'."
+    },
+    {
+      "id": "pricing-refers-to-cost-estimate",
+      "name": "Pricing refers to the cost estimate",
+      "description": "The pricing section must carry the cost calculator link and must not restate or tabulate AWS run-rate figures. The cost estimate agent's calculator is the single source of truth; duplicating its numbers in the SOW lets the two drift apart.",
+      "severity": "required",
+      "status": "pass",
+      "detail": "The pricing section refers to the cost estimate link without restating it."
+    },
+    {
+      "id": "services-covered",
+      "name": "Architecture services covered in scope",
+      "description": "Every architecture service should appear in scope or be explicitly out of scope.",
+      "severity": "advisory",
+      "status": "pass",
+      "detail": "Every architecture service is covered in scope or out of scope."
+    },
+    {
+      "id": "timeline-consistent",
+      "name": "SOW timeline matches intake",
+      "description": "The schedule in the SOW must be consistent with the intake timeline.",
+      "severity": "advisory",
+      "status": "pass",
+      "detail": "Timeline duration matches intake ([12] weeks)."
+    }
+  ],
+  "issues": [
+    {
+      "id": "migration_project_dependency_risk",
+      "severity": "high",
+      "section": "Assumptions / Schedule I",
+      "title": "Critical path depends on external migration project with no contingency",
+      "detail": "Terraform foundation (Weeks 2\u20133) and EKS deployment rely on the landing zone and VPCs 'delivered by the separate migration project by week 2'. There is no fallback, no owner on the migration side, and no stated consequence if it slips. The SOW also says the Windows EC2 hosts are 'provided by the migration project', but the schedule has no date for them.",
+      "suggestion": "Add an explicit dependency/risk entry with a named migration-project owner, date gates for the landing zone and Windows EC2 hosts, and a clause that delays shift the schedule and may trigger a change request.",
+      "source": "model"
+    },
+    {
+      "id": "success_criteria_unmeasurable",
+      "severity": "high",
+      "section": "Project Success Criteria",
+      "title": "Several acceptance criteria lack measurement method or are post-delivery outcomes",
+      "detail": "Targets such as 'change failure rate under 10%', 'MTTR under 1 hour', 'lead time under 1 day' and 'each service able to deploy at least weekly' cannot be observed within a 12-week project that goes live only around week 10. 'Measurable improvement in release velocity' has no baseline or threshold, and 'UAT' has no defined test cases or sign-off process.",
+      "suggestion": "Define which criteria are acceptance gates (for example a demonstrated deployment of each service and a rollback drill) versus post-handover targets. Add measurement method, baseline, and UAT exit criteria with a sign-off timeframe.",
+      "source": "model"
+    },
+    {
+      "id": "timeline_no_buffer_for_load_test_and_uat",
+      "severity": "high",
+      "section": "Schedule I: Estimated Project Schedule",
+      "title": "Aggressive 12-week plan with no contingency for containerization and UAT",
+      "detail": "Weeks 4\u20136 containerize six services and the storefront, roll out pipelines to all ten apps, and include the 4.8 services. UAT, production promotion and runbooks are all squeezed into Weeks 9\u201310, and the load test sits in a single Week 11 with Week 12 for fixes and handover. Containerization depends on Tailspin developers fixing issues, yet no turnaround SLA is stated.",
+      "suggestion": "Add explicit buffer or a slip policy, define the developer turnaround for containerization fixes, and state that remediation after a failed load test is a change request or uses a defined contingency window.",
+      "source": "model"
+    },
+    {
+      "id": "pricing_commercial_terms_incomplete",
+      "severity": "high",
+      "section": "Pricing",
+      "title": "Fixed-fee terms lack payment milestones, FX basis, and AWS billing responsibility",
+      "detail": "The fee is quoted as 'EUR 150,000 (about USD 165,000)' with no invoicing currency, exchange-rate basis, or payment schedule. The SOW does not say who pays the AWS run-rate (Tailspin directly or via Ingram Micro resale). It also does not say whether the run-rate stays with Ingram Micro after handover, given that 'ongoing managed operations' are out of scope.",
+      "suggestion": "State the invoicing currency and FX treatment, milestone-based payment tied to Schedule I, who owns the AWS account and bills for it, and that the run-rate is an estimate outside the fixed fee.",
+      "source": "model"
+    },
+    {
+      "id": "windows_ec2_ownership_inconsistent",
+      "severity": "medium",
+      "section": "Scope of Work / Assumptions",
+      "title": "Windows EC2 hosts and their IaC/monitoring/scanning are ambiguously scoped",
+      "detail": "The three .NET Framework 4.8 services stay on Windows EC2 'provided by the migration project' with 'only their pipelines in scope'. Yet Amazon Inspector is described as scanning EC2, and the pipeline replaces MSI deployment. It is unclear who owns the EC2 deployment target, agent/SSM access, and whether these services get observability or canary rollback. The zero-downtime and 'at least weekly' criteria apply to 'each service', which would include them.",
+      "suggestion": "State how the pipelines deploy to Windows EC2 (for example SSM or CodeDeploy), which deployment strategy applies, and whether canary, rollback, and observability apply. Carve these services out of the zero-downtime criterion if they are excluded.",
+      "source": "model"
+    },
+    {
+      "id": "availability_slo_not_verifiable",
+      "severity": "medium",
+      "section": "Project Success Criteria / Architecture",
+      "title": "99.9% availability and 'redundancy' are not backed by the design or tests",
+      "detail": "The SOW says the platform will 'support' 99.9% storefront availability, but the architecture mentions only two EKS clusters (non-prod and prod), with no multi-AZ detail. The storefront also depends on the SQL Server migration, which is out of scope. No measurement window or testing method is given, and the dependency on the migration project's RDS design is not acknowledged.",
+      "suggestion": "Specify multi-AZ design for prod and the measurement window and method. State that availability is conditional on the RDS design delivered by the migration project, or remove it as an acceptance criterion.",
+      "source": "model"
+    },
+    {
+      "id": "load_test_realism_and_scope",
+      "severity": "medium",
+      "section": "Testing & Validation",
+      "title": "Load test conditions undefined and likely to depend on out-of-scope database",
+      "detail": "The 5x load test (about 2,500 req/s, p95 under 400 ms) has no defined test environment, traffic profile, tooling, data set, or ownership. End-to-end latency will depend on the SQL Server/RDS from the separate migration project and third-party services, which are not in this SOW. Running it against prod versus a prod-like environment is unspecified.",
+      "suggestion": "Define the load test plan (tool, scenarios, environment, data, pass/fail criteria), and state the RDS and third-party dependencies and who is accountable if latency misses are caused by them.",
+      "source": "model"
+    },
+    {
+      "id": "raci_and_working_hours_inconsistency",
+      "severity": "low",
+      "section": "RACI Matrix / Standard Business Needs",
+      "title": "RACI shows Ingram Micro accountable for everything, and IST hours conflict with a Frankfurt customer",
+      "detail": "The RACI makes Customer only Consulted/Informed for every phase, even though Tailspin owns UAT sign-off, container fixes, and landing zone dependencies. Only 'Containerization' lists a split accountability. Working hours are 9:00\u201318:00 IST, which gives limited overlap with a Frankfurt team, and no on-call/support expectation is stated around the Christmas peak.",
+      "suggestion": "Update the RACI to reflect Tailspin's responsibility for UAT, access, and fixes. State the overlap hours or meeting windows with CET and clarify that there is no post-handover or peak-season support unless separately contracted.",
+      "source": "model"
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "advisory": 0
+  },
+  "can_export": true,
+  "ai_review": {
+    "requested": true,
+    "status": "ok",
+    "issues_added": 8,
+    "model_id": "global.anthropic.claude-sonnet-5-5",
+    "detail": ""
+  },
+  "custom_rule_results": []
+}

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ingram Cost Calculator Agent</title>
+  <!-- deploy.sh pins connect-src to the exact API host; the wildcard is only for running the UI locally. -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self';
+                 connect-src 'self' https://*.execute-api.us-east-1.amazonaws.com; img-src 'self' data:">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-view="app">
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="brand" aria-label="Ingram Micro"><span class="brand-mark">INGRAM</span><span class="brand-sub">MICRO</span></span>
+        <span class="app-name">Cost Calculator Agent</span>
+        <span class="tag">PILOT</span>
+      </div>
+      <div class="topbar-right">
+        <div class="theme-toggle" role="group" aria-label="Theme" data-theme-toggle></div>
+      </div>
+    </header>
+    <main class="dash">
+      <div class="grid">
+        <div class="col-left">
+          <!-- ====================================================== samples -->
+          <section class="card" aria-labelledby="samples-title">
+            <h2 id="samples-title">Samples</h2>
+            <p class="card-sub">Fictional workloads to try the agent. Click a file to open it, load it into the form, or view the estimate the agent built from it.</p>
+            <ul id="samples" class="samples" aria-label="Sample workloads"></ul>
+          </section>
+
+          <!-- ====================================================== new estimate -->
+          <section class="card" aria-labelledby="new-title">
+            <h2 id="new-title">New estimate</h2>
+            <p class="card-sub">Describe the AWS infrastructure to price, as text or as an architecture JSON. The agent builds a saved AWS Pricing Calculator estimate with every service you listed. It takes 30 seconds to a few minutes.</p>
+            <form id="run-form" novalidate>
+              <label for="title">Title <span class="muted">(optional, shown in your history)</span></label>
+              <input id="title" type="text" maxlength="200" autocomplete="off" placeholder="Customer portal, production">
+              <label for="text">Requirements</label>
+              <textarea id="text" rows="12" maxlength="20000" class="mono-soft" aria-describedby="text-count text-hint"
+                        placeholder="Region, environments, and per service: type, size, count, hours, storage, traffic…"></textarea>
+              <p id="text-hint" class="hint">30 to 20,000 characters. Name each service and its size; the agent prices only what you list.</p>
+              <div class="drop" id="file-drop">
+                <label for="file" class="file-pick">Load from a file</label>
+                <span class="muted">.txt, .md or .json (for example an Architecture agent handoff) · or drop it here</span>
+                <input id="file" class="sr-only" type="file" accept=".txt,.md,.json,text/plain,text/markdown,application/json">
+              </div>
+              <div class="actions">
+                <button id="start" type="submit" class="btn primary" disabled>Start estimate</button>
+                <button id="clear" type="button" class="btn" disabled>Clear</button>
+                <span id="text-count" class="counter" aria-live="off">0 / 20,000</span>
+              </div>
+            </form>
+            <p id="form-status" class="status-line muted" role="status" aria-live="polite"></p>
+          </section>
+
+          <!-- ====================================================== history -->
+          <section class="card" aria-labelledby="history-title">
+            <div class="card-head">
+              <h2 id="history-title">History</h2>
+            </div>
+            <p class="card-sub">Estimates started in this browser (last 25). The results are stored on the server; the calculator link keeps working.</p>
+            <ul id="history" class="cards" aria-label="Previous estimates"></ul>
+          </section>
+        </div>
+
+        <!-- ======================================================== result -->
+        <section class="card" id="result-card" aria-labelledby="run-title">
+          <div id="result-empty" class="empty">
+            <h2 id="result-title">No estimate selected</h2>
+            <p>Start a new estimate, open one from the history, or view a sample.</p>
+          </div>
+          <div id="result" hidden>
+            <div class="detail-head">
+              <div>
+                <h2 id="run-title">Estimate</h2>
+                <p id="run-sub" class="card-sub"></p>
+              </div>
+              <div class="detail-side" aria-live="polite">
+                <span id="status-pill" class="pill board-pill"></span>
+              </div>
+            </div>
+            <p id="example-note" class="note" hidden></p>
+            <div id="running" class="running" hidden>
+              <div class="progress" role="progressbar" aria-label="Estimate progress (estimate)" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><div id="progress-bar"></div></div>
+              <div class="running-line"><span id="running-text">Working…</span><span id="elapsed"></span></div>
+            </div>
+            <p id="run-error" class="error" role="alert" hidden></p>
+            <div id="link-row" class="link-row" hidden>
+              <a id="calc-link" class="btn primary" target="_blank" rel="noopener noreferrer">Open in AWS Pricing Calculator</a>
+              <button id="copy-link" type="button" class="btn">Copy link</button>
+              <span id="copy-status" class="muted small" role="status" aria-live="polite"></span>
+              <span id="calc-url" class="link-url"></span>
+              <span class="link-url">Prices, monthly and yearly totals are shown in the calculator. Anyone with the link can open the estimate.</span>
+            </div>
+            <div id="stats" class="stats"></div>
+            <div id="unsupported"></div>
+            <div id="services"></div>
+            <details id="input-panel" class="section">
+              <summary>Requirements sent to the agent</summary>
+              <pre id="input" class="package"></pre>
+            </details>
+            <details id="raw-panel" class="section">
+              <summary>Raw agent response</summary>
+              <pre id="raw" class="package"></pre>
+            </details>
+            <details id="log-panel" class="section">
+              <summary>Activity log</summary>
+              <ol id="log" class="audit"></ol>
+            </details>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="config.js"></script>
+  <script src="samples.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

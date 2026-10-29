@@ -1,0 +1,563 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Project Catalyst - 01 Intake agent (on demand). Web UI (Amplify Hosting) -> API Gateway (HTTP API)
+  -> Lambda (Microsoft device-code sign-in, sessions) -> AgentCore Runtime -> Outlook (Microsoft Graph) + Amazon Bedrock. Every run is logged in DynamoDB.
+
+Parameters:
+  EntraTenantId:
+    Type: String
+    Description: Directory (tenant) ID of the Ingram Intake app registration.
+    AllowedPattern: "^[0-9a-fA-F-]{36}$"
+  EntraClientId:
+    Type: String
+    Description: Application (client) ID of the Ingram Intake app registration.
+    AllowedPattern: "^[0-9a-fA-F-]{36}$"
+  UiOrigin:
+    Type: String
+    Default: http://localhost:5173
+    Description: Extra origin allowed by CORS for running the UI locally (the Amplify URL is always allowed).
+  BedrockModelId:
+    Type: String
+    Default: us.anthropic.claude-sonnet-4-5-20250929-v1:0
+    Description: Bedrock model or inference profile used by the Intake agent.
+  MaxEmails:
+    Type: Number
+    Default: 300
+    MinValue: 10
+    MaxValue: 2000
+    Description: Safety cap on emails read per run (30-day runs can be large).
+  RunsPerIpHour:
+    Type: Number
+    Default: 15
+    MinValue: 1
+    Description: Cost guard for the open API - Intake runs one caller IP may start per hour.
+  RunsPerDay:
+    Type: Number
+    Default: 300
+    MinValue: 1
+    Description: Cost guard for the open API - Intake runs per day across all users.
+  DynamicsUrl:
+    Type: String
+    Default: ""
+    Description: Dynamics 365 environment URL (https://<org>.crm<n>.dynamics.com). Empty = demo store in DynamoDB.
+  DynamicsTenantId:
+    Type: String
+    Default: ""
+    Description: Entra tenant of the Dynamics application user (defaults to EntraTenantId when empty).
+  DynamicsClientId:
+    Type: String
+    Default: ""
+    Description: Application (client) ID of the Entra app registered as a Dataverse application user.
+  DynamicsSecretArn:
+    Type: String
+    Default: ""
+    Description: Secrets Manager ARN of that app's client secret (created by scripts/deploy.sh).
+  MockDynamics:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
+    Description: >
+      true = deploy the mock Dynamics 365 (Dataverse Web API on Lambda + dummy DynamoDB tables) and point the API and
+      the agent at it (scripts/deploy.sh sets this for DYNAMICS_URL=mock). Ignores the other Dynamics parameters.
+  DynamicsWriteBack:
+    Type: String
+    Default: "true"
+    AllowedValues: ["true", "false"]
+    Description: Add each funding decision as a note on the Dynamics opportunity.
+  AgentCodeBucket:
+    Type: String
+    Description: S3 bucket holding the agent code zip (set by scripts/deploy.sh).
+  AgentCodeKey:
+    Type: String
+    Description: S3 key of the agent code zip (set by scripts/deploy.sh; changes with every code change).
+
+Mappings:
+  MockDynamics:
+    App:
+      ClientId: a11ce000-0000-4000-8000-00000000d365   # the mock's "app registration"; the secret is generated
+
+Conditions:
+  HasDynamicsSecret: !Not [!Equals [!Ref DynamicsSecretArn, ""]]
+  HasDynamicsTenant: !Not [!Equals [!Ref DynamicsTenantId, ""]]
+  IsMockDynamics: !Equals [!Ref MockDynamics, "true"]
+  ReadsDynamicsSecret: !Or [!Condition HasDynamicsSecret, !Condition IsMockDynamics]
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Architectures: [arm64]
+    MemorySize: 256
+    Timeout: 29
+
+Resources:
+  # ------------------------------------------------------------------ DynamoDB: every run, email, opportunity, log
+  RunsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: ingram-intake-runs
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - { AttributeName: pk, AttributeType: S }
+        - { AttributeName: sk, AttributeType: S }
+        - { AttributeName: owner, AttributeType: S }
+        - { AttributeName: created_at, AttributeType: S }
+      KeySchema:
+        - { AttributeName: pk, KeyType: HASH }
+        - { AttributeName: sk, KeyType: RANGE }
+      GlobalSecondaryIndexes:            # run history: only RUN#/META items carry `owner` (the session hash)
+        - IndexName: owner-created
+          KeySchema:
+            - { AttributeName: owner, KeyType: HASH }
+            - { AttributeName: created_at, KeyType: RANGE }
+          Projection:
+            ProjectionType: INCLUDE
+            NonKeyAttributes: [run_id, status, finished_at, days, inputs, counts, user_email]
+      PointInTimeRecoverySpecification: { PointInTimeRecoveryEnabled: true }
+      SSESpecification: { SSEEnabled: true }
+      TimeToLiveSpecification:          # expires sign-in codes (LOGIN#) and sessions (SESSION#)
+        AttributeName: ttl
+        Enabled: true
+
+  # ------------------------------------------------------------------ AgentCore Runtime: the Intake agent
+  AgentRuntimeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: { Service: bedrock-agentcore.amazonaws.com }
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals: { aws:SourceAccount: !Ref AWS::AccountId }
+              ArnLike: { aws:SourceArn: !Sub "arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:*" }
+      Policies:
+        - PolicyName: intake-agent
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: AgentCode
+                Effect: Allow
+                Action: s3:GetObject
+                Resource: !Sub "arn:${AWS::Partition}:s3:::${AgentCodeBucket}/intake-agent/*"
+              - Sid: Logs
+                Effect: Allow
+                Action: [logs:CreateLogGroup, logs:CreateLogStream, logs:PutLogEvents, logs:DescribeLogStreams]
+                Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/bedrock-agentcore/runtimes/*"
+              - Sid: LogGroups
+                Effect: Allow
+                Action: logs:DescribeLogGroups
+                Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:*"
+              - Sid: Tracing
+                Effect: Allow
+                Action: [xray:PutTraceSegments, xray:PutTelemetryRecords, xray:GetSamplingRules, xray:GetSamplingTargets]
+                Resource: "*"
+              - Sid: Metrics
+                Effect: Allow
+                Action: cloudwatch:PutMetricData
+                Resource: "*"
+                Condition:
+                  StringEquals: { cloudwatch:namespace: bedrock-agentcore }
+              - Sid: WorkloadAccessToken
+                Effect: Allow
+                Action:
+                  - bedrock-agentcore:GetWorkloadAccessToken
+                  - bedrock-agentcore:GetWorkloadAccessTokenForJWT
+                  - bedrock-agentcore:GetWorkloadAccessTokenForUserId
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:workload-identity-directory/default"
+                  - !Sub "arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:workload-identity-directory/default/workload-identity/ingram_intake_agent-*"
+              - Sid: Bedrock
+                Effect: Allow
+                Action: bedrock:InvokeModel
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:bedrock:*::foundation-model/*"
+                  - !Sub "arn:${AWS::Partition}:bedrock:*:${AWS::AccountId}:inference-profile/*"
+              - Sid: RunLog
+                Effect: Allow
+                Action: [dynamodb:PutItem, dynamodb:UpdateItem, dynamodb:GetItem]   # GetItem: funding demo store
+                Resource: !GetAtt RunsTable.Arn
+              - !If
+                - ReadsDynamicsSecret
+                - Sid: DynamicsSecret
+                  Effect: Allow
+                  Action: secretsmanager:GetSecretValue
+                  Resource: !If [IsMockDynamics, !Ref MockDynamicsSecret, !Ref DynamicsSecretArn]
+                - !Ref AWS::NoValue
+
+  IntakeAgentRuntime:
+    Type: AWS::BedrockAgentCore::Runtime
+    Properties:
+      AgentRuntimeName: ingram_intake_agent
+      Description: Captures opportunities from Outlook mail, structures requirements, flags missing information
+      RoleArn: !GetAtt AgentRuntimeRole.Arn
+      AgentRuntimeArtifact:
+        CodeConfiguration:
+          Runtime: PYTHON_3_12
+          EntryPoint: [main.py]
+          Code:
+            S3:
+              Bucket: !Ref AgentCodeBucket
+              Prefix: !Ref AgentCodeKey
+      NetworkConfiguration:
+        NetworkMode: PUBLIC   # needs to reach graph.microsoft.com
+      LifecycleConfiguration:
+        IdleRuntimeSessionTimeout: 900
+        MaxLifetime: 28800    # a run can keep working in the background for up to 8 h
+      EnvironmentVariables:
+        RUNS_TABLE: !Ref RunsTable
+        BEDROCK_MODEL_ID: !Ref BedrockModelId
+        MAX_EMAILS: !Ref MaxEmails
+        DYNAMICS_URL: !If [IsMockDynamics, !Sub "https://${MockDataverseApi}.execute-api.${AWS::Region}.amazonaws.com", !Ref DynamicsUrl]
+        DYNAMICS_TENANT_ID: !If [HasDynamicsTenant, !Ref DynamicsTenantId, !Ref EntraTenantId]
+        DYNAMICS_CLIENT_ID: !If [IsMockDynamics, !FindInMap [MockDynamics, App, ClientId], !Ref DynamicsClientId]
+        DYNAMICS_SECRET_ARN: !If [IsMockDynamics, !Ref MockDynamicsSecret, !Ref DynamicsSecretArn]
+        DYNAMICS_TOKEN_URL: !If [IsMockDynamics, !Sub "https://${MockDataverseApi}.execute-api.${AWS::Region}.amazonaws.com/oauth2/v2.0/token", ""]
+        DYNAMICS_MOCK: !Ref MockDynamics
+        DYNAMICS_WRITE_BACK: !Ref DynamicsWriteBack
+
+  # ------------------------------------------------------------------ API Gateway + Lambda
+  IntakeHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      Description: Intake agent API (session from Microsoft device-code sign-in, checked in the Lambda)
+      CorsConfiguration:
+        # deploy.sh adds config.env CORS_EXTRA_ORIGINS after the stack deploy (SAM breaks intrinsic origin lists).
+        AllowOrigins:
+          - !Sub https://main.${UiApp.DefaultDomain}   # hosted UI (Amplify)
+          - !Ref UiOrigin                               # local dev
+        AllowHeaders: [authorization, content-type]
+        AllowMethods: [GET, POST, OPTIONS]
+        MaxAge: 600
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 20
+        ThrottlingRateLimit: 10
+      RouteSettings:          # open API (no sign-in): tighter limits on the routes that cost money
+        "POST /session": { ThrottlingBurstLimit: 5, ThrottlingRateLimit: 2 }
+        "POST /runs": { ThrottlingBurstLimit: 5, ThrottlingRateLimit: 1 }
+        "POST /funding/checks": { ThrottlingBurstLimit: 5, ThrottlingRateLimit: 2 }
+        "POST /funding/checks/batch": { ThrottlingBurstLimit: 2, ThrottlingRateLimit: 1 }
+        "POST /funding/demo/seed": { ThrottlingBurstLimit: 2, ThrottlingRateLimit: 1 }
+        "POST /funding/clear": { ThrottlingBurstLimit: 2, ThrottlingRateLimit: 1 }
+        "POST /funding/opportunities": { ThrottlingBurstLimit: 5, ThrottlingRateLimit: 2 }
+
+  # Code shared by the API Lambda and the agent: the opportunity form and the Dynamics client.
+  # (scripts/package_agent.sh copies the same files into the agent zip.)
+  SharedLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: ingram-intake-shared
+      Description: Opportunity form schema and Microsoft Dynamics 365 client (funding check flow)
+      ContentUri: shared/
+      CompatibleRuntimes: [python3.12]
+      CompatibleArchitectures: [arm64]
+      RetentionPolicy: Delete
+
+  IntakeApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ingram-intake-api
+      Description: Start an Intake run on AgentCore Runtime and read run results from DynamoDB
+      CodeUri: api/
+      Handler: handler.handler
+      MemorySize: 512   # reads uploaded PDF / Excel files (api/uploads.py)
+      Layers: [!Ref SharedLayer]
+      LoggingConfig:
+        LogGroup: !Ref IntakeApiLogGroup
+      Environment:
+        Variables:
+          RUNS_TABLE: !Ref RunsTable
+          AGENT_RUNTIME_ARN: !GetAtt IntakeAgentRuntime.AgentRuntimeArn
+          ENTRA_TENANT_ID: !Ref EntraTenantId
+          ENTRA_CLIENT_ID: !Ref EntraClientId
+          RUNS_PER_IP_HOUR: !Ref RunsPerIpHour
+          RUNS_PER_DAY: !Ref RunsPerDay
+          DYNAMICS_URL: !If [IsMockDynamics, !Sub "https://${MockDataverseApi}.execute-api.${AWS::Region}.amazonaws.com", !Ref DynamicsUrl]
+          DYNAMICS_TENANT_ID: !If [HasDynamicsTenant, !Ref DynamicsTenantId, !Ref EntraTenantId]
+          DYNAMICS_CLIENT_ID: !If [IsMockDynamics, !FindInMap [MockDynamics, App, ClientId], !Ref DynamicsClientId]
+          DYNAMICS_SECRET_ARN: !If [IsMockDynamics, !Ref MockDynamicsSecret, !Ref DynamicsSecretArn]
+          DYNAMICS_TOKEN_URL: !If [IsMockDynamics, !Sub "https://${MockDataverseApi}.execute-api.${AWS::Region}.amazonaws.com/oauth2/v2.0/token", ""]
+          DYNAMICS_MOCK: !Ref MockDynamics
+      Policies:
+        - Statement:
+            - Sid: RunLog
+              Effect: Allow
+              Action: [dynamodb:PutItem, dynamodb:UpdateItem, dynamodb:GetItem, dynamodb:DeleteItem, dynamodb:Query,
+                       dynamodb:BatchGetItem]
+              Resource:
+                - !GetAtt RunsTable.Arn
+                - !Sub "${RunsTable.Arn}/index/owner-created"
+            - !If
+              - ReadsDynamicsSecret
+              - Sid: DynamicsSecret
+                Effect: Allow
+                Action: secretsmanager:GetSecretValue
+                Resource: !If [IsMockDynamics, !Ref MockDynamicsSecret, !Ref DynamicsSecretArn]
+              - !Ref AWS::NoValue
+            - Sid: StartAgent
+              Effect: Allow
+              Action: bedrock-agentcore:InvokeAgentRuntime
+              Resource:
+                - !GetAtt IntakeAgentRuntime.AgentRuntimeArn
+                - !Sub "${IntakeAgentRuntime.AgentRuntimeArn}/*"
+      Events:
+        CreateSession:
+          Type: HttpApi
+          Properties: { ApiId: !Ref IntakeHttpApi, Method: POST, Path: /session }
+        GetSession:
+          Type: HttpApi
+          Properties: { ApiId: !Ref IntakeHttpApi, Method: GET, Path: /session }
+        DeviceStart:
+          Type: HttpApi
+          Properties: { ApiId: !Ref IntakeHttpApi, Method: POST, Path: /auth/device/start }
+        DevicePoll:
+          Type: HttpApi
+          Properties: { ApiId: !Ref IntakeHttpApi, Method: POST, Path: /auth/device/poll }
+        Disconnect:
+          Type: HttpApi
+          Properties: { ApiId: !Ref IntakeHttpApi, Method: POST, Path: /auth/disconnect }
+        StartRun:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref IntakeHttpApi
+            Method: POST
+            Path: /runs
+        ListRuns:
+          Type: HttpApi
+          Properties: { ApiId: !Ref IntakeHttpApi, Method: GET, Path: /runs }
+        GetRun:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref IntakeHttpApi
+            Method: GET
+            Path: /runs/{id}
+        FundingConfig:
+          Type: HttpApi
+          Properties: { ApiId: !Ref IntakeHttpApi, Method: GET, Path: /funding/config }
+        FundingCreate:
+          Type: HttpApi
+          Properties: { ApiId: !Ref IntakeHttpApi, Method: POST, Path: /funding/opportunities }
+        FundingList:
+          Type: HttpApi
+          Properties: { ApiId: !Ref IntakeHttpApi, Method: GET, Path: /funding/opportunities }
+        FundingDynamics:
+          Type: HttpApi
+          Properties: { ApiId: !Ref IntakeHttpApi, Method: GET, Path: /funding/dynamics }
+        FundingDynamicsGet:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref IntakeHttpApi
+            Method: GET
+            Path: /funding/dynamics/{id}
+        FundingBatch:
+          Type: HttpApi
+          Properties: { ApiId: !Ref IntakeHttpApi, Method: POST, Path: /funding/checks/batch }
+        FundingCheckStatus:
+          Type: HttpApi
+          Properties: { ApiId: !Ref IntakeHttpApi, Method: POST, Path: /funding/checks/status }
+        FundingClear:
+          Type: HttpApi
+          Properties: { ApiId: !Ref IntakeHttpApi, Method: POST, Path: /funding/clear }
+        FundingDemoSeed:
+          Type: HttpApi
+          Properties: { ApiId: !Ref IntakeHttpApi, Method: POST, Path: /funding/demo/seed }
+        FundingStartCheck:
+          Type: HttpApi
+          Properties: { ApiId: !Ref IntakeHttpApi, Method: POST, Path: /funding/checks }
+        FundingGetCheck:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref IntakeHttpApi
+            Method: GET
+            Path: /funding/checks/{id}
+
+  IntakeApiLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/ingram-intake-api
+      RetentionInDays: 30
+
+  # ------------------------------------------------------------------ Web UI: AWS Amplify Hosting (manual deploys)
+  UiApp:
+    Type: AWS::Amplify::App
+    Properties:
+      Name: ingram-intake-ui
+      Description: Ingram Intake web UI (static; uploaded by scripts/deploy.sh)
+      Platform: WEB
+      CustomHeaders: |
+        customHeaders:
+          - pattern: '**'
+            headers:
+              - key: Strict-Transport-Security
+                value: max-age=31536000; includeSubDomains
+              - key: X-Content-Type-Options
+                value: nosniff
+              - key: X-Frame-Options
+                value: SAMEORIGIN
+              - key: Referrer-Policy
+                value: strict-origin-when-cross-origin
+          - pattern: 'config.js'
+            headers:
+              - key: Cache-Control
+                value: no-cache
+
+  UiBranch:
+    Type: AWS::Amplify::Branch
+    Properties:
+      AppId: !GetAtt UiApp.AppId
+      BranchName: main
+      Stage: PRODUCTION
+      EnableAutoBuild: false
+
+  # ------------------------------------------------------------------ Mock Dynamics 365 (only when MockDynamics=true)
+  # A Dataverse-compatible Web API (mock-dataverse/app.py) over dummy tables named after the Dataverse tables.
+  # The agent reaches it with its real Dynamics client: client-credentials token, then OData calls.
+  MockAccountsTable:
+    Type: AWS::DynamoDB::Table
+    Condition: IsMockDynamics
+    Properties:
+      TableName: ingram-mock-dynamics-accounts
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions: [{ AttributeName: accountid, AttributeType: S }]
+      KeySchema: [{ AttributeName: accountid, KeyType: HASH }]
+      SSESpecification: { SSEEnabled: true }
+
+  MockOpportunitiesTable:
+    Type: AWS::DynamoDB::Table
+    Condition: IsMockDynamics
+    Properties:
+      TableName: ingram-mock-dynamics-opportunities
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions: [{ AttributeName: opportunityid, AttributeType: S }]
+      KeySchema: [{ AttributeName: opportunityid, KeyType: HASH }]
+      SSESpecification: { SSEEnabled: true }
+
+  MockAnnotationsTable:
+    Type: AWS::DynamoDB::Table
+    Condition: IsMockDynamics
+    Properties:
+      TableName: ingram-mock-dynamics-annotations
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions: [{ AttributeName: annotationid, AttributeType: S }]
+      KeySchema: [{ AttributeName: annotationid, KeyType: HASH }]
+      SSESpecification: { SSEEnabled: true }
+
+  MockDynamicsSecret:
+    Type: AWS::SecretsManager::Secret
+    Condition: IsMockDynamics
+    Properties:
+      Name: ingram-intake/mock-dynamics-client
+      Description: Client secret of the mock Dynamics 365 app (generated; read by the API, the agent and the mock)
+      GenerateSecretString:
+        SecretStringTemplate: !Sub
+          - '{"client_id": "${Id}"}'
+          - Id: !FindInMap [MockDynamics, App, ClientId]
+        GenerateStringKey: client_secret
+        PasswordLength: 40
+        ExcludePunctuation: true
+
+  MockDataverseApi:
+    Type: AWS::Serverless::HttpApi
+    Condition: IsMockDynamics
+    Properties:
+      Description: Mock Dynamics 365 (Dataverse Web API v9.2 subset) - dummy data for the funding agent
+      DefaultRouteSettings: { ThrottlingBurstLimit: 20, ThrottlingRateLimit: 10 }
+
+  MockDataverseFunction:
+    Type: AWS::Serverless::Function
+    Condition: IsMockDynamics
+    Properties:
+      FunctionName: ingram-mock-dynamics
+      Description: Mock Dynamics 365 Dataverse Web API over dummy DynamoDB tables
+      CodeUri: mock-dataverse/
+      Handler: app.handler
+      Layers: [!Ref SharedLayer]   # opportunity_form: the ingr_ column catalogue
+      Environment:
+        Variables:
+          ACCOUNTS_TABLE: !Ref MockAccountsTable
+          OPPORTUNITIES_TABLE: !Ref MockOpportunitiesTable
+          ANNOTATIONS_TABLE: !Ref MockAnnotationsTable
+          CLIENT_ID: !FindInMap [MockDynamics, App, ClientId]
+          CLIENT_SECRET_ARN: !Ref MockDynamicsSecret
+      Policies:
+        - Statement:
+            - Sid: DummyTables
+              Effect: Allow
+              Action: [dynamodb:GetItem, dynamodb:PutItem, dynamodb:Scan, dynamodb:DeleteItem]
+              Resource: [!GetAtt MockAccountsTable.Arn, !GetAtt MockOpportunitiesTable.Arn, !GetAtt MockAnnotationsTable.Arn]
+            - Sid: ClientSecret
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: !Ref MockDynamicsSecret
+      Events:
+        All:
+          Type: HttpApi
+          Properties: { ApiId: !Ref MockDataverseApi, Method: ANY, Path: "/{proxy+}" }
+
+  # ------------------------------------------------------------------ Funding Desk: second web UI (Amplify Hosting)
+  # Lists the opportunities in Dynamics 365 and runs the AWS funding decision framework on them (ui-desk/).
+  DeskApp:
+    Type: AWS::Amplify::App
+    Properties:
+      Name: ingram-funding-desk
+      Description: Funding Desk - Dynamics 365 opportunities and AWS funding decisions (uploaded by scripts/deploy.sh)
+      Platform: WEB
+      CustomHeaders: |
+        customHeaders:
+          - pattern: '**'
+            headers:
+              - key: Strict-Transport-Security
+                value: max-age=31536000; includeSubDomains
+              - key: X-Content-Type-Options
+                value: nosniff
+              - key: X-Frame-Options
+                value: SAMEORIGIN
+              - key: Referrer-Policy
+                value: strict-origin-when-cross-origin
+          - pattern: 'config.js'
+            headers:
+              - key: Cache-Control
+                value: no-cache
+
+  DeskBranch:
+    Type: AWS::Amplify::Branch
+    Properties:
+      AppId: !GetAtt DeskApp.AppId
+      BranchName: main
+      Stage: PRODUCTION
+      EnableAutoBuild: false
+
+Outputs:
+  UiUrl:
+    Description: Hosted web UI
+    Value: !Sub https://main.${UiApp.DefaultDomain}
+  FundingUiUrl:
+    Description: Funding check page
+    Value: !Sub https://main.${UiApp.DefaultDomain}/funding.html
+  UiAppId:
+    Value: !GetAtt UiApp.AppId
+  DeskUrl:
+    Description: Funding Desk web UI
+    Value: !Sub https://main.${DeskApp.DefaultDomain}
+  DeskAppId:
+    Value: !GetAtt DeskApp.AppId
+  MockDynamicsUrl:
+    Condition: IsMockDynamics
+    Description: Mock Dynamics 365 environment URL (Dataverse Web API at /api/data/v9.2)
+    Value: !Sub https://${MockDataverseApi}.execute-api.${AWS::Region}.amazonaws.com
+  MockDynamicsClientId:
+    Condition: IsMockDynamics
+    Value: !FindInMap [MockDynamics, App, ClientId]
+  MockDynamicsSecretArn:
+    Condition: IsMockDynamics
+    Value: !Ref MockDynamicsSecret
+  ApiUrl:
+    Description: Base URL for the web UI (written to ui/config.js by deploy.sh)
+    Value: !Sub https://${IntakeHttpApi}.execute-api.${AWS::Region}.amazonaws.com
+  AgentRuntimeArn:
+    Value: !GetAtt IntakeAgentRuntime.AgentRuntimeArn
+  RunsTableName:
+    Value: !Ref RunsTable

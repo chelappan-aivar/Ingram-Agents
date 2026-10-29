@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ingram SOW Generator</title>
+  <!-- deploy.sh pins connect-src to the exact API host; the wildcard is only for running the UI locally. -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self';
+                 connect-src 'self' https://*.execute-api.us-east-1.amazonaws.com; img-src 'self' data: blob:">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-view="app">
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="brand" aria-label="Ingram Micro"><span class="brand-mark">INGRAM</span><span class="brand-sub">MICRO</span></span>
+        <span class="app-name">SOW Generator</span>
+        <span class="tag">PILOT</span>
+      </div>
+      <div class="topbar-right">
+        <div class="theme-toggle" role="group" aria-label="Theme" data-theme-toggle></div>
+      </div>
+    </header>
+
+    <main class="dash">
+      <div class="grid">
+        <div class="col-left">
+          <!-- ====================================================== samples -->
+          <section class="card" aria-labelledby="samples-title">
+            <h2 id="samples-title">Samples</h2>
+            <p class="card-sub">Fictional engagements to try the agent. Click a file to open it, load a sample into the form, or view the SOW the agent produced from it.</p>
+            <ul id="samples" class="samples" aria-label="Sample engagements"></ul>
+          </section>
+
+          <!-- ====================================================== new SOW -->
+          <section class="card" aria-labelledby="new-title">
+            <h2 id="new-title">New SOW</h2>
+            <p class="card-sub">Pick a template and add what you know about the engagement. The agent drafts an Ingram Micro Statement of Work in 2 to 5 minutes. Keep this tab open while it writes.</p>
+            <form id="gen-form" novalidate>
+              <div class="two">
+                <div>
+                  <label for="customer">Customer name</label>
+                  <input id="customer" type="text" maxlength="200" autocomplete="organization" required placeholder="Acme Corp">
+                </div>
+                <div>
+                  <label for="opportunity">Opportunity id <span class="muted">(optional)</span></label>
+                  <input id="opportunity" type="text" maxlength="100" autocomplete="off" placeholder="OPP-1234">
+                </div>
+              </div>
+              <label for="template">Template</label>
+              <div class="inline-row">
+                <select id="template" required aria-describedby="template-status"><option value="">Loading templates…</option></select>
+                <button id="template-view" type="button" class="btn sm ghost" disabled>Preview</button>
+              </div>
+              <p id="template-status" class="hint" role="status" aria-live="polite"></p>
+
+              <label for="details">Project details</label>
+              <textarea id="details" rows="7" maxlength="100000" aria-describedby="details-count"
+                        placeholder="Goals, scope, users, integrations, timeline, budget, constraints, open questions…"></textarea>
+              <span id="details-count" class="counter block-counter">0 / 100,000</span>
+
+              <label for="transcripts">Transcripts and notes <span class="muted">(optional)</span></label>
+              <div class="drop" id="transcripts-drop">
+                <label for="transcripts" class="file-pick">Add files</label>
+                <span class="muted">.pdf, .docx, .txt, .md, .csv, .xlsx</span>
+                <input id="transcripts" class="sr-only" type="file" multiple
+                       accept=".pdf,.docx,.txt,.md,.csv,.xlsx,application/pdf,text/plain,text/markdown,text/csv,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+              </div>
+              <ul id="transcript-list" class="file-list" aria-label="Transcript files"></ul>
+
+              <label for="images">Architecture images <span class="muted">(optional)</span></label>
+              <div class="drop" id="images-drop">
+                <label for="images" class="file-pick">Add images</label>
+                <span class="muted">.png, .jpg · each up to 3.75 MB</span>
+                <input id="images" class="sr-only" type="file" multiple accept=".png,.jpg,.jpeg,image/png,image/jpeg">
+              </div>
+              <ul id="image-list" class="file-list" aria-label="Architecture images"></ul>
+              <p id="size-note" class="hint" aria-live="polite"></p>
+
+              <details class="section" id="upstream-panel">
+                <summary>Upstream data from Intake, Discovery, Architecture and Cost <span class="muted">(optional JSON)</span></summary>
+                <label for="upstream" class="sr-only">Upstream data (JSON)</label>
+                <textarea id="upstream" rows="6" class="mono" spellcheck="false" aria-describedby="upstream-status"
+                          placeholder='{"meta": {"opportunity_id": "OPP-1", "template_id": "aiml/ai-ml"}, "intake": {"customer_name": "Acme"}, "cost": {...}}'></textarea>
+                <p id="upstream-status" class="hint" role="status" aria-live="polite"></p>
+              </details>
+
+              <div class="actions">
+                <button id="generate" type="submit" class="btn primary" disabled>Generate SOW</button>
+                <button id="clear" type="button" class="btn">Clear</button>
+              </div>
+            </form>
+            <p id="form-status" class="status-line muted" role="status" aria-live="polite"></p>
+          </section>
+
+          <!-- ====================================================== history -->
+          <section class="card" aria-labelledby="history-title">
+            <div class="card-head">
+              <h2 id="history-title">History</h2>
+            </div>
+            <p class="card-sub">Drafts are kept in this browser only (last 20).</p>
+            <ul id="history" class="cards" aria-label="Previous SOW drafts"></ul>
+          </section>
+        </div>
+
+        <!-- ======================================================== draft -->
+        <section class="card" id="draft-card" aria-labelledby="draft-title">
+          <div id="draft-empty" class="empty">
+            <h2 id="draft-title-empty">No draft selected</h2>
+            <p>Generate a new SOW or open one from the history.</p>
+          </div>
+
+          <div id="draft" hidden>
+            <div class="detail-head">
+              <div>
+                <h2 id="draft-title">Draft</h2>
+                <p id="draft-sub" class="card-sub"></p>
+              </div>
+              <div class="detail-side"><span id="status-pill" class="pill board-pill" role="status" aria-live="polite"></span></div>
+            </div>
+
+            <div id="running" class="running" hidden>
+              <div class="progress" role="progressbar" aria-label="Generation progress (estimate)" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><div id="progress-bar"></div></div>
+              <ol id="steps" class="steps" aria-label="Steps"></ol>
+            </div>
+            <p id="draft-error" class="error" role="alert" hidden></p>
+
+            <div id="toolbar" class="toolbar" hidden>
+              <button id="check" type="button" class="btn sm">Check draft</button>
+              <label class="check-opt"><input id="check-ai" type="checkbox" checked> AI review</label>
+              <button id="edit-open" type="button" class="btn sm" aria-expanded="false" aria-controls="edit-panel">Edit with AI</button>
+              <button id="raw-toggle" type="button" class="btn sm ghost" aria-pressed="false">Edit markdown</button>
+              <button id="download" type="button" class="btn sm primary">Download .docx</button>
+              <span id="dirty" class="muted small" hidden>Edited</span>
+            </div>
+            <p id="toolbar-status" class="status-line muted" role="status" aria-live="polite"></p>
+
+            <!-- AI editor -->
+            <section id="edit-panel" class="panel" hidden aria-labelledby="edit-title">
+              <h3 id="edit-title">Edit with AI</h3>
+              <form id="edit-form" novalidate>
+                <label for="instruction">What should change?</label>
+                <textarea id="instruction" rows="3" maxlength="4000"
+                          placeholder="e.g. Add a 2-week hypercare phase to the schedule and mention it in the scope."></textarea>
+                <div class="actions">
+                  <button id="edit-send" type="submit" class="btn primary sm">Ask the editor</button>
+                  <span class="hint">The editor proposes changes; nothing changes until you apply them.</span>
+                </div>
+              </form>
+              <p id="edit-status" class="status-line muted" role="status" aria-live="polite"></p>
+              <div id="edit-reply" class="assistant" hidden></div>
+              <div id="proposals-head" class="card-head" hidden>
+                <h4>Proposed changes</h4>
+                <button id="apply-all" type="button" class="btn sm">Apply all</button>
+              </div>
+              <ul id="proposals" class="proposals" aria-label="Proposed changes"></ul>
+            </section>
+
+            <!-- draft check -->
+            <section id="check-panel" class="panel" hidden aria-labelledby="check-title">
+              <div class="card-head">
+                <h3 id="check-title">Draft check</h3>
+                <span id="check-summary" class="muted small"></span>
+              </div>
+              <p id="check-banner" class="banner" hidden></p>
+              <div id="check-issues"></div>
+              <details class="section"><summary>All rules</summary><ul id="check-rules" class="rules"></ul></details>
+            </section>
+
+            <!-- the draft itself -->
+            <div id="preview" class="md-scroll sow-preview" aria-label="Draft preview" tabindex="0"></div>
+            <div id="raw-wrap" hidden>
+              <label for="raw">Draft markdown</label>
+              <textarea id="raw" class="mono raw" spellcheck="false"></textarea>
+            </div>
+
+            <details id="log-panel" class="section">
+              <summary>Agent log</summary>
+              <ol id="log" class="audit"></ol>
+            </details>
+          </div>
+
+          <div id="template-preview" hidden>
+            <div class="card-head">
+              <h2 id="template-title">Template</h2>
+              <button id="template-close" class="btn sm" type="button">Close</button>
+            </div>
+            <div id="template-body" class="md-scroll sow-preview"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="templates.js"></script>
+  <script src="samples.js"></script>
+  <script src="markdown.js"></script>
+  <script src="draft.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

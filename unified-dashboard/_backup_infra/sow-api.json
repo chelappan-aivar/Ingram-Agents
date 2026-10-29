@@ -1,0 +1,35 @@
+{
+    "ApiEndpoint": "https://m8yzw40uva.execute-api.us-east-1.amazonaws.com",
+    "ApiId": "m8yzw40uva",
+    "ApiKeySelectionExpression": "$request.header.x-api-key",
+    "CorsConfiguration": {
+        "AllowHeaders": [
+            "content-type"
+        ],
+        "AllowMethods": [
+            "GET",
+            "POST",
+            "OPTIONS"
+        ],
+        "AllowOrigins": [
+            "http://localhost:5173",
+            "https://main.d1rlo2u5rwtym.amplifyapp.com"
+        ],
+        "MaxAge": 600
+    },
+    "CreatedDate": "2026-10-27T04:08:10+00:00",
+    "Description": "SOW generator API (open, no sign-in; throttled, with per-IP and daily caps on AI runs)",
+    "DisableExecuteApiEndpoint": false,
+    "IpAddressType": "ipv4",
+    "Name": "ingram-sow",
+    "ProtocolType": "HTTP",
+    "RouteSelectionExpression": "$request.method $request.path",
+    "Tags": {
+        "Project": "ingram-sow",
+        "aws:cloudformation:stack-name": "ingram-sow",
+        "aws:cloudformation:logical-id": "SowHttpApi",
+        "aws:cloudformation:stack-id": "arn:aws:cloudformation:us-east-1:455162169375:stack/ingram-sow/c327efe0-d1bb-11f1-b8e8-0afff64fb7bb",
+        "httpapi:createdBy": "SAM"
+    },
+    "Version": "1.0"
+}

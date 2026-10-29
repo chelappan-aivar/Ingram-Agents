@@ -1,0 +1,42 @@
+{
+  "oidc": {
+    "role_arn": ""
+  },
+  "aws": {
+    "region": "",
+    "account_id": ""
+  },
+  "Terraform": {
+    "working_directory": "Terraform/",
+    "version": "~1.7"
+  },
+  "tflint": {
+    "enabled": true
+  },
+  "tfsec": {
+    "enabled": true,
+    "soft_fail": false
+  },
+  "checkov": {
+    "enabled": true,
+    "soft_fail": false,
+    "skip_checks": [""]
+  },
+  "conftest": {
+    "enabled": true,
+    "required_tags": ["owner", "project", "cost-center", "team"]
+  },
+  "branch_environment_mapping": {
+    "pull_request": "dev",
+    "develop":      "dev",
+    "main":         "dev"
+  },
+  "environments": {
+    "dev": {
+      "execution_role_arn": "",
+      "var_file": "",
+      "requires_approval": true,
+      "auto_apply": true
+    }
+  }
+}

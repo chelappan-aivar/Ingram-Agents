@@ -1,0 +1,62 @@
+<mxfile host="app.diagrams.net">
+  <diagram id="arch" name="AWS Cost Calculator Architecture">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="AWS Cost Calculator - Async Architecture" style="text;html=1;fontSize=20;fontStyle=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="600" height="30" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="user" value="User&#xa;(Browser)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="250" width="100" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="ui" value="React + Vite UI&#xa;Submits SOW, polls every 3s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="190" y="245" width="160" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="apigw" value="Amazon API Gateway&#xa;HTTP API (prod)&#xa;POST / GET /invoke-agent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="410" y="245" width="170" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="lambda" value="AWS Lambda&#xa;ingram_cost_calculator_proxy&#xa;POST: submit + fire-and-forget&#xa;GET: poll status&#xa;Worker: calls AgentCore" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="640" y="235" width="200" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="ddb" value="Amazon DynamoDB&#xa;cost-estimates&#xa;PK: estimate_id&#xa;status: processing | success | fail" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="640" y="70" width="200" height="90" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="agentcore" value="Amazon Bedrock AgentCore Runtime (container image from ECR, arm64)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;startSize=30;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="920" y="170" width="300" height="250" as="geometry"/>
+        </mxCell>
+        <mxCell id="strands" value="Strands Agent&#xa;+ Pydantic structured output&#xa;(CostEstimate schema)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" vertex="1" parent="agentcore">
+          <mxGeometry x="30" y="50" width="240" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="mcpclient" value="MCP client (npx)&#xa;sample-aws-pricing-calculator-mcp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;" vertex="1" parent="agentcore">
+          <mxGeometry x="30" y="150" width="240" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="bedrock" value="Amazon Bedrock&#xa;Claude Sonnet (LLM)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="140" width="190" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="calc" value="AWS Pricing Calculator&#xa;(calculator.aws)&#xa;Returns shareable estimate URL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="340" width="190" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="cw" value="Amazon CloudWatch&#xa;Logs + AgentCore Observability&#xa;(OpenTelemetry / ADOT)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="920" y="500" width="300" height="80" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e1" value="1. Submit SOW (POST + session_id)" style="endArrow=classic;html=1;" edge="1" parent="1" source="ui" target="apigw"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e0" style="endArrow=classic;html=1;" edge="1" parent="1" source="user" target="ui"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" value="2. Proxy" style="endArrow=classic;html=1;" edge="1" parent="1" source="apigw" target="lambda"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" value="3. Save status = processing" style="endArrow=classic;html=1;" edge="1" parent="1" source="lambda" target="ddb"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e4" value="4. Async self-invoke (Event), return 202 immediately" style="endArrow=classic;html=1;curved=1;dashed=1;" edge="1" parent="1" source="lambda" target="lambda"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="870" y="285"/><mxPoint x="870" y="360"/><mxPoint x="740" y="360"/></Array></mxGeometry></mxCell>
+        <mxCell id="e5" value="5. invoke_agent_runtime (sync, in worker)" style="endArrow=classic;html=1;" edge="1" parent="1" source="lambda" target="agentcore"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e6" value="6. Reasoning + tool calls" style="endArrow=classic;html=1;" edge="1" parent="1" source="strands" target="bedrock"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e7" value="7. build_estimate" style="endArrow=classic;html=1;" edge="1" parent="1" source="mcpclient" target="calc"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e8" value="8. Worker writes result: success / fail" style="endArrow=classic;html=1;dashed=1;" edge="1" parent="1" source="lambda" target="ddb"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="800" y="190"/></Array></mxGeometry></mxCell>
+        <mxCell id="e9" value="9. UI polls GET every 3s" style="endArrow=classic;html=1;dashed=1;strokeColor=#9673a6;" edge="1" parent="1" source="ui" target="apigw"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="270" y="400"/><mxPoint x="495" y="400"/></Array></mxGeometry></mxCell>
+        <mxCell id="e10" value="Traces + logs" style="endArrow=classic;html=1;dashed=1;strokeColor=#666666;" edge="1" parent="1" source="agentcore" target="cw"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

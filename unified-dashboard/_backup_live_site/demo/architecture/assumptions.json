@@ -1,0 +1,84 @@
+{
+  "components": [],
+  "relationships": [
+    {
+      "supports_ids": [
+        "dispute_api",
+        "nat_gateway",
+        "bedrock",
+        "secrets_manager"
+      ],
+      "reasoning": "The Dispute API runs in the private subnet and must reach Bedrock, Secrets Manager JWKS endpoint, and other AWS/external endpoints. The document explicitly states Lambda functions in the private subnet require the NAT Gateway; the same applies to Fargate tasks in the same private subnet.",
+      "evidence": [
+        {
+          "file": "adr.md",
+          "quote": "Lambda functions in the private subnet require a NAT Gateway to reach Bedrock, SES, HelpTrack and other external endpoints.",
+          "reasoning": "All private-subnet workloads (including Fargate) need the NAT Gateway for outbound internet access; the Dispute API is in the same private subnet."
+        }
+      ],
+      "id": "ar1",
+      "source": "dispute_api",
+      "target": "nat_gateway",
+      "label": "routes through",
+      "direction": "one_way"
+    },
+    {
+      "supports_ids": [
+        "ingestion_lambda",
+        "secrets_manager"
+      ],
+      "reasoning": "The Ingestion Lambda connects to RDS (r21) and calls Textract; the document states Secrets Manager stores all credentials used by Lambda functions, so the Ingestion Lambda must retrieve its RDS credentials from Secrets Manager.",
+      "evidence": [
+        {
+          "file": "adr.md",
+          "quote": "Centrally stores and rotates all credentials and API keys used by Fargate tasks and Lambda functions, eliminating hard-coded secrets.",
+          "reasoning": "Secrets Manager explicitly covers Lambda functions, so the Ingestion Lambda must retrieve credentials from it."
+        }
+      ],
+      "id": "ar2",
+      "source": "ingestion_lambda",
+      "target": "secrets_manager",
+      "label": "retrieves secrets from",
+      "direction": "one_way"
+    },
+    {
+      "supports_ids": [
+        "integration_lambda",
+        "secrets_manager"
+      ],
+      "reasoning": "The Integration Lambda posts to HelpTrack using OAuth tokens and connects to RDS; the document states Secrets Manager stores HelpTrack OAuth tokens and all credentials used by Lambda functions.",
+      "evidence": [
+        {
+          "file": "adr.md",
+          "quote": "HelpTrack OAuth client credentials are stored in Secrets Manager and never hard-coded.",
+          "reasoning": "The Integration Lambda must retrieve HelpTrack OAuth credentials from Secrets Manager to post responses."
+        }
+      ],
+      "id": "ar3",
+      "source": "integration_lambda",
+      "target": "secrets_manager",
+      "label": "retrieves secrets from",
+      "direction": "one_way"
+    },
+    {
+      "supports_ids": [
+        "cloudwatch",
+        "billing_s3"
+      ],
+      "reasoning": "CloudTrail delivers logs to the Billing Data S3 Bucket (r31); CloudWatch Logs also feeds into the 7-year audit trail requirement. However, this is already covered by CloudTrail. Instead, the SNS alarm routing is the missing structural link: CloudWatch alarms route to the operations team via SNS, which is explicitly stated but SNS is not extracted as a component.",
+      "evidence": [
+        {
+          "file": "adr.md",
+          "quote": "CloudWatch alarms notify the operations team via SNS on: Ingestion Lambda errors, Integration Lambda DLQ depth > 0, Dispute API 5xx error rate > 1%, AI draft p95 latency > 40 s, and RDS CPU > 80%.",
+          "reasoning": "SNS is explicitly named as the alarm routing mechanism from CloudWatch to the operations team."
+        }
+      ],
+      "id": "ar4",
+      "source": "cloudwatch",
+      "target": "billing_s3",
+      "label": "archives logs to",
+      "direction": "one_way"
+    }
+  ],
+  "boundaries": []
+}

@@ -1,0 +1,90 @@
+{
+  "opportunity_type": "general",
+  "label": "General Discovery",
+  "description": "Master checklist applied to every call. Specialised checklists are layered on top when the conversation matches one.",
+  "required_fields": [
+    {
+      "id": "business_goal",
+      "label": "Business goal or driver",
+      "category": "Business",
+      "description": "Why the customer wants to do this: the business problem or event driving the project, in their own words.",
+      "required": true
+    },
+    {
+      "id": "desired_outcomes",
+      "label": "Desired outcome and success criteria",
+      "category": "Business",
+      "description": "What success looks like and how the customer will measure it.",
+      "required": true
+    },
+    {
+      "id": "scope",
+      "label": "In-scope and out-of-scope workloads",
+      "category": "Technical",
+      "description": "Which workloads, applications or systems are in scope, and which are explicitly out.",
+      "required": true,
+      "examples": ["Which applications are part of this, and which are staying where they are?"]
+    },
+    {
+      "id": "current_environment",
+      "label": "Current hosting and infrastructure",
+      "category": "Technical",
+      "description": "Where things run today (on-prem, colo, another cloud, AWS) and the main infrastructure involved.",
+      "required": true,
+      "memory_scope": "account",
+      "examples": ["Where does this run today, on-prem or in a data center?"]
+    },
+    {
+      "id": "data_volumes",
+      "label": "Data volumes and databases",
+      "category": "Technical",
+      "description": "How much data there is and which databases or data stores are involved.",
+      "required": true,
+      "memory_scope": "account",
+      "examples": [
+        "Which databases are involved, and what are they running on?",
+        "Roughly how much data are we talking about?"
+      ]
+    },
+    {
+      "id": "security_compliance",
+      "label": "Security and compliance requirements",
+      "category": "Technical",
+      "description": "Security controls, certifications or regulations (for example HIPAA, PCI, GDPR) the solution must meet.",
+      "required": true,
+      "memory_scope": "account",
+      "ask_when": "once hosting and data are known, or as soon as the customer mentions regulated, sensitive or customer data.",
+      "examples": ["Are there any security or compliance rules this has to meet?"]
+    },
+    {
+      "id": "target_region",
+      "label": "Target AWS region",
+      "category": "Technical",
+      "description": "Which AWS region or regions to deploy in, and any data residency rules behind that choice.",
+      "required": true,
+      "memory_scope": "account",
+      "ask_when": "after hosting and data are known, or when the customer mentions countries, latency or where data must stay.",
+      "examples": [
+        "Which AWS region do you want to use?",
+        "Does any of the data have to stay in a particular country?"
+      ]
+    },
+    {
+      "id": "target_timeline",
+      "label": "Timeline",
+      "category": "Delivery constraint",
+      "description": "When the work needs to be done and what is driving that date.",
+      "required": true,
+      "ask_when": "the customer mentions a date, deadline or event, or once the scope is clear."
+    },
+    {
+      "id": "budget_range",
+      "label": "Budget range",
+      "category": "Commercial",
+      "description": "Approximate budget available, or how funding will be decided.",
+      "required": false,
+      "ask_when": "never as the first question. Only after the business goal, desired outcome and scope are captured, and only when the customer raises cost, funding or investment, or nothing else is left to ask.",
+      "examples": ["Do you have a budget range in mind?"]
+    }
+  ]
+}

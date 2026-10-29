@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "schema_version": "1.0",
+    "opportunity_id": "OPP-2026-0498",
+    "template_id": "devops/devops-standard",
+    "source_agents": [
+      "intake",
+      "discovery"
+    ],
+    "created_at": "2026-10-23T09:00:00Z",
+    "generated_by": "sample-data"
+  },
+  "intake": {
+    "customer_name": "Tailspin Toys",
+    "industry": "Retail and manufacturing (toys, e-commerce)",
+    "contacts": [
+      {
+        "name": "Daniel Weber",
+        "role": "CTO (executive sponsor)",
+        "email": "daniel.weber@tailspin-toys.example.com"
+      },
+      {
+        "name": "Sophie Klein",
+        "role": "IT Operations Lead",
+        "email": "sophie.klein@tailspin-toys.example.com"
+      },
+      {
+        "name": "Jonas Becker",
+        "role": "Lead Developer, E-commerce",
+        "email": "jonas.becker@tailspin-toys.example.com"
+      }
+    ],
+    "engagement_type": "DevOps platform implementation",
+    "template_hint": "devops/devops-standard",
+    "problem_statement": "The e-commerce platform is released once a month in a 6-hour maintenance window with manual scripts, 2 to 3 releases per quarter fail, there is no central logging and MTTR is about 5 hours. Traffic peaks at 5x during the Christmas season.",
+    "goals": [
+      "Deploy each service at least weekly without a maintenance window",
+      "Lead time for changes under 1 day",
+      "Change failure rate under 10% and MTTR under 1 hour",
+      "Prove 5x Christmas peak capacity with a load test before the code freeze"
+    ],
+    "timeline": "12 weeks",
+    "budget_range": "EUR 150,000 (about USD 165,000) one-time",
+    "constraints": [
+      "GDPR: all data and logs stay in eu-central-1",
+      "Live and load-tested before the 1 November 2027 code freeze",
+      "3 .NET Framework 4.8 services stay on Windows EC2; only their pipelines move",
+      "Tailspin's 4-person platform team must run the platform after handover"
+    ]
+  },
+  "discovery": {
+    "source": "discovery",
+    "findings": [
+      "9 .NET services (6 on .NET 8, 3 on .NET Framework 4.8), React storefront, SQL Server",
+      "Azure DevOps Repos and one Jenkins server; deployments by manual PowerShell scripts",
+      "No infrastructure as code; environments differ (config drift)",
+      "Licences for GitHub Enterprise Cloud already purchased for 2027",
+      "PagerDuty and Microsoft Teams are used for on-call and alerts"
+    ],
+    "requirements": [
+      "Terraform modules for networking, EKS, ECR, IAM, observability and security",
+      "Reusable GitHub Actions workflows with build, test, scan, deploy stages",
+      "Canary deployments with automatic rollback on SLO breach",
+      "Dashboards and alerts per service; runbooks for the top 10 incidents",
+      "Load test at 5x peak (about 2,500 requests per second)"
+    ],
+    "stakeholders": [
+      {
+        "name": "Daniel Weber",
+        "role": "CTO"
+      },
+      {
+        "name": "Sophie Klein",
+        "role": "IT Operations Lead"
+      },
+      {
+        "name": "Jonas Becker",
+        "role": "Lead Developer, E-commerce"
+      }
+    ],
+    "transcript_refs": [],
+    "notes": "The migration project moves SQL Server to Amazon RDS for SQL Server; this engagement does not."
+  }
+}

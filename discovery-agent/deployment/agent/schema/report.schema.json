@@ -1,0 +1,497 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "discovery-report.schema.json",
+  "title": "Discovery Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "meta",
+    "what_we_heard",
+    "use_cases",
+    "top_hidden_opportunities",
+    "gaps_and_open_questions"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "engagement",
+        "sources",
+        "generated_at",
+        "models"
+      ],
+      "properties": {
+        "engagement": {
+          "type": "string",
+          "description": "Customer engagement the documents belong to"
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Document id cited in evidence.source (file name)"
+              },
+              "kind": {
+                "enum": [
+                  "transcript",
+                  "email",
+                  "chat",
+                  "document"
+                ]
+              },
+              "label": {
+                "type": "string",
+                "description": "Human-readable name shown in reports"
+              },
+              "kept_fraction": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "Share of the document kept after trimming small talk; absent when the whole document was analysed"
+              }
+            }
+          }
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "models": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Bedrock model ID used per stage, e.g. extraction, hidden_signals, merge"
+        },
+        "review_status": {
+          "const": "pending human review"
+        },
+        "reviewer_instructions": {
+          "type": "string",
+          "description": "Optional per-run guidance the reviewer supplied; recorded for traceability"
+        },
+        "clarifications": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Record of the interactive clarification round, for traceability",
+          "required": ["items"],
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["id", "question", "answer"],
+                "properties": {
+                  "id": {"type": "string"},
+                  "question": {"type": "string"},
+                  "type": {"type": "string", "enum": ["gap", "conflict"]},
+                  "answer": {"type": "string", "description": "The reviewer's answer, or 'skipped'"},
+                  "resolved_by": {"type": "string", "enum": ["reviewer", "agent_assumed"]}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "what_we_heard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "goals",
+        "pain_points",
+        "current_state",
+        "constraints",
+        "stakeholders"
+      ],
+      "properties": {
+        "goals": {
+          "$ref": "#/$defs/heard_items"
+        },
+        "pain_points": {
+          "$ref": "#/$defs/heard_items"
+        },
+        "current_state": {
+          "$ref": "#/$defs/heard_items"
+        },
+        "constraints": {
+          "$ref": "#/$defs/heard_items"
+        },
+        "stakeholders": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/heard_item"
+              },
+              {
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "role": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "use_cases": {
+      "type": "array",
+      "description": "Ranked by value and confidence; rank 1 is highest",
+      "items": {
+        "$ref": "#/$defs/use_case"
+      }
+    },
+    "top_hidden_opportunities": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 5,
+      "description": "3 to 5 when the transcript supports them; fewer is allowed rather than forcing unsupported findings",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "use_case_id",
+          "title",
+          "why_it_matters"
+        ],
+        "properties": {
+          "use_case_id": {
+            "type": "string",
+            "description": "Must reference a non-EXPLICIT use case id"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "why_it_matters": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "gaps_and_open_questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "question",
+          "reason"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "description": "What was unclear or missing in the transcript"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["gap", "conflict"],
+            "description": "gap = information missing; conflict = sources disagree and a stand is needed"
+          },
+          "resolution": {
+            "type": "string",
+            "description": "The answer or stand taken once clarified (reviewer answer, or an agent-assumed stand)"
+          },
+          "resolved_by": {
+            "type": "string",
+            "enum": ["reviewer", "agent_assumed"],
+            "description": "reviewer = the user answered; agent_assumed = user skipped a conflict and the agent took the best evidence-based stand"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["open", "resolved", "needs_confirmation"],
+            "description": "open = still unanswered; resolved = answered by reviewer; needs_confirmation = agent took a stand on a skipped conflict"
+          },
+          "related_use_case_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/evidence"
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "quote"
+      ],
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Id of the source document"
+        },
+        "quote": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Verbatim text from that document"
+        },
+        "speaker": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Speaker, email sender or message author; omit for documents with no author"
+        }
+      }
+    },
+    "heard_item": {
+      "type": "object",
+      "required": [
+        "id",
+        "text",
+        "tag",
+        "evidence"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tag": {
+          "enum": [
+            "stated",
+            "inferred"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      }
+    },
+    "heard_items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/heard_item",
+        "unevaluatedProperties": false
+      }
+    },
+    "use_case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "rank",
+        "category",
+        "title",
+        "problem",
+        "evidence",
+        "customer_value",
+        "company_value",
+        "confidence",
+        "validation_question"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "category": {
+          "enum": [
+            "EXPLICIT",
+            "IMPLIED",
+            "LATENT",
+            "ADJACENT"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "problem": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "why_hidden": {
+          "type": "string",
+          "minLength": 1,
+          "description": "What was not said. Required for IMPLIED, LATENT, ADJACENT."
+        },
+        "hypothesis_label": {
+          "const": "hypothesis, not confirmed"
+        },
+        "customer_value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "company_value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "validation_question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "systems_involved": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Tools or systems the customers named, exactly as in the documents"
+        },
+        "current_process": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Ordered steps of today's process as the customers describe them"
+        },
+        "data_sources_and_apis": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Files, portals, APIs and their stated limits"
+        },
+        "owners": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "role": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "Who does or owns the work, as stated"
+        },
+        "dependencies_and_blockers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "What must exist first, or what limits automation, as stated"
+        },
+        "stated_metrics": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Volumes, durations, counts the customers gave (numbers must appear in the cited quotes)"
+        },
+        "status": {
+          "enum": [
+            "not_started",
+            "planned_by_customer",
+            "in_progress_by_customer",
+            "unknown"
+          ]
+        },
+        "priority": {
+          "enum": [
+            1,
+            2,
+            3
+          ],
+          "description": "1 = highest value to the customers and to us"
+        }
+      },
+      "if": {
+        "properties": {
+          "category": {
+            "enum": [
+              "IMPLIED",
+              "LATENT",
+              "ADJACENT"
+            ]
+          }
+        },
+        "required": [
+          "category"
+        ]
+      },
+      "then": {
+        "required": [
+          "why_hidden",
+          "hypothesis_label"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "hypothesis_label"
+          ]
+        }
+      }
+    }
+  }
+}

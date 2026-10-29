@@ -1,0 +1,104 @@
+---
+inclusion: always
+---
+
+<!-- GENERATED FILE — do not edit directly. Source: project-rules.md (Git, Collaboration & API Compatibility) -->
+
+## 36. Git Workflow, Branching, and Commit Conventions
+
+### 36.1 Branch Naming
+
+Use a consistent, descriptive branch-naming scheme so a branch's purpose is identifiable
+without opening it. Default scheme where the project has none:
+
+```text
+feature/<short-description>       feature/user-profile-export
+fix/<short-description>           fix/login-redirect-loop
+chore/<short-description>         chore/upgrade-eslint
+refactor/<short-description>      refactor/auth-service
+hotfix/<short-description>        hotfix/payment-timeout
+release/<version>                 release/2.4.0
+```
+
+Include a ticket/issue ID when the team tracks work in an issue tracker, e.g.
+`feature/PROJ-123-user-profile-export`.
+
+### 36.2 Commit Messages
+
+Use Conventional Commits (or the project's established equivalent) so history stays
+scannable and changelogs/versioning can be automated:
+
+```text
+<type>(<optional scope>): <short summary>
+
+feat(auth): add refresh-token rotation
+fix(api): handle null pagination cursor
+chore(deps): bump react-router to latest
+refactor(orders): extract pricing calculation
+docs(readme): update setup instructions
+test(users): add authorization edge cases
+```
+
+Common types: `feat`, `fix`, `chore`, `refactor`, `docs`, `test`, `style`, `perf`,
+`build`, `ci`. Use a `!` after the type/scope or a `BREAKING CHANGE:` footer for breaking
+changes.
+
+### 36.3 Pull Requests
+
+PRs should be focused, reviewable, and logically grouped.
+
+Avoid combining unrelated:
+
+```text
+Feature
++
+Large refactor
++
+Repository-wide formatting
++
+Dependency upgrade
+```
+
+unless there is a clear reason.
+
+PR descriptions should explain what changed, why, testing performed, known limitations,
+and migration/rollback considerations when relevant.
+
+### 36.4 Human Review and Merge Authority
+
+- All changes, including AI-generated ones, require human review and explicit approval
+  before merging to a protected branch (e.g. `main`/`release`). AI must not merge, push
+  directly to a protected branch, or deploy on its own authority.
+- Use branch protection rules and, for sensitive paths (auth, payments, infrastructure,
+  CI/CD config), a `CODEOWNERS`-style mandatory reviewer.
+- AI must treat destructive or hard-to-reverse operations (force-push, history rewrite,
+  branch/environment deletion, hard reset, dropping data) as requiring explicit human
+  confirmation in the moment, even if a similar action was approved previously.
+
+## 37. Database Migrations
+
+Database changes must be version-controlled through the project's migration mechanism.
+
+Consider:
+
+- Backward compatibility
+- Deployment order
+- Rollback/recovery
+- Existing data
+- Indexes
+- Locks
+- Large-table impact
+
+Avoid long blocking migrations without an appropriate plan.
+
+## 38. API Compatibility
+
+Before changing an API:
+
+- Identify consumers.
+- Avoid unnecessary breaking changes.
+- Version when required.
+- Document contract changes.
+- Update tests.
+- Verify request/response compatibility.
+

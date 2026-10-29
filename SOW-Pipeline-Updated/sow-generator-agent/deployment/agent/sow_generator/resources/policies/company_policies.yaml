@@ -1,0 +1,125 @@
+# Company intake policies for SOW generation.
+#
+# Each policy is verified against the submitted UpstreamInputs payload during the
+# Step 2 completeness check. The policy *set* is data-driven and editable here;
+# the backend only interprets a fixed, safe set of `rule.type` primitives (see
+# sow_generator/services/input_policies.py — no arbitrary code is executed from this file).
+#
+# Fields per policy:
+#   id          Stable, unique slug (used as a React key and for debugging).
+#   name        Short human label shown in the Step 2 list.
+#   description Optional one-line explanation of the policy's intent.
+#   severity    "required" blocks SOW generation on failure.
+#               "advisory" is shown but never blocks generation.
+#   rule        A single rule object (see supported types below).
+#
+# Supported rule types:
+#   field_present      {field}            scalar field is present and non-blank
+#   any_present        {fields: [...]}    at least one listed field is non-blank
+#   non_empty_list     {field}            list field has at least one item
+#   template_resolves  {}                 meta.template_id resolves to a template
+#   cost_reconciled    {}                 monthly*12 == annual and line items sum
+#                                          to monthly (within tolerance); passes
+#                                          (not_applicable) when no cost block.
+#   branch_source_consistent {}           discovery/live_assist carry the matching
+#                                          source tag.
+
+version: 1
+
+policies:
+  - id: opportunity-tracked
+    name: "Opportunity is tracked"
+    description: "Every SOW must reference an opportunity id so it can be traced to the deal."
+    severity: required
+    rule:
+      type: field_present
+      field: meta.opportunity_id
+
+  - id: template-recognised
+    name: "A recognised template is selected"
+    description: "Generation requires a known '<category>/<name>' template id."
+    severity: required
+    rule:
+      type: template_resolves
+
+  - id: customer-identified
+    name: "Customer is identified"
+    description: "The customer name appears throughout the SOW and must be supplied."
+    severity: required
+    rule:
+      type: field_present
+      field: intake.customer_name
+
+  - id: objective-defined
+    name: "Engagement objective is defined"
+    description: "Provide a problem statement or at least one goal so the SOW has a clear objective."
+    severity: required
+    rule:
+      type: any_present
+      fields:
+        - intake.problem_statement
+        - intake.goals
+
+  - id: budget-disclosed
+    name: "Budget range is disclosed"
+    description: "Company policy requires a budget range before scope and staffing are committed."
+    severity: required
+    rule:
+      type: field_present
+      field: intake.budget_range
+
+  - id: timeline-stated
+    name: "Timeline is stated"
+    description: "A timeline anchors the project schedule and milestones in the SOW."
+    severity: required
+    rule:
+      type: field_present
+      field: intake.timeline
+
+  - id: cost-reconciled
+    name: "Cost totals are internally consistent"
+    description: "Annual total must equal monthly x 12, and line items must sum to the monthly total (within tolerance)."
+    severity: required
+    rule:
+      type: cost_reconciled
+
+  - id: branch-source-consistent
+    name: "Discovery/live-assist sources are consistent"
+    description: "Discovery and live-assist notes must carry their matching source tag."
+    severity: required
+    rule:
+      type: branch_source_consistent
+
+  - id: customer-contact-present
+    name: "At least one customer contact"
+    description: "A named customer contact populates the SOW's stakeholder details."
+    severity: advisory
+    rule:
+      type: non_empty_list
+      field: intake.contacts
+
+  - id: industry-provided
+    name: "Industry is provided"
+    description: "Industry sharpens tone and domain examples in the SOW."
+    severity: advisory
+    rule:
+      type: field_present
+      field: intake.industry
+
+  - id: engagement-type-provided
+    name: "Engagement type is provided"
+    description: "Engagement type clarifies the delivery model."
+    severity: advisory
+    rule:
+      type: field_present
+      field: intake.engagement_type
+
+  - id: discovery-captured
+    name: "Discovery or live-assist notes captured"
+    description: "Scope quality improves when discovery or live-assist findings are supplied."
+    severity: advisory
+    rule:
+      type: any_present
+      fields:
+        - discovery
+        - live_assist

@@ -1,0 +1,14 @@
+Tailspin ERP - development and production environments in ap-south-1 (sample data, fictional customer)
+
+Region: ap-south-1 (Mumbai). Two environments.
+
+Development:
+- 1 x Amazon EC2 t3.small, Linux, business hours only (200 hours per month)
+- Amazon RDS for MySQL db.t3.micro, Single-AZ, 20 GB gp3
+- Amazon S3 Standard: 50 GB
+
+Production:
+- 3 x Amazon EC2 m6i.large, Linux, 24x7, behind an Application Load Balancer
+- Amazon RDS for MySQL db.m6i.large, Multi-AZ, 200 GB gp3
+- Amazon S3 Standard: 1 TB
+- AWS Backup: 300 GB of backup storage

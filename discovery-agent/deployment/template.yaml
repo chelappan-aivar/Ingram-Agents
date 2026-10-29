@@ -1,0 +1,446 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Project Catalyst - Discovery agent (on demand). Web UI (Amplify Hosting) -> API Gateway (HTTP API)
+  -> Lambda ingram-discovery-api (open, cost guards, presigned S3 URLs) -> AgentCore Runtime ingram_discovery_agent
+  (code zip, background run) -> Amazon Bedrock. Documents, checkpoints, status and reports in S3; run history in DynamoDB.
+
+Metadata:
+  cfn-lint:
+    config:
+      ignore_checks:
+        - W3005   # explicit DependsOn kept for readability
+
+Parameters:
+  UiOrigin:
+    Type: String
+    Default: http://localhost:5173
+    Description: Extra origin allowed by CORS (API and data bucket) for running the UI locally; the Amplify URL is always allowed.
+  AgentCodeBucket:
+    Type: String
+    Description: S3 bucket holding the agent code zip (set by scripts/deploy.sh).
+  AgentCodeKey:
+    Type: String
+    AllowedPattern: "^discovery-agent/.+\\.zip$"
+    Description: S3 key of the agent code zip (set by scripts/deploy.sh; changes with every code change).
+  RuntimeName:
+    Type: String
+    Default: ingram_discovery_agent
+    AllowedPattern: "^[a-zA-Z][a-zA-Z0-9_]{0,47}$"
+  ExtractionModelId:
+    Type: String
+    Default: us.anthropic.claude-sonnet-4-5-20250929-v1:0
+    Description: Bedrock inference profile for the explicit-needs pass over the whole corpus.
+  HiddenSignalsModelId:
+    Type: String
+    Default: us.anthropic.claude-opus-5-5
+    Description: Bedrock inference profile for the hidden-signals pass and the clarification resolution.
+  SmallModelId:
+    Type: String
+    Default: us.anthropic.claude-haiku-4-5-20251001-v1:0
+    Description: Bedrock inference profile for the narrative, small-talk trimming and the orchestrator.
+  InferenceProfilePattern:
+    Type: String
+    Default: us.anthropic.*
+    AllowedPattern: "^[a-z0-9.*:-]+$"
+    Description: IAM resource pattern of the inference profiles the agent may call (covers all three model ids).
+  KmsKeyArn:
+    Type: String
+    Default: ""
+    AllowedPattern: "^$|^arn:aws[a-z-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[0-9a-f-]+$"
+    Description: Optional customer-managed KMS key for the data bucket. Empty = SSE-KMS with the AWS managed key (aws/s3).
+  RunsPerDay:
+    Type: Number
+    Default: 20
+    MinValue: 1
+    Description: Cost guard for the open API - runs per day across all users (each run is several Sonnet/Opus calls over the whole corpus).
+  RunsPerIpHour:
+    Type: Number
+    Default: 4
+    MinValue: 1
+    Description: Cost guard for the open API - runs one caller IP may start per hour.
+
+Conditions:
+  HasKmsKey: !Not [!Equals [!Ref KmsKeyArn, ""]]
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Architectures: [arm64]
+    MemorySize: 256
+    Timeout: 29
+
+Resources:
+  # ------------------------------------------------------------------ DynamoDB: run history + cost-guard counters
+  RunsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: ingram-discovery-runs
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - { AttributeName: pk, AttributeType: S }
+        - { AttributeName: sk, AttributeType: S }
+        - { AttributeName: owner, AttributeType: S }
+        - { AttributeName: created_at, AttributeType: S }
+      KeySchema:
+        - { AttributeName: pk, KeyType: HASH }
+        - { AttributeName: sk, KeyType: RANGE }
+      GlobalSecondaryIndexes:            # run history: only RUN#/META items carry `owner`
+        - IndexName: owner-created
+          KeySchema:
+            - { AttributeName: owner, KeyType: HASH }
+            - { AttributeName: created_at, KeyType: RANGE }
+          Projection:
+            ProjectionType: INCLUDE
+            NonKeyAttributes: [run_id, engagement, status, steps_done, finished_at, clarify, instructions]
+      PointInTimeRecoverySpecification: { PointInTimeRecoveryEnabled: true }
+      SSESpecification: { SSEEnabled: true }
+      TimeToLiveSpecification:          # expires the cost-guard counters (DAY#, IP#)
+        AttributeName: ttl
+        Enabled: true
+
+  # ------------------------------------------------------------------ S3: documents (input/), checkpoints (work/), reports (output/)
+  DataBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !Sub ingram-discovery-data-${AWS::AccountId}-${AWS::Region}
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: aws:kms
+              KMSMasterKeyID: !If [HasKmsKey, !Ref KmsKeyArn, !Ref AWS::NoValue]
+            BucketKeyEnabled: true
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      # The browser PUTs documents and downloads reports with presigned URLs. deploy.sh re-applies this rule with
+      # config.env CORS_EXTRA_ORIGINS added.
+      CorsConfiguration:
+        CorsRules:
+          - AllowedOrigins:
+              - !Sub https://main.${UiApp.DefaultDomain}
+              - !Ref UiOrigin
+            AllowedMethods: [PUT, GET]
+            AllowedHeaders:
+              - content-type
+              - x-amz-server-side-encryption
+              - x-amz-server-side-encryption-aws-kms-key-id
+            ExposedHeaders: [ETag]
+            MaxAge: 600
+      LifecycleConfiguration:
+        Rules:
+          - Id: abort-incomplete-uploads
+            Status: Enabled
+            AbortIncompleteMultipartUpload: { DaysAfterInitiation: 1 }
+
+  DataBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref DataBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: TlsOnly
+            Effect: Deny
+            Principal: "*"
+            Action: s3:*
+            Resource: [!GetAtt DataBucket.Arn, !Sub "${DataBucket.Arn}/*"]
+            Condition:
+              Bool: { aws:SecureTransport: "false" }
+
+  # ------------------------------------------------------------------ AgentCore Runtime: the Discovery agent (code zip)
+  # Least privilege, per https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-permissions.html.
+  # The agent reads input/, writes checkpoints to work/ and status + reports to output/, and calls Bedrock.
+  AgentRuntimeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: { Service: bedrock-agentcore.amazonaws.com }
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals: { aws:SourceAccount: !Ref AWS::AccountId }
+              ArnLike: { aws:SourceArn: !Sub "arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:*" }
+      Policies:
+        - PolicyName: discovery-agent
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: AgentCode
+                Effect: Allow
+                Action: s3:GetObject
+                Resource: !Sub "arn:${AWS::Partition}:s3:::${AgentCodeBucket}/discovery-agent/*"
+              - Sid: ReadDocuments
+                Effect: Allow
+                Action: s3:GetObject
+                Resource: !Sub "${DataBucket.Arn}/input/*"
+              - Sid: WorkAndOutputs
+                Effect: Allow
+                Action: [s3:GetObject, s3:PutObject]
+                Resource:
+                  - !Sub "${DataBucket.Arn}/work/*"
+                  - !Sub "${DataBucket.Arn}/output/*"
+              - Sid: ListRunPrefixes
+                Effect: Allow
+                Action: s3:ListBucket
+                Resource: !GetAtt DataBucket.Arn
+                Condition:
+                  StringLike: { s3:prefix: [input/*, work/*, output/*] }
+              - !If
+                - HasKmsKey
+                - Sid: DataKey
+                  Effect: Allow
+                  Action: [kms:Decrypt, kms:GenerateDataKey]
+                  Resource: !Ref KmsKeyArn
+                - !Ref AWS::NoValue
+              - Sid: Logs
+                Effect: Allow
+                Action: [logs:CreateLogGroup, logs:CreateLogStream, logs:PutLogEvents, logs:DescribeLogStreams]
+                Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/bedrock-agentcore/runtimes/*"
+              - Sid: LogGroups
+                Effect: Allow
+                Action: logs:DescribeLogGroups
+                Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:*"
+              - Sid: Tracing
+                Effect: Allow
+                Action: [xray:PutTraceSegments, xray:PutTelemetryRecords, xray:GetSamplingRules, xray:GetSamplingTargets]
+                Resource: "*"
+              - Sid: Metrics
+                Effect: Allow
+                Action: cloudwatch:PutMetricData
+                Resource: "*"
+                Condition:
+                  StringEquals: { cloudwatch:namespace: bedrock-agentcore }
+              - Sid: WorkloadAccessToken
+                Effect: Allow
+                Action:
+                  - bedrock-agentcore:GetWorkloadAccessToken
+                  - bedrock-agentcore:GetWorkloadAccessTokenForJWT
+                  - bedrock-agentcore:GetWorkloadAccessTokenForUserId
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:workload-identity-directory/default"
+                  - !Sub "arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:workload-identity-directory/default/workload-identity/${RuntimeName}-*"
+              # A us.* inference profile routes to the model in several US Regions: the profile and the
+              # Anthropic foundation models in any Region are both needed.
+              - Sid: InvokeInferenceProfiles
+                Effect: Allow
+                Action: [bedrock:InvokeModel, bedrock:InvokeModelWithResponseStream]
+                Resource: !Sub "arn:${AWS::Partition}:bedrock:${AWS::Region}:${AWS::AccountId}:inference-profile/${InferenceProfilePattern}"
+              - Sid: InvokeAnthropicFoundationModels
+                Effect: Allow
+                Action: [bedrock:InvokeModel, bedrock:InvokeModelWithResponseStream]
+                Resource: !Sub "arn:${AWS::Partition}:bedrock:*::foundation-model/anthropic.*"
+
+  DiscoveryAgentRuntime:
+    Type: AWS::BedrockAgentCore::Runtime
+    Properties:
+      AgentRuntimeName: !Ref RuntimeName
+      Description: Reads one engagement's documents and writes a grounded discovery report (use cases, hidden opportunities, open questions)
+      RoleArn: !GetAtt AgentRuntimeRole.Arn
+      AgentRuntimeArtifact:
+        CodeConfiguration:
+          Runtime: PYTHON_3_12
+          EntryPoint: [main.py]
+          Code:
+            S3:
+              Bucket: !Ref AgentCodeBucket
+              Prefix: !Ref AgentCodeKey
+      ProtocolConfiguration: HTTP
+      NetworkConfiguration:
+        NetworkMode: PUBLIC   # only calls Amazon Bedrock and S3
+      LifecycleConfiguration:
+        IdleRuntimeSessionTimeout: 900
+        MaxLifetime: 28800    # a run keeps working in the background thread (HealthyBusy) for up to 8 h
+      # Read by discovery_agent/settings.py.
+      EnvironmentVariables:
+        AWS_REGION: !Ref AWS::Region
+        DATA_BUCKET: !Ref DataBucket
+        KMS_KEY_ID: !Ref KmsKeyArn
+        MODEL_EXTRACTION: !Ref ExtractionModelId
+        MODEL_HIDDEN_SIGNALS: !Ref HiddenSignalsModelId
+        MODEL_NARRATIVE: !Ref SmallModelId
+        MODEL_TRIM: !Ref SmallModelId
+        MODEL_ORCHESTRATOR: !Ref SmallModelId
+
+  # ------------------------------------------------------------------ API Gateway + Lambda (UI API)
+  DiscoveryHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      Description: Discovery agent API (open, no sign-in; throttled, with per-IP and daily run caps)
+      CorsConfiguration:
+        # deploy.sh adds config.env CORS_EXTRA_ORIGINS after the stack deploy (SAM breaks intrinsic origin lists).
+        AllowOrigins:
+          - !Sub https://main.${UiApp.DefaultDomain}   # hosted UI (Amplify)
+          - !Ref UiOrigin                               # local dev
+        AllowHeaders: [content-type]
+        AllowMethods: [GET, POST, OPTIONS]
+        MaxAge: 600
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 20
+        ThrottlingRateLimit: 10
+      RouteSettings:          # routes that cost money (model calls) or storage
+        "POST /runs": { ThrottlingBurstLimit: 3, ThrottlingRateLimit: 1 }
+        "POST /runs/{id}/answers": { ThrottlingBurstLimit: 3, ThrottlingRateLimit: 1 }
+        "POST /engagements/{name}/upload-urls": { ThrottlingBurstLimit: 5, ThrottlingRateLimit: 2 }
+
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ingram-discovery-api
+      Description: Discovery UI API - presigned uploads, start/resume runs on AgentCore Runtime, read status and reports
+      CodeUri: api/
+      Handler: handler.handler
+      LoggingConfig:
+        LogGroup: !Ref ApiLogGroup
+      Environment:
+        Variables:
+          RUNS_TABLE: !Ref RunsTable
+          DATA_BUCKET: !Ref DataBucket
+          KMS_KEY_ID: !Ref KmsKeyArn
+          AGENT_RUNTIME_ARN: !GetAtt DiscoveryAgentRuntime.AgentRuntimeArn
+          RUNS_PER_DAY: !Ref RunsPerDay
+          RUNS_PER_IP_HOUR: !Ref RunsPerIpHour
+      Policies:
+        - Statement:
+            - Sid: Runs
+              Effect: Allow
+              Action: [dynamodb:PutItem, dynamodb:UpdateItem, dynamodb:GetItem, dynamodb:Query]
+              Resource:
+                - !GetAtt RunsTable.Arn
+                - !Sub "${RunsTable.Arn}/index/owner-created"
+            - Sid: SignUploads          # presigned PUTs are signed with this role
+              Effect: Allow
+              Action: s3:PutObject
+              Resource: !Sub "${DataBucket.Arn}/input/*"
+            - Sid: ReadStatusAndReports
+              Effect: Allow
+              Action: s3:GetObject
+              Resource:
+                - !Sub "${DataBucket.Arn}/output/*"
+                - !Sub "${DataBucket.Arn}/work/*"
+            - Sid: WriteAnswers
+              Effect: Allow
+              Action: s3:PutObject
+              Resource: !Sub "${DataBucket.Arn}/work/*"
+            - Sid: ListRunPrefixes
+              Effect: Allow
+              Action: s3:ListBucket
+              Resource: !GetAtt DataBucket.Arn
+              Condition:
+                StringLike: { s3:prefix: [input/*, work/*, output/*] }
+            - !If
+              - HasKmsKey
+              - Sid: DataKey
+                Effect: Allow
+                Action: [kms:Decrypt, kms:GenerateDataKey]
+                Resource: !Ref KmsKeyArn
+              - !Ref AWS::NoValue
+            - Sid: StartAgent
+              Effect: Allow
+              Action: bedrock-agentcore:InvokeAgentRuntime
+              Resource:
+                - !GetAtt DiscoveryAgentRuntime.AgentRuntimeArn
+                - !Sub "${DiscoveryAgentRuntime.AgentRuntimeArn}/*"
+      Events:
+        GetSession:
+          Type: HttpApi
+          Properties: { ApiId: !Ref DiscoveryHttpApi, Method: GET, Path: /session }
+        UploadUrls:
+          Type: HttpApi
+          Properties: { ApiId: !Ref DiscoveryHttpApi, Method: POST, Path: "/engagements/{name}/upload-urls" }
+        StartRun:
+          Type: HttpApi
+          Properties: { ApiId: !Ref DiscoveryHttpApi, Method: POST, Path: /runs }
+        ListRuns:
+          Type: HttpApi
+          Properties: { ApiId: !Ref DiscoveryHttpApi, Method: GET, Path: /runs }
+        GetRun:
+          Type: HttpApi
+          Properties: { ApiId: !Ref DiscoveryHttpApi, Method: GET, Path: "/runs/{id}" }
+        GetResults:
+          Type: HttpApi
+          Properties: { ApiId: !Ref DiscoveryHttpApi, Method: GET, Path: "/runs/{id}/results" }
+        GetOverview:
+          Type: HttpApi
+          Properties: { ApiId: !Ref DiscoveryHttpApi, Method: GET, Path: "/runs/{id}/overview" }
+        GetReport:
+          Type: HttpApi
+          Properties: { ApiId: !Ref DiscoveryHttpApi, Method: GET, Path: "/runs/{id}/report" }
+        GetQuestions:
+          Type: HttpApi
+          Properties: { ApiId: !Ref DiscoveryHttpApi, Method: GET, Path: "/runs/{id}/questions" }
+        SubmitAnswers:
+          Type: HttpApi
+          Properties: { ApiId: !Ref DiscoveryHttpApi, Method: POST, Path: "/runs/{id}/answers" }
+
+  ApiLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/ingram-discovery-api
+      RetentionInDays: 30
+
+  # ------------------------------------------------------------------ Web UI: AWS Amplify Hosting (manual deploys)
+  UiApp:
+    Type: AWS::Amplify::App
+    Properties:
+      Name: ingram-discovery-ui
+      Description: Ingram Discovery agent web UI (static; uploaded by scripts/deploy.sh)
+      Platform: WEB
+      CustomHeaders: |
+        customHeaders:
+          - pattern: '**'
+            headers:
+              - key: Strict-Transport-Security
+                value: max-age=31536000; includeSubDomains
+              - key: X-Content-Type-Options
+                value: nosniff
+              - key: X-Frame-Options
+                value: SAMEORIGIN
+              - key: Referrer-Policy
+                value: strict-origin-when-cross-origin
+          - pattern: 'config.js'
+            headers:
+              - key: Cache-Control
+                value: no-cache
+
+  UiBranch:
+    Type: AWS::Amplify::Branch
+    Properties:
+      AppId: !GetAtt UiApp.AppId
+      BranchName: main
+      Stage: PRODUCTION
+      EnableAutoBuild: false
+
+Outputs:
+  UiUrl:
+    Description: Hosted web UI
+    Value: !Sub https://main.${UiApp.DefaultDomain}
+  UiAppId:
+    Value: !GetAtt UiApp.AppId
+  ApiUrl:
+    Description: Base URL for the web UI (written to ui/config.js by deploy.sh)
+    Value: !Sub https://${DiscoveryHttpApi}.execute-api.${AWS::Region}.amazonaws.com
+  DataOrigin:
+    Description: Origin of the browser's presigned S3 PUTs (added to the UI's CSP connect-src by deploy.sh)
+    Value: !Sub https://${DataBucket}.s3.${AWS::Region}.amazonaws.com
+  AgentRuntimeArn:
+    Value: !GetAtt DiscoveryAgentRuntime.AgentRuntimeArn
+  AgentRuntimeId:
+    Value: !GetAtt DiscoveryAgentRuntime.AgentRuntimeId
+  LogGroup:
+    Value: !Sub "/aws/bedrock-agentcore/runtimes/${DiscoveryAgentRuntime.AgentRuntimeId}-DEFAULT"
+  RunsTableName:
+    Value: !Ref RunsTable
+  DataBucketName:
+    Value: !Ref DataBucket

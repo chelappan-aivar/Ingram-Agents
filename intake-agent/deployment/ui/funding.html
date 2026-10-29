@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Funding check · Ingram Intake Agent</title>
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self';
+                 connect-src 'self' https://*.execute-api.us-east-1.amazonaws.com; img-src 'self' data:; frame-ancestors 'self'">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="funding.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="brand" aria-label="Ingram Micro"><span class="brand-mark">INGRAM</span><span class="brand-sub">MICRO</span></span>
+        <span class="divider" aria-hidden="true"></span>
+        <nav class="app-nav" aria-label="Agent flows">
+          <a href="index.html">Intake</a>
+          <a href="funding.html" aria-current="page">Funding check</a>
+        </nav>
+        <span class="tag">PILOT</span>
+      </div>
+      <div class="topbar-right">
+        <span id="mode-pill" class="pill mode-pill" hidden></span>
+        <div class="user-chip" id="user-chip" hidden><span id="who"></span><div class="avatar" id="avatar" aria-hidden="true"></div></div>
+        <div class="theme-toggle" role="group" aria-label="Theme" data-theme-toggle></div>
+      </div>
+    </header>
+
+    <main class="dash">
+      <section class="hero">
+        <h1>AWS funding, decided by the framework.</h1>
+        <p>Create an opportunity with the intake form. It is saved in Microsoft Dynamics 365. When you run the check, the agent
+          fetches the opportunity from Dynamics, works out segment, workload and AWS spend, and applies the AWS Funding Programs
+          Decision Framework. Every decision shows the path and the evidence behind it.</p>
+      </section>
+
+      <!-- Sign-in gate: the flow writes to Dynamics on the user's behalf -->
+      <section class="card gate" id="gate" hidden aria-labelledby="gate-title">
+        <div class="title-row">
+          <div class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+          <div><h2 id="gate-title">Sign in with Microsoft</h2></div>
+        </div>
+        <p class="card-sub">Funding checks create and read opportunities in Dynamics 365, so they need your Microsoft account.
+          Your opportunities and checks are listed under that account.</p>
+        <button id="connect" class="btn ms block" type="button">
+          <svg class="ms-logo" viewBox="0 0 21 21" aria-hidden="true"><rect width="10" height="10" fill="#F25022"/><rect x="11" width="10" height="10" fill="#7FBA00"/><rect y="11" width="10" height="10" fill="#00A4EF"/><rect x="11" y="11" width="10" height="10" fill="#FFB900"/></svg>
+          Sign in with Microsoft
+        </button>
+        <div id="device" class="device" hidden>
+          <p class="device-step"><b>1.</b> Copy this code</p>
+          <div class="device-code-row">
+            <output id="device-code" class="device-code" aria-label="Sign-in code"></output>
+            <button id="copy-code" class="btn sm" type="button">Copy</button>
+          </div>
+          <p class="device-step"><b>2.</b> Open the Microsoft page, paste the code and sign in</p>
+          <a id="device-link" class="btn primary block" href="https://microsoft.com/devicelogin" target="_blank" rel="noopener noreferrer">Open microsoft.com/devicelogin ↗</a>
+          <p class="device-wait muted" role="status" aria-live="polite">Waiting for you to sign in…</p>
+          <button id="device-cancel" class="link-btn" type="button">Cancel</button>
+        </div>
+        <p id="gate-note" class="status-line muted" role="status" aria-live="polite"></p>
+      </section>
+
+      <div class="grid" id="workspace" hidden>
+        <div class="stack">
+          <section class="card" aria-labelledby="opps-title">
+            <div class="card-head">
+              <div class="title-row">
+                <div class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+                <div><h2 id="opps-title">Opportunities</h2></div>
+              </div>
+              <button id="refresh" class="btn sm" type="button">Refresh</button>
+            </div>
+            <button id="new-opp" class="btn primary block" type="button">+ New opportunity</button>
+            <div class="segmented list-tabs" role="group" aria-label="List" id="list-tabs">
+              <button type="button" data-tab="mine" aria-pressed="true">Mine</button>
+              <button type="button" data-tab="dynamics" aria-pressed="false">In Dynamics</button>
+            </div>
+            <div id="dyn-search" hidden>
+              <label for="dyn-q" class="sr-only">Search Dynamics opportunities</label>
+              <input id="dyn-q" type="text" maxlength="100" placeholder="Search by opportunity name">
+            </div>
+            <ol id="opp-list" class="history fund-list" aria-label="Opportunities"></ol>
+            <button id="more" class="btn sm block" type="button" hidden>Load more</button>
+            <details class="by-id">
+              <summary>Check an existing Dynamics opportunity by ID</summary>
+              <form id="by-id-form" class="by-id-row">
+                <label for="by-id" class="sr-only">Dynamics opportunity ID</label>
+                <input id="by-id" type="text" placeholder="00000000-0000-0000-0000-000000000000" maxlength="36" spellcheck="false">
+                <button class="btn sm" type="submit">Check</button>
+              </form>
+            </details>
+            <p id="list-note" class="status-line muted" role="status" aria-live="polite"></p>
+          </section>
+
+          <section class="card" aria-labelledby="fw-title">
+            <div class="title-row">
+              <div class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v6M6 15v-3h12v3M4 15h4v5H4zM10 15h4v5h-4zM16 15h4v5h-4z"/></svg></div>
+              <div><h2 id="fw-title">Decision framework</h2></div>
+            </div>
+            <ol class="fw-steps">
+              <li><b>Segment</b><span class="muted">Startup, or non-startup (enterprise and others)</span></li>
+              <li><b>Workload</b><span class="muted">Migration, Gen AI, ISV workload migration, SAP or Oracle</span></li>
+              <li><b>AWS spend</b><span class="muted">ARR = MRR × 12. MAP above 500k · IW Migrate up to 264k · MAP Lite above 100k</span></li>
+            </ol>
+            <p class="muted small">The rules engine is deterministic. The agent only processes the opportunity text to find facts the
+              form left open, and a fact is used only when its quote is found word for word.</p>
+          </section>
+        </div>
+
+        <section class="card" id="main" aria-live="polite" aria-labelledby="main-title">
+          <div class="card-head">
+            <div class="title-row">
+              <div class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+              <div><h2 id="main-title">Funding check</h2></div>
+            </div>
+            <span id="badge" class="badge">Idle</span>
+          </div>
+          <div id="view"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="form.js"></script>
+  <script src="funding.js"></script>
+</body>
+</html>

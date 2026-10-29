@@ -1,0 +1,6 @@
+:HL["/_next/static/chunks/2t38ik504qt2x.css","style"]
+4:[["children",{"s":"__PAGE__","h":160}]]
+3:[["children",{"s":{"n":"agentId","t":"d","k":"aws-devops-agent","s":[]},"h":65632,"c":"$Q4"}]]
+2:[["children",{"s":"agents","h":131168,"c":"$Q3"}]]
+1:[["children",{"s":"(dashboard)","h":131168,"c":"$Q2"}]]
+0:{"b":"7nmm6vDwjSV7_q1FV8uGK","t":{"t":{"s":"","h":131152,"c":"$Q1"}}}

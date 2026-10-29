@@ -1,0 +1,287 @@
+{
+    "Items": [
+        {
+            "accountid": {
+                "S": "059221f0-b760-4201-9881-61d3b8587613"
+            },
+            "name": {
+                "S": "Tailwind Robotics"
+            },
+            "createdon": {
+                "S": "2026-10-26T19:54:43Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T19:54:43Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "90f7e15f-e827-4352-a8a1-09799af05c78"
+            },
+            "name": {
+                "S": "Coho Winery"
+            },
+            "createdon": {
+                "S": "2026-10-26T19:55:43Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T19:55:43Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "3f5db80d-9ddb-4345-b6b6-13c8dfcccfdb"
+            },
+            "name": {
+                "S": "Proseware"
+            },
+            "createdon": {
+                "S": "2026-10-26T19:54:59Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T19:54:59Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "63a81e96-7ca4-40a9-beb7-cace75d3585b"
+            },
+            "name": {
+                "S": "Bellows College"
+            },
+            "createdon": {
+                "S": "2026-10-26T19:55:03Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T19:55:03Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "dcdaa417-e1fa-4873-9bed-cec08bac40b2"
+            },
+            "createdon": {
+                "S": "2026-10-26T19:55:38Z"
+            },
+            "name": {
+                "S": "Wingtip Toys"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T19:55:38Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "48b154a9-7a82-4f67-b04d-e7131c6fb4ce"
+            },
+            "createdon": {
+                "S": "2026-10-26T19:55:30Z"
+            },
+            "name": {
+                "S": "Adventure Works"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T19:55:30Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "25586c7d-660f-4556-a87c-9726ecd38a57"
+            },
+            "createdon": {
+                "S": "2026-10-26T19:54:47Z"
+            },
+            "name": {
+                "S": "Woodgrove Bank"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T19:54:47Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "62a0c491-691b-4c46-9892-32431cb806cd"
+            },
+            "createdon": {
+                "S": "2026-10-26T19:54:51Z"
+            },
+            "name": {
+                "S": "Northwind Health"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T19:54:51Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "02e77316-60fa-471c-bc82-e871c5eda8ea"
+            },
+            "createdon": {
+                "S": "2026-10-26T19:55:10Z"
+            },
+            "name": {
+                "S": "Contoso Retail"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T19:55:10Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "4edd77fc-f48f-472a-8169-ed9dfdbfb94b"
+            },
+            "name": {
+                "S": "Litware Inc"
+            },
+            "createdon": {
+                "S": "2026-10-26T19:54:54Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T19:54:54Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "0f10e7dd-467d-4f0d-a818-32f842aa46fd"
+            },
+            "name": {
+                "S": "Alpine Ski House"
+            },
+            "createdon": {
+                "S": "2026-10-26T19:55:15Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T19:55:15Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "d23fe790-0135-4f38-97fe-4b2c1a937bcf"
+            },
+            "name": {
+                "S": "Pioneer Mutual"
+            },
+            "createdon": {
+                "S": "2026-10-28T19:36:05Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:36:05Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "450320c3-423f-4229-b6b5-8e9a38749d16"
+            },
+            "createdon": {
+                "S": "2026-10-28T19:36:00Z"
+            },
+            "name": {
+                "S": "Orbit Mobility"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:36:00Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "d86f1c5e-b36c-4bec-bec4-19c2f74b2fbc"
+            },
+            "name": {
+                "S": "Relecloud"
+            },
+            "createdon": {
+                "S": "2026-10-26T19:55:07Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T19:55:07Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "6f5841cc-dcfc-4e69-a87b-e4cd9945c822"
+            },
+            "name": {
+                "S": "Fabrikam Logistics"
+            },
+            "createdon": {
+                "S": "2026-10-26T19:55:25Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T19:55:25Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "3100397e-3ef0-4b8a-8edb-fc2e44460852"
+            },
+            "name": {
+                "S": "Quantum Learn"
+            },
+            "createdon": {
+                "S": "2026-10-28T19:36:09Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:36:09Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "062df61e-721e-431d-aab9-dcb773b62573"
+            },
+            "name": {
+                "S": "A. Datum Software"
+            },
+            "createdon": {
+                "S": "2026-10-26T19:55:19Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T19:55:19Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "a46ac82e-4dd7-46f2-98fe-c05a97759759"
+            },
+            "name": {
+                "S": "Lamna Healthcare"
+            },
+            "createdon": {
+                "S": "2026-10-26T19:55:46Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T19:55:46Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "83595c4b-a530-4397-84b8-676dd2c09319"
+            },
+            "createdon": {
+                "S": "2026-10-28T19:35:53Z"
+            },
+            "name": {
+                "S": "Initech Energy"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:35:53Z"
+            }
+        },
+        {
+            "accountid": {
+                "S": "f7903723-23f9-4bd0-b321-ee1079491fe5"
+            },
+            "createdon": {
+                "S": "2026-10-28T19:35:57Z"
+            },
+            "name": {
+                "S": "Nimbus Payments"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:35:57Z"
+            }
+        }
+    ],
+    "Count": 20,
+    "ScannedCount": 20,
+    "ConsumedCapacity": null
+}

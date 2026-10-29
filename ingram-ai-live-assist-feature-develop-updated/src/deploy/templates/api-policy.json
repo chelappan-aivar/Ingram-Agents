@@ -1,0 +1,79 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Logs",
+      "Effect": "Allow",
+      "Action": ["logs:CreateLogStream", "logs:PutLogEvents"],
+      "Resource": "arn:aws:logs:${REGION}:${ACCOUNT_ID}:log-group:/aws/lambda/${API_FUNCTION}:*"
+    },
+    {
+      "Sid": "SendEvents",
+      "Effect": "Allow",
+      "Action": "bedrock-agentcore:InvokeAgentRuntime",
+      "Resource": [
+        "arn:aws:bedrock-agentcore:${REGION}:${ACCOUNT_ID}:runtime/${RUNTIME_NAME}-*",
+        "arn:aws:bedrock-agentcore:${REGION}:${ACCOUNT_ID}:runtime/${RUNTIME_NAME}-*/runtime-endpoint/*"
+      ]
+    },
+    {
+      "Sid": "ReadCalls",
+      "Effect": "Allow",
+      "Action": ["dynamodb:GetItem", "dynamodb:Query"],
+      "Resource": [
+        "arn:aws:dynamodb:${REGION}:${ACCOUNT_ID}:table/${SESSIONS_TABLE}",
+        "arn:aws:dynamodb:${REGION}:${ACCOUNT_ID}:table/${TIMELINE_TABLE}",
+        "arn:aws:dynamodb:${REGION}:${ACCOUNT_ID}:table/${TIMELINE_TABLE}/index/*"
+      ]
+    },
+    {
+      "Sid": "Uploads",
+      "Effect": "Allow",
+      "Action": ["s3:PutObject", "s3:GetObject"],
+      "Resource": "arn:aws:s3:::${BUCKET}/uploads/*"
+    },
+    {
+      "Sid": "UploadsMissingIs404",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::${BUCKET}",
+      "Condition": {"StringLike": {"s3:prefix": "uploads/*"}}
+    },
+    {
+      "Sid": "StartSources",
+      "Effect": "Allow",
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:${REGION}:${ACCOUNT_ID}:function:${REPLAYER_FUNCTION}"
+    },
+    {
+      "Sid": "AccessKey",
+      "Effect": "Allow",
+      "Action": "secretsmanager:GetSecretValue",
+      "Resource": "arn:aws:secretsmanager:${REGION}:${ACCOUNT_ID}:secret:${ACCESS_KEY_SECRET}-*"
+    },
+    {
+      "Sid": "AccessKeyDecrypt",
+      "Effect": "Allow",
+      "Action": "kms:Decrypt",
+      "Resource": "*",
+      "Condition": {"StringEquals": {"kms:ViaService": "secretsmanager.${REGION}.amazonaws.com"}}
+    },
+    {
+      "Sid": "WriteAccountsAndConfigs",
+      "Effect": "Allow",
+      "Action": ["dynamodb:PutItem", "dynamodb:UpdateItem"],
+      "Resource": "arn:aws:dynamodb:${REGION}:${ACCOUNT_ID}:table/${TIMELINE_TABLE}",
+      "Condition": {"ForAllValues:StringLike": {"dynamodb:LeadingKeys": ["account#*", "config#*"]}}
+    },
+    {
+      "Sid": "LongTermMemory",
+      "Effect": "Allow",
+      "Action": [
+        "bedrock-agentcore:ListMemoryRecords",
+        "bedrock-agentcore:RetrieveMemoryRecords",
+        "bedrock-agentcore:BatchDeleteMemoryRecords"
+      ],
+      "Resource": "arn:aws:bedrock-agentcore:${REGION}:${ACCOUNT_ID}:memory/${LTM_MEMORY_NAME}-*"
+    }
+  ]
+}

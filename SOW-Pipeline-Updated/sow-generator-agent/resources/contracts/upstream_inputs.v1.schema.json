@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://projectcatalyst.aivar/schemas/upstream_inputs.v1.schema.json",
+  "title": "UpstreamInputs",
+  "description": "Project Catalyst Stage 4 (SOW Generator Agent) input contract, v1. DRAFT — field lists are provisional and must be confirmed against real upstream agent outputs before Phase 2 is frozen. During the pilot, mock data is used.",
+  "type": "object",
+  "required": ["meta", "intake"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": { "$ref": "#/$defs/Meta" },
+    "intake": { "$ref": "#/$defs/Intake" },
+    "discovery": { "$ref": "#/$defs/DiscoveryNotes" },
+    "live_assist": { "$ref": "#/$defs/DiscoveryNotes" },
+    "architecture": { "$ref": "#/$defs/Architecture" },
+    "cost": { "$ref": "#/$defs/Cost" }
+  },
+  "$comment": "Branch rules: Intake required. Discovery OR LiveAssist OR both OR neither. Architecture OR Cost OR both OR neither. No optional-block combination is rejected. 'Required for generation' = template_id resolvable + intake.customer_name + at least one of intake.problem_statement / intake.goals (enforced by the deterministic completeness check, not by this schema's structural validation).",
+  "$defs": {
+    "Meta": {
+      "type": "object",
+      "required": ["schema_version", "opportunity_id", "template_id"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": { "type": "string", "const": "1.0" },
+        "opportunity_id": { "type": "string", "minLength": 1 },
+        "template_id": {
+          "type": "string",
+          "pattern": "^[^/]+/[^/]+$",
+          "description": "'<category>/<stem>', e.g. 'aiml/ai-ml'."
+        },
+        "source_agents": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "created_at": { "type": ["string", "null"], "format": "date-time", "default": null },
+        "generated_by": { "type": ["string", "null"], "default": null }
+      }
+    },
+
+    "Contact": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "email": { "type": "string", "format": "email" }
+      }
+    },
+
+    "Intake": {
+      "type": "object",
+      "required": ["customer_name"],
+      "additionalProperties": false,
+      "description": "Stage 1 Intake Agent output. For generation, at least one of problem_statement / goals must be non-empty (enforced by the completeness check).",
+      "properties": {
+        "customer_name": { "type": "string", "minLength": 1 },
+        "industry": { "type": "string" },
+        "contacts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Contact" },
+          "default": []
+        },
+        "engagement_type": { "type": "string" },
+        "template_hint": { "type": ["string", "null"], "default": null },
+        "problem_statement": { "type": "string" },
+        "goals": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "timeline": { "type": ["string", "null"], "default": null },
+        "budget_range": { "type": ["string", "null"], "default": null },
+        "constraints": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        }
+      }
+    },
+
+    "Stakeholder": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "role": { "type": "string" }
+      }
+    },
+
+    "TranscriptRef": {
+      "type": "object",
+      "required": ["text"],
+      "additionalProperties": false,
+      "description": "Transcript text inlined with the inputs (or supplied via uploaded transcript_files).",
+      "properties": {
+        "title": { "type": "string" },
+        "text": { "type": "string" }
+      }
+    },
+
+    "DiscoveryNotes": {
+      "type": "object",
+      "required": ["source"],
+      "additionalProperties": false,
+      "description": "Shared shape for Stage 2 Discovery and Live Assist. 'source' distinguishes them.",
+      "properties": {
+        "source": { "type": "string", "enum": ["discovery", "live_assist"] },
+        "findings": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "requirements": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "stakeholders": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Stakeholder" },
+          "default": []
+        },
+        "transcript_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/TranscriptRef" },
+          "default": []
+        },
+        "notes": { "type": ["string", "null"], "default": null }
+      }
+    },
+
+    "ArchImage": {
+      "type": "object",
+      "required": ["filename", "content_b64"],
+      "additionalProperties": false,
+      "properties": {
+        "filename": { "type": "string" },
+        "content_b64": {
+          "type": "string",
+          "description": "Data URL or raw base64. Must stay under Bedrock's 5 MB image cap after normalization."
+        }
+      }
+    },
+
+    "Service": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "purpose": { "type": "string" }
+      }
+    },
+
+    "Architecture": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Stage 3 Architecture output. Image(s) plus optional structured services list.",
+      "properties": {
+        "diagram_images": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ArchImage" },
+          "default": []
+        },
+        "services": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Service" },
+          "default": []
+        },
+        "assumptions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "nfrs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        }
+      }
+    },
+
+    "CostLineItem": {
+      "type": "object",
+      "required": ["service"],
+      "additionalProperties": false,
+      "properties": {
+        "service": { "type": "string" },
+        "monthly": { "type": ["number", "null"], "default": null },
+        "annual": { "type": ["number", "null"], "default": null },
+        "notes": { "type": "string" }
+      }
+    },
+
+    "FileRef": {
+      "type": "object",
+      "required": ["name", "content_b64"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "content_b64": { "type": "string" }
+      }
+    },
+
+    "Cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Cost estimate agent output. Drives the Cost prompt section. Totals and per-item amounts are used for reconciliation checks only and are NOT rendered into the SOW; the SOW refers to source_link instead.",
+      "properties": {
+        "currency": { "type": "string", "default": "USD" },
+        "monthly_total": { "type": ["number", "null"], "default": null },
+        "annual_total": { "type": ["number", "null"], "default": null },
+        "region": { "type": ["string", "null"], "default": null },
+        "line_items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/CostLineItem" },
+          "default": []
+        },
+        "assumptions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "source_link": {
+          "type": ["string", "null"],
+          "default": null,
+          "description": "The cost estimate agent's calculator_url (AWS Pricing Calculator estimate URL). The SOW Pricing section reproduces this link instead of restating run-rate figures."
+        },
+        "source_file": {
+          "oneOf": [{ "$ref": "#/$defs/FileRef" }, { "type": "null" }],
+          "default": null
+        }
+      }
+    }
+  }
+}

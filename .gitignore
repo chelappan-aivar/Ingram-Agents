@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[oc]
+*.egg-info
+build/
+dist/
+wheels/
+.pytest_cache/
+.venv/
+venv/
+
+# Node
+node_modules/
+.next/
+
+# Secrets
+.env
+.env.*
+!.env.example
+.token_cache.json

@@ -1,0 +1,6 @@
+config.env
+build/
+.aws-sam/
+.state/
+.venv/
+__pycache__/

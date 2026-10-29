@@ -1,0 +1,9 @@
+# Local working files. Never commit state: it holds the generated access key.
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+build/
+backend.*.hcl
+backend_override.tf

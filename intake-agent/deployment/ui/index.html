@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ingram Intake Agent</title>
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self';
+                 connect-src 'self' https://*.execute-api.us-east-1.amazonaws.com; img-src 'self' data:; frame-ancestors 'self'">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Shared wave artwork (decorative) -->
+  <svg width="0" height="0" class="sr-only" aria-hidden="true">
+    <defs>
+      <linearGradient id="wave-a" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#5FA8FF" stop-opacity="0"/>
+        <stop offset=".55" stop-color="#7DB8FF" stop-opacity=".55"/>
+        <stop offset="1" stop-color="#5FA8FF" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="wave-b" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#0A2A57" stop-opacity=".9"/>
+        <stop offset="1" stop-color="#041732" stop-opacity=".95"/>
+      </linearGradient>
+      <symbol id="waves" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice">
+        <path d="M0 120 C 220 40 480 210 800 90 L800 0 L0 0 Z" fill="url(#wave-b)"/>
+        <path d="M0 175 C 260 95 470 250 800 150" stroke="url(#wave-a)" stroke-width="22" fill="none"/>
+        <path d="M0 330 C 240 250 520 420 800 300 L800 360 C 520 470 250 300 0 390 Z" fill="url(#wave-b)" opacity=".75"/>
+        <path d="M0 305 C 230 230 540 395 800 270" stroke="url(#wave-a)" stroke-width="10" fill="none"/>
+        <path d="M0 520 C 280 430 500 610 800 500" stroke="url(#wave-a)" stroke-width="28" fill="none" opacity=".7"/>
+        <path d="M0 600 C 260 520 520 700 800 590 L800 800 L0 800 Z" fill="url(#wave-b)"/>
+        <path d="M0 640 C 300 560 520 730 800 630" stroke="url(#wave-a)" stroke-width="8" fill="none"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="brand" aria-label="Ingram Micro"><span class="brand-mark">INGRAM</span><span class="brand-sub">MICRO</span></span>
+        <span class="divider" aria-hidden="true"></span>
+        <span class="app-name">Intake Agent</span>
+        <span class="tag">PILOT</span>
+        <a class="btn sm nav-funding" href="funding.html">Funding check →</a>
+      </div>
+      <div class="topbar-right">
+        <div class="user-chip" id="user-chip" hidden><span id="who"></span><div class="avatar" id="avatar" aria-hidden="true"></div></div>
+        <div class="theme-toggle" role="group" aria-label="Theme" data-theme-toggle></div>
+      </div>
+    </header>
+
+    <main class="dash">
+      <section class="hero">
+        <svg class="waves" aria-hidden="true"><use href="#waves"/></svg>
+        <h1>Every opportunity, captured.</h1>
+        <p>Connect Outlook, add CRM records and seller notes, in any combination. The agent consolidates them, shows which
+          opportunities match across sources and which don't, structures the requirements and flags what is still missing.</p>
+      </section>
+
+      <div class="grid">
+        <div class="stack">
+          <!-- ============================================ sources -->
+          <section class="card" aria-labelledby="sources-title">
+            <div class="title-row">
+              <div class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="1.5"/><circle cx="16" cy="12" r="1.5"/><circle cx="10" cy="18" r="1.5"/></svg></div>
+              <div><h2 id="sources-title">Sources</h2></div>
+            </div>
+            <p class="card-sub">Any one source is enough; add more and the agent matches them. Nothing leaves your browser until you run the agent.</p>
+
+            <!-- Outlook -->
+            <div class="src-box" id="src-outlook">
+              <div class="source-head">
+                <span class="way-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+                <div class="source-title"><b>Outlook inbox</b><span class="muted" id="outlook-state">Optional · reads only your own mail</span></div>
+              </div>
+              <div id="outlook-off">
+                <button id="connect" class="btn ms block" type="button">
+                  <svg class="ms-logo" viewBox="0 0 21 21" aria-hidden="true"><rect width="10" height="10" fill="#F25022"/><rect x="11" width="10" height="10" fill="#7FBA00"/><rect y="11" width="10" height="10" fill="#00A4EF"/><rect x="11" y="11" width="10" height="10" fill="#FFB900"/></svg>
+                  Connect Microsoft
+                </button>
+                <div id="device" class="device" hidden>
+                  <p class="device-step"><b>1.</b> Copy this code</p>
+                  <div class="device-code-row">
+                    <output id="device-code" class="device-code" aria-label="Sign-in code"></output>
+                    <button id="copy-code" class="btn sm" type="button">Copy</button>
+                  </div>
+                  <p class="device-step"><b>2.</b> Open the Microsoft page, paste the code and sign in</p>
+                  <a id="device-link" class="btn primary block" href="https://microsoft.com/devicelogin"
+                     target="_blank" rel="noopener noreferrer">Open microsoft.com/devicelogin ↗</a>
+                  <p id="device-wait" class="device-wait muted" role="status" aria-live="polite">Waiting for you to sign in…</p>
+                  <button id="device-cancel" class="link-btn" type="button">Cancel</button>
+                </div>
+              </div>
+              <div id="outlook-on" hidden>
+                <label class="check"><input type="checkbox" id="use-outlook" checked> Include Outlook in this run</label>
+                <div class="segmented" role="group" aria-label="Outlook time window">
+                  <button class="days" type="button" data-days="1" aria-pressed="false">1 day</button>
+                  <button class="days" type="button" data-days="7" aria-pressed="true">7 days</button>
+                  <button class="days" type="button" data-days="30" aria-pressed="false">30 days</button>
+                </div>
+                <button id="disconnect" class="link-btn block-link" type="button">Disconnect Microsoft</button>
+              </div>
+              <p id="outlook-note" class="status-line muted" role="status" aria-live="polite"></p>
+            </div>
+
+            <!-- CRM records -->
+            <div class="src-box" id="src-crm" data-kind="crm">
+              <div class="source-head">
+                <span class="way-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/></svg></span>
+                <div class="source-title"><b>CRM records</b><span class="muted">CSV or Excel export · headers in row 1 · up to 3 files, 50 rows</span></div>
+              </div>
+              <label for="crm-input" class="btn block file-btn">Add CRM file</label>
+              <input id="crm-input" class="sr-only" type="file" multiple
+                     accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+              <ul class="file-list" id="crm-list" aria-label="CRM files"></ul>
+              <details class="samples-box"><summary>Sample CRM files</summary>
+                <ul class="file-list sample-list" id="crm-samples" aria-label="Sample CRM files"></ul>
+              </details>
+            </div>
+
+            <!-- Seller notes -->
+            <div class="src-box" id="src-notes" data-kind="notes">
+              <div class="source-head">
+                <span class="way-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></span>
+                <div class="source-title"><b>Seller notes</b><span class="muted">PDF or Word · one opportunity per file · up to 5 files</span></div>
+              </div>
+              <div class="btn-row">
+                <label for="notes-input" class="btn file-btn">Add notes files</label>
+                <button id="paste-toggle" class="btn" type="button" aria-expanded="false" aria-controls="paste-box">Paste notes</button>
+              </div>
+              <input id="notes-input" class="sr-only" type="file" multiple
+                     accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+              <div id="paste-box" hidden>
+                <label for="notes-text" class="sr-only">Pasted notes</label>
+                <textarea id="notes-text" rows="5" maxlength="20000" aria-describedby="notes-count"
+                          placeholder="Paste a customer email or your call notes: customer, need, timeline, budget, region…"></textarea>
+                <span id="notes-count" class="counter">0 / 20,000</span>
+              </div>
+              <ul class="file-list" id="notes-list" aria-label="Seller-note files"></ul>
+              <details class="samples-box"><summary>Sample seller notes</summary>
+                <ul class="file-list sample-list" id="notes-samples" aria-label="Sample seller notes"></ul>
+              </details>
+            </div>
+            <p class="muted small">Files are 3 MB in total. Drop files on a box to add them.</p>
+            <div class="sample-bar">
+              <span class="muted small">No data at hand? Fictional CRM records and seller notes for 5 customers.</span>
+              <button id="use-samples" class="btn sm" type="button">Try with sample data</button>
+            </div>
+
+            <div class="run-bar">
+              <p id="ready" class="ready muted" aria-live="polite">Add any one source to start: Outlook, CRM records or seller notes.</p>
+              <button id="run" class="btn primary block" type="button" disabled>Run Intake agent</button>
+              <p id="run-note" class="status-line muted" role="status" aria-live="polite"></p>
+            </div>
+          </section>
+
+          <!-- Previous runs -->
+          <section class="card" aria-labelledby="history-title">
+            <div class="card-head">
+              <div class="title-row">
+                <div class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 3"/></svg></div>
+                <div><h2 id="history-title">Previous runs</h2></div>
+              </div>
+              <button id="history-refresh" class="btn sm" type="button">Refresh</button>
+            </div>
+            <p class="card-sub">Saved on the server for this browser. Open one to see its opportunities again.</p>
+            <ol id="history" class="history" aria-label="Previous runs"></ol>
+            <button id="history-more" class="btn sm block" type="button" hidden>Load older runs</button>
+          </section>
+
+          <!-- Field catalogue -->
+          <section class="card" aria-labelledby="cat-title">
+            <div class="title-row">
+              <div class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+              <div><h2 id="cat-title">Field catalogue</h2></div>
+            </div>
+            <p class="card-sub">The fields the agent fills for every opportunity, each linked to its source passage.
+              <span class="key-star" aria-hidden="true">★</span> Key fields become a gap with a follow-up question when missing.</p>
+            <div id="catalogue" class="catalogue"></div>
+          </section>
+        </div>
+
+        <!-- ============================================ results -->
+        <section class="card" id="results-top" aria-labelledby="status-title">
+          <div class="card-head">
+            <div class="title-row">
+              <div class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 19h16M8 15l4-4 3 3 5-6"/></svg></div>
+              <div><h2 id="status-title">Opportunities</h2></div>
+            </div>
+            <span id="run-badge" class="badge">Idle</span>
+          </div>
+          <p id="status" class="card-sub muted" aria-live="polite">Add your sources and run the agent to see results here.</p>
+          <ol class="phases" id="phases" aria-label="Run steps">
+            <li data-phase="reading">Read</li><li data-phase="triage">Triage</li><li data-phase="matching">Match</li><li data-phase="building">Build records</li>
+          </ol>
+          <div class="stats" aria-label="Run summary">
+            <div class="stat"><b id="stat-read">–</b><span>Records read</span></div>
+            <div class="stat highlight"><b id="stat-opps">–</b><span>Opportunities</span></div>
+            <div class="stat good"><b id="stat-matched">–</b><span>Matched</span></div>
+            <div class="stat warn"><b id="stat-unmatched">–</b><span>Unmatched</span></div>
+          </div>
+          <div class="progress" role="progressbar" aria-label="Run progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><div id="progress-bar"></div></div>
+          <div class="segmented filter" id="filter" role="group" aria-label="Show" hidden>
+            <button type="button" data-filter="all" aria-pressed="true">All</button>
+            <button type="button" data-filter="matched" aria-pressed="false">Matched</button>
+            <button type="button" data-filter="unmatched" aria-pressed="false">Unmatched</button>
+          </div>
+          <div id="opportunities">
+            <div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18M6 7V5h12v2M5 7l1 13h12l1-13"/></svg><div>No opportunities yet.</div></div>
+          </div>
+          <details id="log-panel" class="log" hidden>
+            <summary>Agent log</summary>
+            <div id="logs" class="logs"></div>
+          </details>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="fields.js"></script>
+  <script src="samples.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

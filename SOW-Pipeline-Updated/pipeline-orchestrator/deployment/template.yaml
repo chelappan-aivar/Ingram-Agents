@@ -1,0 +1,281 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Project Catalyst pipeline orchestrator: drives one engagement through
+  SOW draft -> Solutions Architect review -> Well-Architected review -> architecture diagram ->
+  cost estimate -> final SOW review by invoking the three existing agent runtimes in order (the
+  Solutions Architect review is a human checkpoint). It owns no model logic of its own.
+
+Parameters:
+  SowAgentRuntimeArn:
+    Type: String
+    Description: AgentCore runtime ARN of the SOW generator agent (stages 1, 2 and 5).
+  ArchitectureAgentRuntimeArn:
+    Type: String
+    Description: AgentCore runtime ARN of the architecture agent (stage 3).
+  CostAgentRuntimeArn:
+    Type: String
+    Description: AgentCore runtime ARN of the cost estimate agent (stage 4).
+  SowJobsTableName:
+    Type: String
+    Default: ingram-sow-runs
+    Description: >
+      The SOW agent's job table. Its generate and check actions are asynchronous and report
+      progress there, so the worker reads it to know when a SOW job has finished.
+  SowDataBucketName:
+    Type: String
+    Default: ""
+    Description: >
+      The SOW agent's data bucket. A large generated SOW is stored there rather than on the job
+      item, so the worker needs read access to fetch the markdown. Leave empty to skip.
+  UiOrigins:
+    Type: CommaDelimitedList
+    Default: "http://localhost:5173"
+    Description: >
+      Browser origins allowed to call the API, no trailing slash. deployment-ui/scripts/deploy.sh adds the
+      Amplify URL out-of-band; put it here too so a later sam deploy keeps it.
+  RunsPerDay:
+    Type: Number
+    Default: 20
+    Description: Pipeline runs allowed per day across all callers (one run is a dozen model calls).
+  RunsPerIpHour:
+    Type: Number
+    Default: 3
+  RevisionsPerDay:
+    Type: Number
+    Default: 60
+    Description: AI changes (to the SOW, architecture or cost estimate) allowed per day across all callers.
+  RevisionsPerIpHour:
+    Type: Number
+    Default: 10
+  WaVerify:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
+    Description: >
+      Add the advisory model pass to the Well-Architected review. The deterministic checks are
+      free, so this is off by default.
+  CombinedVerify:
+    Type: String
+    Default: "true"
+    AllowedValues: ["true", "false"]
+    Description: Run the LLM reviewer in the final SOW review.
+
+Conditions:
+  HasSowDataBucket: !Not [!Equals [!Ref SowDataBucketName, ""]]
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Architectures: [arm64]
+    Timeout: 30
+    Tracing: Active
+    Environment:
+      Variables:
+        RUNS_TABLE: !Ref RunsTable
+        DATA_BUCKET: !Ref DataBucket
+        POWERTOOLS_LOG_LEVEL: INFO
+
+Resources:
+  # ----------------------------------------------------------------- state
+  RunsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ingram-pipeline-runs
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification: { PointInTimeRecoveryEnabled: true }
+      SSESpecification: { SSEEnabled: true }
+      AttributeDefinitions:
+        - { AttributeName: pk, AttributeType: S }
+        - { AttributeName: sk, AttributeType: S }
+        - { AttributeName: owner, AttributeType: S }
+        - { AttributeName: created_at, AttributeType: S }
+      KeySchema:
+        - { AttributeName: pk, KeyType: HASH }
+        - { AttributeName: sk, KeyType: RANGE }
+      TimeToLiveSpecification: { AttributeName: ttl, Enabled: true }
+      GlobalSecondaryIndexes:
+        - IndexName: owner-created
+          KeySchema:
+            - { AttributeName: owner, KeyType: HASH }
+            - { AttributeName: created_at, KeyType: RANGE }
+          Projection: { ProjectionType: ALL }
+
+  # A full run carries five agents' output, including a diagram PNG, so anything large is
+  # offloaded here rather than kept on the 400 KB DynamoDB item.
+  DataBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ingram-pipeline-data-${AWS::AccountId}-${AWS::Region}
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault: { SSEAlgorithm: AES256 }
+      VersioningConfiguration: { Status: Enabled }
+      LifecycleConfiguration:
+        Rules:
+          - Id: expire-run-artifacts
+            Status: Enabled
+            Prefix: runs/
+            ExpirationInDays: 90
+            NoncurrentVersionExpirationInDays: 7
+
+  # ----------------------------------------------------------------- API
+  PipelineHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: prod
+      CorsConfiguration:
+        AllowOrigins: !Ref UiOrigins
+        AllowHeaders: ["content-type"]
+        AllowMethods: [GET, POST, OPTIONS]
+        MaxAge: 600
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 20
+        ThrottlingRateLimit: 10
+      RouteSettings:
+        # A run is a dozen model calls across three agents; throttle the start hard.
+        "POST /runs": { ThrottlingBurstLimit: 2, ThrottlingRateLimit: 1 }
+        "POST /runs/{id}/continue": { ThrottlingBurstLimit: 2, ThrottlingRateLimit: 1 }
+        # The SA checkpoint (comment / approve) makes no model call, so it is throttled only lightly.
+        "POST /runs/{id}/sa-review": { ThrottlingBurstLimit: 5, ThrottlingRateLimit: 2 }
+        "POST /runs/{id}/revise": { ThrottlingBurstLimit: 2, ThrottlingRateLimit: 1 }
+        "POST /runs/{id}/export": { ThrottlingBurstLimit: 3, ThrottlingRateLimit: 1 }
+
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ingram-pipeline-api
+      Description: Pipeline UI API - start runs, read run state and logs, override a stopped stage, ask the AI to change a run
+      CodeUri: api/
+      Handler: handler.handler
+      MemorySize: 512
+      Environment:
+        Variables:
+          WORKER_FUNCTION: !Ref WorkerFunction
+          RUNS_PER_DAY: !Ref RunsPerDay
+          RUNS_PER_IP_HOUR: !Ref RunsPerIpHour
+          REVISIONS_PER_DAY: !Ref RevisionsPerDay
+          REVISIONS_PER_IP_HOUR: !Ref RevisionsPerIpHour
+          SOW_AGENT_RUNTIME_ARN: !Ref SowAgentRuntimeArn          # POST /runs/{id}/export renders the .docx
+          SOW_DATA_BUCKET: !If [HasSowDataBucket, !Ref SowDataBucketName, !Ref "AWS::NoValue"]
+          SOW_DATA_PREFIX: sow
+      Policies:
+        - DynamoDBCrudPolicy: { TableName: !Ref RunsTable }
+        - S3CrudPolicy: { BucketName: !Ref DataBucket }
+        - LambdaInvokePolicy: { FunctionName: !Ref WorkerFunction }
+        - !If
+          - HasSowDataBucket
+          - Statement:
+              - Sid: PresignTheExportedDocx
+                Effect: Allow
+                Action: s3:GetObject
+                Resource: !Sub "arn:${AWS::Partition}:s3:::${SowDataBucketName}/sow/*"
+          - !Ref "AWS::NoValue"
+        - Statement:
+            - Sid: InvokeSowAgentForExport
+              Effect: Allow
+              Action: [bedrock-agentcore:InvokeAgentRuntime]
+              Resource:
+                - !Ref SowAgentRuntimeArn
+                - !Sub "${SowAgentRuntimeArn}/*"
+      Events:
+        GetSession:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PipelineHttpApi, Method: GET, Path: /session }
+        StartRun:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PipelineHttpApi, Method: POST, Path: /runs }
+        ListRuns:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PipelineHttpApi, Method: GET, Path: /runs }
+        GetRun:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PipelineHttpApi, Method: GET, Path: "/runs/{id}" }
+        GetRunSow:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PipelineHttpApi, Method: GET, Path: "/runs/{id}/sow" }
+        GetRunDiagram:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PipelineHttpApi, Method: GET, Path: "/runs/{id}/diagram" }
+        GetRunArchitecture:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PipelineHttpApi, Method: GET, Path: "/runs/{id}/architecture" }
+        ContinueRun:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PipelineHttpApi, Method: POST, Path: "/runs/{id}/continue" }
+        SaReviewRun:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PipelineHttpApi, Method: POST, Path: "/runs/{id}/sa-review" }
+        ReviseRun:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PipelineHttpApi, Method: POST, Path: "/runs/{id}/revise" }
+        ExportRun:
+          Type: HttpApi
+          Properties: { ApiId: !Ref PipelineHttpApi, Method: POST, Path: "/runs/{id}/export" }
+
+  # ----------------------------------------------------------------- worker
+  # One stage per invocation: the whole sequence is five agents and several model calls, well
+  # past the 15-minute ceiling, so the worker advances one stage and re-invokes itself.
+  WorkerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ingram-pipeline-worker
+      Description: Runs one pipeline stage on the agent runtimes, saves the state, schedules the next
+      CodeUri: api/
+      Handler: worker.handler
+      MemorySize: 1024
+      Timeout: 900
+      # Every attempt costs model calls, so a retried read timeout must not start a second stage.
+      EventInvokeConfig:
+        MaximumRetryAttempts: 0
+      Environment:
+        Variables:
+          WORKER_FUNCTION: !Sub ingram-pipeline-worker
+          SOW_AGENT_RUNTIME_ARN: !Ref SowAgentRuntimeArn
+          ARCHITECTURE_AGENT_RUNTIME_ARN: !Ref ArchitectureAgentRuntimeArn
+          COST_AGENT_RUNTIME_ARN: !Ref CostAgentRuntimeArn
+          SOW_JOBS_TABLE: !Ref SowJobsTableName
+          SOW_DATA_BUCKET: !If [HasSowDataBucket, !Ref SowDataBucketName, !Ref "AWS::NoValue"]
+          WA_VERIFY: !Ref WaVerify
+          COMBINED_VERIFY: !Ref CombinedVerify
+      Policies:
+        - DynamoDBCrudPolicy: { TableName: !Ref RunsTable }
+        - S3CrudPolicy: { BucketName: !Ref DataBucket }
+        # The SOW agent's generate and check are asynchronous; the worker reads their job items.
+        - DynamoDBReadPolicy: { TableName: !Ref SowJobsTableName }
+        - !If
+          - HasSowDataBucket
+          - S3ReadPolicy: { BucketName: !Ref SowDataBucketName }
+          - !Ref "AWS::NoValue"
+        - Statement:
+            - Sid: InvokeTheThreeAgentRuntimes
+              Effect: Allow
+              Action: [bedrock-agentcore:InvokeAgentRuntime]
+              Resource:
+                - !Ref SowAgentRuntimeArn
+                - !Sub "${SowAgentRuntimeArn}/*"
+                - !Ref ArchitectureAgentRuntimeArn
+                - !Sub "${ArchitectureAgentRuntimeArn}/*"
+                - !Ref CostAgentRuntimeArn
+                - !Sub "${CostAgentRuntimeArn}/*"
+            - Sid: ScheduleTheNextStage
+              Effect: Allow
+              Action: [lambda:InvokeFunction]
+              Resource: !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:ingram-pipeline-worker"
+
+Outputs:
+  ApiUrl:
+    Description: Base URL of the pipeline API
+    Value: !Sub "https://${PipelineHttpApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/prod"
+  RunsTableName:
+    Value: !Ref RunsTable
+  DataBucketName:
+    Value: !Ref DataBucket
+  StageOrder:
+    Description: The pipeline sequence this stack enforces
+    Value: "sow_draft -> sa_review -> wa_review -> architecture -> cost -> combined_review"

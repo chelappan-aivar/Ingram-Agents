@@ -1,0 +1,34 @@
+body { font-family: sans-serif; margin: 1rem; font-size: 14px; }
+.cols { display: flex; gap: 1.5rem; align-items: flex-start; }
+.cols > * { flex: 1; min-width: 0; }
+label { display: block; margin: 0.3rem 0; }
+fieldset { margin: 0.5rem 0; }
+#log { background: #f4f4f4; padding: 0.5rem; max-height: 200px; overflow: auto; white-space: pre-wrap; }
+#calls li { cursor: pointer; }
+#calls li:hover { text-decoration: underline; }
+.buttons button { margin: 0 0.3rem 0.3rem 0; }
+.run { border: 1px solid #ccc; padding: 0.5rem; margin-bottom: 0.5rem; }
+.run.pending { border-style: dashed; }
+.run.error { border-color: red; }
+.turn { margin: 0.2rem 0; }
+.turn b { display: inline-block; min-width: 2.5rem; }
+.agent { color: #555; font-style: italic; }
+.ask { background: #eaf7ea; padding: 0.2rem 0.4rem; margin: 0.2rem 0; }
+.muted { color: #888; }
+#minutes-panel { border: 1px solid #ccc; padding: 0.5rem; margin: 0.5rem 0; }
+#minutes h4 { margin: 0.6rem 0 0.2rem; }
+.cite { font-size: 0.85em; padding: 0 0.3rem; margin-right: 0.2rem; cursor: pointer; }
+.cite:focus-visible, .turn:focus-visible { outline: 2px solid #1a5fb4; outline-offset: 2px; }
+.turn.highlight { background: #fff3b0; }
+@media (prefers-reduced-motion: no-preference) { .turn { transition: background 0.4s; } }
+#account-panel { border: 1px solid #ccc; padding: 0.5rem; margin: 0.5rem 0; }
+.prior { border-left: 4px solid #7a5cc4; background: #f5f2fc; padding: 0.3rem 0.6rem; margin: 0.5rem 0; }
+.prior h4 { margin: 0.4rem 0 0.2rem; }
+.link { background: none; border: none; padding: 0; color: #1a5fb4; text-decoration: underline; cursor: pointer; text-align: left; }
+#configs-screen { margin: 0.5rem 0; }
+table.fields { border-collapse: collapse; margin: 0.3rem 0; }
+table.fields th, table.fields td { border: 1px solid #ddd; padding: 0.15rem 0.3rem; text-align: left; }
+table.fields input[type="text"], table.fields input:not([type]) { width: 9rem; }
+#config-json { width: 100%; font-family: monospace; }
+.errors { color: #a00; }
+nav button[aria-pressed="true"], [role="tab"][aria-selected="true"] { font-weight: bold; }

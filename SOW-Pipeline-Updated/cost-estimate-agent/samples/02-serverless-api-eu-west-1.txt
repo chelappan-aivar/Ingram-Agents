@@ -1,0 +1,9 @@
+Northwind Orders API - serverless API in eu-west-1 (sample data, fictional customer)
+
+Production in eu-west-1 (Ireland):
+- Amazon API Gateway HTTP API: 20 million requests per month
+- AWS Lambda: 20 million invocations per month, 512 MB memory, 200 ms average duration, arm64
+- Amazon DynamoDB on-demand: 50 GB storage, 30 million write request units and 100 million read request units per month
+- Amazon SQS standard queue: 10 million requests per month
+- Amazon EventBridge: 5 million custom events per month
+- Amazon CloudWatch: 20 GB of logs ingested per month, 10 alarms

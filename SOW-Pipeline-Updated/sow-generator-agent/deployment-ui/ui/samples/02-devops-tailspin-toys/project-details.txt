@@ -1,0 +1,38 @@
+Tailspin Toys - DevOps platform for the e-commerce site (CI/CD, containers, observability)
+
+Customer: Tailspin Toys, a toy manufacturer and online retailer in Frankfurt, Germany, about 1,200 employees.
+Opportunity: OPP-2026-0498. Ingram Micro seller: Priya Nair. Template: DevOps.
+Context: Tailspin is moving its ERP, e-commerce platform and file servers from a Frankfurt colocation facility to AWS
+eu-central-1 (separate migration project). This engagement modernises how the e-commerce platform is built and run.
+
+Today
+- E-commerce: 9 .NET services (6 on .NET 8, 3 on .NET Framework 4.8), a React storefront and SQL Server.
+- Code in Azure DevOps Repos; builds on one Jenkins server; deployments are manual scripts run by 2 people.
+- Releases once a month in a 6-hour Saturday maintenance window; 2 to 3 failed releases per quarter.
+- No central logging; incidents found by customers. MTTR about 5 hours.
+- Christmas season traffic peaks at about 5x normal (mid-November to 24 December).
+
+What they want
+- Infrastructure as code with Terraform for all environments (dev, test, prod) in eu-central-1.
+- Move source control and CI/CD to GitHub Enterprise Cloud with GitHub Actions; reusable pipeline templates.
+- Containerise the 6 .NET 8 services and the storefront; run them on Amazon EKS with Karpenter autoscaling.
+- Blue/green or canary deployments with automatic rollback; no maintenance window.
+- Observability: CloudWatch Container Insights, Amazon Managed Service for Prometheus and Amazon Managed Grafana,
+  alerts to Microsoft Teams and PagerDuty.
+- Security in the pipeline: image scanning (Amazon Inspector / ECR), SAST and dependency scanning, AWS Security Hub,
+  secrets in AWS Secrets Manager.
+- Load test proving 5x peak before the Christmas code freeze.
+
+Targets (DORA)
+- Deployment frequency: from monthly to at least weekly per service (daily possible).
+- Lead time for changes: under 1 day. Change failure rate: under 10%. MTTR: under 1 hour.
+
+Constraints
+- GDPR: all data and logs stay in the EU (eu-central-1).
+- Code freeze from 1 November 2027; the platform must be live and load-tested before that.
+- The 3 .NET Framework 4.8 services stay on Windows EC2 (migration project); only their pipelines move.
+- Tailspin's platform team (4 engineers) must be able to run the platform after handover.
+
+Timeline and budget
+- 12 weeks, starting 1 March 2027. Delivery budget about EUR 150,000 (shown in USD in the SOW: about USD 165,000).
+- Expected AWS run-rate for the platform about USD 5,800 per month.

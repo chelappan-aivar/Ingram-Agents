@@ -1,0 +1,44 @@
+{
+    "ETag": "E3P5ROKL5A1OLE",
+    "ResponseHeadersPolicy": {
+        "Id": "d21ed535-54d5-4563-952b-05c2a2221eb5",
+        "LastModifiedTime": "2026-10-28T10:05:49.778000+00:00",
+        "ResponseHeadersPolicyConfig": {
+            "Comment": "Security headers for the portal pages (the backend sets its own on /api/*)",
+            "Name": "ingramagentsdevappEdgeWebSecurityHeadersF084E22F",
+            "SecurityHeadersConfig": {
+                "XSSProtection": {},
+                "FrameOptions": {
+                    "Override": true,
+                    "FrameOption": "DENY"
+                },
+                "ReferrerPolicy": {
+                    "Override": true,
+                    "ReferrerPolicy": "strict-origin-when-cross-origin"
+                },
+                "ContentSecurityPolicy": {
+                    "Override": true,
+                    "ContentSecurityPolicy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://eaxi52af2c.execute-api.us-east-1.amazonaws.com https://jt1cq55g59.execute-api.us-east-1.amazonaws.com https://w2ydw8uim4.execute-api.us-east-1.amazonaws.com https://xknyierfsd.execute-api.us-east-1.amazonaws.com https://jgodxn68tf.execute-api.us-east-1.amazonaws.com https://enbm4sdv7e.execute-api.us-east-1.amazonaws.com https://x0s4uxt803.execute-api.us-east-1.amazonaws.com https://58qgyfbrq6.execute-api.us-east-1.amazonaws.com https://6z8b7f8w27.execute-api.us-east-1.amazonaws.com https://uulb162zm6.execute-api.us-east-1.amazonaws.com https://2ptc257h27.execute-api.us-east-1.amazonaws.com https://fzptjah338.execute-api.us-east-1.amazonaws.com https://bme8ozdapi.execute-api.us-east-1.amazonaws.com https://ingram-sreagent.aivar.app https://*.s3.amazonaws.com https://*.s3.us-east-1.amazonaws.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+                },
+                "ContentTypeOptions": {
+                    "Override": true
+                },
+                "StrictTransportSecurity": {
+                    "Override": true,
+                    "IncludeSubdomains": true,
+                    "AccessControlMaxAgeSec": 31536000
+                }
+            },
+            "CustomHeadersConfig": {
+                "Quantity": 1,
+                "Items": [
+                    {
+                        "Header": "Permissions-Policy",
+                        "Value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
+                        "Override": true
+                    }
+                ]
+            }
+        }
+    }
+}

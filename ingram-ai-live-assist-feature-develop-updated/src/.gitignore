@@ -1,0 +1,49 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# Secrets and local config. .env.example documents the variables.
+.env
+.env.*
+!.env.example
+
+# Deployment: per-environment config and outputs stay local
+deploy/config.*.env
+!deploy/config.example.env
+deploy/outputs/
+
+# Build output (Lambda package)
+dist/
+
+# Local debug output: per-request prompt and message dumps
+tmp/
+temp_code/
+testui/
+
+
+# Generated audio (large; recreate with temp_code/make_audio.py)
+temp_code/audio/
+temp_code/audio_partial/
+*.pcm
+*.wav
+
+# Working notes
+req.md
+task.md
+
+# Real call transcripts: keep out of the repo
+ui/transcript.json
+ui/transcript.txt
+
+# OS and editor files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+.DS_Store

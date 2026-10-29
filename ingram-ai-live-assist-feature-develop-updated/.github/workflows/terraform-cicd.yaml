@@ -1,0 +1,111 @@
+# .github/workflows/terraform-cicd.yaml
+# Project repo — thin caller. Contains NO CI/CD logic.
+# All logic lives in the org repo: aivar-tech/aivar-org-cicd-workflows
+# (referenced at @feature-modular).
+#
+# Pipeline flow:
+#   develop → main PR  = plan + scan (review infra changes before merge)
+#   merge to main      = apply (deploy to prod)
+
+name: Terraform CI/CD
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main,develop]
+    paths:
+      - 'Terraform/**'
+      - 'configuration.json'
+
+  push:
+    branches: [main]
+    paths:
+      - 'Terraform/**'
+      - 'configuration.json'
+
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Manual action to run'
+        type: choice
+        options: [plan, destroy]
+        default: plan
+      environment:
+        description: 'Environment for the manual action'
+        type: choice
+        options: [dev]
+        default: 'dev'
+      confirm:
+        description: 'For destroy only: type the environment name to confirm'
+        type: string
+        required: false
+        default: ''
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+  checks: write
+  issues: write
+
+jobs:
+  # develop → main PR: run plan + security scan
+  pr-plan:
+    name: 'PR: Plan & Scan'
+    if: github.event_name == 'pull_request'
+    uses: aivar-tech/aivar-org-cicd-workflows/.github/workflows/plan-and-scan.yml@911f08963c265679d508571dd6db422893e2a828 # pinned
+    with:
+      config_file: configuration.json
+      pr_number: ${{ github.event.pull_request.number }}
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+      checks: write
+
+  # Merge to main: apply infrastructure changes
+  push-apply:
+    name: 'Push: Apply'
+    if: github.event_name == 'push'
+    uses: aivar-tech/aivar-org-cicd-workflows/.github/workflows/apply.yml@911f08963c265679d508571dd6db422893e2a828 # pinned
+    with:
+      config_file: configuration.json
+    permissions:
+      id-token: write
+      contents: read
+
+  # Validate destroy inputs to prevent empty-string bypass
+  validate-destroy:
+    name: 'Validate: Destroy Inputs'
+    if: github.event_name == 'workflow_dispatch' && inputs.action == 'destroy'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate confirmation matches environment
+        run: |
+          if [ -z "${{ inputs.environment }}" ]; then
+            echo "::error::Environment must not be empty"
+            exit 1
+          fi
+          if [ -z "${{ inputs.confirm }}" ]; then
+            echo "::error::Confirmation must not be empty. Type the environment name to confirm."
+            exit 1
+          fi
+          if [ "${{ inputs.confirm }}" != "${{ inputs.environment }}" ]; then
+            echo "::error::Confirmation '${{ inputs.confirm }}' does not match environment '${{ inputs.environment }}'"
+            exit 1
+          fi
+          echo "✅ Destroy confirmation validated: environment=${{ inputs.environment }}"
+
+  # Manual destroy (guarded)
+  manual-destroy:
+    name: 'Manual: Destroy'
+    needs: [validate-destroy]
+    if: github.event_name == 'workflow_dispatch' && inputs.action == 'destroy'
+    uses: aivar-tech/aivar-org-cicd-workflows/.github/workflows/destroy.yml@911f08963c265679d508571dd6db422893e2a828 # pinned
+    with:
+      config_file: configuration.json
+      environment: ${{ inputs.environment }}
+      confirm: ${{ inputs.confirm }}
+    permissions:
+      id-token: write
+      contents: read

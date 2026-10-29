@@ -1,0 +1,37 @@
+{
+  "opportunity_type": "managed_services",
+  "label": "Managed Services",
+  "description": "Ongoing management/support of the customer's IT environment by the partner.",
+  "required_fields": [
+    {
+      "id": "scope_of_services",
+      "label": "Scope of managed services",
+      "description": "Which systems/services will be managed (network, servers, security, helpdesk, etc.)?",
+      "required": true
+    },
+    {
+      "id": "sla_expectations",
+      "label": "SLA / response time expectations",
+      "description": "What response and resolution times does the customer expect?",
+      "required": true
+    },
+    {
+      "id": "current_environment",
+      "label": "Current infrastructure / environment description",
+      "description": "What does the customer's current environment look like?",
+      "required": true
+    },
+    {
+      "id": "contract_term",
+      "label": "Expected contract term/length",
+      "description": "How long should the managed services engagement run?",
+      "required": false
+    },
+    {
+      "id": "budget_range",
+      "label": "Budget range",
+      "description": "Approximate budget available for the engagement.",
+      "required": false
+    }
+  ]
+}

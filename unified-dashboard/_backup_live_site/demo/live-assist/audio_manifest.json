@@ -1,0 +1,839 @@
+{
+  "audio": {
+    "encoding": "pcm_s16le",
+    "sample_rate": 16000,
+    "channels": 1
+  },
+  "duration_sec": 834.532,
+  "engine": "generative",
+  "dry_run": false,
+  "speakers": [
+    {
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "voice": "Matthew",
+      "wav": "speakers/ravi_menon.wav",
+      "pcm": "speakers/ravi_menon.pcm"
+    },
+    {
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "voice": "Amy",
+      "wav": "speakers/helen_brooks.wav",
+      "pcm": "speakers/helen_brooks.pcm"
+    },
+    {
+      "speaker_id": "tomasz_wierzbicki",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "role": "cx",
+      "voice": "Brian",
+      "wav": "speakers/tomasz_wierzbicki.wav",
+      "pcm": "speakers/tomasz_wierzbicki.pcm"
+    }
+  ],
+  "mixed": "mixed.wav",
+  "turns": [
+    {
+      "index": 0,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 0.0,
+      "end_sec": 8.184,
+      "text": "Thanks for making the time, Helen. Could you walk me through what you're trying to achieve with the dossier work? I'd like to understand the problem before we talk about any technology.",
+      "original_timestamp": "2026-10-08T10:00:00Z"
+    },
+    {
+      "index": 1,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 9.296,
+      "end_sec": 24.844,
+      "text": "Of course. We prepare regulatory submissions for pharmacovigilance, and each dossier is checked by hand against ICH and local agency guidelines. It's slow, and the same structural errors keep coming back, which delays our submissions by weeks.",
+      "original_timestamp": "2026-10-08T10:00:20Z"
+    },
+    {
+      "index": 2,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 25.464,
+      "end_sec": 33.736,
+      "text": "That sounds like a lot of repeated checking. When you say the checks are manual, who is doing them today, and roughly how many people are involved in one dossier review?",
+      "original_timestamp": "2026-10-08T10:00:40Z"
+    },
+    {
+      "index": 3,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 34.556,
+      "end_sec": 47.737,
+      "text": "Mostly two senior regulatory writers and a quality reviewer. A typical dossier takes around three weeks to get through checks, and we have to repeat the work whenever a guideline changes, which happens more often than people expect.",
+      "original_timestamp": "2026-10-08T10:01:00Z"
+    },
+    {
+      "index": 4,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 48.516,
+      "end_sec": 56.828,
+      "text": "Got it. So the pain is both the review time and keeping up with guideline changes. Before I suggest anything, what would success look like for you in six months?",
+      "original_timestamp": "2026-10-08T10:01:20Z"
+    },
+    {
+      "index": 5,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 58.017,
+      "end_sec": 67.998,
+      "text": "Honestly, fewer review rounds and no surprises at the final compliance check. Right now a dossier goes round the loop about four times, and I'd like that down to two.",
+      "original_timestamp": "2026-10-08T10:01:40Z"
+    },
+    {
+      "index": 6,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 69.139,
+      "end_sec": 73.785,
+      "text": "Four to two is a clear target. Which kinds of errors cause those extra rounds most often?",
+      "original_timestamp": "2026-10-08T10:02:00Z"
+    },
+    {
+      "index": 7,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 75.099,
+      "end_sec": 83.032,
+      "text": "Mostly structure and cross-references. A section points to content that has moved, or a table is missing a required field.",
+      "original_timestamp": "2026-10-08T10:02:20Z"
+    },
+    {
+      "index": 8,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 83.701,
+      "end_sec": 87.624,
+      "text": "Do you record those errors anywhere today, or is each review a fresh start?",
+      "original_timestamp": "2026-10-08T10:02:40Z"
+    },
+    {
+      "index": 9,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 88.562,
+      "end_sec": 95.94,
+      "text": "Only in spreadsheets, and they're inconsistent. Every writer keeps their own list, so we keep relearning the same lessons.",
+      "original_timestamp": "2026-10-08T10:03:00Z"
+    },
+    {
+      "index": 10,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 96.564,
+      "end_sec": 103.13,
+      "text": "So there's no single record of what went wrong on past submissions. Can you give me an example of a lesson that keeps getting relearned?",
+      "original_timestamp": "2026-10-08T10:03:20Z"
+    },
+    {
+      "index": 11,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 103.905,
+      "end_sec": 114.185,
+      "text": "Yes. A safety table had the wrong reporting period label last year, and it cost us a month because the agency sent it back. A new writer this year made the same mistake.",
+      "original_timestamp": "2026-10-08T10:03:40Z"
+    },
+    {
+      "index": 12,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 115.189,
+      "end_sec": 120.303,
+      "text": "That's a costly error for something so specific. What happens after a writer finishes a draft?",
+      "original_timestamp": "2026-10-08T10:04:00Z"
+    },
+    {
+      "index": 13,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 120.925,
+      "end_sec": 128.133,
+      "text": "It goes to a quality reviewer, then back to the writers, and sometimes to a second review. Every round adds days.",
+      "original_timestamp": "2026-10-08T10:04:20Z"
+    },
+    {
+      "index": 14,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 128.892,
+      "end_sec": 153.665,
+      "text": "Can you walk me through one full cycle, from the first draft to ready to submit? I'm asking because I want to map each handoff, since that's where the delays and errors seem to start. I'll note who does each step and roughly how long it takes. If I get a step wrong, please correct me, because I'm not a regulatory specialist and I don't want to design around a process that doesn't exist. Think of this as me drawing the map while you tell me the route. Once we have the map, we can see where the bottlenecks really sit.",
+      "original_timestamp": "2026-10-08T10:04:40Z"
+    },
+    {
+      "index": 15,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 154.785,
+      "end_sec": 193.325,
+      "text": "Let me describe it properly. A dossier starts with the writers pulling content from clinical study reports, safety data, and manufacturing input. Once the draft is assembled, the quality reviewer checks it against our internal templates and the guidelines we follow. The reviewer logs comments in a document, and the writers fix them one by one. Then the reviewer checks again, and often finds something new because a fix moved a table or changed a cross-reference. The loop can run three or four times, and each time we wait for people who are already busy with other submissions. Finally it goes through compliance sign-off before it can be published in our submission system.",
+      "original_timestamp": "2026-10-08T10:05:00Z"
+    },
+    {
+      "index": 16,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 194.361,
+      "end_sec": 199.476,
+      "text": "That's a clear picture. Where do most of the days get lost, waiting for people or fixing the content?",
+      "original_timestamp": "2026-10-08T10:05:20Z"
+    },
+    {
+      "index": 17,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 200.252,
+      "end_sec": 208.015,
+      "text": "Waiting, mostly. The fixing takes a day or two, but the reviewer's queue can take a week because they're juggling several dossiers.",
+      "original_timestamp": "2026-10-08T10:05:40Z"
+    },
+    {
+      "index": 18,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 209.086,
+      "end_sec": 214.756,
+      "text": "So a tool that catches the mechanical errors earlier would free up the reviewers. Is that the right way to think about it?",
+      "original_timestamp": "2026-10-08T10:06:00Z"
+    },
+    {
+      "index": 19,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 216.003,
+      "end_sec": 222.315,
+      "text": "Yes, but the writers still need to own the content. We don't want a tool that writes the dossier for us.",
+      "original_timestamp": "2026-10-08T10:06:20Z"
+    },
+    {
+      "index": 20,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 222.92,
+      "end_sec": 228.12,
+      "text": "That's an important boundary. So the system supports and checks, and people author and decide.",
+      "original_timestamp": "2026-10-08T10:06:40Z"
+    },
+    {
+      "index": 21,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 229.365,
+      "end_sec": 235.23,
+      "text": "Exactly. Three weeks to submission readiness is too long, and leadership keeps asking why.",
+      "original_timestamp": "2026-10-08T10:07:00Z"
+    },
+    {
+      "index": 22,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 236.389,
+      "end_sec": 243.25,
+      "text": "Time to readiness and review rounds sound like the headline measures. Let me check guideline changes next. How often do they reach your team?",
+      "original_timestamp": "2026-10-08T10:07:20Z"
+    },
+    {
+      "index": 23,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 244.122,
+      "end_sec": 252.994,
+      "text": "More often than people think. ICH and the agencies update things every year or so, and a minor change can mean re-checking half a dossier.",
+      "original_timestamp": "2026-10-08T10:07:40Z"
+    },
+    {
+      "index": 24,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 253.719,
+      "end_sec": 255.551,
+      "text": "And who tracks those changes today?",
+      "original_timestamp": "2026-10-08T10:08:00Z"
+    },
+    {
+      "index": 25,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 256.917,
+      "end_sec": 264.807,
+      "text": "One person, honestly, and they're the bottleneck. If they're on leave, we can miss a change until someone notices in a review.",
+      "original_timestamp": "2026-10-08T10:08:20Z"
+    },
+    {
+      "index": 26,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 265.677,
+      "end_sec": 270.151,
+      "text": "That's a real risk. Is there a formal process for telling teams about a change?",
+      "original_timestamp": "2026-10-08T10:08:40Z"
+    },
+    {
+      "index": 27,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 270.825,
+      "end_sec": 277.692,
+      "text": "There's an email list and a monthly meeting. It works, but it's slow and depends on people remembering to read it.",
+      "original_timestamp": "2026-10-08T10:09:00Z"
+    },
+    {
+      "index": 28,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 278.369,
+      "end_sec": 281.055,
+      "text": "What would make guideline tracking easier for your team?",
+      "original_timestamp": "2026-10-08T10:09:20Z"
+    },
+    {
+      "index": 29,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 282.333,
+      "end_sec": 315.244,
+      "text": "Knowing exactly which of our checklist items a change affects, instead of reading the full new guideline and guessing. Right now a new guideline can be forty or fifty pages, and someone has to read every line and decide whether it matters for us. Most of it is background or unchanged wording, so the real changes are buried. The people who read it are the same people reviewing dossiers, so it competes with their other work. If the tool could show just the changed paragraphs and which of our checks they touch, that would save a lot of time and reduce the chance of missing something important.",
+      "original_timestamp": "2026-10-08T10:09:40Z"
+    },
+    {
+      "index": 30,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 316.326,
+      "end_sec": 320.716,
+      "text": "So the ask is to link each guideline change to specific checks. Is that right?",
+      "original_timestamp": "2026-10-08T10:10:00Z"
+    },
+    {
+      "index": 31,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 321.962,
+      "end_sec": 327.315,
+      "text": "Yes. We want to see what changed, what it affects, and what we need to re-check.",
+      "original_timestamp": "2026-10-08T10:10:20Z"
+    },
+    {
+      "index": 32,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 328.499,
+      "end_sec": 338.56,
+      "text": "Let me say the problem back in one sentence. Dossier reviews are slow and repetitive, and guideline changes cause rework because nobody can see clearly what they affect. Is that fair?",
+      "original_timestamp": "2026-10-08T10:10:40Z"
+    },
+    {
+      "index": 33,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 339.589,
+      "end_sec": 344.493,
+      "text": "That's fair. I'd add that the errors are preventable, which frustrates me most.",
+      "original_timestamp": "2026-10-08T10:11:00Z"
+    },
+    {
+      "index": 34,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 345.872,
+      "end_sec": 350.773,
+      "text": "Agreed. Now the end goal. If this works, what does your team look like in six months?",
+      "original_timestamp": "2026-10-08T10:11:20Z"
+    },
+    {
+      "index": 35,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 351.676,
+      "end_sec": 360.292,
+      "text": "Writers catch most issues before a reviewer sees the draft. The reviewer spends their time on judgement calls rather than finding missing table fields.",
+      "original_timestamp": "2026-10-08T10:11:40Z"
+    },
+    {
+      "index": 36,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 361.333,
+      "end_sec": 367.813,
+      "text": "That's a useful picture. I'm going to be honest that I'm not a regulatory specialist, so please correct me when I get the framing wrong.",
+      "original_timestamp": "2026-10-08T10:12:00Z"
+    },
+    {
+      "index": 37,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 369.077,
+      "end_sec": 378.376,
+      "text": "We will. Honestly, that's helpful, because the people who build these tools often don't know the difference between a dossier section and a periodic safety report.",
+      "original_timestamp": "2026-10-08T10:12:20Z"
+    },
+    {
+      "index": 38,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 379.47,
+      "end_sec": 385.18,
+      "text": "Fair point. So I'll ask you to define the terms as we go. Let's start with what goes into a typical dossier.",
+      "original_timestamp": "2026-10-08T10:12:40Z"
+    },
+    {
+      "index": 39,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 386.469,
+      "end_sec": 399.949,
+      "text": "Sure. It's a structured set of modules covering quality, non-clinical, and clinical content, plus the summaries that tie them together. It's published in the electronic common technical document format, which is the eCTD.",
+      "original_timestamp": "2026-10-08T10:13:00Z"
+    },
+    {
+      "index": 40,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 401.011,
+      "end_sec": 403.782,
+      "text": "Thanks. And how does the safety side fit into that?",
+      "original_timestamp": "2026-10-08T10:13:20Z"
+    },
+    {
+      "index": 41,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 404.945,
+      "end_sec": 416.036,
+      "text": "We also produce periodic safety reports and risk management plans, and those draw on the same underlying safety data. When one changes, the others often need to change too.",
+      "original_timestamp": "2026-10-08T10:13:40Z"
+    },
+    {
+      "index": 42,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 416.673,
+      "end_sec": 444.335,
+      "text": "Let me add some context, because this matters for the design. We don't only file marketing dossiers. We also respond to agency questions, and those responses reuse the same content. The current process treats each document as its own project, which is part of why errors repeat across them. A checker that understands how the documents relate would help, but I know that's a bigger ask, so I'd rather start with one clear use case and prove it works first.",
+      "original_timestamp": "2026-10-08T10:14:00Z"
+    },
+    {
+      "index": 43,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 445.118,
+      "end_sec": 452.278,
+      "text": "That sounds sensible. Starting narrow and proving value is usually the safer route. What would you need to see in a first phase to feel confident?",
+      "original_timestamp": "2026-10-08T10:14:20Z"
+    },
+    {
+      "index": 44,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 453.109,
+      "end_sec": 486.487,
+      "text": "A working check on one real dossier, with results our writers trust. If they don't trust it, they'll ignore it, and we'll have wasted the money. I've seen this happen with a previous system, where the tool produced lots of warnings nobody believed. Within a month the writers had stopped reading the output. So I'd want a pilot that starts small, runs on a dossier we've already submitted, and compares the findings with what our reviewers actually found. If the tool catches the things we caught without flooding us with noise, trust will follow. If it doesn't, we should know that quickly.",
+      "original_timestamp": "2026-10-08T10:14:40Z"
+    },
+    {
+      "index": 45,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 487.15,
+      "end_sec": 491.198,
+      "text": "So trust is the adoption test. How would you judge whether the writers trust it?",
+      "original_timestamp": "2026-10-08T10:15:00Z"
+    },
+    {
+      "index": 46,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 491.985,
+      "end_sec": 498.319,
+      "text": "If the reviewers agree with most of the flags, and nobody has to double-check everything the tool says, we're there.",
+      "original_timestamp": "2026-10-08T10:15:20Z"
+    },
+    {
+      "index": 47,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 499.0,
+      "end_sec": 504.072,
+      "text": "That's a practical bar, and I'll design the first phase around it. Who else should be in the next conversation?",
+      "original_timestamp": "2026-10-08T10:15:40Z"
+    },
+    {
+      "index": 48,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 504.895,
+      "end_sec": 513.084,
+      "text": "Our head of pharmacovigilance. He can speak to the safety documents much better than I can, and he's the one who signs off the periodic reports.",
+      "original_timestamp": "2026-10-08T10:16:00Z"
+    },
+    {
+      "index": 49,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 514.193,
+      "end_sec": 517.899,
+      "text": "Please bring him in. I want his view on the safety content specifically.",
+      "original_timestamp": "2026-10-08T10:16:20Z"
+    },
+    {
+      "index": 50,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 518.791,
+      "end_sec": 523.482,
+      "text": "I'll message him now. He's in another meeting, so it may take a few minutes.",
+      "original_timestamp": "2026-10-08T10:16:40Z"
+    },
+    {
+      "index": 51,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 524.378,
+      "end_sec": 527.957,
+      "text": "No problem. While we wait, can I ask about your current tools?",
+      "original_timestamp": "2026-10-08T10:17:00Z"
+    },
+    {
+      "index": 52,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 528.724,
+      "end_sec": 535.506,
+      "text": "Go ahead. We use a document management system, a publishing tool for submissions, and a lot of Word and Excel.",
+      "original_timestamp": "2026-10-08T10:17:20Z"
+    },
+    {
+      "index": 53,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 536.319,
+      "end_sec": 540.37,
+      "text": "Are the source documents already digital, or are there scanned files in the mix?",
+      "original_timestamp": "2026-10-08T10:17:40Z"
+    },
+    {
+      "index": 54,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 541.719,
+      "end_sec": 549.909,
+      "text": "Mostly digital. Older clinical study reports are PDFs, some of which are scanned, and a few legacy appendices are images.",
+      "original_timestamp": "2026-10-08T10:18:00Z"
+    },
+    {
+      "index": 55,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 551.027,
+      "end_sec": 558.744,
+      "text": "Noted, the scanned material will need OCR, so I'll add that to our list of things to check. Do the Word files use a consistent template?",
+      "original_timestamp": "2026-10-08T10:18:20Z"
+    },
+    {
+      "index": 56,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 559.832,
+      "end_sec": 565.845,
+      "text": "Templates exist, but people modify them. That's one reason structure errors creep in.",
+      "original_timestamp": "2026-10-08T10:18:40Z"
+    },
+    {
+      "index": 57,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 566.582,
+      "end_sec": 570.459,
+      "text": "That's helpful. Shall we pause there and bring Tomasz in before we go further?",
+      "original_timestamp": "2026-10-08T10:19:00Z"
+    },
+    {
+      "index": 58,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 571.643,
+      "end_sec": 577.144,
+      "text": "Yes, he's just joining now. Tomasz, come in, we're on the dossier discussion.",
+      "original_timestamp": "2026-10-08T10:19:20Z"
+    },
+    {
+      "index": 59,
+      "speaker_id": "tomasz_wierzbicki",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "role": "cx",
+      "start_sec": 577.875,
+      "end_sec": 614.443,
+      "text": "Sorry, I'm here. Tomasz Wierzbicki, I run pharmacovigilance at Meridian. I missed the first part, so please give me a quick summary. I've got about twenty minutes before my next call, so I'd like the headline first and the detail later. I'm also keen to understand what this means for my team's workload, because that's what they'll ask me about. My people are already stretched by case volume, so anything new has to take work off them, not add another review step. Whatever you propose, I'll judge it on that.",
+      "original_timestamp": "2026-10-08T10:19:40Z"
+    },
+    {
+      "index": 60,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 615.347,
+      "end_sec": 626.179,
+      "text": "Hi Tomasz, I'm Ravi, the solution architect on the Ingram Micro side. Helen's described the main problem, which is slow and repetitive dossier reviews, and guideline changes creating rework.",
+      "original_timestamp": "2026-10-08T10:20:00Z"
+    },
+    {
+      "index": 61,
+      "speaker_id": "tomasz_wierzbicki",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "role": "cx",
+      "start_sec": 627.571,
+      "end_sec": 639.399,
+      "text": "Right. From the safety side, the problem looks slightly different. The periodic reports are signed off on tight timelines, and the data has to match the case records exactly.",
+      "original_timestamp": "2026-10-08T10:20:20Z"
+    },
+    {
+      "index": 62,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 640.511,
+      "end_sec": 645.284,
+      "text": "That's useful. Can you describe the case records, so I understand what data we're dealing with?",
+      "original_timestamp": "2026-10-08T10:20:40Z"
+    },
+    {
+      "index": 63,
+      "speaker_id": "tomasz_wierzbicki",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "role": "cx",
+      "start_sec": 646.33,
+      "end_sec": 660.962,
+      "text": "Individual case safety reports, which we call ICSRs. Each one describes a single adverse event for a patient. We submit them electronically in the ICH E2B(R3) format.",
+      "original_timestamp": "2026-10-08T10:21:00Z"
+    },
+    {
+      "index": 64,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 662.109,
+      "end_sec": 667.651,
+      "text": "Thanks, I'll make sure I get that term right. Do the periodic reports pull directly from those ICSRs?",
+      "original_timestamp": "2026-10-08T10:21:20Z"
+    },
+    {
+      "index": 65,
+      "speaker_id": "tomasz_wierzbicki",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "role": "cx",
+      "start_sec": 668.925,
+      "end_sec": 681.972,
+      "text": "They summarise them. The periodic benefit-risk report, which follows the ICH E2C(R2) guidance, aggregates cases over a reporting period and gives our assessment.",
+      "original_timestamp": "2026-10-08T10:21:40Z"
+    },
+    {
+      "index": 66,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 683.193,
+      "end_sec": 688.436,
+      "text": "So a mistake in the summary can be checked against the underlying records. Is that where most errors appear?",
+      "original_timestamp": "2026-10-08T10:22:00Z"
+    },
+    {
+      "index": 67,
+      "speaker_id": "tomasz_wierzbicki",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "role": "cx",
+      "start_sec": 689.219,
+      "end_sec": 699.979,
+      "text": "Often, yes. A case gets reclassified late in the period, and the summary tables don't get updated everywhere. That's a finding an agency will pick up immediately.",
+      "original_timestamp": "2026-10-08T10:22:20Z"
+    },
+    {
+      "index": 68,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 700.604,
+      "end_sec": 705.676,
+      "text": "That's a clear example of a check that could be automated. How often do reclassifications happen?",
+      "original_timestamp": "2026-10-08T10:22:40Z"
+    },
+    {
+      "index": 69,
+      "speaker_id": "tomasz_wierzbicki",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "role": "cx",
+      "start_sec": 706.529,
+      "end_sec": 715.289,
+      "text": "More often than I'd like. It depends on the product, but for a product with a lot of reports, we see some change in most reporting periods.",
+      "original_timestamp": "2026-10-08T10:23:00Z"
+    },
+    {
+      "index": 70,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 716.103,
+      "end_sec": 722.199,
+      "text": "Helen mentioned the periodic safety reports and risk management plans draw on the same data. Is that how you see it too?",
+      "original_timestamp": "2026-10-08T10:23:20Z"
+    },
+    {
+      "index": 71,
+      "speaker_id": "tomasz_wierzbicki",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "role": "cx",
+      "start_sec": 722.968,
+      "end_sec": 734.69,
+      "text": "Yes. The risk management plan references the safety signals and the evaluation, so if the benefit-risk conclusion changes, the risk plan may need to change too.",
+      "original_timestamp": "2026-10-08T10:23:40Z"
+    },
+    {
+      "index": 72,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 736.044,
+      "end_sec": 744.228,
+      "text": "So linking those documents would catch inconsistencies. Helen said she'd rather start with one use case. Would you agree with starting with a single document type?",
+      "original_timestamp": "2026-10-08T10:24:00Z"
+    },
+    {
+      "index": 73,
+      "speaker_id": "tomasz_wierzbicki",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "role": "cx",
+      "start_sec": 745.529,
+      "end_sec": 757.835,
+      "text": "I think so. Start with one document type that has clear rules and high volume. Periodic reports are a good candidate, because they're repetitive and the rules are well defined.",
+      "original_timestamp": "2026-10-08T10:24:20Z"
+    },
+    {
+      "index": 74,
+      "speaker_id": "helen_brooks",
+      "name": "Helen Brooks (Customer)",
+      "role": "cx",
+      "start_sec": 758.687,
+      "end_sec": 791.214,
+      "text": "I'd add that the marketing dossier is where most of our time goes, so maybe the first phase should cover both, but only for the structural checks. The periodic reports are Tomasz's world, but the dossier is where writers lose the most days, so I don't want the first phase to ignore it completely. Structural checks are the easiest thing to prove, because the rules are clear. We could pick one marketing dossier that's already through review and run the checks on it as a test. That gives us a comparison without touching anything live, which I think is the right way to start.",
+      "original_timestamp": "2026-10-08T10:24:40Z"
+    },
+    {
+      "index": 75,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 792.338,
+      "end_sec": 799.84,
+      "text": "That's useful, two different views. Let's capture both and decide the scope later. What rules do you check against today for the periodic reports?",
+      "original_timestamp": "2026-10-08T10:25:00Z"
+    },
+    {
+      "index": 76,
+      "speaker_id": "tomasz_wierzbicki",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "role": "cx",
+      "start_sec": 800.756,
+      "end_sec": 811.995,
+      "text": "We follow the ICH and EMA guidance on good pharmacovigilance practice, GVP Module VI for the data side, plus our internal standard operating procedures.",
+      "original_timestamp": "2026-10-08T10:25:20Z"
+    },
+    {
+      "index": 77,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 813.327,
+      "end_sec": 816.354,
+      "text": "Are those SOPs written down in a form we could give the system?",
+      "original_timestamp": "2026-10-08T10:25:40Z"
+    },
+    {
+      "index": 78,
+      "speaker_id": "tomasz_wierzbicki",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "role": "cx",
+      "start_sec": 817.321,
+      "end_sec": 826.728,
+      "text": "They're Word documents, and some are years old. Some of the rules live in people's heads, which is a problem I'd like to fix anyway.",
+      "original_timestamp": "2026-10-08T10:26:00Z"
+    },
+    {
+      "index": 79,
+      "speaker_id": "ravi_menon",
+      "name": "Ravi Menon (Partner)",
+      "role": "ba",
+      "start_sec": 827.54,
+      "end_sec": 834.532,
+      "text": "That's a common finding, and it's part of the value. Turning tacit rules into a checklist that someone has approved is a big win on its own.",
+      "original_timestamp": "2026-10-08T10:26:20Z"
+    }
+  ]
+}

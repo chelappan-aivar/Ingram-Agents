@@ -1,0 +1,26 @@
+{
+  "session_id": "59fe1ab91e354b88ba45246047e2d2cf",
+  "customer_name": "Northwind Traders",
+  "template_id": "aiml/ai-ml",
+  "opportunity_id": null,
+  "inputs": {
+    "transcripts": [],
+    "images": [],
+    "upstream": false,
+    "project_details_chars": 950
+  },
+  "generation_seconds": 61.4,
+  "draft_chars": 20622,
+  "usage": {
+    "inputTokens": 10399,
+    "outputTokens": 8966
+  },
+  "check_summary": {
+    "total": 5,
+    "passed": 2,
+    "failed": 0,
+    "advisory": 2
+  },
+  "ai_review": null,
+  "generated_at": "2026-10-24T19:45:35Z"
+}

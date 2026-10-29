@@ -1,0 +1,1804 @@
+{
+  "conversation": [
+    {
+      "timestamp": "2026-10-08T10:00:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Thanks for making the time, Helen. Could you walk me through what you're trying to achieve with the dossier work? I'd like to understand the problem before we talk about any technology."
+    },
+    {
+      "timestamp": "2026-10-08T10:00:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Of course. We prepare regulatory submissions for pharmacovigilance, and each dossier is checked by hand against ICH and local agency guidelines. It's slow, and the same structural errors keep coming back, which delays our submissions by weeks."
+    },
+    {
+      "timestamp": "2026-10-08T10:00:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That sounds like a lot of repeated checking. When you say the checks are manual, who is doing them today, and roughly how many people are involved in one dossier review?"
+    },
+    {
+      "timestamp": "2026-10-08T10:01:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Mostly two senior regulatory writers and a quality reviewer. A typical dossier takes around three weeks to get through checks, and we have to repeat the work whenever a guideline changes, which happens more often than people expect."
+    },
+    {
+      "timestamp": "2026-10-08T10:01:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Got it. So the pain is both the review time and keeping up with guideline changes. Before I suggest anything, what would success look like for you in six months?"
+    },
+    {
+      "timestamp": "2026-10-08T10:01:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Honestly, fewer review rounds and no surprises at the final compliance check. Right now a dossier goes round the loop about four times, and I'd like that down to two."
+    },
+    {
+      "timestamp": "2026-10-08T10:02:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Four to two is a clear target. Which kinds of errors cause those extra rounds most often?"
+    },
+    {
+      "timestamp": "2026-10-08T10:02:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Mostly structure and cross-references. A section points to content that has moved, or a table is missing a required field."
+    },
+    {
+      "timestamp": "2026-10-08T10:02:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Do you record those errors anywhere today, or is each review a fresh start?"
+    },
+    {
+      "timestamp": "2026-10-08T10:03:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Only in spreadsheets, and they're inconsistent. Every writer keeps their own list, so we keep relearning the same lessons."
+    },
+    {
+      "timestamp": "2026-10-08T10:03:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "So there's no single record of what went wrong on past submissions. Can you give me an example of a lesson that keeps getting relearned?"
+    },
+    {
+      "timestamp": "2026-10-08T10:03:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Yes. A safety table had the wrong reporting period label last year, and it cost us a month because the agency sent it back. A new writer this year made the same mistake."
+    },
+    {
+      "timestamp": "2026-10-08T10:04:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a costly error for something so specific. What happens after a writer finishes a draft?"
+    },
+    {
+      "timestamp": "2026-10-08T10:04:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "It goes to a quality reviewer, then back to the writers, and sometimes to a second review. Every round adds days."
+    },
+    {
+      "timestamp": "2026-10-08T10:04:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Can you walk me through one full cycle, from the first draft to ready to submit? I'm asking because I want to map each handoff, since that's where the delays and errors seem to start. I'll note who does each step and roughly how long it takes. If I get a step wrong, please correct me, because I'm not a regulatory specialist and I don't want to design around a process that doesn't exist. Think of this as me drawing the map while you tell me the route. Once we have the map, we can see where the bottlenecks really sit."
+    },
+    {
+      "timestamp": "2026-10-08T10:05:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Let me describe it properly. A dossier starts with the writers pulling content from clinical study reports, safety data, and manufacturing input. Once the draft is assembled, the quality reviewer checks it against our internal templates and the guidelines we follow. The reviewer logs comments in a document, and the writers fix them one by one. Then the reviewer checks again, and often finds something new because a fix moved a table or changed a cross-reference. The loop can run three or four times, and each time we wait for people who are already busy with other submissions. Finally it goes through compliance sign-off before it can be published in our submission system."
+    },
+    {
+      "timestamp": "2026-10-08T10:05:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a clear picture. Where do most of the days get lost, waiting for people or fixing the content?"
+    },
+    {
+      "timestamp": "2026-10-08T10:05:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Waiting, mostly. The fixing takes a day or two, but the reviewer's queue can take a week because they're juggling several dossiers."
+    },
+    {
+      "timestamp": "2026-10-08T10:06:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "So a tool that catches the mechanical errors earlier would free up the reviewers. Is that the right way to think about it?"
+    },
+    {
+      "timestamp": "2026-10-08T10:06:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Yes, but the writers still need to own the content. We don't want a tool that writes the dossier for us."
+    },
+    {
+      "timestamp": "2026-10-08T10:06:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's an important boundary. So the system supports and checks, and people author and decide."
+    },
+    {
+      "timestamp": "2026-10-08T10:07:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Exactly. Three weeks to submission readiness is too long, and leadership keeps asking why."
+    },
+    {
+      "timestamp": "2026-10-08T10:07:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Time to readiness and review rounds sound like the headline measures. Let me check guideline changes next. How often do they reach your team?"
+    },
+    {
+      "timestamp": "2026-10-08T10:07:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "More often than people think. ICH and the agencies update things every year or so, and a minor change can mean re-checking half a dossier."
+    },
+    {
+      "timestamp": "2026-10-08T10:08:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "And who tracks those changes today?"
+    },
+    {
+      "timestamp": "2026-10-08T10:08:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "One person, honestly, and they're the bottleneck. If they're on leave, we can miss a change until someone notices in a review."
+    },
+    {
+      "timestamp": "2026-10-08T10:08:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a real risk. Is there a formal process for telling teams about a change?"
+    },
+    {
+      "timestamp": "2026-10-08T10:09:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "There's an email list and a monthly meeting. It works, but it's slow and depends on people remembering to read it."
+    },
+    {
+      "timestamp": "2026-10-08T10:09:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "What would make guideline tracking easier for your team?"
+    },
+    {
+      "timestamp": "2026-10-08T10:09:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Knowing exactly which of our checklist items a change affects, instead of reading the full new guideline and guessing. Right now a new guideline can be forty or fifty pages, and someone has to read every line and decide whether it matters for us. Most of it is background or unchanged wording, so the real changes are buried. The people who read it are the same people reviewing dossiers, so it competes with their other work. If the tool could show just the changed paragraphs and which of our checks they touch, that would save a lot of time and reduce the chance of missing something important."
+    },
+    {
+      "timestamp": "2026-10-08T10:10:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "So the ask is to link each guideline change to specific checks. Is that right?"
+    },
+    {
+      "timestamp": "2026-10-08T10:10:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Yes. We want to see what changed, what it affects, and what we need to re-check."
+    },
+    {
+      "timestamp": "2026-10-08T10:10:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Let me say the problem back in one sentence. Dossier reviews are slow and repetitive, and guideline changes cause rework because nobody can see clearly what they affect. Is that fair?"
+    },
+    {
+      "timestamp": "2026-10-08T10:11:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "That's fair. I'd add that the errors are preventable, which frustrates me most."
+    },
+    {
+      "timestamp": "2026-10-08T10:11:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Agreed. Now the end goal. If this works, what does your team look like in six months?"
+    },
+    {
+      "timestamp": "2026-10-08T10:11:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Writers catch most issues before a reviewer sees the draft. The reviewer spends their time on judgement calls rather than finding missing table fields."
+    },
+    {
+      "timestamp": "2026-10-08T10:12:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a useful picture. I'm going to be honest that I'm not a regulatory specialist, so please correct me when I get the framing wrong."
+    },
+    {
+      "timestamp": "2026-10-08T10:12:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "We will. Honestly, that's helpful, because the people who build these tools often don't know the difference between a dossier section and a periodic safety report."
+    },
+    {
+      "timestamp": "2026-10-08T10:12:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Fair point. So I'll ask you to define the terms as we go. Let's start with what goes into a typical dossier."
+    },
+    {
+      "timestamp": "2026-10-08T10:13:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Sure. It's a structured set of modules covering quality, non-clinical, and clinical content, plus the summaries that tie them together. It's published in the electronic common technical document format, which is the eCTD."
+    },
+    {
+      "timestamp": "2026-10-08T10:13:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Thanks. And how does the safety side fit into that?"
+    },
+    {
+      "timestamp": "2026-10-08T10:13:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "We also produce periodic safety reports and risk management plans, and those draw on the same underlying safety data. When one changes, the others often need to change too."
+    },
+    {
+      "timestamp": "2026-10-08T10:14:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Let me add some context, because this matters for the design. We don't only file marketing dossiers. We also respond to agency questions, and those responses reuse the same content. The current process treats each document as its own project, which is part of why errors repeat across them. A checker that understands how the documents relate would help, but I know that's a bigger ask, so I'd rather start with one clear use case and prove it works first."
+    },
+    {
+      "timestamp": "2026-10-08T10:14:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That sounds sensible. Starting narrow and proving value is usually the safer route. What would you need to see in a first phase to feel confident?"
+    },
+    {
+      "timestamp": "2026-10-08T10:14:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "A working check on one real dossier, with results our writers trust. If they don't trust it, they'll ignore it, and we'll have wasted the money. I've seen this happen with a previous system, where the tool produced lots of warnings nobody believed. Within a month the writers had stopped reading the output. So I'd want a pilot that starts small, runs on a dossier we've already submitted, and compares the findings with what our reviewers actually found. If the tool catches the things we caught without flooding us with noise, trust will follow. If it doesn't, we should know that quickly."
+    },
+    {
+      "timestamp": "2026-10-08T10:15:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "So trust is the adoption test. How would you judge whether the writers trust it?"
+    },
+    {
+      "timestamp": "2026-10-08T10:15:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "If the reviewers agree with most of the flags, and nobody has to double-check everything the tool says, we're there."
+    },
+    {
+      "timestamp": "2026-10-08T10:15:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a practical bar, and I'll design the first phase around it. Who else should be in the next conversation?"
+    },
+    {
+      "timestamp": "2026-10-08T10:16:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Our head of pharmacovigilance. He can speak to the safety documents much better than I can, and he's the one who signs off the periodic reports."
+    },
+    {
+      "timestamp": "2026-10-08T10:16:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Please bring him in. I want his view on the safety content specifically."
+    },
+    {
+      "timestamp": "2026-10-08T10:16:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "I'll message him now. He's in another meeting, so it may take a few minutes."
+    },
+    {
+      "timestamp": "2026-10-08T10:17:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "No problem. While we wait, can I ask about your current tools?"
+    },
+    {
+      "timestamp": "2026-10-08T10:17:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Go ahead. We use a document management system, a publishing tool for submissions, and a lot of Word and Excel."
+    },
+    {
+      "timestamp": "2026-10-08T10:17:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Are the source documents already digital, or are there scanned files in the mix?"
+    },
+    {
+      "timestamp": "2026-10-08T10:18:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Mostly digital. Older clinical study reports are PDFs, some of which are scanned, and a few legacy appendices are images."
+    },
+    {
+      "timestamp": "2026-10-08T10:18:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Noted, the scanned material will need OCR, so I'll add that to our list of things to check. Do the Word files use a consistent template?"
+    },
+    {
+      "timestamp": "2026-10-08T10:18:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Templates exist, but people modify them. That's one reason structure errors creep in."
+    },
+    {
+      "timestamp": "2026-10-08T10:19:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's helpful. Shall we pause there and bring Tomasz in before we go further?"
+    },
+    {
+      "timestamp": "2026-10-08T10:19:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Yes, he's just joining now. Tomasz, come in, we're on the dossier discussion."
+    },
+    {
+      "timestamp": "2026-10-08T10:19:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Sorry, I'm here. Tomasz Wierzbicki, I run pharmacovigilance at Meridian. I missed the first part, so please give me a quick summary. I've got about twenty minutes before my next call, so I'd like the headline first and the detail later. I'm also keen to understand what this means for my team's workload, because that's what they'll ask me about. My people are already stretched by case volume, so anything new has to take work off them, not add another review step. Whatever you propose, I'll judge it on that."
+    },
+    {
+      "timestamp": "2026-10-08T10:20:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Hi Tomasz, I'm Ravi, the solution architect on the Ingram Micro side. Helen's described the main problem, which is slow and repetitive dossier reviews, and guideline changes creating rework."
+    },
+    {
+      "timestamp": "2026-10-08T10:20:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Right. From the safety side, the problem looks slightly different. The periodic reports are signed off on tight timelines, and the data has to match the case records exactly."
+    },
+    {
+      "timestamp": "2026-10-08T10:20:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's useful. Can you describe the case records, so I understand what data we're dealing with?"
+    },
+    {
+      "timestamp": "2026-10-08T10:21:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Individual case safety reports, which we call ICSRs. Each one describes a single adverse event for a patient. We submit them electronically in the ICH E2B(R3) format."
+    },
+    {
+      "timestamp": "2026-10-08T10:21:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Thanks, I'll make sure I get that term right. Do the periodic reports pull directly from those ICSRs?"
+    },
+    {
+      "timestamp": "2026-10-08T10:21:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "They summarise them. The periodic benefit-risk report, which follows the ICH E2C(R2) guidance, aggregates cases over a reporting period and gives our assessment."
+    },
+    {
+      "timestamp": "2026-10-08T10:22:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "So a mistake in the summary can be checked against the underlying records. Is that where most errors appear?"
+    },
+    {
+      "timestamp": "2026-10-08T10:22:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Often, yes. A case gets reclassified late in the period, and the summary tables don't get updated everywhere. That's a finding an agency will pick up immediately."
+    },
+    {
+      "timestamp": "2026-10-08T10:22:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a clear example of a check that could be automated. How often do reclassifications happen?"
+    },
+    {
+      "timestamp": "2026-10-08T10:23:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "More often than I'd like. It depends on the product, but for a product with a lot of reports, we see some change in most reporting periods."
+    },
+    {
+      "timestamp": "2026-10-08T10:23:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Helen mentioned the periodic safety reports and risk management plans draw on the same data. Is that how you see it too?"
+    },
+    {
+      "timestamp": "2026-10-08T10:23:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Yes. The risk management plan references the safety signals and the evaluation, so if the benefit-risk conclusion changes, the risk plan may need to change too."
+    },
+    {
+      "timestamp": "2026-10-08T10:24:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "So linking those documents would catch inconsistencies. Helen said she'd rather start with one use case. Would you agree with starting with a single document type?"
+    },
+    {
+      "timestamp": "2026-10-08T10:24:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "I think so. Start with one document type that has clear rules and high volume. Periodic reports are a good candidate, because they're repetitive and the rules are well defined."
+    },
+    {
+      "timestamp": "2026-10-08T10:24:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "I'd add that the marketing dossier is where most of our time goes, so maybe the first phase should cover both, but only for the structural checks. The periodic reports are Tomasz's world, but the dossier is where writers lose the most days, so I don't want the first phase to ignore it completely. Structural checks are the easiest thing to prove, because the rules are clear. We could pick one marketing dossier that's already through review and run the checks on it as a test. That gives us a comparison without touching anything live, which I think is the right way to start."
+    },
+    {
+      "timestamp": "2026-10-08T10:25:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's useful, two different views. Let's capture both and decide the scope later. What rules do you check against today for the periodic reports?"
+    },
+    {
+      "timestamp": "2026-10-08T10:25:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "We follow the ICH and EMA guidance on good pharmacovigilance practice, GVP Module VI for the data side, plus our internal standard operating procedures."
+    },
+    {
+      "timestamp": "2026-10-08T10:25:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Are those SOPs written down in a form we could give the system?"
+    },
+    {
+      "timestamp": "2026-10-08T10:26:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "They're Word documents, and some are years old. Some of the rules live in people's heads, which is a problem I'd like to fix anyway."
+    },
+    {
+      "timestamp": "2026-10-08T10:26:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a common finding, and it's part of the value. Turning tacit rules into a checklist that someone has approved is a big win on its own."
+    },
+    {
+      "timestamp": "2026-10-08T10:26:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Agreed. We'll need a regulatory person to sign off that checklist, because a wrong rule is worse than no rule."
+    },
+    {
+      "timestamp": "2026-10-08T10:27:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Completely agree. That's an important part of the human review step, and we'll come back to it. For now, let's talk about the problem you're solving with the agents."
+    },
+    {
+      "timestamp": "2026-10-08T10:27:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "I'd like to hear how you'd split the work. The idea I've read about is several agents with different jobs, but I'm not clear on how they'd work together."
+    },
+    {
+      "timestamp": "2026-10-08T10:27:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Good question. Before the design, let me confirm the problem statement. Helen and you both want faster, more consistent dossier checks, and a clear view of what guideline changes affect. Is there anything I've missed?"
+    },
+    {
+      "timestamp": "2026-10-08T10:28:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "One thing. Whatever we build has to show its reasoning. If it flags a table, I need to see which rule it's checking against, otherwise I can't defend it to an inspector."
+    },
+    {
+      "timestamp": "2026-10-08T10:28:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a strong requirement, and it shapes the design. Every flag needs a traceable link to a rule and to the content it checked. I'll note that as a must have."
+    },
+    {
+      "timestamp": "2026-10-08T10:28:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Right, and the same goes for guideline changes. We need a record of what changed and which checks were updated, so an auditor can follow it."
+    },
+    {
+      "timestamp": "2026-10-08T10:29:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Understood. So traceability is the thread through all of this. Let's move on to the agents. I'd like to propose three roles and test them with you."
+    },
+    {
+      "timestamp": "2026-10-08T10:29:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Go ahead. I'll tell you quickly if it doesn't make sense to a regulatory person."
+    },
+    {
+      "timestamp": "2026-10-08T10:29:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "The first would read the guidelines and build the checklist. The second would take a dossier and check it against that checklist. The third would compare an old guideline version with a new one and update the checklist. I'll be specific about what each one takes as input and what it produces as output, so we can test them separately. Once you've seen the roles, tell me which one you'd want to test first. My suggestion is the analyst agent, because everything else depends on the checklist being right."
+    },
+    {
+      "timestamp": "2026-10-08T10:30:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "That maps well onto how we work. The first is what a regulatory writer does when they start a new project, and the third is the guideline-change process we talked about."
+    },
+    {
+      "timestamp": "2026-10-08T10:30:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Good. Let me give them working names, the analyst agent, the impact agent, and the diff agent. Does that feel clear?"
+    },
+    {
+      "timestamp": "2026-10-08T10:30:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Clear enough, though I'd rename the impact agent, because the word impact means something specific in our world. Maybe the validation agent?"
+    },
+    {
+      "timestamp": "2026-10-08T10:31:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Good catch. I'll rename it the validation agent. Now, is there anything in the guideline sources that's hard to read or inconsistent?"
+    },
+    {
+      "timestamp": "2026-10-08T10:31:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Yes, plenty. Guidance documents use different wording for the same requirement, and sometimes an EMA document and an ICH document disagree on detail until a later revision catches up."
+    },
+    {
+      "timestamp": "2026-10-08T10:31:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Then the analyst agent needs to flag conflicts between sources rather than quietly picking one. Would you want a person to resolve those?"
+    },
+    {
+      "timestamp": "2026-10-08T10:32:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Definitely. A person has to decide which source wins for us, and that decision should be recorded."
+    },
+    {
+      "timestamp": "2026-10-08T10:32:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "I'll capture that as a human decision point. Let's go back to the end goal for a moment. If the first phase works, what's the next step for you?"
+    },
+    {
+      "timestamp": "2026-10-08T10:32:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Extend it to the other document types, and eventually use the same checklists across our regional affiliates, who often do their own checks."
+    },
+    {
+      "timestamp": "2026-10-08T10:33:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a useful second horizon. Let me summarise the end goal. Shorter review cycles now, traceable checks, and a shared checklist across teams later. Have I got it right?"
+    },
+    {
+      "timestamp": "2026-10-08T10:33:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Yes, with one addition. We also want an early warning when a guideline change affects an active submission, so we're not finding out in review."
+    },
+    {
+      "timestamp": "2026-10-08T10:33:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a valuable addition. Early warning is a clear use for the diff agent. I'll write that down as a goal."
+    },
+    {
+      "timestamp": "2026-10-08T10:34:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Good. Now I'd like to talk about how big this gets. Are you going to ask about volume next?"
+    },
+    {
+      "timestamp": "2026-10-08T10:34:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Yes, I want to size it properly. How many dossiers and periodic reports do you handle in a typical year?"
+    },
+    {
+      "timestamp": "2026-10-08T10:34:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Roughly forty to fifty dossier submissions a year across all our products, including variations and renewals. Variations are a big share, which people don't always count. The count goes up when you include responses to agency questions, which are not full submissions but still need checking against the same rules. Last year we had close to twenty of those. If I add them in, the workload is noticeably bigger than people assume. I'd like the volume figures to include them, otherwise the business case will understate the work."
+    },
+    {
+      "timestamp": "2026-10-08T10:35:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Are variations smaller than full dossiers, or the same size?"
+    },
+    {
+      "timestamp": "2026-10-08T10:35:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Smaller, usually a few hundred pages instead of a couple of thousand, but they still go through the same structural checks."
+    },
+    {
+      "timestamp": "2026-10-08T10:35:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's useful. Roughly how many pages does a full dossier run to?"
+    },
+    {
+      "timestamp": "2026-10-08T10:36:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Between eight hundred and two thousand five hundred pages, depending on the product and the clinical programme. The biggest ones are the ones with multiple indications."
+    },
+    {
+      "timestamp": "2026-10-08T10:36:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Thanks. Tomasz, what does your side look like in numbers?"
+    },
+    {
+      "timestamp": "2026-10-08T10:36:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Periodic reports, about twelve to fifteen products on a regular cycle, each with its own reporting period. Individual case reports run around fifteen hundred a month."
+    },
+    {
+      "timestamp": "2026-10-08T10:37:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Fifteen hundred a month is a lot of records. Are they all processed the same way, or do some need more manual work?"
+    },
+    {
+      "timestamp": "2026-10-08T10:37:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Most are routine. Around a fifth need medical review because the event is serious or unexpected, and those take much longer."
+    },
+    {
+      "timestamp": "2026-10-08T10:37:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Would the system need to check every case report, or only the ones that feed into periodic reports?"
+    },
+    {
+      "timestamp": "2026-10-08T10:38:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "For the first phase, only the aggregated data that goes into the periodic reports. Checking every case would be a much bigger project, and we'd need more validation."
+    },
+    {
+      "timestamp": "2026-10-08T10:38:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That helps scope it. How many languages do the submissions cover?"
+    },
+    {
+      "timestamp": "2026-10-08T10:38:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Most are in English, but patient information leaflets and some labelling go out in local languages. That's a separate workflow we're not including now."
+    },
+    {
+      "timestamp": "2026-10-08T10:39:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Good, I'll mark local languages as out of scope for the first phase. How many guideline sources would the analyst agent need to read?"
+    },
+    {
+      "timestamp": "2026-10-08T10:39:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Probably thirty to forty documents across ICH, the EMA, and a couple of national agencies. Some are long and get revised several times a year."
+    },
+    {
+      "timestamp": "2026-10-08T10:39:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That gives me a sense of the volume. Do you keep the old versions of guidelines, so the diff agent can compare them? I'm also thinking about storage, because keeping every version of thirty or forty documents across several years adds up. The bigger question is whether the old versions are reliable, since a copy with the wrong date would undermine the whole comparison. So I'd like to understand how you label versions today, and whether anyone has verified the folder is complete. If there are gaps, we should find them before we build on top of them."
+    },
+    {
+      "timestamp": "2026-10-08T10:40:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "We keep the PDFs in a folder, but they're not indexed. We'd have to set that up properly, and some older versions may be hard to find."
+    },
+    {
+      "timestamp": "2026-10-08T10:40:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a useful gap to note. Let's come back to the setup work later. How often do you expect the checklists to change once they're live?"
+    },
+    {
+      "timestamp": "2026-10-08T10:40:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Several times a year at least. Every guideline update and every internal lesson learned would be a potential change."
+    },
+    {
+      "timestamp": "2026-10-08T10:41:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "So versioning the checklists will matter. Every check should record which checklist version it used."
+    },
+    {
+      "timestamp": "2026-10-08T10:41:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Yes, absolutely. If we ever need to explain why a dossier passed in March, we must be able to show the checklist that applied then."
+    },
+    {
+      "timestamp": "2026-10-08T10:41:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Agreed, that's a firm requirement. Let me summarise the volume so far, and you can correct me."
+    },
+    {
+      "timestamp": "2026-10-08T10:42:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Go on. I'd like to see the numbers written down, because leadership will ask."
+    },
+    {
+      "timestamp": "2026-10-08T10:42:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "About forty to fifty dossier submissions a year, including variations. Dossiers run eight hundred to two thousand five hundred pages. Periodic reports cover twelve to fifteen products, and there are roughly fifteen hundred case reports a month, with the aggregated data as the first-phase scope. Thirty to forty guidance documents need tracking. Does that match?"
+    },
+    {
+      "timestamp": "2026-10-08T10:42:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "It matches. I'd add that the guidance documents get revised several times a year, so the diff agent will run often."
+    },
+    {
+      "timestamp": "2026-10-08T10:43:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Good point. A few revisions a year per document, times thirty to forty documents, is still a manageable number of comparisons. Helen, anything to add?"
+    },
+    {
+      "timestamp": "2026-10-08T10:43:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Only that the dossier count will grow when we add the affiliates. Plan for that now, or we'll rebuild it later."
+    },
+    {
+      "timestamp": "2026-10-08T10:43:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a good design point. We'll design for growth without building it all now. Let's talk about the compliance side next, because I think that's where the biggest constraints are."
+    },
+    {
+      "timestamp": "2026-10-08T10:44:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Yes. Before anything touches live data, we need to know exactly how it will be validated and what the audit trail looks like."
+    },
+    {
+      "timestamp": "2026-10-08T10:44:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Understood. Which regulations apply to a system like this in your environment?"
+    },
+    {
+      "timestamp": "2026-10-08T10:44:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "21 CFR Part 11 for electronic records, if any of the work touches US submissions. For Europe, EU GMP Annex 11, plus GAMP 5 for how we validate computerised systems. The rules sometimes overlap, and people argue about which one applies. My quality team will make the call on scope, and I'll get that in writing before we start. The key thing for a vendor is that they understand these expectations and can produce the evidence, rather than just claiming compliance. If a vendor says they're compliant without showing the documents, I won't take it at face value."
+    },
+    {
+      "timestamp": "2026-10-08T10:45:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Thanks, I'll look up the specifics before we write the design. Is GAMP 5 the method you'd expect a vendor to follow?"
+    },
+    {
+      "timestamp": "2026-10-08T10:45:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "It's the framework we use. The vendor needs to provide the documentation to support it, including risk assessment, requirements, and test evidence."
+    },
+    {
+      "timestamp": "2026-10-08T10:45:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Okay. Helen, from your side, what does compliance mean day to day?"
+    },
+    {
+      "timestamp": "2026-10-08T10:46:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Every change in a regulated system has to be controlled. We need change records, version history, and proof that the system was tested before it went live."
+    },
+    {
+      "timestamp": "2026-10-08T10:46:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's standard for a regulated platform. Does the data itself have any special protections?"
+    },
+    {
+      "timestamp": "2026-10-08T10:46:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Yes, a lot. Case reports contain patient health information, so GDPR applies. We need to know where the data is stored, who can access it, and how long it's kept."
+    },
+    {
+      "timestamp": "2026-10-08T10:47:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Would it be acceptable to keep the data only in an EU region?"
+    },
+    {
+      "timestamp": "2026-10-08T10:47:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Ideally, yes, and we'd want it written into the contract. Any transfer outside the EU would need a full assessment, and my legal team would have to approve it."
+    },
+    {
+      "timestamp": "2026-10-08T10:47:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's clear. We'd design for EU hosting from the start. I'll check which AWS services and models are available in EU regions before we commit to a design."
+    },
+    {
+      "timestamp": "2026-10-08T10:48:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Good, because if the model we need isn't in the EU, that's a deal breaker for us, not a detail to sort out later."
+    },
+    {
+      "timestamp": "2026-10-08T10:48:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Agreed. I'll make that a go or no go check in the design phase. Let's look at the technical side of the compliance controls."
+    },
+    {
+      "timestamp": "2026-10-08T10:48:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Start with access control. Only named people can change checklists, and the audit log should record every change and every approval."
+    },
+    {
+      "timestamp": "2026-10-08T10:49:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Role based access with a full audit trail, I can write that down. Should the audit log be tamper resistant?"
+    },
+    {
+      "timestamp": "2026-10-08T10:49:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Yes, it should be append only. An inspector will ask whether someone could edit the history, so we need a clear answer."
+    },
+    {
+      "timestamp": "2026-10-08T10:49:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a good, specific requirement. We can use write once storage for the log. Next, how do you want the outputs to look? To be clear on what that means in practice, the log would be written once and locked, so entries can be added but never changed or deleted within the retention period. That's a common pattern, and most cloud platforms support it. I'll confirm the exact mechanism during design, and show you how an inspector could verify the history is intact. Your quality team should be the one to judge whether it meets the standard."
+    },
+    {
+      "timestamp": "2026-10-08T10:50:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Each finding should show the document, the section, the rule it broke, the guideline reference, and a suggested fix. Writers need to act on it straight away."
+    },
+    {
+      "timestamp": "2026-10-08T10:50:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a clear output format. Does the system need to explain why it made a suggestion?"
+    },
+    {
+      "timestamp": "2026-10-08T10:50:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Yes. We've talked about this already. A reviewer must see the rule and the evidence, so they can accept or reject the flag on their own judgement."
+    },
+    {
+      "timestamp": "2026-10-08T10:51:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Right. And for the generated checklist itself, does a regulatory person need to approve each item?"
+    },
+    {
+      "timestamp": "2026-10-08T10:51:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Every item before it goes live. We can't have the system quietly invent a rule that nobody has checked."
+    },
+    {
+      "timestamp": "2026-10-08T10:51:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's the central human in the loop control, and I'll make it the first approval gate. Who would approve?"
+    },
+    {
+      "timestamp": "2026-10-08T10:52:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "A regulatory lead and a quality reviewer, two people. For safety content, I'd want to approve the safety checks myself."
+    },
+    {
+      "timestamp": "2026-10-08T10:52:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Two approvers, with the safety checks needing a pharmacovigilance sign-off. I'll note that as a rule. What happens if a reviewer disagrees with a flag?"
+    },
+    {
+      "timestamp": "2026-10-08T10:52:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "They should be able to dismiss it with a reason. That reason goes in the record, and if the same flag keeps being dismissed, we review the rule."
+    },
+    {
+      "timestamp": "2026-10-08T10:53:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a feedback loop that improves the checklist over time. I like it. Let's talk about the human review in the full process."
+    },
+    {
+      "timestamp": "2026-10-08T10:53:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Right. I'd like the system to produce a summary that a reviewer can accept or reject, and nothing should be published without a named human signing off."
+    },
+    {
+      "timestamp": "2026-10-08T10:53:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "So the agents produce drafts and flags, and humans approve every final output. Is there a point where the reviewer should step in earlier?"
+    },
+    {
+      "timestamp": "2026-10-08T10:54:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "When the validation agent finds a serious issue, like a missing mandatory section, the writer should be told immediately and the draft should be blocked from going to review."
+    },
+    {
+      "timestamp": "2026-10-08T10:54:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "So there's an escalation rule for critical findings. I'll separate critical issues from routine flags. Would a writer ever override a critical block?"
+    },
+    {
+      "timestamp": "2026-10-08T10:54:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Only with a documented justification and a second person's approval. Otherwise, you're building a way around the control. I know that sounds slow, but in practice the override should be rare, and that's what we want. If overrides start happening every week, that tells us the rule is wrong or the checklist is out of date, and we should fix that rather than keep overriding it. I'd also want override reasons reviewed each month, so patterns show up. That review is a good early warning for the checklist as well."
+    },
+    {
+      "timestamp": "2026-10-08T10:55:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Good, I'll make that a two person override with a recorded reason. Let's go back to the guideline changes, because that's the diff agent."
+    },
+    {
+      "timestamp": "2026-10-08T10:55:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Right. When a new guideline version arrives, the diff agent should list the changes, link each one to the checklist items it affects, and mark which items need re-approval."
+    },
+    {
+      "timestamp": "2026-10-08T10:55:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "And who decides whether a change is material enough to act on?"
+    },
+    {
+      "timestamp": "2026-10-08T10:56:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "A regulatory person. The diff agent can suggest materiality, but the decision needs to be a human one, with a record of who made it."
+    },
+    {
+      "timestamp": "2026-10-08T10:56:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Clear. The diff agent proposes, a person decides. Now, the last big area is what this would cost, so I want to prepare you for that conversation."
+    },
+    {
+      "timestamp": "2026-10-08T10:56:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "We need a number before we go to leadership. They'll want to know the pilot cost and the running cost, and how that compares with the current effort."
+    },
+    {
+      "timestamp": "2026-10-08T10:57:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "I'll give you ranges, not precise quotes, because the pilot scope will move. Can you tell me the current effort per dossier in person days?"
+    },
+    {
+      "timestamp": "2026-10-08T10:57:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Roughly forty to fifty person days per full dossier across writers, reviewers, and compliance. Variations are maybe ten to fifteen."
+    },
+    {
+      "timestamp": "2026-10-08T10:57:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a useful baseline. Tomasz, what's the effort on the periodic report side?"
+    },
+    {
+      "timestamp": "2026-10-08T10:58:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "A periodic report takes a couple of weeks of combined effort, and a fair amount of that is checking reconciliation between case data and the summary tables."
+    },
+    {
+      "timestamp": "2026-10-08T10:58:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "So the reconciliation work is a clear target. Do you have a sense of what the reconciliation costs in people terms?"
+    },
+    {
+      "timestamp": "2026-10-08T10:58:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "About three or four days per report, and that's across an analyst and a reviewer. Over a year, across twelve to fifteen products, it adds up."
+    },
+    {
+      "timestamp": "2026-10-08T10:59:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Thank you, that gives me something to model. Helen, what does a cost of delay look like for you?"
+    },
+    {
+      "timestamp": "2026-10-08T10:59:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Each week a submission is late can mean lost revenue on the product, plus the risk of a clock stop with the agency. Leadership will not accept a delay that we could have prevented."
+    },
+    {
+      "timestamp": "2026-10-08T10:59:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a strong driver. I'll write the business case around time to readiness and fewer review rounds, with cost as the second lens. Let's stop there and pick up the cost and AWS details in the next block. I want the business case to be honest, so I'll separate what we can measure in the pilot from what we're assuming. Time to readiness and review rounds can be measured. The cost of delayed submissions is an estimate, and I'll label it that way. The AWS costs stay estimates until we run a test on real files. I'd rather show leadership a smaller number they can trust than a larger one that falls apart in the first quarter."
+    },
+    {
+      "timestamp": "2026-10-08T11:00:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Agreed. Tomasz, before we go, is there anything you want Ravi to take away?"
+    },
+    {
+      "timestamp": "2026-10-08T11:00:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Only that compliance comes first. If the design can't show its audit trail and EU hosting, I don't need to see the rest."
+    },
+    {
+      "timestamp": "2026-10-08T11:00:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Understood, and I'll bring those answers to the next session. Thanks both, this has been very useful."
+    },
+    {
+      "timestamp": "2026-10-08T11:01:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Welcome back, both. Before the design, I'd like to show you how validation would work, since Tomasz raised it earlier. Does a standard qualification approach sound right to you?"
+    },
+    {
+      "timestamp": "2026-10-08T11:01:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Yes, the usual three stages. Installation, operational, and performance qualification. We'd want the performance stage tested against real dossiers with known answers."
+    },
+    {
+      "timestamp": "2026-10-08T11:01:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's useful. So we'd need a set of historical dossiers where the findings are already known. Do you have that kind of record?"
+    },
+    {
+      "timestamp": "2026-10-08T11:02:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "We have past submissions and the review comments from each round. It's messy, but it's a good starting point for a test set."
+    },
+    {
+      "timestamp": "2026-10-08T11:02:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Good. Those comments become our ground truth. For each one, we'd check whether the system would have caught the same issue. Does that make sense?"
+    },
+    {
+      "timestamp": "2026-10-08T11:02:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Yes, and we'd also need to test for false positives. A tool that flags everything will be ignored, and that's a validation issue too."
+    },
+    {
+      "timestamp": "2026-10-08T11:03:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Agreed. So we measure both the misses and the noise. Is there a rough target you'd expect, like catching most known issues without flooding reviewers?"
+    },
+    {
+      "timestamp": "2026-10-08T11:03:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "I'd set the target with my quality team. I wouldn't pick a number on this call, but the principle is that we can explain every miss and every false alarm."
+    },
+    {
+      "timestamp": "2026-10-08T11:03:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Fair. I'll leave the target as a decision for your quality team. Let's look at how the validation agent itself would work."
+    },
+    {
+      "timestamp": "2026-10-08T11:04:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Right. Explain it in plain words, please. I don't want to hear model names yet."
+    },
+    {
+      "timestamp": "2026-10-08T11:04:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Think of it as a very careful checker. It takes the dossier, goes section by section, and tests each part against the checklist items that apply to it. Each test produces a finding, a pass, or a question for a human."
+    },
+    {
+      "timestamp": "2026-10-08T11:04:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "So it doesn't rewrite anything. It just points at the problems and says why. That's a relief, honestly, because writers would push back on anything that changes their wording without them. They're proud of the content, and they know the subject better than any tool. If it highlights issues and explains them, they'll see it as a second pair of eyes rather than a replacement. That framing will matter a lot when we roll it out to the team."
+    },
+    {
+      "timestamp": "2026-10-08T11:05:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Exactly. It doesn't change the document. Writers make the changes, and the system checks again. Tomasz, does that match your idea of a structural check?"
+    },
+    {
+      "timestamp": "2026-10-08T11:05:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Mostly. Structural checks are things like required sections present, tables with the right columns, and cross-references pointing to real content. The safety checks go a level deeper, into the numbers."
+    },
+    {
+      "timestamp": "2026-10-08T11:05:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "So two layers. Structure first, then content consistency. For the numbers, we'd compare totals in the summary with the case-level records. Is that how reconciliation works for you today?"
+    },
+    {
+      "timestamp": "2026-10-08T11:06:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Yes, roughly. My analysts pull the case counts by category and check that the summary tables match. Any mismatch goes back to the safety physician."
+    },
+    {
+      "timestamp": "2026-10-08T11:06:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a clear, repeatable check, so it's a good first target. Does reconciliation ever involve judgement, or is it purely arithmetic?"
+    },
+    {
+      "timestamp": "2026-10-08T11:06:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "The arithmetic is simple. The judgement is in deciding whether a difference is a data error or a real change in the case classification. That part needs a person."
+    },
+    {
+      "timestamp": "2026-10-08T11:07:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a clean boundary. The system finds the mismatch and the person decides why. I'll note that difference explicitly. Let me describe the agents as a team now."
+    },
+    {
+      "timestamp": "2026-10-08T11:07:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Please do, but keep it simple. I'm trying to picture who does what."
+    },
+    {
+      "timestamp": "2026-10-08T11:07:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "The analyst agent is like a new regulatory writer who reads all the guidance and writes a checklist. The validation agent is the checker who uses that checklist. The diff agent is the person who reads each new guideline version and says what changed."
+    },
+    {
+      "timestamp": "2026-10-08T11:08:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "And someone supervises all three, I hope. A checklist written by one agent and used by another, with nobody in between, worries me."
+    },
+    {
+      "timestamp": "2026-10-08T11:08:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's exactly right, and it's the human approval gate. Nothing moves from one agent to the next without a named person approving it. Let me explain how the handoffs would work."
+    },
+    {
+      "timestamp": "2026-10-08T11:08:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Okay, handoffs. Those are where things usually go wrong."
+    },
+    {
+      "timestamp": "2026-10-08T11:09:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Right, so we design them carefully. The analyst agent produces a draft checklist with the source reference for every item. A regulatory lead approves it, and only then is it available to the validation agent."
+    },
+    {
+      "timestamp": "2026-10-08T11:09:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "And the source reference matters, because I'll want to click through to the exact guideline paragraph."
+    },
+    {
+      "timestamp": "2026-10-08T11:09:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Yes, every item links back to the exact paragraph. The diff agent works the same way. It lists the changed paragraphs, the affected checklist items, and suggests whether each change is material. A person decides. I'd also keep a record of the decisions people make on each change, including the ones they reject. If an auditor asks why a particular guideline change didn't lead to a checklist update, we can show the reasoning. It's the same principle as the validation findings. The system proposes, a person decides, and the decision is recorded. I think that's what gives your quality team confidence in the whole chain."
+    },
+    {
+      "timestamp": "2026-10-08T11:10:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "That's the part I like most. We'd see a guideline change and know straight away which dossiers need a second look."
+    },
+    {
+      "timestamp": "2026-10-08T11:10:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's the early warning you asked for. We can compare the new change against the open submissions, so the affected ones are flagged automatically. Would you want that run every time a new version is published?"
+    },
+    {
+      "timestamp": "2026-10-08T11:10:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Every time, plus a regular sweep in case we missed one. Some agencies publish quietly, and we'd only notice weeks later."
+    },
+    {
+      "timestamp": "2026-10-08T11:11:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "So the diff agent needs a source watch as well as a comparison. That's an important addition. Are there any guidance sources that don't publish in a machine readable form?"
+    },
+    {
+      "timestamp": "2026-10-08T11:11:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Some do, some only publish PDFs with inconsistent layouts. Scanned guidance is rare, but a few national documents are close to that."
+    },
+    {
+      "timestamp": "2026-10-08T11:11:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Then we'd need a document parsing step that handles messy PDFs and flags low confidence extraction for a person to check. I'll add that to the design risks."
+    },
+    {
+      "timestamp": "2026-10-08T11:12:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Good. Now, in simple terms, where would everything be hosted?"
+    },
+    {
+      "timestamp": "2026-10-08T11:12:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "All of it on AWS, in an EU region, as you asked. Documents and data sit in encrypted storage, the agents run as managed services, and every action is logged. Nothing leaves the AWS account you control."
+    },
+    {
+      "timestamp": "2026-10-08T11:12:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Which region, and can you confirm that the AI models you'd use run there too? Not just the storage."
+    },
+    {
+      "timestamp": "2026-10-08T11:13:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's the open check I mentioned. Model availability differs by region, so I'll confirm which models are offered in the Frankfurt and Ireland regions before we commit. I won't guess on this call."
+    },
+    {
+      "timestamp": "2026-10-08T11:13:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Good. If the model only runs outside the EU, we need to stop and reassess, not quietly accept it."
+    },
+    {
+      "timestamp": "2026-10-08T11:13:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Agreed, that's a stop condition. Let me describe the architecture in plain steps, and you tell me where it breaks."
+    },
+    {
+      "timestamp": "2026-10-08T11:14:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Go on. I'll stop you if it sounds like jargon."
+    },
+    {
+      "timestamp": "2026-10-08T11:14:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Step one, documents arrive and are stored in a secure bucket with write-once protection, so they can't be altered after upload. Step two, the content is extracted and split into sections. Step three, the agents work on those sections against the checklist."
+    },
+    {
+      "timestamp": "2026-10-08T11:14:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "What do you mean by split into sections? Dossiers are already split into modules, aren't they? I'm asking because people use these terms loosely, and I want to be sure we mean the same thing. The modules are the top level structure, but the sections inside them hold most of the content and most of the errors. If the tool can't find those sections reliably, it won't be useful. So I'd like to see a demonstration on one of our real documents early on, rather than assuming it works."
+    },
+    {
+      "timestamp": "2026-10-08T11:15:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "They are, but a module can be one huge file, and the section numbers inside don't always match the structure. The splitting step finds the real headings, so the checks run on the right content."
+    },
+    {
+      "timestamp": "2026-10-08T11:15:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "That's a real problem. We've had documents where the table of contents says one thing and the body says another."
+    },
+    {
+      "timestamp": "2026-10-08T11:15:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a finding in itself, so the system should report a mismatch, not silently work around it. Step four is the results, which go back to the writer and the reviewer with the trail."
+    },
+    {
+      "timestamp": "2026-10-08T11:16:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "And the trail is the audit log we talked about, so every step is recorded."
+    },
+    {
+      "timestamp": "2026-10-08T11:16:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Yes. Every run records the checklist version, the document version, the findings, and any decision a person made. That gives an inspector a complete picture."
+    },
+    {
+      "timestamp": "2026-10-08T11:16:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Good. What happens to a document after the run? Do you keep copies of the agent's working?"
+    },
+    {
+      "timestamp": "2026-10-08T11:17:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "We'd keep the findings, the evidence references, and the version of the inputs. The retention period is your decision, aligned to your records policy. I'd suggest we agree it as part of the data governance workstream."
+    },
+    {
+      "timestamp": "2026-10-08T11:17:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "That workstream needs my legal and data protection people. I'd expect a retention rule for personal data that differs from the one for guidance copies."
+    },
+    {
+      "timestamp": "2026-10-08T11:17:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Agreed. Personal data in case records needs its own rule, and I'd keep it out of the agent working files wherever possible. Let's look at how the agents actually run."
+    },
+    {
+      "timestamp": "2026-10-08T11:18:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Are they running all the time, or only when someone clicks a button?"
+    },
+    {
+      "timestamp": "2026-10-08T11:18:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Event driven. A new document, a new guideline version, or a human approval triggers the next step. Nothing runs unless something has changed, which keeps the cost down and the audit simple."
+    },
+    {
+      "timestamp": "2026-10-08T11:18:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "And how long does a full check take? Writers won't wait an hour for a result."
+    },
+    {
+      "timestamp": "2026-10-08T11:19:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "For a full dossier, I'd expect minutes rather than hours for the structural pass, but I want to measure it on real files before I promise a number. The guidance will come from the pilot."
+    },
+    {
+      "timestamp": "2026-10-08T11:19:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Minutes would be a huge change. Right now a structural check is a half day of reviewer time."
+    },
+    {
+      "timestamp": "2026-10-08T11:19:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's the number we'll test against. Now, I want to explain the reasoning behind the models, because you'll ask why we're using them at all. Before I do, I want to set expectations clearly. A model can read a paragraph and judge whether it addresses a requirement, which is hard to do with simple rules. But it can also be confidently wrong, which is why every model output is a finding with evidence, never a final decision. The rules and structural checks give us a fixed baseline. Together they're more reliable than either on its own, and that's the design principle I'd like us to agree."
+    },
+    {
+      "timestamp": "2026-10-08T11:20:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "I'd expect that question from my quality team. Why not just use rules and a database?"
+    },
+    {
+      "timestamp": "2026-10-08T11:20:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Rules handle the structural checks very well. Models help with reading guidance written in natural language, and with judging whether a paragraph in a dossier actually answers a requirement. We'd use both."
+    },
+    {
+      "timestamp": "2026-10-08T11:20:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "So the model reads the words and the rules check the structure, and both feed the reviewer."
+    },
+    {
+      "timestamp": "2026-10-08T11:21:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Exactly. And we'd keep the model's role narrow, so its output is always a finding with evidence, never a decision. That helps with validation, because the logic is easier to test."
+    },
+    {
+      "timestamp": "2026-10-08T11:21:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Models also give different answers to the same question sometimes. How do you handle that?"
+    },
+    {
+      "timestamp": "2026-10-08T11:21:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "We fix the model version, run the same test set each time, and record the version used in every finding. If a model changes, we re-run the validation before going live with it."
+    },
+    {
+      "timestamp": "2026-10-08T11:22:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "That's the kind of answer I want. Model changes are like software changes, so they go through change control."
+    },
+    {
+      "timestamp": "2026-10-08T11:22:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Yes. And since you mentioned it earlier, I'd remind everyone that models get retired. We'd plan for a model change at least once a year, with validation built into that cycle."
+    },
+    {
+      "timestamp": "2026-10-08T11:22:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "That's exactly the point the other partner made in our earlier discussion. Planning for change is part of the cost, and nobody budgets for it."
+    },
+    {
+      "timestamp": "2026-10-08T11:23:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Right, so the costing should include maintenance and revalidation, not just the build. Let's move to costs now, since leadership will ask for them."
+    },
+    {
+      "timestamp": "2026-10-08T11:23:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Yes. I need a pilot budget range, and a sense of the running cost per year, compared with what we spend now."
+    },
+    {
+      "timestamp": "2026-10-08T11:23:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "I'll give you ranges, clearly labelled as estimates. The biggest unknowns are the scanned document volume, the number of guidance sources, and how many reviewers adopt it. Let me start with the pilot build."
+    },
+    {
+      "timestamp": "2026-10-08T11:24:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Please include validation effort in the build, because that's usually where budgets go wrong."
+    },
+    {
+      "timestamp": "2026-10-08T11:24:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "I will, and I'll show it as a separate line. A small team for roughly three months would cover the build, the test set, and the validation documents. I'd estimate a range, and I'll firm it up after the discovery workshop."
+    },
+    {
+      "timestamp": "2026-10-08T11:24:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Give me the range now, even if it's wide. Leadership will not wait for a perfect number. I understand you can't commit to a precise figure before discovery, but I need something on paper for the steering group next month. If the range is wide, I'd like to see what drives the high end and the low end, so I can explain it. I'd also like today's cost on the same basis as the new cost, so we aren't comparing a fully loaded figure with a partly loaded one. Please keep the basis consistent."
+    },
+    {
+      "timestamp": "2026-10-08T11:25:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Understood. For the pilot, scoped to the periodic reports and the structural checks on one marketing dossier, I'd expect a build cost in the low hundreds of thousands of euros, including validation. That's a planning range, not a quote."
+    },
+    {
+      "timestamp": "2026-10-08T11:25:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "That's a wide range, but I can work with it. What would move it up or down?"
+    },
+    {
+      "timestamp": "2026-10-08T11:25:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Three things. The number of guidance sources and how messy they are, whether the scanned documents need extra processing, and how thorough the validation has to be. Those are the levers."
+    },
+    {
+      "timestamp": "2026-10-08T11:26:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "The validation level will be high. We can't run a light validation on a system that touches safety reporting, so plan for the full version."
+    },
+    {
+      "timestamp": "2026-10-08T11:26:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Noted, then I'll price the full validation and show a lighter option only for comparison. Now let's discuss the running cost, which I expect to be smaller than the build."
+    },
+    {
+      "timestamp": "2026-10-08T11:26:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Good. Running cost is what I'll be compared with every year, so I want to understand what drives it."
+    },
+    {
+      "timestamp": "2026-10-08T11:27:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "The main drivers are model usage, which depends on how many pages are processed, storage, and the monitoring and logging. For a volume like yours, I'd expect the model cost per dossier to be modest, but I'd verify it with a real test before quoting."
+    },
+    {
+      "timestamp": "2026-10-08T11:27:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Does the running cost include a support team? Because without one, the system stops working as soon as something changes."
+    },
+    {
+      "timestamp": "2026-10-08T11:27:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "It should. I'd show support and revalidation as a separate annual line, because it's easy to forget and expensive if it's missed. Would you want that as a managed service, or in-house?"
+    },
+    {
+      "timestamp": "2026-10-08T11:28:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Hybrid, probably. We'd run the day-to-day checks in-house, and need a partner for model changes and validation updates."
+    },
+    {
+      "timestamp": "2026-10-08T11:28:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a sensible split. I'll model both the in-house and partner-supported options, so you can compare. Helen, what's the comparison baseline you'll use?"
+    },
+    {
+      "timestamp": "2026-10-08T11:28:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "The current effort per dossier and per periodic report, which we already talked about, valued at our internal rate. Plus the cost of delayed submissions, which is harder to put a number on."
+    },
+    {
+      "timestamp": "2026-10-08T11:29:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "I'll show the delayed submission cost as a separate line with the assumption stated, so leadership can challenge it. Let me write a rough model for the periodic report reconciliation alone."
+    },
+    {
+      "timestamp": "2026-10-08T11:29:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Yes, that's the easiest one to measure. Three or four days per report, across twelve to fifteen products, and that's a lot of analyst time each year."
+    },
+    {
+      "timestamp": "2026-10-08T11:29:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Right, so if the system cuts the reconciliation effort by a meaningful share, that saving is concrete. I'll show a range for the saving, with a clear assumption about the reduction, and we'll test that in the pilot. The reconciliation saving is the easiest part of the case to test, because we can measure the analyst time before and after on the same periodic report. I'd run the same report through the old process and the new one, then compare the hours. If the saving is real, it's a strong result. If it's smaller than we hoped, we'll say so, and the steering group will trust the rest of the numbers more because of it."
+    },
+    {
+      "timestamp": "2026-10-08T11:30:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Please be careful with the saving. If the reduction is overstated, we'll lose credibility with leadership."
+    },
+    {
+      "timestamp": "2026-10-08T11:30:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Agreed, I'll use a conservative assumption and show the sensitivity. I don't want the business case to rest on one optimistic number."
+    },
+    {
+      "timestamp": "2026-10-08T11:30:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "And don't forget the cost of getting it wrong. An inspection finding on a safety report is expensive in ways that don't show up in a spreadsheet."
+    },
+    {
+      "timestamp": "2026-10-08T11:31:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a real benefit, though hard to quantify. I'll describe it qualitatively and keep it out of the headline numbers. Let's now talk about phasing, so the pilot stays realistic."
+    },
+    {
+      "timestamp": "2026-10-08T11:31:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Right, a phased plan is what I need to take to the steering group. Something they can approve in stages."
+    },
+    {
+      "timestamp": "2026-10-08T11:31:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Here's a proposal. Phase one covers the analyst agent and the validation agent for periodic report reconciliation and structural checks on one marketing dossier. Phase two adds the diff agent. Phase three extends to affiliates and more document types."
+    },
+    {
+      "timestamp": "2026-10-08T11:32:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "I'd flip the first two. The diff agent gives quicker value for us, because the guideline changes are constant. The periodic reconciliation takes longer to validate."
+    },
+    {
+      "timestamp": "2026-10-08T11:32:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a good point. I'd want to check the dependency, since the diff agent needs the checklist approval flow working first. But we could pilot a narrow version of the diff agent on a single guideline."
+    },
+    {
+      "timestamp": "2026-10-08T11:32:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "A single guideline would be a good test. The one we revised most recently, so we already know what changed."
+    },
+    {
+      "timestamp": "2026-10-08T11:33:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Good, that gives us a known answer to test against, which is the same principle as the validation set. Let me capture both options as phase one and phase two candidates."
+    },
+    {
+      "timestamp": "2026-10-08T11:33:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "And the steering group will want a go or no go point after the pilot, based on the agreed measures, not on how impressive the demo looked."
+    },
+    {
+      "timestamp": "2026-10-08T11:33:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Agreed. We agree the pass criteria before the pilot starts, so the decision is objective. Review rounds, time to readiness, reconciliation effort, and false positive rate would be the core set."
+    },
+    {
+      "timestamp": "2026-10-08T11:34:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Add trust, measured by how often reviewers accept the findings. That's the adoption measure I mentioned earlier."
+    },
+    {
+      "timestamp": "2026-10-08T11:34:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Good, I'll include reviewer acceptance rate. So, five measures in total, each with a baseline and a target to agree. I'll draft those for you to review."
+    },
+    {
+      "timestamp": "2026-10-08T11:34:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Make sure the baselines come from real data, not estimates. If we don't have the data, the pilot will be arguing about numbers instead of testing the system. We track some of this in our safety database already, but time spent isn't logged, so the analysts will need to estimate it for the baseline. I'd like those estimates tested against a short timed exercise, so we don't rely on memory. A few hours of measurement would save weeks of debate later. If the baseline is solid, the pilot results will be credible to the people who need to approve the next phase."
+    },
+    {
+      "timestamp": "2026-10-08T11:35:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Fair point. We'll need the historical review logs, and I'll ask for a sample so we can baseline properly. That's an early action for your team."
+    },
+    {
+      "timestamp": "2026-10-08T11:35:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "We can share anonymised review logs. Tomasz, can your team pull the reconciliation records?"
+    },
+    {
+      "timestamp": "2026-10-08T11:35:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Yes, but I'll need to check what can leave our systems first. Patient-level data is off the table for now, so we'd use aggregated figures only."
+    },
+    {
+      "timestamp": "2026-10-08T11:36:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's the right approach. Aggregated and anonymised for the pilot, with no patient-level data leaving your environment. I'll write that into the data handling plan."
+    },
+    {
+      "timestamp": "2026-10-08T11:36:20Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Next, the risks. What could go wrong that we haven't talked about?"
+    },
+    {
+      "timestamp": "2026-10-08T11:36:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "The main ones I'd list are poor scan quality, inconsistent guidance layouts, conflicting sources, slow adoption by reviewers, and validation taking longer than planned. I'll give each a mitigation and an owner."
+    },
+    {
+      "timestamp": "2026-10-08T11:37:00Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Add one more. The people who know the rules are already overloaded, so the time to build and approve the checklist could be the real bottleneck."
+    },
+    {
+      "timestamp": "2026-10-08T11:37:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "That's a very important risk, and it's about your people, not the technology. We'd need to protect time for the approvers in the plan. I'll put that in as a dependency with a named resource."
+    },
+    {
+      "timestamp": "2026-10-08T11:37:40Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Good. And I'd like the plan to say clearly who at Meridian signs off each stage."
+    },
+    {
+      "timestamp": "2026-10-08T11:38:00Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "I will. A RACI table with named roles on your side, so every approval has an owner. That also shows the steering group who is accountable."
+    },
+    {
+      "timestamp": "2026-10-08T11:38:20Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Let's also agree the next steps before we hang up. I don't want this to sit for three weeks."
+    },
+    {
+      "timestamp": "2026-10-08T11:38:40Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "Agreed. My next steps are to confirm EU model availability, draft the phased scope with the five measures, and send the validation approach and the cost ranges. Can we review that together next week?"
+    },
+    {
+      "timestamp": "2026-10-08T11:39:00Z",
+      "speaker": "cx",
+      "name": "Helen Brooks (Customer)",
+      "text": "Yes, next week works. Please send the reconciliation questionnaire and the guidance source list ahead of that meeting, so we can prepare."
+    },
+    {
+      "timestamp": "2026-10-08T11:39:20Z",
+      "speaker": "ba",
+      "name": "Ravi Menon (Partner)",
+      "text": "I'll send both tomorrow. Thank you both. This has been very helpful, and I now have a clear problem, a phased approach, and the compliance questions to answer."
+    },
+    {
+      "timestamp": "2026-10-08T11:39:40Z",
+      "speaker": "cx",
+      "name": "Tomasz Wierzbicki (Customer)",
+      "text": "Thanks, Ravi. Compliance first, as I said. If the EU model check passes, we can talk about the rest. I'll also need the validation approach in writing before we commit any budget, and I'd like my quality lead to review it first. If the approach is sound, I'll put the pilot forward to the steering group. I appreciate that you're taking the regulatory side seriously, because that's the part that usually gets rushed. Let's keep the pace steady, and don't promise dates we can't keep."
+    }
+  ]
+}

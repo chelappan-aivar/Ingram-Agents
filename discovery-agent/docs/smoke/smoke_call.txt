@@ -1,0 +1,30 @@
+Priya Shah
+0:05
+Thanks for joining. The goal today is to understand how our billing team handles invoice disputes.
+Marcus Lee
+0:20
+Right now every dispute starts in Zendesk. We download the AWS invoice file, then compare it by hand with our working sheet in Excel. It takes about two days per dispute.
+Priya Shah
+0:48
+Which systems are involved besides Zendesk and Excel?
+Marcus Lee
+1:02
+We also look at the AWS console for usage, and we check the partner agreement in SharePoint for the discount rules.
+Dana Cruz
+1:30
+The discount rules change whenever a partner type changes, and nobody owns updating them. We found out last month when a credit was wrong.
+Priya Shah
+2:01
+How many disputes do you get?
+Marcus Lee
+2:10
+Around forty a month, and the billing team is only three people.
+Dana Cruz
+2:40
+We would like an assistant that gives a first analysis for each dispute before a person looks at it.
+Priya Shah
+3:05
+What would you need to share with us to get started?
+Marcus Lee
+3:15
+A sample of closed tickets and the working sheet. I will send them next week.

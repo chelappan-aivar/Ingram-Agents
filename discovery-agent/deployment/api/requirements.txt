@@ -1,0 +1,2 @@
+# Pinned so the bedrock-agentcore client is available regardless of the Lambda-bundled boto3.
+boto3==1.43.114

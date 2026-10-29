@@ -1,0 +1,267 @@
+# Component catalog: canonical service name -> draw.io AWS4 icon.  Loaded by app/catalog/loader.py.
+#
+# Entry fields
+#   name      canonical name (what the Extractor puts in `service`)
+#   shape     AWS4 shape name (after mxgraph.aws4.); must exist in vendor aws4-shapes.json
+#   style     resource_icon : main service icon, drawn shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.<shape>
+#             sub_resource  : stencil icon, drawn shape=mxgraph.aws4.<shape>
+#             general       : non-AWS glyph (listed under sub_resources in the JSON) drawn with resIcon, as the skill does
+#   category  key of the `categories` table below (visual category: label + fill + container tint/stroke)
+#   kind      default ComponentKind
+#   synonyms  lowercase aliases; unique across the whole file after normalisation
+#   exact     true = the keys only match the whole text (never as a word inside a longer phrase)
+#
+# COLOURS: these rows must agree with vendor/deploy-on-aws-plugin/scripts/lib/fix_icon_colors.py, which
+# overwrites icon fills and container tint/stroke for the shapes in its tables. tests/test_catalog.py
+# cross-checks them. Where the fixer differs from aws4-shapes.json (iot, developer_tools, API Gateway,
+# Elastic Load Balancing as networking, management tint) the fixer wins.
+
+categories:
+  compute:                    {label: Compute,                fill_color: "#ED7100", tint_color: "#FFF2E8", stroke_color: "#ED7100"}
+  containers:                 {label: Containers,             fill_color: "#ED7100", tint_color: "#FFF2E8", stroke_color: "#ED7100"}
+  database:                   {label: Database,               fill_color: "#C925D1", tint_color: "#F5E6F7", stroke_color: "#C925D1"}
+  storage:                    {label: Storage,                fill_color: "#3F8624", tint_color: "#E8F5E9", stroke_color: "#3F8624"}
+  analytics:                  {label: Analytics,              fill_color: "#8C4FFF", tint_color: "#EDE7F6", stroke_color: "#8C4FFF"}
+  networking:                 {label: Networking,             fill_color: "#8C4FFF", tint_color: "#EDE7F6", stroke_color: "#8C4FFF"}
+  application_integration:    {label: App Integration,        fill_color: "#E7157B", tint_color: "#FCE4EC", stroke_color: "#E7157B"}
+  security:                   {label: Security,               fill_color: "#DD344C", tint_color: "#FFEBEE", stroke_color: "#DD344C"}
+  ai_ml:                      {label: AI/ML,                  fill_color: "#01A88D", tint_color: "#E0F2F1", stroke_color: "#01A88D"}
+  iot:                        {label: IoT,                    fill_color: "#1A9C37", tint_color: "#E8F5E9", stroke_color: "#1A9C37"}
+  management_governance:      {label: Management,             fill_color: "#E7157B", tint_color: "#FCE4EC", stroke_color: "#E7157B"}
+  developer_tools:            {label: Developer Tools,        fill_color: "#8C4FFF", tint_color: "#EDE7F6", stroke_color: "#8C4FFF"}
+  migration_modernization:    {label: Migration,              fill_color: "#3F8624", tint_color: "#E8F5E9", stroke_color: "#3F8624"}
+  cloud_financial_management: {label: Cost Management,        fill_color: "#3F8624", tint_color: "#E8F5E9", stroke_color: "#3F8624"}
+  business_applications:      {label: Business Applications,  fill_color: "#E7157B", tint_color: "#FCE4EC", stroke_color: "#E7157B"}
+  front_end_web_mobile:       {label: Front-End Web and Mobile, fill_color: "#E7157B", tint_color: "#FCE4EC", stroke_color: "#E7157B"}
+  end_user_computing:         {label: End User Computing,     fill_color: "#ED7100", tint_color: "#FFF2E8", stroke_color: "#ED7100"}
+  media_services:             {label: Media Services,         fill_color: "#ED7100", tint_color: "#FFF2E8", stroke_color: "#ED7100"}
+  general:                    {label: General,                fill_color: "#232F3D", tint_color: "#F5F5F5", stroke_color: "#666666"}
+
+# Used by Catalog.resolve() when nothing matches (the result has matched=False). Values are entry names below.
+fallbacks:
+  actor: Users
+  external: Internet
+  data_store: Generic Database
+  generic: Generic Application
+  aws_service: Generic AWS Service
+
+components:
+  # ---------------------------------------------------------------- generic / non-AWS (category general unless noted)
+  - {name: Users, shape: users, style: general, category: general, kind: actor, synonyms: [users, user, end users, end user, customers, customer, employees, operators, people]}
+  - {name: Mobile Client, shape: mobile_client, style: general, category: general, kind: actor, synonyms: [mobile app, mobile application, mobile device, mobile devices, ios app, android app, smartphone, mobile users]}
+  - {name: Web Client, shape: client, style: general, category: general, kind: actor, synonyms: [web browser, browser, web client, desktop client, desktop app, browser client]}
+  - {name: IoT Device, shape: sensor, style: general, category: iot, kind: actor, synonyms: [iot device, iot devices, iot sensor, iot sensors, sensor, sensors, device, devices, edge device, smart meter, telemetry device, connected device]}
+  - {name: Corporate Data Center, shape: corporate_data_center, style: general, category: general, kind: external, synonyms: [on-premises, on premises, on-prem, data center, datacenter, corporate network, corporate datacenter, headquarters, on-premises data center]}
+  - {name: On-Premises Server, shape: traditional_server, style: general, category: general, kind: external, synonyms: [on-prem server, on premises server, legacy server, bare metal server, physical server, on-premises servers]}
+  - {name: Internet, shape: internet, style: general, category: networking, kind: external, synonyms: [public internet, the internet, internet traffic, web]}
+  - {name: External API, shape: internet, style: general, category: networking, kind: external, synonyms: [external api, third-party api, third party api, partner api, saas, saas application, third-party service, github, gitlab, bitbucket]}
+  - {name: Third-Party System, shape: generic_application, style: general, category: general, kind: external, synonyms: [third-party system, third party system, third-party application, external system, partner system, vendor system, legacy system, erp, crm, salesforce, sap, stripe, twilio, sendgrid, datadog, splunk, pagerduty]}
+  - {name: Generic Database, shape: generic_database, style: general, category: general, kind: data_store, synonyms: [database, sql database, postgresql, postgres, mysql, mariadb, mongodb, sql server, oracle database, cassandra, nosql database]}
+  - {name: Generic Application, shape: generic_application, style: general, category: general, kind: generic, synonyms: [application, app, custom application, internal application, web application, web app, backend service, microservice, legacy application]}
+  - {name: Generic Firewall, shape: generic_firewall, style: general, category: general, kind: generic, synonyms: [firewall, on-prem firewall, hardware firewall, perimeter firewall]}
+  - {name: Generic AWS Service, shape: general, style: resource_icon, category: general, kind: aws_service, synonyms: []}
+
+  # ---------------------------------------------------------------- compute
+  - {name: Amazon EC2, shape: ec2, style: resource_icon, category: compute, kind: aws_service, synonyms: [ec2, elastic compute cloud, ec2 instance, ec2 instances, virtual machine, virtual machines, vm]}
+  - {name: Amazon EC2 Auto Scaling, shape: auto_scaling2, style: resource_icon, category: compute, kind: aws_service, synonyms: [auto scaling, auto scaling group, auto scaling groups, asg]}
+  - {name: AWS Lambda, shape: lambda, style: resource_icon, category: compute, kind: aws_service, synonyms: [lambda, lambda function, lambda functions, serverless function]}
+  - {name: AWS Batch, shape: batch, style: resource_icon, category: compute, kind: aws_service, exact: true, synonyms: [batch jobs, batch compute]}
+  - {name: AWS Elastic Beanstalk, shape: elastic_beanstalk, style: resource_icon, category: compute, kind: aws_service, synonyms: [elastic beanstalk, beanstalk]}
+  - {name: AWS App Runner, shape: app_runner, style: resource_icon, category: compute, kind: aws_service, synonyms: [app runner]}
+  - {name: AWS Outposts, shape: outposts, style: resource_icon, category: compute, kind: aws_service, synonyms: [outposts, outpost]}
+  - {name: VMware Cloud on AWS, shape: vmware_cloud_on_aws, style: resource_icon, category: compute, kind: aws_service, synonyms: [vmware cloud, vmc on aws]}
+  - {name: EC2 Image Builder, shape: ec2_image_builder, style: resource_icon, category: compute, kind: aws_service, synonyms: [image builder]}
+  - {name: Elastic Load Balancing, shape: elastic_load_balancing, style: resource_icon, category: networking, kind: aws_service, synonyms: [elb, load balancer, load balancers, elastic load balancer]}
+  - {name: Application Load Balancer, shape: application_load_balancer, style: sub_resource, category: networking, kind: aws_service, synonyms: [alb, app load balancer, application load balancing]}
+  - {name: Network Load Balancer, shape: network_load_balancer, style: sub_resource, category: networking, kind: aws_service, synonyms: [nlb]}
+
+  # ---------------------------------------------------------------- containers
+  - {name: Amazon ECS, shape: ecs, style: resource_icon, category: containers, kind: aws_service, synonyms: [ecs, elastic container service, ecs cluster, ecs service]}
+  - {name: Amazon EKS, shape: eks, style: resource_icon, category: containers, kind: aws_service, synonyms: [eks, elastic kubernetes service, kubernetes, k8s, eks cluster]}
+  - {name: AWS Fargate, shape: fargate, style: resource_icon, category: compute, kind: aws_service, synonyms: [fargate, ecs fargate, ecs on fargate, fargate task, fargate tasks]}
+  - {name: Amazon ECR, shape: ecr, style: resource_icon, category: containers, kind: aws_service, synonyms: [ecr, elastic container registry, container registry]}
+  - {name: Red Hat OpenShift Service on AWS, shape: red_hat_openshift, style: resource_icon, category: containers, kind: aws_service, synonyms: [rosa, openshift, red hat openshift]}
+
+  # ---------------------------------------------------------------- storage
+  - {name: Amazon S3, shape: s3, style: resource_icon, category: storage, kind: data_store, synonyms: [s3, simple storage service, s3 bucket, s3 buckets, object storage]}
+  - {name: Amazon S3 Glacier, shape: glacier, style: resource_icon, category: storage, kind: data_store, synonyms: [glacier, glacier deep archive, s3 glacier deep archive]}
+  - {name: Amazon S3 Tables, shape: s3_tables, style: sub_resource, category: storage, kind: data_store, synonyms: [s3 table buckets]}
+  - {name: Amazon S3 Vectors, shape: s3_vectors, style: sub_resource, category: storage, kind: data_store, synonyms: [s3 vector buckets]}
+  - {name: Amazon EBS, shape: elastic_block_store, style: resource_icon, category: storage, kind: data_store, synonyms: [ebs, elastic block store, ebs volume, ebs volumes, block storage]}
+  - {name: Amazon EFS, shape: elastic_file_system, style: resource_icon, category: storage, kind: data_store, synonyms: [efs, elastic file system]}
+  - {name: Amazon FSx, shape: fsx, style: resource_icon, category: storage, kind: data_store, synonyms: [fsx file system]}
+  - {name: Amazon FSx for Lustre, shape: fsx_for_lustre, style: resource_icon, category: storage, kind: data_store, synonyms: [fsx lustre, lustre]}
+  - {name: Amazon FSx for NetApp ONTAP, shape: fsx_for_netapp_ontap, style: resource_icon, category: storage, kind: data_store, synonyms: [fsx ontap, fsx netapp, netapp ontap]}
+  - {name: Amazon FSx for Windows File Server, shape: fsx_for_windows_file_server, style: resource_icon, category: storage, kind: data_store, synonyms: [fsx windows, fsx for windows]}
+  - {name: AWS Backup, shape: backup, style: resource_icon, category: storage, kind: aws_service, exact: true, synonyms: [backup vault, backup plan]}
+  - {name: AWS Storage Gateway, shape: storage_gateway, style: resource_icon, category: storage, kind: aws_service, synonyms: [file gateway, tape gateway, volume gateway]}
+  - {name: AWS Elastic Disaster Recovery, shape: cloudendure_disaster_recovery, style: resource_icon, category: storage, kind: aws_service, synonyms: [drs, cloudendure disaster recovery]}
+
+  # ---------------------------------------------------------------- database
+  - {name: Amazon RDS, shape: rds, style: resource_icon, category: database, kind: data_store, synonyms: [rds, relational database service, rds instance, rds postgresql, rds for postgresql, rds mysql, rds for mysql, rds sql server, rds oracle, rds mariadb]}
+  - {name: Amazon RDS Proxy, shape: rds_proxy, style: sub_resource, category: database, kind: aws_service, synonyms: []}
+  - {name: Amazon Aurora, shape: aurora, style: resource_icon, category: database, kind: data_store, synonyms: [aurora, aurora postgresql, aurora mysql, aurora serverless, aurora cluster, aurora postgres]}
+  - {name: Amazon DynamoDB, shape: dynamodb, style: resource_icon, category: database, kind: data_store, synonyms: [dynamodb, ddb, dynamo db, dynamodb table, dynamodb tables, dynamodb global tables]}
+  - {name: Amazon DynamoDB Streams, shape: dynamodb_stream, style: sub_resource, category: database, kind: aws_service, synonyms: [dynamodb stream, ddb streams]}
+  - {name: Amazon DynamoDB Accelerator, shape: dynamodb_dax, style: sub_resource, category: database, kind: data_store, synonyms: [dax, dynamodb dax]}
+  - {name: Amazon ElastiCache, shape: elasticache, style: resource_icon, category: database, kind: data_store, synonyms: [elasticache, elasticache for redis, elasticache for valkey, elasticache for memcached, redis, valkey, memcached]}
+  - {name: Amazon MemoryDB, shape: memorydb_for_redis, style: resource_icon, category: database, kind: data_store, synonyms: [memorydb, memory db, memorydb for redis]}
+  - {name: Amazon DocumentDB, shape: documentdb_with_mongodb_compatibility, style: resource_icon, category: database, kind: data_store, synonyms: [documentdb, document db, documentdb with mongodb compatibility]}
+  - {name: Amazon Neptune, shape: neptune, style: resource_icon, category: database, kind: data_store, synonyms: [neptune, neptune graph, graph database]}
+  - {name: Amazon Keyspaces, shape: keyspaces, style: resource_icon, category: database, kind: data_store, synonyms: [keyspaces, keyspaces for apache cassandra]}
+  - {name: Amazon Timestream, shape: timestream, style: resource_icon, category: database, kind: data_store, synonyms: [timestream, timestream for influxdb, timestream for liveanalytics, time series database]}
+  - {name: AWS Database Migration Service, shape: database_migration_service, style: resource_icon, category: database, kind: aws_service, synonyms: [dms, database migration service]}
+
+  # ---------------------------------------------------------------- analytics and streaming
+  - {name: Amazon Redshift, shape: redshift, style: resource_icon, category: analytics, kind: data_store, synonyms: [redshift, redshift serverless, redshift spectrum, redshift cluster]}
+  - {name: Amazon Athena, shape: athena, style: resource_icon, category: analytics, kind: aws_service, synonyms: [athena]}
+  - {name: AWS Glue, shape: glue, style: resource_icon, category: analytics, kind: aws_service, synonyms: [glue, glue etl, glue job, glue jobs, glue crawler, glue crawlers, glue data catalog, glue studio]}
+  - {name: AWS Glue DataBrew, shape: glue_databrew, style: resource_icon, category: analytics, kind: aws_service, synonyms: [databrew]}
+  - {name: AWS Lake Formation, shape: lake_formation, style: resource_icon, category: analytics, kind: aws_service, synonyms: [lake formation, lakeformation]}
+  - {name: Amazon QuickSight, shape: quicksight, style: resource_icon, category: analytics, kind: aws_service, synonyms: [quicksight, quick sight]}
+  - {name: Amazon EMR, shape: emr, style: resource_icon, category: analytics, kind: aws_service, synonyms: [emr, elastic mapreduce, emr serverless, emr cluster]}
+  - {name: Amazon Kinesis Data Streams, shape: kinesis_data_streams, style: resource_icon, category: analytics, kind: aws_service, synonyms: [kinesis, kinesis stream, kinesis streams, kds]}
+  - {name: Amazon Data Firehose, shape: kinesis_data_firehose, style: resource_icon, category: analytics, kind: aws_service, synonyms: [kinesis data firehose, kinesis firehose, firehose, kdf]}
+  - {name: Amazon Managed Service for Apache Flink, shape: managed_service_for_apache_flink, style: resource_icon, category: analytics, kind: aws_service, synonyms: [kinesis data analytics, managed apache flink, apache flink, flink]}
+  - {name: Amazon Kinesis Video Streams, shape: kinesis_video_streams, style: resource_icon, category: analytics, kind: aws_service, synonyms: [kinesis video, kvs]}
+  - {name: Amazon MSK, shape: managed_streaming_for_kafka, style: resource_icon, category: analytics, kind: aws_service, synonyms: [msk, managed streaming for apache kafka, managed kafka]}
+  - {name: Amazon OpenSearch Service, shape: elasticsearch_service, style: resource_icon, category: analytics, kind: data_store, synonyms: [opensearch, opensearch serverless, elasticsearch, elasticsearch service]}
+  - {name: Amazon DataZone, shape: datazone, style: resource_icon, category: analytics, kind: aws_service, synonyms: [datazone]}
+
+  # ---------------------------------------------------------------- application integration and messaging
+  - {name: Amazon API Gateway, shape: api_gateway, style: resource_icon, category: networking, kind: aws_service, synonyms: [api gateway, apigw, api gw, apigateway, http api gateway, rest api gateway, websocket api]}
+  - {name: AWS Step Functions, shape: step_functions, style: resource_icon, category: application_integration, kind: aws_service, synonyms: [step functions, step function, stepfunctions, sfn, state machine, state machines]}
+  - {name: Amazon EventBridge, shape: eventbridge, style: resource_icon, category: application_integration, kind: aws_service, synonyms: [eventbridge, event bridge, cloudwatch events, event bus, eventbridge rule, eventbridge rules]}
+  - {name: Amazon EventBridge Scheduler, shape: eventbridge_scheduler, style: sub_resource, category: application_integration, kind: aws_service, synonyms: [eventbridge scheduler]}
+  - {name: Amazon EventBridge Pipes, shape: eventbridge_pipes, style: sub_resource, category: application_integration, kind: aws_service, synonyms: [eventbridge pipes, eventbridge pipe]}
+  - {name: Amazon SQS, shape: sqs, style: resource_icon, category: application_integration, kind: aws_service, synonyms: [sqs, simple queue service, sqs queue, sqs queues, dead letter queue, dlq, fifo queue]}
+  - {name: Amazon SNS, shape: sns, style: resource_icon, category: application_integration, kind: aws_service, synonyms: [sns, simple notification service, sns topic, sns topics]}
+  - {name: Amazon MQ, shape: mq, style: resource_icon, category: application_integration, kind: aws_service, synonyms: [amazon mq broker, mq broker]}
+  - {name: AWS AppSync, shape: appsync, style: resource_icon, category: application_integration, kind: aws_service, synonyms: [appsync, graphql api]}
+  - {name: Amazon AppFlow, shape: appflow, style: resource_icon, category: application_integration, kind: aws_service, synonyms: [appflow]}
+  - {name: Amazon Managed Workflows for Apache Airflow, shape: managed_workflows_for_apache_airflow, style: resource_icon, category: application_integration, kind: aws_service, synonyms: [mwaa, airflow, managed airflow, apache airflow]}
+  - {name: Amazon SES, shape: simple_email_service, style: resource_icon, category: business_applications, kind: aws_service, synonyms: [ses, simple email service]}
+  - {name: Amazon Connect, shape: connect, style: resource_icon, category: business_applications, kind: aws_service, exact: true, synonyms: [contact center, amazon connect contact center]}
+  - {name: Amazon Quick Suite, shape: quick_suite, style: resource_icon, category: business_applications, kind: aws_service, synonyms: [quick suite]}
+
+  # ---------------------------------------------------------------- networking and edge
+  - {name: Amazon VPC, shape: vpc, style: resource_icon, category: networking, kind: aws_service, synonyms: [vpc, virtual private cloud]}
+  - {name: Amazon CloudFront, shape: cloudfront, style: resource_icon, category: networking, kind: aws_service, synonyms: [cloudfront, cdn, cloudfront distribution, content delivery network]}
+  - {name: Amazon Route 53, shape: route_53, style: resource_icon, category: networking, kind: aws_service, synonyms: [route 53, route53, r53, dns, route 53 hosted zone]}
+  - {name: AWS Direct Connect, shape: direct_connect, style: resource_icon, category: networking, kind: aws_service, synonyms: [direct connect, dx, directconnect, dx connection]}
+  - {name: AWS Site-to-Site VPN, shape: site_to_site_vpn, style: resource_icon, category: networking, kind: aws_service, synonyms: [site to site vpn, s2s vpn, vpn, vpn connection, ipsec vpn, vpn tunnel, aws vpn]}
+  - {name: AWS Transit Gateway, shape: transit_gateway, style: resource_icon, category: networking, kind: aws_service, synonyms: [transit gateway, tgw]}
+  - {name: AWS Client VPN, shape: client_vpn, style: resource_icon, category: networking, kind: aws_service, synonyms: [client vpn]}
+  - {name: AWS PrivateLink, shape: vpc_privatelink, style: resource_icon, category: networking, kind: aws_service, synonyms: [privatelink, private link, vpc endpoint, vpc endpoints, interface endpoint, gateway endpoint]}
+  - {name: NAT Gateway, shape: nat_gateway, style: sub_resource, category: networking, kind: aws_service, synonyms: [nat, nat gw]}
+  - {name: Internet Gateway, shape: internet_gateway, style: sub_resource, category: networking, kind: aws_service, synonyms: [igw]}
+  - {name: Virtual Private Gateway, shape: vpn_gateway, style: sub_resource, category: networking, kind: aws_service, synonyms: [vgw, vpn gateway]}
+  - {name: Customer Gateway, shape: customer_gateway, style: sub_resource, category: networking, kind: aws_service, synonyms: [cgw]}
+  - {name: AWS Global Accelerator, shape: global_accelerator, style: resource_icon, category: networking, kind: aws_service, synonyms: [global accelerator]}
+  - {name: AWS Cloud Map, shape: cloud_map, style: resource_icon, category: networking, kind: aws_service, synonyms: [cloud map]}
+  - {name: AWS App Mesh, shape: app_mesh, style: resource_icon, category: networking, kind: aws_service, synonyms: [app mesh]}
+  - {name: Amazon VPC Lattice, shape: vpc_lattice, style: resource_icon, category: networking, kind: aws_service, synonyms: [vpc lattice]}
+  - {name: AWS Cloud WAN, shape: cloud_wan, style: resource_icon, category: networking, kind: aws_service, synonyms: [cloud wan]}
+  - {name: AWS Verified Access, shape: verified_access, style: resource_icon, category: networking, kind: aws_service, synonyms: [verified access]}
+
+  # ---------------------------------------------------------------- security and identity
+  - {name: Amazon Cognito, shape: cognito, style: resource_icon, category: security, kind: aws_service, synonyms: [cognito, cognito user pool, cognito user pools, cognito identity pool, user pool]}
+  - {name: AWS IAM, shape: identity_and_access_management, style: resource_icon, category: security, kind: aws_service, synonyms: [iam, identity and access management, iam role, iam roles, iam policy]}
+  - {name: AWS IAM Identity Center, shape: single_sign_on, style: resource_icon, category: security, kind: aws_service, synonyms: [identity center, sso, single sign-on, aws sso]}
+  - {name: AWS KMS, shape: key_management_service, style: resource_icon, category: security, kind: aws_service, synonyms: [kms, key management service, kms key, customer managed key, cmk]}
+  - {name: AWS Secrets Manager, shape: secrets_manager, style: resource_icon, category: security, kind: aws_service, synonyms: [secret manager]}
+  - {name: AWS Certificate Manager, shape: certificate_manager_3, style: resource_icon, category: security, kind: aws_service, synonyms: [acm]}
+  - {name: AWS WAF, shape: waf, style: resource_icon, category: security, kind: aws_service, synonyms: [waf, web application firewall, wafv2, waf web acl]}
+  - {name: AWS Shield, shape: shield, style: resource_icon, category: security, kind: aws_service, exact: true, synonyms: [shield advanced, ddos protection]}
+  - {name: Amazon GuardDuty, shape: guardduty, style: resource_icon, category: security, kind: aws_service, synonyms: [guardduty]}
+  - {name: AWS Security Hub, shape: security_hub, style: resource_icon, category: security, kind: aws_service, synonyms: [securityhub]}
+  - {name: Amazon Inspector, shape: inspector, style: resource_icon, category: security, kind: aws_service, exact: true, synonyms: []}
+  - {name: Amazon Macie, shape: macie, style: resource_icon, category: security, kind: aws_service, synonyms: [macie]}
+  - {name: Amazon Detective, shape: detective, style: resource_icon, category: security, kind: aws_service, exact: true, synonyms: []}
+  - {name: Amazon Security Lake, shape: security_lake, style: resource_icon, category: security, kind: aws_service, synonyms: [security lake]}
+  - {name: AWS Network Firewall, shape: network_firewall, style: resource_icon, category: security, kind: aws_service, synonyms: [network firewall]}
+  - {name: AWS Firewall Manager, shape: firewall_manager, style: resource_icon, category: security, kind: aws_service, synonyms: [firewall manager]}
+  - {name: AWS CloudHSM, shape: cloudhsm, style: resource_icon, category: security, kind: aws_service, synonyms: [cloudhsm, hsm]}
+  - {name: AWS Directory Service, shape: directory_service, style: resource_icon, category: security, kind: aws_service, synonyms: [managed microsoft ad, aws managed microsoft ad, directory service]}
+  - {name: Amazon Verified Permissions, shape: verified_permissions, style: resource_icon, category: security, kind: aws_service, synonyms: [verified permissions]}
+  - {name: AWS Resource Access Manager, shape: resource_access_manager, style: resource_icon, category: security, kind: aws_service, synonyms: [ram, resource access manager]}
+  - {name: AWS Audit Manager, shape: audit_manager, style: resource_icon, category: security, kind: aws_service, synonyms: [audit manager]}
+
+  # ---------------------------------------------------------------- management and monitoring
+  - {name: Amazon CloudWatch, shape: cloudwatch_2, style: resource_icon, category: management_governance, kind: aws_service, synonyms: [cloudwatch, cloudwatch alarm, cloudwatch alarms, cloudwatch metrics, cloudwatch dashboard, cloudwatch dashboards, cloudwatch logs, cloudwatch log group]}
+  - {name: AWS CloudTrail, shape: cloudtrail, style: resource_icon, category: management_governance, kind: aws_service, synonyms: [cloudtrail, cloudtrail logs]}
+  - {name: AWS Config, shape: config, style: resource_icon, category: management_governance, kind: aws_service, exact: true, synonyms: [config rules, aws config rules]}
+  - {name: AWS CloudFormation, shape: cloudformation, style: resource_icon, category: management_governance, kind: aws_service, synonyms: [cloudformation, cfn, cloudformation stack]}
+  - {name: AWS Systems Manager, shape: systems_manager, style: resource_icon, category: management_governance, kind: aws_service, synonyms: [systems manager, ssm, parameter store, systems manager parameter store, ssm parameter store, session manager]}
+  - {name: AWS Organizations, shape: organizations, style: resource_icon, category: management_governance, kind: aws_service, exact: true, synonyms: []}
+  - {name: AWS Control Tower, shape: control_tower, style: resource_icon, category: management_governance, kind: aws_service, synonyms: [control tower]}
+  - {name: AWS Trusted Advisor, shape: trusted_advisor, style: resource_icon, category: management_governance, kind: aws_service, synonyms: [trusted advisor]}
+  - {name: AWS Service Catalog, shape: service_catalog, style: resource_icon, category: management_governance, kind: aws_service, synonyms: [service catalog]}
+  - {name: Amazon Managed Grafana, shape: managed_service_for_grafana, style: resource_icon, category: management_governance, kind: aws_service, synonyms: [managed grafana, grafana]}
+  - {name: Amazon Managed Service for Prometheus, shape: managed_service_for_prometheus, style: resource_icon, category: management_governance, kind: aws_service, synonyms: [managed prometheus, prometheus]}
+  - {name: AWS AppConfig, shape: app_config, style: resource_icon, category: management_governance, kind: aws_service, synonyms: [appconfig]}
+  - {name: AWS Health Dashboard, shape: personal_health_dashboard, style: resource_icon, category: management_governance, kind: aws_service, synonyms: [health dashboard, personal health dashboard]}
+  - {name: AWS Resilience Hub, shape: resilience_hub, style: resource_icon, category: management_governance, kind: aws_service, synonyms: [resilience hub]}
+  - {name: AWS Distro for OpenTelemetry, shape: distro_for_opentelemetry, style: resource_icon, category: management_governance, kind: aws_service, synonyms: [adot, opentelemetry, otel]}
+  - {name: AWS Chatbot, shape: chatbot, style: resource_icon, category: management_governance, kind: aws_service, synonyms: [chatbot, amazon q developer in chat applications]}
+
+  # ---------------------------------------------------------------- AI / ML
+  - {name: Amazon Bedrock, shape: bedrock, style: resource_icon, category: ai_ml, kind: aws_service, synonyms: [bedrock, bedrock agents, bedrock agent, bedrock knowledge base, bedrock knowledge bases, bedrock guardrails, bedrock runtime]}
+  - {name: Amazon Bedrock AgentCore, shape: bedrock_agentcore, style: resource_icon, category: ai_ml, kind: aws_service, synonyms: [agentcore, agentcore runtime, agentcore gateway, agentcore memory, agentcore identity, bedrock agentcore runtime]}
+  - {name: Amazon Nova, shape: nova2, style: resource_icon, category: ai_ml, kind: aws_service, synonyms: [nova, nova pro, nova lite]}
+  - {name: Amazon SageMaker, shape: sagemaker, style: resource_icon, category: ai_ml, kind: aws_service, synonyms: [sagemaker, sagemaker ai, sagemaker endpoint, sagemaker endpoints, sagemaker studio, sagemaker training]}
+  - {name: Amazon Comprehend, shape: comprehend, style: resource_icon, category: ai_ml, kind: aws_service, synonyms: [comprehend]}
+  - {name: Amazon Rekognition, shape: rekognition_2, style: resource_icon, category: ai_ml, kind: aws_service, synonyms: [rekognition]}
+  - {name: Amazon Textract, shape: textract, style: resource_icon, category: ai_ml, kind: aws_service, synonyms: [textract]}
+  - {name: Amazon Transcribe, shape: transcribe, style: resource_icon, category: ai_ml, kind: aws_service, synonyms: [transcribe]}
+  - {name: Amazon Polly, shape: polly, style: resource_icon, category: ai_ml, kind: aws_service, synonyms: [polly]}
+  - {name: Amazon Translate, shape: translate, style: resource_icon, category: ai_ml, kind: aws_service, exact: true, synonyms: []}
+  - {name: Amazon Lex, shape: lex, style: resource_icon, category: ai_ml, kind: aws_service, synonyms: [lex]}
+  - {name: Amazon Kendra, shape: kendra, style: resource_icon, category: ai_ml, kind: aws_service, synonyms: [kendra]}
+  - {name: Amazon Personalize, shape: personalize, style: resource_icon, category: ai_ml, kind: aws_service, exact: true, synonyms: []}
+  - {name: Amazon Forecast, shape: forecast, style: resource_icon, category: ai_ml, kind: aws_service, exact: true, synonyms: []}
+  - {name: Amazon Fraud Detector, shape: fraud_detector, style: resource_icon, category: ai_ml, kind: aws_service, synonyms: [fraud detector]}
+  - {name: Amazon Q, shape: q, style: resource_icon, category: ai_ml, kind: aws_service, exact: true, synonyms: [q business, q developer, amazon q business, amazon q developer]}
+  - {name: AWS HealthLake, shape: healthlake, style: resource_icon, category: ai_ml, kind: aws_service, synonyms: [healthlake]}
+
+  # ---------------------------------------------------------------- IoT
+  - {name: AWS IoT Core, shape: iot_core, style: resource_icon, category: iot, kind: aws_service, synonyms: [iot core, iot rules engine, iot message broker, mqtt broker]}
+  - {name: AWS IoT Greengrass, shape: greengrass, style: resource_icon, category: iot, kind: aws_service, synonyms: [greengrass, iot greengrass, greengrass core]}
+  - {name: AWS IoT SiteWise, shape: iot_sitewise, style: resource_icon, category: iot, kind: aws_service, synonyms: [sitewise, iot sitewise]}
+  - {name: AWS IoT Analytics, shape: iot_analytics, style: resource_icon, category: iot, kind: aws_service, synonyms: [iot analytics]}
+  - {name: AWS IoT Events, shape: iot_events, style: resource_icon, category: iot, kind: aws_service, synonyms: [iot events]}
+  - {name: AWS IoT Device Management, shape: iot_device_management, style: resource_icon, category: iot, kind: aws_service, synonyms: [iot device management, iot jobs, iot fleet management]}
+  - {name: AWS IoT Device Defender, shape: iot_device_defender, style: resource_icon, category: iot, kind: aws_service, synonyms: [iot device defender, device defender]}
+  - {name: AWS IoT TwinMaker, shape: iot_twinmaker, style: resource_icon, category: iot, kind: aws_service, synonyms: [twinmaker, iot twinmaker, digital twin]}
+  - {name: AWS IoT FleetWise, shape: iot_fleetwise, style: resource_icon, category: iot, kind: aws_service, synonyms: [fleetwise, iot fleetwise]}
+  - {name: FreeRTOS, shape: freertos, style: resource_icon, category: iot, kind: aws_service, synonyms: [free rtos, amazon freertos]}
+
+  # ---------------------------------------------------------------- developer tools, front end
+  - {name: AWS CodePipeline, shape: codepipeline, style: resource_icon, category: developer_tools, kind: aws_service, synonyms: [codepipeline, code pipeline]}
+  - {name: AWS CodeBuild, shape: codebuild, style: resource_icon, category: developer_tools, kind: aws_service, synonyms: [codebuild, code build]}
+  - {name: AWS CodeDeploy, shape: codedeploy, style: resource_icon, category: developer_tools, kind: aws_service, synonyms: [codedeploy, code deploy]}
+  - {name: AWS CodeCommit, shape: codecommit, style: resource_icon, category: developer_tools, kind: aws_service, synonyms: [codecommit, code commit]}
+  - {name: AWS CodeArtifact, shape: codeartifact, style: resource_icon, category: developer_tools, kind: aws_service, synonyms: [codeartifact]}
+  - {name: Amazon CodeCatalyst, shape: codecatalyst, style: resource_icon, category: developer_tools, kind: aws_service, synonyms: [codecatalyst]}
+  - {name: AWS CDK, shape: cloud_development_kit, style: resource_icon, category: developer_tools, kind: aws_service, synonyms: [cdk, cloud development kit]}
+  - {name: AWS X-Ray, shape: xray, style: resource_icon, category: developer_tools, kind: aws_service, synonyms: [x-ray, xray]}
+  - {name: AWS Fault Injection Service, shape: fault_injection_simulator, style: resource_icon, category: developer_tools, kind: aws_service, synonyms: [fis, fault injection simulator, chaos engineering]}
+  - {name: AWS Amplify, shape: amplify, style: resource_icon, category: front_end_web_mobile, kind: aws_service, synonyms: [amplify, amplify hosting]}
+  - {name: Amazon Location Service, shape: location_service, style: resource_icon, category: front_end_web_mobile, kind: aws_service, synonyms: [location service, amazon location]}
+
+  # ---------------------------------------------------------------- migration, hybrid, cost, end user, media
+  - {name: AWS DataSync, shape: datasync, style: resource_icon, category: migration_modernization, kind: aws_service, synonyms: [datasync]}
+  - {name: AWS Transfer Family, shape: transfer_family, style: resource_icon, category: migration_modernization, kind: aws_service, synonyms: [transfer family, aws transfer for sftp, sftp server]}
+  - {name: AWS Snow Family, shape: snowball, style: resource_icon, category: migration_modernization, kind: aws_service, synonyms: [snowball, snowball edge, snow family]}
+  - {name: AWS Migration Hub, shape: migration_hub, style: resource_icon, category: migration_modernization, kind: aws_service, synonyms: [migration hub]}
+  - {name: AWS Application Discovery Service, shape: application_discovery_service, style: resource_icon, category: migration_modernization, kind: aws_service, synonyms: [application discovery]}
+  - {name: AWS Application Migration Service, shape: cloudendure_migration, style: resource_icon, category: migration_modernization, kind: aws_service, synonyms: [mgn, application migration, cloudendure migration]}
+  - {name: AWS Mainframe Modernization, shape: mainframe_modernization, style: resource_icon, category: migration_modernization, kind: aws_service, synonyms: [mainframe modernization]}
+  - {name: AWS Transform, shape: transform, style: resource_icon, category: migration_modernization, kind: aws_service, exact: true, synonyms: []}
+  - {name: AWS Cost Explorer, shape: cost_explorer, style: resource_icon, category: cloud_financial_management, kind: aws_service, synonyms: [cost explorer]}
+  - {name: AWS Budgets, shape: budgets_2, style: resource_icon, category: cloud_financial_management, kind: aws_service, synonyms: [budgets]}
+  - {name: AWS Cost and Usage Report, shape: cost_and_usage_report, style: resource_icon, category: cloud_financial_management, kind: aws_service, synonyms: [cur, cost and usage reports]}
+  - {name: Amazon WorkSpaces, shape: workspaces, style: resource_icon, category: end_user_computing, kind: aws_service, synonyms: [workspaces, virtual desktop]}
+  - {name: Amazon AppStream 2.0, shape: appstream_20, style: resource_icon, category: end_user_computing, kind: aws_service, synonyms: [appstream, appstream 2]}
+  - {name: AWS Elemental MediaConvert, shape: elemental_mediaconvert, style: resource_icon, category: media_services, kind: aws_service, synonyms: [mediaconvert]}
+  - {name: AWS Elemental MediaLive, shape: elemental_medialive, style: resource_icon, category: media_services, kind: aws_service, synonyms: [medialive]}

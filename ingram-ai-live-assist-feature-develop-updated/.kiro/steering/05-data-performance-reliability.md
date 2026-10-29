@@ -1,0 +1,128 @@
+---
+inclusion: always
+---
+
+<!-- GENERATED FILE — do not edit directly. Source: project-rules.md (Data, Performance & Reliability) -->
+
+## 21. Database and Data Access
+
+Separate data-access concerns from business logic where practical.
+
+Rules:
+
+- Use parameterized queries.
+- Avoid N+1 queries.
+- Paginate large datasets.
+- Use appropriate indexes.
+- Use transactions for atomic operations.
+- Handle concurrency intentionally.
+- Never expose raw database errors to users.
+
+### 21.1 List Endpoint Conventions: Pagination, Filtering, Sorting
+
+If the project already has an established convention, follow it. Otherwise, default to:
+
+- Choose one pagination strategy per API and apply it consistently: offset/page-based
+  (`?page=1&pageSize=20`) for simple, low-volume, jump-to-page use cases, or cursor-based
+  (`?cursor=<opaque>&limit=20`) for large or frequently-changing datasets where offset
+  pagination would skip or duplicate rows. Do not mix both styles across endpoints in the
+  same API.
+- Return pagination metadata in a consistent envelope, e.g.:
+  ```json
+  { "data": [], "pagination": { "page": 1, "pageSize": 20, "total": 134, "totalPages": 7 } }
+  ```
+  or, for cursor-based:
+  ```json
+  { "data": [], "nextCursor": "...", "hasMore": true }
+  ```
+- Never hardcode a page size or default limit in more than one place — define it once as
+  a named constant (with a max cap to prevent unbounded queries) and reuse it.
+- Filtering: use explicit, named query parameters per filterable field
+  (`?status=active&category=books`) for simple cases; for APIs with many filterable
+  fields, use one documented, consistent structured convention (e.g., `filter[field]=value`)
+  rather than ad hoc parameter names invented per endpoint.
+- Sorting: use a single `sort` parameter with a documented convention (e.g.,
+  `?sort=-createdAt,name` — a leading `-` for descending), not one query parameter per
+  sortable field.
+- Validate and allow-list filter/sort fields against a known set — never pass a
+  client-supplied field name directly into a query builder or raw SQL `ORDER BY`/`WHERE`
+  clause.
+- Document the pagination/filter/sort contract once per API, not per endpoint, and keep
+  every list endpoint consistent with it.
+
+## 22. Performance
+
+Consider performance during implementation.
+
+Use appropriate:
+
+- Pagination
+- Caching
+- Batching
+- Lazy loading
+- Code splitting
+- Memoization when justified
+- Database indexes
+- Query optimization
+- Connection pooling
+- Background processing
+- Rate limiting
+
+Prefer measurable optimization over unnecessary complexity.
+
+## 23. External Service Calls
+
+External calls should have:
+
+- Timeouts
+- Error handling
+- Appropriate retry strategy
+- Retry limits
+- Observability
+- Circuit breaking where appropriate
+- Idempotency where appropriate
+
+Never implement unlimited retries or blindly retry non-idempotent operations.
+
+## 24. State Management
+
+Use the simplest state-management approach that solves the problem.
+
+Do not introduce global state for local state. Avoid multiple competing sources of truth.
+
+## 25. Caching
+
+Before adding a cache, define:
+
+```text
+What is cached?
+Why?
+TTL?
+Invalidation strategy?
+What happens when stale?
+What happens when the cache is unavailable?
+```
+
+Never cache sensitive data without considering its security implications.
+
+## 26. Concurrency and Idempotency
+
+Operations that can be retried or triggered multiple times should be safely repeatable
+where practical.
+
+Use idempotency keys, unique constraints, transactions, state machines, or locks where
+appropriate.
+
+## 27. Background Jobs
+
+Use background processing for work that should not block synchronous requests, such as:
+
+- Large file processing
+- Report generation
+- Email delivery
+- Data imports
+- AI processing
+- Batch jobs
+
+Jobs should have retry limits, failure handling, observability, and idempotency.
+

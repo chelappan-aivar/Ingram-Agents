@@ -1,0 +1,33 @@
+Fabrikam Insurance - Claims FNOL Assistant (generative AI)
+
+Customer: Fabrikam Insurance, a US property and casualty insurer (home and auto), about 2,100 employees, HQ in Columbus, Ohio.
+Opportunity: OPP-2026-0517. Ingram Micro seller: Priya Nair. Template: AI/ML.
+
+Problem
+Fabrikam receives about 18,000 first notice of loss (FNOL) reports per month by phone, e-mail and a web form. Claims
+intake agents re-key each report into Guidewire ClaimCenter, read attached police reports, repair estimates and photos,
+and check the policy for coverage. Average handling time is 22 minutes per FNOL and 9% of new claims need rework
+because of missing or wrong data. Peak volumes after storms reach 3x normal and create a 2-day backlog.
+
+What they want
+- A generative AI assistant that reads FNOL e-mails, web-form submissions and attachments (PDF, images, Word).
+- Extract claimant, policy number, loss date, location, cause of loss, vehicles / property, injuries and third parties.
+- Check the policy and coverage using the policy wording documents (about 1,400 PDFs) with retrieval (RAG).
+- Pre-fill a draft claim in Guidewire ClaimCenter through its REST API; an intake agent reviews and approves it.
+- Flag missing information and draft a follow-up e-mail to the claimant (English and Spanish).
+- Detect and redact PII in logs; nothing leaves the US (us-east-2, Ohio).
+- Dashboard for intake supervisors: volume, handling time, extraction accuracy, approval rate.
+
+Targets
+- Average handling time from 22 minutes to under 8 minutes.
+- Rework rate from 9% to under 3%.
+- Field extraction accuracy of at least 95% on the agreed test set of 500 historical FNOLs.
+
+Constraints
+- Human in the loop: no claim is created without intake-agent approval.
+- Data residency: US only (us-east-2). SOC 2 Type II controls; no customer data used to train models.
+- Sign-in with Fabrikam's Microsoft Entra ID (SSO) for intake agents and supervisors.
+
+Timeline and budget
+- 10 weeks, starting 11 January 2027; pilot with the auto claims team (40 intake agents), then home claims.
+- One-time delivery budget around USD 190,000. Expected AWS run-rate about USD 8,500 per month.

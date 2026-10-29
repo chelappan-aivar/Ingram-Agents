@@ -1,0 +1,18 @@
+Meeting minutes: Meridian Freight accounts payable automation, working session
+Date: 9 October 2026
+Prepared by: Tom Becker (Aivar)
+
+Attendees: Dana Whitfield, Raj Patel, Lena Kowalski (Meridian); Priya Raman, Tom Becker (Aivar)
+
+Notes
+- Raj walked through his exceptions spreadsheet. He tracks about 60 open exceptions at any time and updates it by hand every morning.
+- Dana confirmed that approval thresholds differ by supplier category, and that the current list lives in a SharePoint document that is not always up to date.
+- Lena confirmed that the weekly CSV export from the supplier portal is the only data feed available. A request to the portal vendor for an API has been open for a year with no answer.
+- Aivar proposed starting with automated matching of clean invoices, and a daily exceptions list that replaces the spreadsheet.
+- Raj said he is not comfortable sharing the spreadsheet outside the finance team until Marcus agrees.
+
+Actions
+- Dana: send last month's exception sample and the current approval thresholds.
+- Lena: confirm what read access to NetSuite can be granted without a full security review.
+- Tom: draft the list of data fields needed for matching.
+- Marcus: decide whether the exceptions spreadsheet can be shared.

@@ -1,0 +1,1458 @@
+{
+  "title": "Billing Dispute Assistant",
+  "customer": "Northbridge Cloud Distribution",
+  "context": "Northbridge Cloud Distribution resells AWS to partner resellers and end customers. Today, billing dispute resolution requires agents to manually compare AWS cost and usage report files, Northbridge invoices from the LedgerOne ERP, and partner agreements, resulting in a mean time to resolution of about 20 days. The Billing Dispute Assistant is a new AI-assisted web application that automates ingestion of monthly AWS billing files and nightly LedgerOne invoice exports, supports dispute intake from both a web UI and the HelpTrack ticketing webhook, generates AI-drafted explanations and recommended resolutions with citations, and manages agent review and approval before posting responses back to HelpTrack. The system runs exclusively in AWS us-east-1, single-AZ us-east-1a, handles Confidential-Financial data, enforces Northbridge SSO with RBAC, and must operate within a USD 6,000/month pilot budget. Multi-AZ and multi-Region deployment are explicitly out of scope for the pilot.",
+  "region": "us-east-1",
+  "availability_zone": "us-east-1a",
+  "requirements": [
+    {
+      "id": "REQ-01",
+      "text": "The system shall ingest monthly AWS billing files (CUR ~30 GB and discount breakdown ~8 GB per month, compressed parquet or CSV) delivered to a landing area, validate them and make them queryable within 4 hours of arrival.",
+      "kind": "functional"
+    },
+    {
+      "id": "REQ-02",
+      "text": "The system shall import the nightly LedgerOne invoice export (CSV, ~200 MB) via SFTP push, reject or quarantine malformed files, and complete the import within 30 minutes.",
+      "kind": "functional"
+    },
+    {
+      "id": "REQ-03",
+      "text": "The system shall let a billing agent create a dispute in the web UI capturing partner, billing period, invoice reference and disputed amount.",
+      "kind": "functional"
+    },
+    {
+      "id": "REQ-04",
+      "text": "The system shall receive disputes from the HelpTrack outbound webhook and create or update the matching dispute, ignoring duplicates.",
+      "kind": "functional"
+    },
+    {
+      "id": "REQ-05",
+      "text": "The system shall retrieve billing line items, invoice lines and partner agreement terms relevant to a dispute and present a side-by-side comparison highlighting differences.",
+      "kind": "functional"
+    },
+    {
+      "id": "REQ-06",
+      "text": "The system shall generate an AI explanation and recommended resolution for a dispute using Amazon Bedrock, with each statement citing supporting line items or agreement clauses.",
+      "kind": "functional"
+    },
+    {
+      "id": "REQ-07",
+      "text": "The system shall let the agent review, edit, approve or reject a draft and request regeneration; nothing is posted without explicit agent approval.",
+      "kind": "functional"
+    },
+    {
+      "id": "REQ-08",
+      "text": "The system shall post the approved response to the HelpTrack ticket via its REST API and record the outcome, retrying on failure.",
+      "kind": "functional"
+    },
+    {
+      "id": "REQ-09",
+      "text": "The system shall record an immutable audit event for every AI draft (inputs, model, prompt version, output) and every agent action.",
+      "kind": "functional"
+    },
+    {
+      "id": "REQ-10",
+      "text": "The system shall provide search over past disputes by partner, period, amount, status and free text.",
+      "kind": "functional"
+    },
+    {
+      "id": "REQ-11",
+      "text": "The system shall provide a dashboard of dispute status, ageing and MTTR, filterable by period and partner.",
+      "kind": "functional"
+    },
+    {
+      "id": "REQ-12",
+      "text": "The system shall enforce role-based access (agent, Billing Operations Lead, finance auditor) and hide margin fields from read-only roles.",
+      "kind": "functional"
+    },
+    {
+      "id": "REQ-13",
+      "text": "The system shall send an email notification to the assigned agent when a draft is ready.",
+      "kind": "functional"
+    },
+    {
+      "id": "REQ-14",
+      "text": "The system shall extract text from PDF invoices attached to disputes and make it available to comparison and drafting.",
+      "kind": "functional"
+    },
+    {
+      "id": "REQ-15",
+      "text": "About 200 disputes per week peaking at 60 per day at month-end; about 1,500 AI drafts per month including regenerations.",
+      "kind": "non_functional"
+    },
+    {
+      "id": "REQ-16",
+      "text": "UI p95 response time under 2 seconds for page loads and searches.",
+      "kind": "non_functional"
+    },
+    {
+      "id": "REQ-17",
+      "text": "AI draft generation p95 under 45 seconds from request to draft displayed.",
+      "kind": "non_functional"
+    },
+    {
+      "id": "REQ-18",
+      "text": "Monthly billing files ingested and queryable within 4 hours of arrival; nightly invoice import completed within 30 minutes.",
+      "kind": "non_functional"
+    },
+    {
+      "id": "REQ-19",
+      "text": "99.5% availability during business hours Monday–Friday 07:00–19:00 US Eastern; single-AZ deployment in us-east-1a accepted for the pilot.",
+      "kind": "non_functional"
+    },
+    {
+      "id": "REQ-20",
+      "text": "RPO 24 hours and RTO 8 hours.",
+      "kind": "non_functional"
+    },
+    {
+      "id": "REQ-21",
+      "text": "Audit trail and billing data retained 7 years; raw billing files move to lower-cost storage after 90 days and remain retrievable.",
+      "kind": "non_functional"
+    },
+    {
+      "id": "REQ-22",
+      "text": "Northbridge SSO (SAML 2.0) with MFA enforced by the identity provider; least-privilege access; encryption at rest and in transit; no publicly accessible data stores; security-relevant events logged.",
+      "kind": "non_functional"
+    },
+    {
+      "id": "REQ-23",
+      "text": "Support 3x growth in disputes, users and file volumes within 2 years without redesign.",
+      "kind": "non_functional"
+    },
+    {
+      "id": "REQ-24",
+      "text": "Central logs, metrics and alarms for ingestion, integrations, AI latency and errors; alarms routed to the operations team.",
+      "kind": "non_functional"
+    },
+    {
+      "id": "REQ-25",
+      "text": "Operate within the pilot budget ceiling of USD 6,000 per month; prefer serverless and managed services and Graviton-based compute.",
+      "kind": "non_functional"
+    },
+    {
+      "id": "REQ-26",
+      "text": "All data including backups and logs shall remain in us-east-1; AWS-native managed services only; generative AI only through Amazon Bedrock.",
+      "kind": "constraint"
+    },
+    {
+      "id": "REQ-27",
+      "text": "All zonal resources shall be deployed in us-east-1a only; no resources run in any other Availability Zone.",
+      "kind": "constraint"
+    },
+    {
+      "id": "REQ-28",
+      "text": "Data stores shall use private networking only, encryption at rest and in transit, and authentication through Northbridge SSO.",
+      "kind": "constraint"
+    },
+    {
+      "id": "REQ-29",
+      "text": "Infrastructure defined as code; deployments repeatable across development, test and pilot environments.",
+      "kind": "constraint"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "ADR-001",
+      "title": "Use AWS Fargate (ARM64) for the Dispute API and web application backend",
+      "status": "Accepted",
+      "context": "The system serves ~40 named users with ~25 concurrent at peak (REQ-15, REQ-16) and must handle sustained HTTP traffic for dispute management, AI draft orchestration and HelpTrack webhook receipt (REQ-03, REQ-04, REQ-07, REQ-08). Sessions are long-lived and the API must maintain connections to RDS and Secrets Manager. The pilot budget favours right-sized containers over EC2 instances (REQ-25).",
+      "decision": "Use AWS Fargate on Linux/ARM64 with 1 vCPU / 2 GB per task and 2 desired tasks for the Dispute API ECS service. Graviton ARM64 reduces cost and meets the budget constraint. Two tasks provide redundancy within the single AZ and headroom for month-end peak load.",
+      "consequences": [
+        "Stateless containers scale horizontally; add tasks when CPU exceeds 70% to handle 3x growth (REQ-23).",
+        "No OS patching burden; AWS manages the Fargate data plane.",
+        "Single-AZ: if us-east-1a has an outage, both tasks are unavailable until the AZ recovers; RTO is bounded by ECS task restart time (~2 min), not backup restore.",
+        "ARM64 images must be built for linux/arm64; CI pipeline must target this platform."
+      ],
+      "rejected_alternatives": [
+        {
+          "option": "AWS Lambda for the API",
+          "reason": "Dispute comparison and AI orchestration can exceed 15 minutes for large CUR files (REQ-05, REQ-17); Lambda's 15-minute timeout is a hard ceiling. Lambda would be chosen if all operations were short and event-driven."
+        },
+        {
+          "option": "Amazon EC2 (t4g.medium)",
+          "reason": "No OS-level control or licensed software is required (C-01); Fargate removes patching overhead and is cheaper at this task count."
+        }
+      ],
+      "requirement_ids": [
+        "REQ-03",
+        "REQ-04",
+        "REQ-05",
+        "REQ-07",
+        "REQ-08",
+        "REQ-15",
+        "REQ-16",
+        "REQ-25"
+      ],
+      "component_ids": [
+        "C-07"
+      ]
+    },
+    {
+      "id": "ADR-002",
+      "title": "Use Amazon RDS for PostgreSQL as the operational data store",
+      "status": "Accepted",
+      "context": "Disputes, invoices, partners, AI drafts and audit events are relational entities with joins across them (REQ-05, REQ-10, REQ-11). The audit trail must be immutable and tamper-evident (REQ-09). Volume is modest: ~870 disputes/month, ~1,500 drafts/month, ~25,000 audit events/month (REQ-15). The system must support 3x growth (REQ-23) and stay within the pilot budget (REQ-25).",
+      "decision": "Use one Amazon RDS instance running PostgreSQL 17, db.t4g.medium, Single-AZ in us-east-1a, gp3 100 GiB storage, 7-day automated backups with point-in-time recovery, encrypted with the customer managed KMS key. The DB subnet group references a second AZ subnet as required by AWS but no workloads run there.",
+      "consequences": [
+        "SQL joins support comparison views, search and dashboard queries natively (REQ-05, REQ-10, REQ-11).",
+        "7-day PITR satisfies RPO 24 h (REQ-20); RTO 8 h is achievable by restoring the latest snapshot to a new instance.",
+        "Single-AZ: an AZ failure means the database is unavailable until AWS recovers the AZ or a snapshot is restored; this risk is accepted for the pilot (REQ-27).",
+        "Move to db.m7g.large when CPU stays above 70% or storage exceeds 80 GiB to support 3x growth."
+      ],
+      "rejected_alternatives": [
+        {
+          "option": "Amazon DynamoDB",
+          "reason": "Dashboard aggregations, dispute search and audit joins require flexible SQL; DynamoDB would be chosen only if access patterns were purely key-value."
+        },
+        {
+          "option": "Amazon Aurora PostgreSQL Serverless v2",
+          "reason": "Aurora storage replicates across three AZs by design, which conflicts with the single-AZ data residency intent; Aurora would be chosen post-pilot if higher availability is required."
+        }
+      ],
+      "requirement_ids": [
+        "REQ-05",
+        "REQ-09",
+        "REQ-10",
+        "REQ-11",
+        "REQ-20",
+        "REQ-21",
+        "REQ-23",
+        "REQ-25"
+      ],
+      "component_ids": [
+        "C-09"
+      ]
+    },
+    {
+      "id": "ADR-003",
+      "title": "Use Amazon S3 with Athena for billing file storage and querying",
+      "status": "Accepted",
+      "context": "Monthly CUR files are ~30 GB and discount breakdowns ~8 GB, growing 3x within 2 years (REQ-01, REQ-23). Files must be queryable within 4 hours of arrival (REQ-18) and retained 7 years with raw files moved to lower-cost storage after 90 days (REQ-21). Loading 38 GB into RDS each month would be expensive and slow.",
+      "decision": "Use Amazon S3 (Standard tier, SSE-KMS, versioning on, Block Public Access on) as the billing file store with an S3 lifecycle rule transitioning objects to S3 Glacier Flexible Retrieval after 90 days. Use Amazon Athena (engine version 3, Parquet with partitions, one workgroup) to query CUR and discount data in place. An AWS Glue Data Catalog database holds the table definitions.",
+      "consequences": [
+        "Athena queries CUR data in S3 without loading it into RDS, meeting the 4-hour ingestion target (REQ-18).",
+        "S3 lifecycle to Glacier after 90 days satisfies the retention and cost requirements (REQ-21, REQ-25).",
+        "Athena query latency depends on partition design; partitioning by billing period and partner keeps p95 under 2 s for typical dispute queries (REQ-16).",
+        "Glue crawler must be run after each monthly ingestion to update partitions; this is automated via EventBridge Scheduler."
+      ],
+      "rejected_alternatives": [
+        {
+          "option": "Load CUR into RDS PostgreSQL",
+          "reason": "38 GB/month growing 3x would exceed db.t4g.medium storage and query performance limits within the pilot window; Athena is purpose-built for this scale."
+        },
+        {
+          "option": "Amazon OpenSearch Service for billing search",
+          "reason": "Full-text search over billing line items is not required; Athena SQL over partitioned Parquet is sufficient and cheaper (REQ-25)."
+        }
+      ],
+      "requirement_ids": [
+        "REQ-01",
+        "REQ-18",
+        "REQ-21",
+        "REQ-23",
+        "REQ-25"
+      ],
+      "component_ids": [
+        "C-10",
+        "C-11",
+        "C-12"
+      ]
+    },
+    {
+      "id": "ADR-004",
+      "title": "Use Amazon Bedrock with Claude Sonnet 4.6 for AI draft generation",
+      "status": "Accepted",
+      "context": "The system must generate explanations and recommended resolutions with citations (REQ-06) at p95 under 45 seconds (REQ-17), producing ~1,500 drafts per month (REQ-15). Generative AI must be provided only through Amazon Bedrock (C-02, REQ-26). The model must handle long context windows to reason over CUR line items and invoice data.",
+      "decision": "Use Amazon Bedrock with Anthropic Claude Sonnet 4.6 (model ID us.anthropic.claude-sonnet-4-6) on on-demand pricing for draft generation and explanation. Use Amazon Textract (asynchronous DetectDocumentText jobs from S3) for PDF invoice text extraction (REQ-14). Both are invoked by the Dispute API via the Bedrock and Textract API endpoints.",
+      "consequences": [
+        "Claude Sonnet 4.6 has a large context window suitable for multi-page CUR comparisons and citation generation (REQ-06).",
+        "On-demand pricing means no commitment; cost scales with actual draft volume, staying within the pilot budget at 1,500 drafts/month (REQ-25).",
+        "p95 45 s target is achievable for typical dispute payloads; very large CUR extracts may need prompt truncation strategies.",
+        "Model access must be approved in Northbridge's account before go-live (OI-01)."
+      ],
+      "rejected_alternatives": [
+        {
+          "option": "Amazon Bedrock with Claude Haiku 4.5",
+          "reason": "Haiku is suited to light classification; generating cited, multi-paragraph dispute explanations from large billing contexts requires Sonnet's reasoning capability (REQ-06, AC-02, AC-03)."
+        },
+        {
+          "option": "Amazon SageMaker with a custom model",
+          "reason": "No custom model training is required; Bedrock managed inference removes operational overhead and satisfies C-02."
+        }
+      ],
+      "requirement_ids": [
+        "REQ-06",
+        "REQ-14",
+        "REQ-15",
+        "REQ-17",
+        "REQ-25",
+        "REQ-26"
+      ],
+      "component_ids": [
+        "C-13",
+        "C-14"
+      ]
+    },
+    {
+      "id": "ADR-005",
+      "title": "Use AWS Transfer Family (SFTP) for LedgerOne nightly invoice ingestion",
+      "status": "Accepted",
+      "context": "LedgerOne pushes a nightly CSV export (~200 MB) via SFTP authenticated by key to a Northbridge-controlled endpoint (Section 5). The system must import this file within 30 minutes and quarantine malformed files with an alert (REQ-02). No managed AWS SFTP service is listed on the service sheet; the closest managed option is AWS Transfer Family.",
+      "decision": "Use AWS Transfer Family with an SFTP endpoint backed by S3 (the Billing Data S3 bucket landing prefix) in us-east-1a. LedgerOne authenticates with an SSH key stored in Secrets Manager. An S3 event notification triggers the ingestion Lambda when a new invoice file lands.",
+      "consequences": [
+        "Fully managed SFTP; no EC2 bastion or self-managed SSH server required (C-01).",
+        "Files land directly in S3, triggering the existing Lambda ingestion pipeline (REQ-02, REQ-18).",
+        "AWS Transfer Family has a per-protocol-endpoint hourly charge; this is the only viable managed SFTP option on AWS.",
+        "SFTP endpoint is internet-facing by default; restrict source IPs to LedgerOne's known egress IPs via the Transfer Family endpoint policy."
+      ],
+      "rejected_alternatives": [
+        {
+          "option": "EC2-hosted OpenSSH server",
+          "reason": "Violates C-01 (no self-managed software on VMs unless no managed option exists); AWS Transfer Family is the managed equivalent."
+        },
+        {
+          "option": "LedgerOne pushing directly to S3 via HTTPS",
+          "reason": "LedgerOne's nightly export specification mandates SFTP push (Section 5); changing the export mechanism is out of scope."
+        }
+      ],
+      "requirement_ids": [
+        "REQ-02",
+        "REQ-18",
+        "REQ-26"
+      ],
+      "component_ids": [
+        "C-05"
+      ]
+    },
+    {
+      "id": "ADR-006",
+      "title": "Use Amazon Cognito with SAML federation for user authentication and RBAC",
+      "status": "Accepted",
+      "context": "All users must authenticate through Northbridge SSO (SAML 2.0) with MFA enforced by the identity provider (REQ-22, C-05). The system must enforce three roles (agent, Billing Operations Lead, finance auditor) and hide margin fields from read-only roles (REQ-12). ~49 named users total.",
+      "decision": "Use Amazon Cognito (1 user pool, Essentials tier) federated to Northbridge SSO via SAML 2.0. Role and name are mapped from SAML assertion attributes to Cognito groups (agent, lead, auditor). The Dispute API validates the Cognito JWT on every request and enforces field-level access based on the group claim.",
+      "consequences": [
+        "MFA is enforced by Northbridge SSO before the SAML assertion is issued; Cognito does not need to manage MFA (REQ-22).",
+        "Cognito Essentials tier supports SAML federation and group claims at lower cost than Plus tier (REQ-25).",
+        "Role changes require updating the SAML attribute in Northbridge SSO and re-federating; no direct Cognito user management needed.",
+        "If Northbridge SSO is unavailable, users cannot log in; this is accepted as SSO is a corporate dependency."
+      ],
+      "rejected_alternatives": [
+        {
+          "option": "AWS IAM Identity Center",
+          "reason": "IAM Identity Center is designed for AWS console and CLI access, not for application-level RBAC with custom field-hiding logic; Cognito is the correct service for application sign-in with JWT issuance."
+        },
+        {
+          "option": "Custom JWT service on Fargate",
+          "reason": "Reinvents managed identity; violates the preference for AWS-native managed services (C-01)."
+        }
+      ],
+      "requirement_ids": [
+        "REQ-12",
+        "REQ-22",
+        "REQ-26"
+      ],
+      "component_ids": [
+        "C-15"
+      ]
+    },
+    {
+      "id": "ADR-007",
+      "title": "Use AWS Lambda for event-driven ingestion, webhook handling and notifications",
+      "status": "Accepted",
+      "context": "Billing file ingestion (monthly, triggered by S3 event), LedgerOne invoice import (nightly, triggered by S3 event), HelpTrack webhook receipt (REQ-04), HelpTrack response posting with retry (REQ-08), PDF text extraction orchestration (REQ-14) and agent email notifications (REQ-13) are all short-duration, event-driven tasks that run infrequently and complete well within 15 minutes. Running these on always-on Fargate tasks would waste cost (REQ-25).",
+      "decision": "Use AWS Lambda (Python 3.13, arm64, 1,024 MB, 300 s timeout) for all event-driven functions: billing file validation and Glue crawler trigger, LedgerOne invoice import and quarantine, HelpTrack webhook receiver, HelpTrack response poster with SQS-backed retry, PDF Textract orchestration, and agent email dispatch via SES. EventBridge Scheduler triggers the nightly invoice import check. An SQS queue with a dead-letter queue buffers HelpTrack outbound posts.",
+      "consequences": [
+        "Pay-per-invocation cost is negligible at these volumes; well within the pilot budget (REQ-25).",
+        "1,024 MB / arm64 provides sufficient memory for parquet validation and JSON processing without a full vCPU.",
+        "300 s timeout covers the LedgerOne 200 MB CSV import and Glue crawler trigger within the 30-minute window (REQ-18).",
+        "Lambda functions in the private subnet require a NAT Gateway to reach Bedrock, SES, HelpTrack and other external endpoints.",
+        "Scale to 3x volume is automatic with Lambda concurrency (REQ-23)."
+      ],
+      "rejected_alternatives": [
+        {
+          "option": "Fargate tasks for ingestion",
+          "reason": "Ingestion runs once per month (billing) or once per night (invoices); always-on tasks would waste cost and add operational complexity (REQ-25)."
+        },
+        {
+          "option": "AWS Glue for LedgerOne CSV import",
+          "reason": "200 MB CSV import with quarantine logic is simple Python; Glue adds cost and complexity for a single-file nightly job."
+        }
+      ],
+      "requirement_ids": [
+        "REQ-01",
+        "REQ-02",
+        "REQ-04",
+        "REQ-08",
+        "REQ-13",
+        "REQ-14",
+        "REQ-18",
+        "REQ-25"
+      ],
+      "component_ids": [
+        "C-06",
+        "C-08"
+      ]
+    },
+    {
+      "id": "ADR-008",
+      "title": "Use Application Load Balancer and CloudFront for web and API entry",
+      "status": "Accepted",
+      "context": "The web application is served to ~25 concurrent users on corporate networks and VPN (REQ-16, REQ-19). The entry point must terminate TLS, route to the Fargate API, and serve the static React front-end. The system is not publicly exposed to the internet beyond the corporate perimeter, but CloudFront provides TLS termination, caching of static assets and a single domain entry point.",
+      "decision": "Use Amazon CloudFront (1 distribution, PriceClass_100) with two origins: S3 (origin access control) for the static web application assets, and the Application Load Balancer for API requests. The ALB is internet-facing with an HTTPS 443 listener and an ACM certificate, targets in us-east-1a. The ALB subnet group references a second AZ subnet as required by AWS with no workloads there. Static assets are stored in the Web Assets S3 bucket.",
+      "consequences": [
+        "CloudFront caches static assets at edge, reducing ALB and Fargate load and improving p95 page load times (REQ-16).",
+        "Single CloudFront domain simplifies CORS and Cognito callback URL configuration.",
+        "PriceClass_100 covers North America and Europe, sufficient for corporate VPN users (REQ-25).",
+        "ALB is internet-facing; security group restricts inbound 443 to CloudFront managed prefix list only, so no direct public access to the ALB."
+      ],
+      "rejected_alternatives": [
+        {
+          "option": "Amazon API Gateway HTTP API instead of ALB",
+          "reason": "The Fargate API has persistent database connections and streaming responses for AI drafts; ALB is the correct front-end for Fargate. API Gateway would be chosen if the backend were Lambda."
+        },
+        {
+          "option": "Serve static assets from Fargate",
+          "reason": "Mixing static and dynamic serving on Fargate wastes compute and complicates deployments; S3 + CloudFront is the standard pattern."
+        }
+      ],
+      "requirement_ids": [
+        "REQ-16",
+        "REQ-19",
+        "REQ-22",
+        "REQ-25"
+      ],
+      "component_ids": [
+        "C-02",
+        "C-03"
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "id": "region_us_east_1",
+      "type": "region",
+      "name": "us-east-1",
+      "parent": null
+    },
+    {
+      "id": "main_vpc",
+      "type": "vpc",
+      "name": "Billing Dispute VPC (10.0.0.0/16)",
+      "parent": "region_us_east_1"
+    },
+    {
+      "id": "az_us_east_1a",
+      "type": "az",
+      "name": "us-east-1a",
+      "parent": "main_vpc"
+    },
+    {
+      "id": "public_subnet",
+      "type": "subnet_public",
+      "name": "Public subnet (us-east-1a)",
+      "parent": "az_us_east_1a"
+    },
+    {
+      "id": "private_subnet",
+      "type": "subnet_private",
+      "name": "Private subnet (us-east-1a)",
+      "parent": "az_us_east_1a"
+    },
+    {
+      "id": "external_boundary",
+      "type": "external",
+      "name": "External Systems",
+      "parent": null
+    }
+  ],
+  "components": [
+    {
+      "id": "C-01",
+      "name": "Billing Agent / Lead / Auditor",
+      "service": "User",
+      "category": "actor",
+      "role": "Investigates disputes, reviews AI drafts, monitors dashboard",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {},
+      "sku_summary": "Human actor — no AWS resource",
+      "purpose": "Represents the three user classes (billing agent, Billing Operations Lead, finance auditor) who access the system via the web UI.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-03",
+        "REQ-07",
+        "REQ-11",
+        "REQ-12"
+      ]
+    },
+    {
+      "id": "C-02",
+      "name": "CloudFront Distribution",
+      "service": "Amazon CloudFront",
+      "category": "networking",
+      "role": "CDN and TLS entry point for web app and API",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "price_class": "PriceClass_100",
+        "origins": "S3 Web Assets (OAC) and Application Load Balancer",
+        "viewer_protocol_policy": "redirect-to-https",
+        "certificate": "ACM us-east-1"
+      },
+      "sku_summary": "CloudFront, PriceClass_100, 2 origins (S3 OAC + ALB)",
+      "purpose": "Terminates TLS, caches static web application assets from S3, and forwards API requests to the Application Load Balancer.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-16",
+        "REQ-19",
+        "REQ-22"
+      ],
+      "decision_ids": [
+        "ADR-008"
+      ]
+    },
+    {
+      "id": "C-03",
+      "name": "Application Load Balancer",
+      "service": "Application Load Balancer",
+      "category": "networking",
+      "role": "Routes HTTPS API traffic to Dispute API tasks",
+      "quantity": 1,
+      "boundary": "public_subnet",
+      "configuration": {
+        "scheme": "internet-facing",
+        "listener": "HTTPS 443",
+        "certificate": "ACM us-east-1",
+        "target_group": "Dispute API tasks in us-east-1a",
+        "subnets": "2 (second AZ subnet required by AWS, no workloads)"
+      },
+      "sku_summary": "ALB, internet-facing, HTTPS 443, ACM certificate, single-AZ targets",
+      "purpose": "Terminates HTTPS from CloudFront and load-balances requests across Dispute API Fargate tasks in us-east-1a.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-16",
+        "REQ-19"
+      ],
+      "decision_ids": [
+        "ADR-008"
+      ]
+    },
+    {
+      "id": "C-04",
+      "name": "NAT Gateway",
+      "service": "NAT Gateway",
+      "category": "networking",
+      "role": "Outbound internet access for private subnet workloads",
+      "quantity": 1,
+      "boundary": "public_subnet",
+      "configuration": {
+        "type": "Public",
+        "az": "us-east-1a",
+        "elastic_ip": "1"
+      },
+      "sku_summary": "NAT Gateway, public, us-east-1a, 1 Elastic IP",
+      "purpose": "Provides outbound internet connectivity for Lambda functions and Fargate tasks in the private subnet to reach HelpTrack REST API, Bedrock, SES and other external endpoints.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-06",
+        "REQ-08",
+        "REQ-13"
+      ]
+    },
+    {
+      "id": "C-05",
+      "name": "SFTP Transfer Endpoint",
+      "service": "AWS Transfer Family",
+      "category": "integration",
+      "role": "Managed SFTP endpoint for LedgerOne invoice push",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "protocol": "SFTP",
+        "endpoint_type": "PUBLIC",
+        "identity_provider": "SERVICE_MANAGED",
+        "storage_backend": "Amazon S3 (billing-data bucket /invoices/ prefix)",
+        "authentication": "SSH key per service account stored in Secrets Manager"
+      },
+      "sku_summary": "AWS Transfer Family, SFTP, public endpoint, S3-backed",
+      "purpose": "Provides the Northbridge-controlled SFTP endpoint to which LedgerOne pushes the nightly invoice CSV export, landing files directly into the Billing Data S3 bucket.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-02",
+        "REQ-18"
+      ],
+      "decision_ids": [
+        "ADR-005"
+      ]
+    },
+    {
+      "id": "C-06",
+      "name": "Ingestion Lambda Functions",
+      "service": "AWS Lambda",
+      "category": "compute",
+      "role": "Event-driven ingestion, validation and pipeline orchestration",
+      "quantity": 1,
+      "boundary": "private_subnet",
+      "configuration": {
+        "runtime": "python3.13",
+        "architecture": "arm64",
+        "memory_mb": "1024",
+        "timeout_s": "300",
+        "vpc_attached": "true",
+        "triggers": "S3 event notifications (billing files, invoice files), EventBridge Scheduler (nightly invoice check)"
+      },
+      "sku_summary": "Lambda, python3.13, arm64, 1,024 MB, 300 s timeout, VPC-attached",
+      "purpose": "Validates and catalogues monthly CUR and discount billing files, triggers Glue crawler to update Athena partitions, imports and quarantines LedgerOne nightly invoice CSV, and orchestrates Textract PDF extraction jobs.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-01",
+        "REQ-02",
+        "REQ-14",
+        "REQ-18"
+      ],
+      "decision_ids": [
+        "ADR-007"
+      ]
+    },
+    {
+      "id": "C-07",
+      "name": "Dispute API",
+      "service": "AWS Fargate",
+      "category": "containers",
+      "role": "Core application API serving the web UI and webhooks",
+      "quantity": 2,
+      "boundary": "private_subnet",
+      "configuration": {
+        "platform": "Linux/ARM64",
+        "vcpu": "1",
+        "memory_gb": "2",
+        "desired_tasks": "2",
+        "cluster": "billing-dispute-cluster"
+      },
+      "sku_summary": "Fargate Linux/ARM64, 1 vCPU / 2 GB, 2 tasks",
+      "purpose": "Serves the REST API for dispute creation, comparison, AI draft orchestration, agent review and approval, search and dashboard; validates Cognito JWTs and enforces RBAC including margin field hiding.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-03",
+        "REQ-05",
+        "REQ-06",
+        "REQ-07",
+        "REQ-10",
+        "REQ-11",
+        "REQ-12",
+        "REQ-16"
+      ],
+      "decision_ids": [
+        "ADR-001"
+      ]
+    },
+    {
+      "id": "C-08",
+      "name": "Integration Lambda Functions",
+      "service": "AWS Lambda",
+      "category": "compute",
+      "role": "HelpTrack webhook receiver, response poster and email dispatcher",
+      "quantity": 1,
+      "boundary": "private_subnet",
+      "configuration": {
+        "runtime": "python3.13",
+        "architecture": "arm64",
+        "memory_mb": "1024",
+        "timeout_s": "300",
+        "vpc_attached": "true",
+        "triggers": "API Gateway HTTP API (webhook), SQS queue (HelpTrack poster), SNS topic (email notification)"
+      },
+      "sku_summary": "Lambda, python3.13, arm64, 1,024 MB, 300 s timeout, VPC-attached",
+      "purpose": "Receives and deduplicates HelpTrack outbound webhook payloads, posts approved responses to HelpTrack REST API with SQS-backed retry, and dispatches agent email notifications via SES when a draft is ready.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-04",
+        "REQ-08",
+        "REQ-13"
+      ],
+      "decision_ids": [
+        "ADR-007"
+      ]
+    },
+    {
+      "id": "C-09",
+      "name": "Dispute Database",
+      "service": "Amazon RDS",
+      "category": "database",
+      "role": "Operational relational store for all application entities",
+      "quantity": 1,
+      "boundary": "private_subnet",
+      "configuration": {
+        "engine": "postgres",
+        "engine_version": "17",
+        "instance_type": "db.t4g.medium",
+        "deployment": "Single-AZ",
+        "storage_type": "gp3",
+        "storage_gb": "100",
+        "backup_retention_days": "7",
+        "encryption": "AWS KMS customer managed key",
+        "db_subnet_group": "2 subnets (second AZ subnet required by AWS, no workloads)"
+      },
+      "sku_summary": "db.t4g.medium, PostgreSQL 17, gp3 100 GiB, Single-AZ, 7-day backups",
+      "purpose": "Stores disputes, partners, invoices (normalised), AI drafts, audit events and agent actions; supports search, dashboard queries and immutable audit trail.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-03",
+        "REQ-05",
+        "REQ-09",
+        "REQ-10",
+        "REQ-11",
+        "REQ-12",
+        "REQ-20",
+        "REQ-21"
+      ],
+      "decision_ids": [
+        "ADR-002"
+      ]
+    },
+    {
+      "id": "C-10",
+      "name": "Billing Data S3 Bucket",
+      "service": "Amazon S3",
+      "category": "storage",
+      "role": "Landing area and long-term store for billing files and invoice exports",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "storage_class_default": "S3 Standard",
+        "encryption": "SSE-KMS customer managed key",
+        "versioning": "enabled",
+        "block_public_access": "on",
+        "lifecycle_rule": "Transition objects under /billing/ and /invoices/ prefixes to S3 Glacier Flexible Retrieval after 90 days",
+        "retention_years": "7"
+      },
+      "sku_summary": "S3 Standard, SSE-KMS, versioning on, Glacier Flexible Retrieval after 90 days",
+      "purpose": "Receives monthly CUR and discount breakdown files from Northbridge staff/automation and nightly LedgerOne invoice CSVs via Transfer Family; serves as the Athena query source and long-term archive.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-01",
+        "REQ-02",
+        "REQ-18",
+        "REQ-21"
+      ],
+      "decision_ids": [
+        "ADR-003"
+      ]
+    },
+    {
+      "id": "C-11",
+      "name": "Glue Data Catalog",
+      "service": "AWS Glue",
+      "category": "analytics",
+      "role": "Schema catalog and ETL crawler for billing file partitions",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "glue_version": "5.0",
+        "catalog_database": "billing_dispute_db",
+        "crawler_schedule": "triggered by Ingestion Lambda after each monthly file arrival",
+        "worker_type": "G.1X",
+        "number_of_workers": "2"
+      },
+      "sku_summary": "Glue 5.0, G.1X x 2 workers, Data Catalog database, crawler on-demand",
+      "purpose": "Maintains the Glue Data Catalog table definitions and partition metadata for CUR and discount Parquet files in S3 so that Athena can query them immediately after ingestion.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-01",
+        "REQ-18"
+      ],
+      "decision_ids": [
+        "ADR-003"
+      ]
+    },
+    {
+      "id": "C-12",
+      "name": "Athena Workgroup",
+      "service": "Amazon Athena",
+      "category": "analytics",
+      "role": "SQL query engine over billing files in S3",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "engine_version": "Athena engine version 3",
+        "workgroup": "billing-dispute-wg",
+        "output_location": "s3://billing-data-bucket/athena-results/",
+        "data_format": "Parquet with partition projection by billing_period and partner_id"
+      },
+      "sku_summary": "Athena engine v3, billing-dispute-wg workgroup, Parquet partitioned",
+      "purpose": "Executes SQL queries over CUR and discount breakdown Parquet files in S3 to retrieve billing line items relevant to a dispute for comparison and AI context.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-05",
+        "REQ-16",
+        "REQ-18"
+      ],
+      "decision_ids": [
+        "ADR-003"
+      ]
+    },
+    {
+      "id": "C-13",
+      "name": "Bedrock AI Model",
+      "service": "Amazon Bedrock",
+      "category": "ai_ml",
+      "role": "Generates dispute explanations and recommended resolutions",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "model_id": "us.anthropic.claude-sonnet-4-6",
+        "pricing_mode": "on-demand",
+        "invocation_source": "Dispute API (Fargate)"
+      },
+      "sku_summary": "Bedrock, Anthropic Claude Sonnet 4.6 (us.anthropic.claude-sonnet-4-6), on-demand",
+      "purpose": "Generates AI-drafted dispute explanations and recommended resolutions with citations to billing line items and agreement clauses, invoked by the Dispute API for each draft request.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-06",
+        "REQ-17"
+      ],
+      "decision_ids": [
+        "ADR-004"
+      ]
+    },
+    {
+      "id": "C-14",
+      "name": "Textract Service",
+      "service": "Amazon Textract",
+      "category": "ai_ml",
+      "role": "Extracts text from PDF invoice attachments",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "api": "DetectDocumentText",
+        "mode": "asynchronous",
+        "input_source": "Amazon S3 (Billing Data bucket /attachments/ prefix)"
+      },
+      "sku_summary": "Textract, DetectDocumentText, asynchronous, S3 input",
+      "purpose": "Extracts plain text from PDF invoices attached to disputes, making the content available to the comparison view and AI draft generation.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-14"
+      ],
+      "decision_ids": [
+        "ADR-004"
+      ]
+    },
+    {
+      "id": "C-15",
+      "name": "Cognito User Pool",
+      "service": "Amazon Cognito",
+      "category": "security",
+      "role": "Application identity, SAML federation and JWT issuance",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "tier": "Essentials",
+        "federation": "SAML 2.0 to Northbridge SSO",
+        "groups": "agent, lead, auditor",
+        "mfa": "enforced by Northbridge SSO identity provider",
+        "token_validity": "access token 1 h, refresh token 8 h"
+      },
+      "sku_summary": "Cognito, Essentials tier, 1 user pool, SAML 2.0 federation",
+      "purpose": "Federates Northbridge SSO SAML assertions to issue JWTs with role group claims; the Dispute API validates these tokens to enforce RBAC and margin field hiding.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-12",
+        "REQ-22"
+      ],
+      "decision_ids": [
+        "ADR-006"
+      ]
+    },
+    {
+      "id": "C-16",
+      "name": "SQS Retry Queue",
+      "service": "Amazon SQS",
+      "category": "integration",
+      "role": "Buffers HelpTrack outbound post requests with retry and DLQ",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "queue_type": "Standard",
+        "visibility_timeout_s": "300",
+        "message_retention_days": "4",
+        "dead_letter_queue": "helptrack-post-dlq",
+        "max_receive_count": "5"
+      },
+      "sku_summary": "SQS Standard queue + DLQ, 4-day retention, 5 max receives",
+      "purpose": "Decouples and buffers approved HelpTrack response post requests from the Dispute API, enabling the Integration Lambda to retry on transient HelpTrack API failures.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-08"
+      ],
+      "decision_ids": [
+        "ADR-007"
+      ]
+    },
+    {
+      "id": "C-17",
+      "name": "API Gateway Webhook Endpoint",
+      "service": "Amazon API Gateway",
+      "category": "networking",
+      "role": "Public HTTPS endpoint for HelpTrack webhook ingestion",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "api_type": "HTTP API",
+        "endpoint_type": "Regional",
+        "auth": "Lambda authorizer validating HelpTrack HMAC webhook signature",
+        "integration": "Integration Lambda Functions"
+      },
+      "sku_summary": "API Gateway HTTP API, regional, Lambda integration",
+      "purpose": "Exposes a public HTTPS endpoint for the HelpTrack outbound webhook, authenticates payloads via HMAC signature, and invokes the Integration Lambda to create or update disputes.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-04"
+      ],
+      "decision_ids": [
+        "ADR-007"
+      ]
+    },
+    {
+      "id": "C-18",
+      "name": "Web Assets S3 Bucket",
+      "service": "Amazon S3",
+      "category": "storage",
+      "role": "Hosts static web application assets served via CloudFront",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "storage_class_default": "S3 Standard",
+        "encryption": "SSE-KMS customer managed key",
+        "versioning": "enabled",
+        "block_public_access": "on",
+        "access": "CloudFront origin access control only"
+      },
+      "sku_summary": "S3 Standard, SSE-KMS, versioning on, OAC-only access",
+      "purpose": "Stores the compiled static React web application assets (HTML, JS, CSS) served to users via CloudFront with origin access control.",
+      "assumed": true,
+      "assumption_reason": "SRS requires a web UI (FR-03, FR-07) but does not specify the static asset hosting mechanism; S3 + CloudFront OAC is the standard AWS pattern.",
+      "requirement_ids": [
+        "REQ-03",
+        "REQ-07"
+      ],
+      "decision_ids": [
+        "ADR-008"
+      ]
+    },
+    {
+      "id": "C-19",
+      "name": "Secrets Manager",
+      "service": "AWS Secrets Manager",
+      "category": "security",
+      "role": "Stores and rotates database credentials and API keys",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "secrets": "RDS master credentials (rotation on, 30-day schedule), HelpTrack OAuth client credentials, LedgerOne SFTP SSH key, Bedrock API configuration",
+        "rotation": "enabled for RDS credentials",
+        "encryption": "AWS KMS customer managed key"
+      },
+      "sku_summary": "Secrets Manager, 4 secrets, RDS rotation enabled, KMS encrypted",
+      "purpose": "Centrally stores and rotates all credentials and API keys used by Fargate tasks and Lambda functions, eliminating hard-coded secrets.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-22",
+        "REQ-28"
+      ],
+      "decision_ids": [
+        "ADR-006"
+      ]
+    },
+    {
+      "id": "C-20",
+      "name": "KMS Customer Managed Key",
+      "service": "AWS KMS",
+      "category": "security",
+      "role": "Encryption key for all data stores and secrets",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "key_type": "Symmetric",
+        "key_usage": "ENCRYPT_DECRYPT",
+        "rotation": "annual",
+        "key_policy": "least-privilege per workload IAM role"
+      },
+      "sku_summary": "KMS, 1 customer managed symmetric key, annual rotation",
+      "purpose": "Provides a single customer managed encryption key used by RDS, S3 buckets, Secrets Manager and CloudWatch Logs to satisfy the Confidential-Financial data classification requirement.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-22",
+        "REQ-28"
+      ],
+      "decision_ids": [
+        "ADR-006"
+      ]
+    },
+    {
+      "id": "C-21",
+      "name": "CloudWatch Observability",
+      "service": "Amazon CloudWatch",
+      "category": "management",
+      "role": "Centralised logs, metrics, alarms and dashboard",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "log_groups": "Dispute API, Ingestion Lambda, Integration Lambda, RDS enhanced monitoring",
+        "log_retention_days": "30",
+        "alarms": "Ingestion errors, Lambda errors, AI draft latency p95, HelpTrack DLQ depth, RDS CPU > 80%",
+        "dashboard": "1 operational dashboard",
+        "alarm_destination": "SNS topic to operations team email"
+      },
+      "sku_summary": "CloudWatch, 30-day log retention, alarms on errors and saturation, 1 dashboard",
+      "purpose": "Provides centralised logging, metrics and alarms for ingestion pipelines, AI draft latency, integration errors and infrastructure saturation; routes alarms to the operations team.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-24"
+      ],
+      "decision_ids": []
+    },
+    {
+      "id": "C-22",
+      "name": "CloudTrail Audit Trail",
+      "service": "AWS CloudTrail",
+      "category": "management",
+      "role": "API-level audit trail for all AWS actions",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "trail_type": "multi-Region management events trail",
+        "log_destination": "S3 (billing-data bucket /cloudtrail/ prefix)",
+        "log_file_validation": "enabled",
+        "encryption": "AWS KMS customer managed key"
+      },
+      "sku_summary": "CloudTrail, multi-Region trail, S3 delivery, log file validation on",
+      "purpose": "Records all AWS API calls for security audit and compliance, with log file validation ensuring tamper-evidence for the 7-year retention requirement.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-09",
+        "REQ-22",
+        "REQ-21"
+      ],
+      "decision_ids": []
+    },
+    {
+      "id": "C-23",
+      "name": "SES Email Service",
+      "service": "Amazon SES",
+      "category": "integration",
+      "role": "Outbound email notifications to agents",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "identity_type": "verified domain",
+        "domain": "Northbridge domain (to be confirmed)",
+        "dkim": "enabled",
+        "sending_mode": "shared IP"
+      },
+      "sku_summary": "SES, 1 verified domain identity, DKIM on, shared IP",
+      "purpose": "Sends email notifications to assigned billing agents when an AI draft is ready for review, using a Northbridge-domain sender address.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-13"
+      ],
+      "decision_ids": [
+        "ADR-007"
+      ]
+    },
+    {
+      "id": "C-24",
+      "name": "VPC Endpoints",
+      "service": "AWS PrivateLink",
+      "category": "networking",
+      "role": "Private connectivity from VPC to AWS services",
+      "quantity": 1,
+      "boundary": "private_subnet",
+      "configuration": {
+        "gateway_endpoints": "S3, DynamoDB",
+        "interface_endpoints": "secretsmanager, ecr.api, ecr.dkr, logs"
+      },
+      "sku_summary": "PrivateLink: S3 and DynamoDB gateway endpoints; Secrets Manager, ECR API, ECR DKR, CloudWatch Logs interface endpoints",
+      "purpose": "Provides private network paths from the private subnet to S3, Secrets Manager, ECR and CloudWatch Logs, reducing NAT Gateway data transfer costs and keeping traffic off the public internet.",
+      "assumed": true,
+      "assumption_reason": "Private subnet workloads access S3 and Secrets Manager frequently; gateway and interface endpoints reduce NAT costs and align with the private-networking constraint (C-05, REQ-28).",
+      "requirement_ids": [
+        "REQ-22",
+        "REQ-28"
+      ],
+      "decision_ids": []
+    },
+    {
+      "id": "C-25",
+      "name": "HelpTrack",
+      "service": "HelpTrack",
+      "category": "external",
+      "role": "External ticketing system of record",
+      "quantity": 1,
+      "boundary": "external_boundary",
+      "configuration": {},
+      "sku_summary": "External system — HelpTrack ticketing platform",
+      "purpose": "Northbridge's ticketing system; sends dispute webhooks to the system and receives approved responses via REST API.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-04",
+        "REQ-08"
+      ]
+    },
+    {
+      "id": "C-26",
+      "name": "LedgerOne ERP",
+      "service": "LedgerOne",
+      "category": "external",
+      "role": "External ERP source of invoice exports",
+      "quantity": 1,
+      "boundary": "external_boundary",
+      "configuration": {},
+      "sku_summary": "External system — LedgerOne ERP",
+      "purpose": "Northbridge's ERP; pushes nightly invoice CSV exports to the SFTP Transfer Family endpoint.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-02"
+      ]
+    },
+    {
+      "id": "C-27",
+      "name": "Northbridge SSO",
+      "service": "Northbridge SSO",
+      "category": "external",
+      "role": "Corporate SAML 2.0 identity provider",
+      "quantity": 1,
+      "boundary": "external_boundary",
+      "configuration": {},
+      "sku_summary": "External system — Northbridge corporate SAML 2.0 IdP",
+      "purpose": "Issues SAML assertions with role and name attributes to Cognito for user authentication and RBAC; enforces MFA.",
+      "assumed": false,
+      "requirement_ids": [
+        "REQ-12",
+        "REQ-22"
+      ]
+    },
+    {
+      "id": "C-28",
+      "name": "ECR Repository",
+      "service": "Amazon ECR",
+      "category": "containers",
+      "role": "Container image registry for Dispute API",
+      "quantity": 1,
+      "boundary": null,
+      "configuration": {
+        "repository_type": "private",
+        "scan_on_push": "enabled",
+        "lifecycle_policy": "keep last 10 images"
+      },
+      "sku_summary": "ECR private repository, scan on push, last 10 images lifecycle policy",
+      "purpose": "Stores and serves the Dispute API container images to ECS Fargate tasks; scan on push detects vulnerabilities before deployment.",
+      "assumed": true,
+      "assumption_reason": "Fargate tasks require a container registry; ECR is the standard AWS-native registry (C-01, ADR-001).",
+      "requirement_ids": [
+        "REQ-29"
+      ],
+      "decision_ids": [
+        "ADR-001"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "F-01",
+      "source": "C-01",
+      "target": "C-02",
+      "label": "accesses web application",
+      "sentence": "The Billing Agent / Lead / Auditor accesses the web application through the CloudFront Distribution over HTTPS.",
+      "protocol": "HTTPS",
+      "port": "443"
+    },
+    {
+      "id": "F-02",
+      "source": "C-27",
+      "target": "C-15",
+      "label": "issues SAML assertion",
+      "sentence": "Northbridge SSO issues a SAML 2.0 assertion to the Cognito User Pool to authenticate users and supply role attributes.",
+      "protocol": "SAML 2.0",
+      "port": "443"
+    },
+    {
+      "id": "F-03",
+      "source": "C-02",
+      "target": "C-18",
+      "label": "serves static assets",
+      "sentence": "The CloudFront Distribution fetches static web application assets from the Web Assets S3 Bucket via origin access control.",
+      "protocol": "HTTPS",
+      "port": "443"
+    },
+    {
+      "id": "F-04",
+      "source": "C-02",
+      "target": "C-03",
+      "label": "forwards API requests",
+      "sentence": "The CloudFront Distribution forwards API requests to the Application Load Balancer over HTTPS.",
+      "protocol": "HTTPS",
+      "port": "443"
+    },
+    {
+      "id": "F-05",
+      "source": "C-03",
+      "target": "C-07",
+      "label": "routes to API tasks",
+      "sentence": "The Application Load Balancer routes HTTPS requests to the Dispute API Fargate tasks in us-east-1a.",
+      "protocol": "HTTP",
+      "port": "8080"
+    },
+    {
+      "id": "F-06",
+      "source": "C-07",
+      "target": "C-15",
+      "label": "validates JWT tokens",
+      "sentence": "The Dispute API validates Cognito JWTs against the Cognito User Pool JWKS endpoint on every authenticated request.",
+      "protocol": "HTTPS",
+      "port": "443"
+    },
+    {
+      "id": "F-07",
+      "source": "C-07",
+      "target": "C-09",
+      "label": "reads and writes disputes",
+      "sentence": "The Dispute API reads and writes disputes, partners, AI drafts and audit events in the Dispute Database.",
+      "protocol": "PostgreSQL",
+      "port": "5432"
+    },
+    {
+      "id": "F-08",
+      "source": "C-07",
+      "target": "C-12",
+      "label": "queries billing line items",
+      "sentence": "The Dispute API queries the Athena Workgroup to retrieve CUR and discount line items relevant to a dispute.",
+      "protocol": "HTTPS (Athena API)",
+      "port": "443"
+    },
+    {
+      "id": "F-09",
+      "source": "C-12",
+      "target": "C-10",
+      "label": "scans billing Parquet files",
+      "sentence": "The Athena Workgroup scans partitioned Parquet files in the Billing Data S3 Bucket to execute billing line item queries.",
+      "protocol": "S3 API",
+      "port": "443"
+    },
+    {
+      "id": "F-10",
+      "source": "C-07",
+      "target": "C-13",
+      "label": "invokes AI draft generation",
+      "sentence": "The Dispute API invokes the Bedrock AI Model with dispute context and retrieved line items to generate an explanation and recommended resolution.",
+      "protocol": "HTTPS (Bedrock API)",
+      "port": "443"
+    },
+    {
+      "id": "F-11",
+      "source": "C-07",
+      "target": "C-16",
+      "label": "enqueues HelpTrack post",
+      "sentence": "The Dispute API enqueues an approved response message to the SQS Retry Queue for reliable delivery to HelpTrack.",
+      "protocol": "HTTPS (SQS API)",
+      "port": "443"
+    },
+    {
+      "id": "F-12",
+      "source": "C-16",
+      "target": "C-08",
+      "label": "triggers response poster",
+      "sentence": "The SQS Retry Queue triggers the Integration Lambda Functions to post the approved response to HelpTrack.",
+      "protocol": "SQS event",
+      "port": "443"
+    },
+    {
+      "id": "F-13",
+      "source": "C-08",
+      "target": "C-25",
+      "label": "posts response to ticket",
+      "sentence": "The Integration Lambda Functions post the approved dispute response to the HelpTrack REST API and record the outcome.",
+      "protocol": "HTTPS (REST)",
+      "port": "443"
+    },
+    {
+      "id": "F-14",
+      "source": "C-25",
+      "target": "C-17",
+      "label": "sends dispute webhook",
+      "sentence": "HelpTrack sends outbound webhook payloads for new and updated disputes to the API Gateway Webhook Endpoint.",
+      "protocol": "HTTPS",
+      "port": "443"
+    },
+    {
+      "id": "F-15",
+      "source": "C-17",
+      "target": "C-08",
+      "label": "invokes webhook handler",
+      "sentence": "The API Gateway Webhook Endpoint invokes the Integration Lambda Functions to process and deduplicate incoming HelpTrack webhook payloads.",
+      "protocol": "Lambda invoke",
+      "port": "443"
+    },
+    {
+      "id": "F-16",
+      "source": "C-08",
+      "target": "C-09",
+      "label": "creates or updates dispute",
+      "sentence": "The Integration Lambda Functions create or update the matching dispute record in the Dispute Database after processing a HelpTrack webhook.",
+      "protocol": "PostgreSQL",
+      "port": "5432"
+    },
+    {
+      "id": "F-17",
+      "source": "C-26",
+      "target": "C-05",
+      "label": "pushes invoice CSV",
+      "sentence": "LedgerOne ERP pushes the nightly invoice CSV export to the SFTP Transfer Endpoint using SSH key authentication.",
+      "protocol": "SFTP",
+      "port": "22"
+    },
+    {
+      "id": "F-18",
+      "source": "C-05",
+      "target": "C-10",
+      "label": "lands invoice file",
+      "sentence": "The SFTP Transfer Endpoint writes the received invoice CSV file to the Billing Data S3 Bucket under the /invoices/ prefix.",
+      "protocol": "S3 API",
+      "port": "443"
+    },
+    {
+      "id": "F-19",
+      "source": "C-10",
+      "target": "C-06",
+      "label": "triggers ingestion pipeline",
+      "sentence": "The Billing Data S3 Bucket emits an S3 event notification to the Ingestion Lambda Functions when a new billing or invoice file arrives.",
+      "protocol": "S3 event notification",
+      "port": "443"
+    },
+    {
+      "id": "F-20",
+      "source": "C-06",
+      "target": "C-11",
+      "label": "triggers Glue crawler",
+      "sentence": "The Ingestion Lambda Functions trigger the Glue Data Catalog crawler after validating a new monthly billing file to update Athena partition metadata.",
+      "protocol": "HTTPS (Glue API)",
+      "port": "443"
+    },
+    {
+      "id": "F-21",
+      "source": "C-06",
+      "target": "C-09",
+      "label": "writes invoice records",
+      "sentence": "The Ingestion Lambda Functions write normalised invoice header and line records to the Dispute Database after a successful LedgerOne import.",
+      "protocol": "PostgreSQL",
+      "port": "5432"
+    },
+    {
+      "id": "F-22",
+      "source": "C-06",
+      "target": "C-14",
+      "label": "submits PDF extraction job",
+      "sentence": "The Ingestion Lambda Functions submit asynchronous Textract DetectDocumentText jobs for PDF invoice attachments stored in the Billing Data S3 Bucket.",
+      "protocol": "HTTPS (Textract API)",
+      "port": "443"
+    },
+    {
+      "id": "F-23",
+      "source": "C-14",
+      "target": "C-10",
+      "label": "reads PDF from S3",
+      "sentence": "The Textract Service reads PDF invoice attachment files from the Billing Data S3 Bucket to perform text extraction.",
+      "protocol": "S3 API",
+      "port": "443"
+    },
+    {
+      "id": "F-24",
+      "source": "C-08",
+      "target": "C-23",
+      "label": "sends draft-ready email",
+      "sentence": "The Integration Lambda Functions invoke Amazon SES to send a draft-ready email notification to the assigned billing agent.",
+      "protocol": "HTTPS (SES API)",
+      "port": "443"
+    },
+    {
+      "id": "F-25",
+      "source": "C-07",
+      "target": "C-19",
+      "label": "retrieves credentials",
+      "sentence": "The Dispute API retrieves database credentials and HelpTrack OAuth tokens from Secrets Manager at startup and on rotation.",
+      "protocol": "HTTPS (Secrets Manager API)",
+      "port": "443"
+    },
+    {
+      "id": "F-26",
+      "source": "C-11",
+      "target": "C-10",
+      "label": "crawls billing files",
+      "sentence": "The Glue Data Catalog crawler scans the Billing Data S3 Bucket to infer and register partition schemas for Athena queries.",
+      "protocol": "S3 API",
+      "port": "443"
+    }
+  ],
+  "security_operations": [
+    "All workloads (Dispute API Fargate tasks, Ingestion Lambda Functions, Integration Lambda Functions) run in the private subnet; only the Application Load Balancer and API Gateway Webhook Endpoint are internet-reachable. The ALB security group accepts inbound HTTPS 443 exclusively from the CloudFront managed prefix list; no rule permits 0.0.0.0/0 on any other port.",
+    "The Dispute Database (RDS), Billing Data S3 Bucket, Web Assets S3 Bucket and Secrets Manager are accessible only from within the VPC via security group rules referencing the Fargate and Lambda security groups, or via VPC endpoints. S3 Block Public Access is on for both buckets.",
+    "All data at rest is encrypted with the KMS Customer Managed Key: RDS storage, both S3 buckets, Secrets Manager secrets, CloudWatch Logs log groups and CloudTrail logs. All data in transit uses TLS 1.2 or higher.",
+    "Each workload has a dedicated least-privilege IAM execution role scoped to specific resource ARNs: the Dispute API role permits RDS connect, Athena query, Bedrock InvokeModel on the Claude Sonnet 4.6 model ARN, Secrets Manager GetSecretValue on its named secrets, and S3 GetObject on the billing bucket; the Ingestion Lambda role permits S3 GetObject/PutObject on the billing bucket, Glue StartCrawler, Textract StartDocumentTextDetection, and RDS connect; the Integration Lambda role permits SQS ReceiveMessage/DeleteMessage on the retry queue, SES SendEmail, and RDS connect. No wildcard actions and no long-lived access keys are used.",
+    "Cognito User Pool enforces SAML 2.0 federation to Northbridge SSO; MFA is enforced by the Northbridge SSO identity provider before the SAML assertion is issued. The Dispute API validates the Cognito JWT on every request and enforces role-based field-level access: the finance auditor group claim causes the API to redact margin fields from all responses (REQ-12).",
+    "HelpTrack webhook payloads are authenticated by HMAC signature validation in the API Gateway Lambda authorizer before the Integration Lambda is invoked. HelpTrack OAuth client credentials are stored in Secrets Manager and never hard-coded.",
+    "The SFTP Transfer Family endpoint restricts accepted connections to the known LedgerOne egress IP addresses via a resource policy. The LedgerOne SSH key is stored in Secrets Manager.",
+    "CloudTrail records all AWS management and data-plane API calls to the Billing Data S3 Bucket with log file validation enabled, providing a tamper-evident audit trail for the 7-year retention requirement. CloudWatch Logs retains application logs for 30 days; long-term audit events are stored in the Dispute Database (RDS) with append-only row-level security enforced at the application layer.",
+    "CloudWatch alarms notify the operations team via SNS on: Ingestion Lambda errors, Integration Lambda DLQ depth > 0, Dispute API 5xx error rate > 1%, AI draft p95 latency > 40 s, and RDS CPU > 80%. The single operational dashboard (CloudWatch Observability) surfaces all key metrics.",
+    "RDS automated backups are retained for 7 days with point-in-time recovery enabled, satisfying RPO 24 h. A restore to a new db.t4g.medium instance in us-east-1a achieves RTO 8 h. S3 versioning on the Billing Data S3 Bucket protects against accidental deletion of billing files. CloudTrail logs are protected by S3 Object Lock (governance mode) to prevent deletion within the 7-year retention window.",
+    "Infrastructure is defined as code (AWS CDK or CloudFormation) and deployed through a CI/CD pipeline stored in a version-controlled repository, enabling repeatable deployments across development, test and pilot environments (REQ-29)."
+  ],
+  "assumptions": [
+    {
+      "id": "ASM-01",
+      "text": "The Dispute API Fargate tasks are sized at 1 vCPU / 2 GB with 2 desired tasks.",
+      "reason": "SRS states ~25 concurrent users at peak (Section 2.2) but does not specify throughput or task count. Two tasks at 1 vCPU / 2 GB provide headroom for month-end peak (60 disputes/day, REQ-15) and allow one task to absorb load during a rolling deployment."
+    },
+    {
+      "id": "ASM-02",
+      "text": "The RDS gp3 storage is provisioned at 100 GiB.",
+      "reason": "SRS gives ~870 disputes/month, ~1,500 drafts/month and ~25,000 audit events/month (Section 6) but does not specify database storage. 100 GiB covers 2 years of growth at 3x (REQ-23) with room for indexes and WAL, staying above the 20 GiB minimum."
+    },
+    {
+      "id": "ASM-03",
+      "text": "The Web Assets S3 Bucket uses SSE-KMS with the customer managed key.",
+      "reason": "SRS classifies all data as Confidential-Financial (Section 6) and requires encryption at rest (REQ-22, C-05); the KMS CMK is applied consistently to all buckets."
+    },
+    {
+      "id": "ASM-04",
+      "text": "The Cognito access token validity is set to 1 hour and the refresh token to 8 hours.",
+      "reason": "SRS does not specify token lifetimes. 1-hour access tokens limit the blast radius of a stolen token; 8-hour refresh tokens cover a full business-hours session (07:00–19:00, REQ-19) without requiring re-authentication."
+    },
+    {
+      "id": "ASM-05",
+      "text": "The Glue crawler is triggered on-demand by the Ingestion Lambda after each monthly billing file arrival rather than on a fixed schedule.",
+      "reason": "SRS requires files to be queryable within 4 hours of arrival (REQ-18); a fixed daily schedule could delay partition registration. On-demand trigger ensures Athena partitions are updated immediately after validation."
+    },
+    {
+      "id": "ASM-06",
+      "text": "Partner agreement terms are stored as structured text in the Dispute Database (RDS) and/or as extracted text from PDFs via Textract.",
+      "reason": "OI-04 notes that it is unconfirmed whether partner agreements are structured data or PDF only. The design accommodates both: structured data in RDS and PDF text via Textract (REQ-14), so no redesign is needed when OI-04 is resolved."
+    },
+    {
+      "id": "ASM-07",
+      "text": "The API Gateway Webhook Endpoint uses an HTTP API (not REST API) with a Lambda authorizer for HMAC validation.",
+      "reason": "SRS requires webhook payload authentication (Section 5) but does not specify API Gateway tier. HTTP API is sufficient for webhook ingestion and is cheaper than REST API (REQ-25); WAF is not added as the webhook is authenticated by HMAC and not a stated compliance requirement."
+    },
+    {
+      "id": "ASM-08",
+      "text": "CloudTrail logs are stored in the Billing Data S3 Bucket under a /cloudtrail/ prefix rather than a dedicated bucket.",
+      "reason": "SRS requires all data to remain in us-east-1 (C-04) and a 7-year audit trail (REQ-21). Consolidating CloudTrail logs into the existing bucket with a lifecycle policy reduces the number of S3 buckets and simplifies KMS key policy management."
+    }
+  ],
+  "open_questions": [
+    "OI-01: Which Amazon Bedrock model (confirmed model ID and data handling terms) has been approved by Northbridge InfoSec for use with Confidential-Financial billing data? The design assumes Claude Sonnet 4.6 (us.anthropic.claude-sonnet-4-6); a different model ID would change the Bedrock component configuration and potentially the draft quality and latency.",
+    "OI-02: What is the production availability target and multi-AZ requirement after the pilot? If 99.9% or higher is required, the design must be revised to add Multi-AZ RDS, cross-AZ Fargate tasks, and a second NAT Gateway, which changes the architecture and cost significantly.",
+    "OI-03: What are the HelpTrack API rate limits and webhook retry behaviour? If the rate limit is below the peak posting rate (~60 disputes/day at month-end), the SQS visibility timeout and retry count on the SQS Retry Queue may need adjustment to avoid DLQ overflow.",
+    "OI-04: Are partner agreements available as structured data (CSV/JSON) or only as PDF documents? If structured, they can be loaded directly into RDS; if PDF-only, Textract extraction is the only path and the Ingestion Lambda must handle agreement PDFs in addition to invoice PDFs."
+  ]
+}

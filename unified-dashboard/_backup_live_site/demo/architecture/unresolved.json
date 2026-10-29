@@ -1,0 +1,21 @@
+[
+  {
+    "about": "SNS topic for CloudWatch alarm routing",
+    "reasoning": "The document explicitly states 'CloudWatch alarms notify the operations team via SNS' and lists five specific alarms. SNS is a structural component in the alarm delivery path from CloudWatch to the operations team, but it was not extracted as a component and no existing component covers this role.",
+    "suggestion": "Confirm whether an Amazon SNS topic for operations alarm routing should be added as an explicit component in the architecture.",
+    "related_ids": [
+      "cloudwatch"
+    ]
+  },
+  {
+    "about": "Textract result delivery back to Ingestion Lambda",
+    "reasoning": "Textract jobs are asynchronous (DetectDocumentText); the document states Ingestion Lambda submits jobs (r22) but does not describe how the extracted text result is returned or stored for use by the Dispute API and AI drafting. There is no stated SNS/S3 callback or polling mechanism for Textract completion.",
+    "suggestion": "Confirm how asynchronous Textract results are delivered back (e.g., SNS notification to Lambda, or Lambda polling) and where extracted text is stored before being consumed by the Dispute API.",
+    "related_ids": [
+      "ingestion_lambda",
+      "textract",
+      "billing_s3",
+      "dispute_db"
+    ]
+  }
+]

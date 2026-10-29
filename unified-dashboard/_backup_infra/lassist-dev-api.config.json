@@ -1,0 +1,62 @@
+{
+    "FunctionName": "lassist-dev-api",
+    "FunctionArn": "arn:aws:lambda:us-east-1:455162169375:function:lassist-dev-api",
+    "Runtime": "python3.12",
+    "Role": "arn:aws:iam::455162169375:role/lassist-dev-api",
+    "Handler": "api.handler.handler",
+    "CodeSize": 28012009,
+    "Description": "Live Assist API (lassist-dev)",
+    "Timeout": 30,
+    "MemorySize": 512,
+    "LastModified": "2026-10-27T19:39:46.000+0000",
+    "CodeSha256": "nFxiUEU/c1K6W34IeKOjPrshkbVr561fUNjmBzYinmY=",
+    "Version": "$LATEST",
+    "Environment": {
+        "Variables": {
+            "AGENTCORE_QUALIFIER": "DEFAULT",
+            "PUBLIC_API_URL": "https://bg0681jeib.execute-api.us-east-1.amazonaws.com",
+            "DIRECT_UPLOAD": "true",
+            "DISCOVERY_UI_URL": "https://main.d2n5894mve8es1.amplifyapp.com",
+            "SESSION_TABLE_NAME": "lassist-dev-sessions",
+            "UPLOAD_BUCKET": "lassist-dev-uploads-455162169375-us-east-1",
+            "DISCOVERY_API_URL": "https://eaxi52af2c.execute-api.us-east-1.amazonaws.com",
+            "REPLAYER_FUNCTION": "lassist-dev-replayer",
+            "TIMELINE_TABLE_NAME": "lassist-dev-timeline",
+            "RECALL_REGION": "us-east-1",
+            "LONG_TERM_MEMORY_ID": "lassist_dev_ltm-jVddBUAqu7",
+            "RECALL_API_KEY_SECRET": "lassist-dev/recall-api-key",
+            "RECALL_VERIFY_SECRET_NAME": "lassist-dev/recall-verify-secret",
+            "DATA_RETENTION_DAYS": "180",
+            "MEETING_PROVIDER": "recall",
+            "ACCESS_KEY_SECRET": "lassist-dev/access-key",
+            "LOG_LEVEL": "INFO",
+            "INTAKE_TABLE_NAME": "ingram-intake-runs",
+            "AGENTCORE_RUNTIME_ARN": "arn:aws:bedrock-agentcore:us-east-1:455162169375:runtime/lassist_dev_runtime-J8cjV17dqj"
+        }
+    },
+    "KMSKeyArn": "arn:aws:kms:us-east-1:455162169375:key/143d6bb9-4d20-4e8b-ad3b-c1def9030110",
+    "TracingConfig": {
+        "Mode": "Active"
+    },
+    "RevisionId": "9be0f896-5ecf-4f62-9fb6-854bbe6200fb",
+    "State": "Active",
+    "LastUpdateStatus": "Successful",
+    "PackageType": "Zip",
+    "Architectures": [
+        "arm64"
+    ],
+    "EphemeralStorage": {
+        "Size": 512
+    },
+    "SnapStart": {
+        "ApplyOn": "None",
+        "OptimizationStatus": "Off"
+    },
+    "RuntimeVersionConfig": {
+        "RuntimeVersionArn": "arn:aws:lambda:us-east-1::runtime:0fec05b8b43b0ecfbabe4fd585b35e423f655861556712f8a10b0e8739c36c07"
+    },
+    "LoggingConfig": {
+        "LogFormat": "Text",
+        "LogGroup": "/aws/lambda/lassist-dev-api"
+    }
+}

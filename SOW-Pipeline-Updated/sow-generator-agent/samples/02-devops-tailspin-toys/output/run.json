@@ -1,0 +1,37 @@
+{
+  "session_id": "1d68f0a96e5247eb812749693d89d66d",
+  "customer_name": "Tailspin Toys",
+  "template_id": "devops/devops-standard",
+  "opportunity_id": "OPP-2026-0498",
+  "inputs": {
+    "transcripts": [
+      "application-inventory.xlsx",
+      "kickoff-call-transcript.txt"
+    ],
+    "images": [
+      "architecture-diagram.png"
+    ],
+    "upstream": true,
+    "project_details_chars": 2524
+  },
+  "generation_seconds": 91.6,
+  "draft_chars": 29102,
+  "usage": {
+    "inputTokens": 16663,
+    "outputTokens": 14384
+  },
+  "check_summary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "advisory": 0
+  },
+  "ai_review": {
+    "requested": true,
+    "status": "ok",
+    "issues_added": 8,
+    "model_id": "global.anthropic.claude-sonnet-5-5",
+    "detail": ""
+  },
+  "generated_at": "2026-10-24T19:46:31Z"
+}

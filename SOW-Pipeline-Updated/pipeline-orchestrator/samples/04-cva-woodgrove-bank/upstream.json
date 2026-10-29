@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "schema_version": "1.0",
+    "opportunity_id": "USC-2026-0731",
+    "template_id": "cva/full",
+    "source_agents": [
+      "intake",
+      "discovery"
+    ],
+    "created_at": "2026-10-26T09:00:00Z",
+    "generated_by": "sample-data"
+  },
+  "intake": {
+    "customer_name": "Woodgrove Bank",
+    "industry": "Banking (retail and SME)",
+    "contacts": [
+      {
+        "name": "Eva de Vries",
+        "role": "Head of Infrastructure",
+        "email": "eva.devries@woodgrove-bank.example.com"
+      },
+      {
+        "name": "Pieter Jansen",
+        "role": "Partner account manager, Contoso Cloud Partners",
+        "email": "pieter.jansen@contoso-cloud.example.com"
+      }
+    ],
+    "engagement_type": "AWS Cloud Viability Assessment (Full)",
+    "template_hint": "cva/full",
+    "problem_statement": "The data centre hosting contract for about 420 VMware servers ends in September 2027. The board needs an evidence-based view of the readiness, cost and licensing implications of moving to AWS before it decides to renew or migrate.",
+    "goals": [
+      "Inventory and profile the estate from real utilisation data",
+      "Produce a rightsized AWS instance blueprint and cost scenarios (1-year, 3-year, 5-year)",
+      "Model BYOL versus License Included for Windows Server and SQL Server",
+      "Describe a high-level multi-AZ AWS target architecture and migration approach",
+      "Identify the AWS MAP funding Woodgrove could qualify for"
+    ],
+    "timeline": "8 weeks",
+    "budget_range": "EUR 38,000 one-time (funded in part by AWS)",
+    "constraints": [
+      "Assessment only: no migration, remediation or build work",
+      "Banking data stays in the EU",
+      "The production target landing zone must span two Availability Zones",
+      "Read-only access to vCenter and a 21-day observation period have been agreed"
+    ]
+  },
+  "discovery": {
+    "source": "discovery",
+    "findings": [
+      "About 420 VMs across two data centres: roughly 300 Windows, 90 Linux, 30 SQL Server hosts",
+      "About 180 TB of allocated storage; actual utilisation is unknown",
+      "Microsoft Enterprise Agreement with SQL Server Enterprise and Software Assurance; no licence audit for three years"
+    ],
+    "requirements": [
+      "Rightsizing from observed CPU, memory, storage IOPS and network use",
+      "Region eu-west-1, with eu-central-1 as the alternative",
+      "Cross-cloud comparison is not needed"
+    ],
+    "stakeholders": [
+      {
+        "name": "Eva de Vries",
+        "role": "Head of Infrastructure (sponsor)"
+      },
+      {
+        "name": "Marc Bakker",
+        "role": "Licensing and vendor manager"
+      }
+    ],
+    "transcript_refs": [],
+    "notes": "Kick-off workshop is planned for week 2."
+  }
+}

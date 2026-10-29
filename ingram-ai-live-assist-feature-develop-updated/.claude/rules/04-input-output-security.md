@@ -1,0 +1,131 @@
+<!-- GENERATED FILE — do not edit directly. Source: project-rules.md (Input & Output Security) -->
+
+## 13. Input Validation
+
+Never trust external input.
+
+Validate request bodies, query/path parameters, headers, files, forms, webhooks, and
+third-party data where appropriate.
+
+Client validation improves UX but is not a security control.
+
+Use the project's appropriate schema-validation mechanism.
+
+Examples:
+
+```text
+TypeScript: Zod / Valibot / Yup
+Python: Pydantic / Marshmallow
+```
+
+### 13.1 Webhook and Inbound Payload Verification
+
+- Verify the sender-provided signature (HMAC or equivalent) on every inbound webhook
+  using the provider's signing secret before processing the payload — never trust a
+  webhook based on source IP or URL secrecy alone.
+- Compare signatures using a constant-time comparison to avoid timing attacks.
+- Reject payloads with a missing, malformed, or invalid signature, and reject stale
+  requests outside a reasonable timestamp window to prevent replay.
+- Treat a verified webhook's contents as validated-origin, not validated-content — still
+  run normal input validation (Section 13) on the payload body.
+
+## 14. XSS Prevention
+
+- Escape untrusted output.
+- Avoid raw HTML unless required.
+- Sanitize HTML when HTML rendering is necessary.
+- Validate URLs.
+- Block dangerous URL schemes.
+- Avoid unsafe DOM manipulation.
+
+React example: do not use `dangerouslySetInnerHTML` unless necessary and the content has
+been safely sanitized.
+
+## 15. Injection Prevention
+
+Protect against SQL, command, template, LDAP, NoSQL, shell, and code injection.
+
+Prefer parameterized queries, ORM/query builders, validated input, safe process APIs,
+and allow-lists.
+
+Never build database or shell commands by concatenating untrusted input.
+
+Python example:
+
+```python
+# Prefer parameterized database operations through the project's DB abstraction.
+cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+```
+
+## 16. File Upload Security
+
+Treat uploads as untrusted.
+
+Validate size, extension, MIME type, filename, content, and file signature where needed.
+
+Do not execute uploaded files. Store uploads safely outside executable paths where
+appropriate. Scan files when required by the threat model.
+
+## 17. URL Security
+
+Validate external and redirect URLs.
+
+Prevent:
+
+- javascript:
+- data:
+- vbscript:
+- Open redirects
+- Unsafe external redirects
+
+Prefer internal-path allow-lists for authentication redirects.
+
+## 18. Error Handling
+
+Errors must be handled intentionally.
+
+Never expose stack traces, secrets, credentials, or sensitive infrastructure details
+to users.
+
+Do not silently swallow errors unless the behavior is explicitly intentional.
+
+For UI frameworks with component trees (e.g., React), wrap route-level or feature-level
+trees in an error boundary (a React Error Boundary component, or the framework's
+built-in equivalent, e.g. Next.js `error.tsx`) so a rendering error in one part of the UI
+doesn't crash the whole app. Show a fallback UI and log the error — don't let an
+unhandled render error produce a blank screen.
+
+## 19. Logging
+
+Logs should help answer:
+
+```text
+What happened?
+When?
+Where?
+Which request?
+What failed?
+What was the impact?
+```
+
+Use structured logging where practical.
+
+Never log passwords, tokens, private keys, or unnecessary sensitive personal data.
+
+Use correlation/request IDs in distributed systems where appropriate.
+
+## 20. Auditability
+
+Security, compliance, administrative, and data-impacting actions should be auditable.
+
+Record appropriate:
+
+```text
+Actor
+Action
+Resource
+Timestamp
+Result
+Correlation/request ID
+```
+

@@ -1,0 +1,8 @@
+strands-agents==1.58.1
+bedrock-agentcore[strands-agents]==1.24.1
+boto3==1.43.108
+python-dotenv==1.2.4
+pydantic==2.14.1
+# Live meeting source (app/vexa_client.py): REST and WebSocket to the Vexa meeting API.
+httpx==0.28.1
+websockets==17.3

@@ -1,0 +1,9 @@
+# Cost estimate agent (AgentCore Runtime container, Python 3.12, linux/arm64).
+# Direct dependencies pinned exactly; resolved with
+#   uv pip compile --python-version 3.12 --python-platform aarch64-manylinux2014
+# mcp is the version strands-agents 1.61.1 resolves to (same as the image that ran before the restructure).
+strands-agents==1.61.1
+bedrock-agentcore==1.24.1
+boto3==1.43.114
+mcp==2.1.1
+pydantic==2.14.1

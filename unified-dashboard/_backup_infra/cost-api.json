@@ -1,0 +1,35 @@
+{
+    "ApiEndpoint": "https://g2fvp3xlbk.execute-api.us-east-1.amazonaws.com",
+    "ApiId": "g2fvp3xlbk",
+    "ApiKeySelectionExpression": "$request.header.x-api-key",
+    "CorsConfiguration": {
+        "AllowHeaders": [
+            "content-type"
+        ],
+        "AllowMethods": [
+            "GET",
+            "POST",
+            "OPTIONS"
+        ],
+        "AllowOrigins": [
+            "http://localhost:5173",
+            "https://main.d1shfynv0ayer3.amplifyapp.com"
+        ],
+        "MaxAge": 600
+    },
+    "CreatedDate": "2026-10-27T04:17:16+00:00",
+    "Description": "Cost estimate agent API (open, no sign-in; throttled, with per-IP and daily run caps)",
+    "DisableExecuteApiEndpoint": false,
+    "IpAddressType": "ipv4",
+    "Name": "ingram-cost",
+    "ProtocolType": "HTTP",
+    "RouteSelectionExpression": "$request.method $request.path",
+    "Tags": {
+        "Project": "ingram-cost",
+        "aws:cloudformation:stack-name": "ingram-cost",
+        "aws:cloudformation:logical-id": "CostHttpApi",
+        "aws:cloudformation:stack-id": "arn:aws:cloudformation:us-east-1:455162169375:stack/ingram-cost/112de2c0-d1bd-11f1-a2ac-12ffce1569bb",
+        "httpapi:createdBy": "SAM"
+    },
+    "Version": "1.0"
+}

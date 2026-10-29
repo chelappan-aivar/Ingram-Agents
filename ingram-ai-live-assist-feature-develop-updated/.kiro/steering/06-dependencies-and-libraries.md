@@ -1,0 +1,108 @@
+---
+inclusion: always
+---
+
+<!-- GENERATED FILE — do not edit directly. Source: project-rules.md (Dependencies & Library Selection) -->
+
+## 28. Dependencies and Library Selection
+
+Before adding a dependency:
+
+1. Check whether an existing dependency already solves the problem.
+2. Check maintenance and security history.
+3. Check runtime/bundle impact.
+4. Check license compatibility.
+5. Confirm the dependency is necessary.
+
+Avoid unnecessary libraries for trivial functionality.
+
+### 28.1 Prefer Established, Headless Libraries
+
+Do not hand-roll solutions to problems already solved by a well-maintained, widely-adopted
+library. Prefer headless/unstyled, composable libraries that integrate with the project's
+own design system over bespoke, invented implementations.
+
+React/TypeScript examples:
+
+```text
+Routing              React Router / TanStack Router
+Server/cache state   TanStack Query
+Tables/grids         TanStack Table
+Forms                React Hook Form / TanStack Form
+Validation           Zod / Valibot
+UI primitives        shadcn/ui, Radix UI
+Dates                date-fns / Temporal
+HTTP client          axios (or a fetch wrapper) — single configured instance with
+                      interceptors (see Section 7.1)
+```
+
+Python example: `httpx.Client` or `requests.Session` as the equivalent centralized HTTP
+client — configured once with event hooks/adapters for auth and retries (see Section 7.1)
+rather than one-off `requests.get(...)` calls scattered through the codebase.
+
+If the project already has an established choice for a concern, reuse it instead of
+introducing a second, competing library for the same purpose.
+
+### 28.2 Documentation and Version Freshness
+
+Library APIs, defaults, and recommended patterns change between versions. AI must not
+rely solely on training data when generating code that uses a library, framework, or CLI.
+
+Before using or installing any library, component, or CLI command:
+
+- Check the current official documentation (or an up-to-date MCP/doc source) for the
+  library's latest stable API and usage pattern.
+- Confirm the actual installed/target version in the project rather than an assumed or
+  remembered one.
+- When installing or adding a new package or component, install the latest stable
+  version unless the project explicitly pins a version range.
+
+```text
+npx shadcn@latest add alert
+npm install <package>@latest
+pnpm add <package>@latest
+```
+
+When upgrading across a major version, check the changelog/migration guide for breaking
+changes before applying it.
+
+### 28.3 Package Manager Consistency
+
+Use a single package manager per repository (npm, yarn, or pnpm) and commit only its
+lockfile. Do not mix package managers or generate a second lockfile.
+
+### 28.4 Supply Chain Security
+
+- Run automated dependency vulnerability scanning (e.g. `npm audit`, `pip-audit`,
+  Dependabot, Renovate, Snyk) in CI, not only manually at install time.
+- Patch known critical/high vulnerabilities promptly; do not let scanner failures
+  accumulate unaddressed (see Section 35, CI/CD Quality Gates).
+- Be alert to typosquatting and newly-published, low-adoption packages; prefer packages
+  with an established maintenance history over a superficially similar name.
+- Keep automated dependency-update tooling (Dependabot/Renovate or equivalent) enabled so
+  drift from the "latest stable version" guidance in Section 28.2 doesn't reaccumulate.
+
+### 28.5 Leverage Current Language and Framework Capabilities
+
+AI must not default to outdated patterns simply because they were more common in its
+training data. When the project's installed framework/runtime version already supports a
+newer, more idiomatic primitive for a problem, prefer it over a manual/legacy workaround.
+
+Examples (illustrative only — always verify against the official docs for the project's
+actual installed version, not assumed familiarity with "the latest release"):
+
+```text
+React 19    use(), useOptimistic(), useActionState(), useTransition(), useEffectEvent()
+Python      structural pattern matching (match/case), typing generics, asyncio TaskGroup
+TypeScript  satisfies operator, const type parameters, using declarations
+```
+
+Before relying on a newer feature:
+
+- Confirm it is actually available in the project's installed framework/runtime version
+  (see Section 28.2) — do not assume based on general familiarity with a newer release.
+- Check the official docs for the feature's intended use case and known caveats rather
+  than guessing its behavior from the name or prior training data.
+- Do not migrate existing working code to a new primitive purely for novelty; adopt it
+  where it measurably simplifies or improves the code already being touched.
+

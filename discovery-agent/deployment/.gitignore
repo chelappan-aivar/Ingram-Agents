@@ -1,0 +1,8 @@
+config.env
+build/
+.aws-sam/
+.state/
+.venv/
+__pycache__/
+# customer documents (confidential): local runs only
+samples/

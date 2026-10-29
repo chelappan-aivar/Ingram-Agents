@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ingram Discovery Agent</title>
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self';
+                 connect-src 'self' http://127.0.0.1:8787 http://127.0.0.1:8098; img-src 'self' data:">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="brand" aria-label="Ingram Micro"><span class="brand-mark">INGRAM</span><span class="brand-sub">MICRO</span></span>
+        <span class="app-name">Discovery Agent</span>
+        <span class="tag">PILOT</span>
+      </div>
+      <div class="topbar-right">
+        <span id="quota" class="muted small"></span>
+        <div class="theme-toggle" role="group" aria-label="Theme" data-theme-toggle></div>
+      </div>
+    </header>
+
+    <main class="dash">
+      <section class="card fetch-panel" id="pipeline-card" aria-labelledby="pipeline-title">
+        <div class="card-head">
+          <div>
+            <h2 id="pipeline-title">Intake and Discovery outputs</h2>
+            <p class="card-sub">Every opportunity the Intake Agent checked, with the Live Assist calls and the Discovery
+              report built from them. One fetch brings it all.</p>
+          </div>
+          <button id="pipeline-fetch" class="btn primary" type="button">Fetch</button>
+        </div>
+        <label class="check" for="pipeline-latest"><input id="pipeline-latest" type="checkbox"><span>Latest Intake run only</span></label>
+        <p id="pipeline-status" class="status-line muted" role="status" aria-live="polite"></p>
+        <ul id="pipeline-list" class="outputs" aria-label="Opportunities with Intake and Discovery outputs"></ul>
+      </section>
+      <div class="grid">
+        <div class="col-left">
+
+          <section class="card" aria-labelledby="new-title">
+            <h2 id="new-title">New discovery run</h2>
+            <p class="card-sub">Add every document from one customer engagement: call transcripts, emails, meeting minutes,
+              chats, Word or PDF files. The agent finds the stated use cases, the hidden opportunities and the open questions.
+              A run takes 10 to 30 minutes.</p>
+            <form id="run-form" novalidate>
+              <label for="engagement">Engagement name</label>
+              <input id="engagement" type="text" maxlength="101" autocomplete="off" placeholder="Acme Corp"
+                     aria-describedby="engagement-hint">
+              <p id="engagement-hint" class="hint">Letters, digits, spaces and . _ -. Documents uploaded earlier for the same name are included.</p>
+              <div id="drop" class="drop">
+                <label for="file" class="file-pick">Choose documents</label>
+                <span class="muted">or drop them here · .txt .md .eml .docx .pdf, up to 25 MB each</span>
+                <input id="file" class="sr-only" type="file" multiple
+                       accept=".txt,.md,.eml,.docx,.pdf,text/plain,text/markdown,message/rfc822,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+              </div>
+              <ul id="file-list" class="file-list" aria-label="Documents to upload"></ul>
+              <label for="instructions">Instructions to the agent <span class="muted">(optional)</span></label>
+              <textarea id="instructions" rows="3" maxlength="4000" aria-describedby="instructions-count"
+                        placeholder="e.g. Focus on security use cases; write for a CFO audience; ignore pricing talk."></textarea>
+              <label class="check" for="clarify">
+                <input id="clarify" type="checkbox">
+                <span>Ask me clarifying questions about gaps and conflicts before the final report</span>
+              </label>
+              <div class="actions">
+                <button id="start" type="submit" class="btn primary" disabled>Upload and run</button>
+                <button id="clear" type="button" class="btn" disabled>Clear</button>
+                <span id="instructions-count" class="counter">0 / 4,000</span>
+              </div>
+            </form>
+            <p id="form-status" class="status-line muted" role="status" aria-live="polite"></p>
+          </section>
+
+        </div>
+
+        <section class="card" id="result-card" aria-labelledby="result-title">
+          <div id="result-empty" class="empty">
+            <h2 id="result-title">No run selected</h2>
+            <p>Start a new run, or import an opportunity from Intake and Live Assist.</p>
+          </div>
+
+          <div id="result" hidden>
+            <div class="detail-head">
+              <div>
+                <h2 id="run-title">Run</h2>
+                <p id="run-sub" class="card-sub"></p>
+              </div>
+              <div class="detail-side">
+                <span id="status-pill" class="pill board-pill" role="status" aria-live="polite"></span>
+                <button id="run-refresh" class="btn sm" type="button">Refresh</button>
+              </div>
+            </div>
+
+            <p id="progress-text" class="hint" role="status" aria-live="polite"></p>
+            <p id="run-error" class="error" role="alert" hidden></p>
+            <div id="run-instructions" class="note" hidden><h4>Reviewer instructions</h4><span id="run-instructions-text"></span></div>
+
+            <div id="clarify-panel" class="review-panel" hidden>
+              <h3>The agent needs your input before the final report</h3>
+              <p>Answer what you can. Blank answers count as "skip"; a skipped conflict gets the agent's best
+                evidence-based call, flagged for confirmation.</p>
+              <form id="answers-form" novalidate>
+                <ol id="questions" class="questions"></ol>
+                <div class="actions">
+                  <button id="submit-answers" type="submit" class="btn primary">Submit answers and finish</button>
+                </div>
+                <p id="answers-status" class="status-line muted" role="status" aria-live="polite"></p>
+              </form>
+            </div>
+
+            <section id="overview-head" hidden aria-label="Engagement"></section>
+
+            <div id="results" hidden>
+              <h4 class="section-title">Discovery report</h4>
+              <p class="note-banner">The report is shown below and as a Word document. The full document view is being moved into this page.</p>
+              <div id="downloads" class="downloads"></div>
+              <p class="hint">Download links are signed for 5 minutes each time you click.</p>
+              <div id="report" class="report" aria-label="Discovery report"></div>
+            </div>
+
+            <section id="overview-detail" hidden aria-label="Stakeholders and call timeline"></section>
+
+            <details id="log-panel" class="section">
+              <summary>Activity</summary>
+              <ol id="log" class="audit"></ol>
+            </details>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="dom.js"></script>
+  <script src="overview.js"></script>
+  <script src="report.js"></script>
+  <script src="pipeline.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

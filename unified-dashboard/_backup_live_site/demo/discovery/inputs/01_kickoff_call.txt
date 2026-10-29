@@ -1,0 +1,72 @@
+
+Oct 6
+Kickoff - Meridian Freight x AWS x Aivar
+The teams met to kick off an accounts payable automation project. Meridian described how invoices are matched today, the tools involved, and what has been tried before.
+
+
+Transcript
+
+Speakers
+Priya Raman (Aivar)
+0:05
+Thanks everyone for joining. Today is about understanding how invoices flow through Meridian today, and what you would like to change.
+Marcus Obi
+0:18
+Sure. So the headline is that month end is painful. Our accounts payable team is three people, and we process about 4,500 invoices a month.
+Dana Whitfield
+0:34
+Right, and most of those arrive by email into a shared mailbox, ap-invoices. Somebody opens each one, keys it into NetSuite, and then matches it against the purchase order and the goods receipt.
+Priya Raman (Aivar)
+0:52
+And how long does a typical match take, end to end?
+Dana Whitfield
+1:01
+Um, for a clean invoice it is about two days from arrival to approval. That is fine for us.
+Marcus Obi
+1:12
+I would push back a little on that. For anything with an exception, a price difference or a missing receipt, it is closer to five days, and at month end it is worse.
+Dana Whitfield
+1:27
+That is fair, the exceptions are the real problem. Raj keeps a spreadsheet of the open exceptions, uh, and honestly nobody else really touches it.
+Priya Raman (Aivar)
+1:41
+What happens when Raj is out?
+Dana Whitfield
+1:47
+We chase people by email until he is back. It has happened a couple of times.
+Lena Kowalski
+2:03
+From the IT side, NetSuite is our system of record for invoices and purchase orders. The supplier portal is a separate vendor product and it has no API, so we only get data out of it as a weekly CSV export.
+Priya Raman (Aivar)
+2:22
+Understood. Have you tried automating any of this before?
+Marcus Obi
+2:30
+We tried an RPA bot about two years ago. It broke every time the supplier portal changed its layout, so we switched it off.
+Lena Kowalski
+2:45
+And we cannot give a new tool direct write access to NetSuite without a security review, which usually takes our team a few weeks to schedule.
+Priya Raman (Aivar)
+3:02
+Noted. So what would success look like for you?
+Marcus Obi
+3:10
+Invoices matched automatically when they are clean, and a short list of real exceptions for the team to look at. I also want a clear record of who approved what.
+Dana Whitfield
+3:27
+Our auditors asked about approvals last quarter, and honestly we had to rebuild the trail from emails.
+Marcus Obi
+3:40
+Right. Supplier onboarding is another headache, but let us not mix that in yet.
+Priya Raman (Aivar)
+3:52
+That makes sense. We will start with invoice matching and come back to onboarding. Dana, can you share a sample of last month's exceptions?
+Dana Whitfield
+4:05
+Yes, I will send that, with Raj's spreadsheet if he agrees.
+Tom Becker (Aivar)
+4:15
+We will also need a list of the approvers and the approval thresholds, so we can design the routing.
+Marcus Obi
+4:26
+Dana will own that list. Let us regroup next week.

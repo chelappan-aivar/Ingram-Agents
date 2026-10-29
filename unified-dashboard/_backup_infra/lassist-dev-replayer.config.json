@@ -1,0 +1,47 @@
+{
+    "FunctionName": "lassist-dev-replayer",
+    "FunctionArn": "arn:aws:lambda:us-east-1:455162169375:function:lassist-dev-replayer",
+    "Runtime": "python3.12",
+    "Role": "arn:aws:iam::455162169375:role/lassist-dev-replayer",
+    "Handler": "replayer.lambda_handler.handler",
+    "CodeSize": 28012009,
+    "Description": "Live Assist replayer (lassist-dev)",
+    "Timeout": 900,
+    "MemorySize": 512,
+    "LastModified": "2026-10-27T19:39:07.000+0000",
+    "CodeSha256": "nFxiUEU/c1K6W34IeKOjPrshkbVr561fUNjmBzYinmY=",
+    "Version": "$LATEST",
+    "Environment": {
+        "Variables": {
+            "AGENTCORE_QUALIFIER": "DEFAULT",
+            "TIMELINE_TABLE_NAME": "lassist-dev-timeline",
+            "LOG_LEVEL": "INFO",
+            "AGENTCORE_RUNTIME_ARN": "arn:aws:bedrock-agentcore:us-east-1:455162169375:runtime/lassist_dev_runtime-J8cjV17dqj"
+        }
+    },
+    "KMSKeyArn": "arn:aws:kms:us-east-1:455162169375:key/143d6bb9-4d20-4e8b-ad3b-c1def9030110",
+    "TracingConfig": {
+        "Mode": "Active"
+    },
+    "RevisionId": "b284201b-7666-4d63-9e6d-d40df879ce06",
+    "State": "Active",
+    "LastUpdateStatus": "Successful",
+    "PackageType": "Zip",
+    "Architectures": [
+        "arm64"
+    ],
+    "EphemeralStorage": {
+        "Size": 512
+    },
+    "SnapStart": {
+        "ApplyOn": "None",
+        "OptimizationStatus": "Off"
+    },
+    "RuntimeVersionConfig": {
+        "RuntimeVersionArn": "arn:aws:lambda:us-east-1::runtime:0fec05b8b43b0ecfbabe4fd585b35e423f655861556712f8a10b0e8739c36c07"
+    },
+    "LoggingConfig": {
+        "LogFormat": "Text",
+        "LogGroup": "/aws/lambda/lassist-dev-replayer"
+    }
+}

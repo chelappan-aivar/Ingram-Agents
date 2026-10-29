@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Intake Agent · Ingram Micro</title>
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self';
+                 connect-src 'self' https://xknyierfsd.execute-api.us-east-1.amazonaws.com; img-src 'self' data:; frame-ancestors 'self'">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="desk.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="brand" aria-label="Ingram Micro"><span class="brand-mark">INGRAM</span><span class="brand-sub">MICRO</span></span>
+        <span class="divider" aria-hidden="true"></span>
+        <span class="app-name">Intake Agent</span>
+        <span class="tag">PILOT</span>
+      </div>
+      <div class="topbar-right">
+        <span id="mode-pill" class="pill mode-pill" hidden></span>
+        <div class="user-chip" id="user-chip" hidden><span id="who"></span><div class="avatar" id="avatar" aria-hidden="true"></div></div>
+        <div class="theme-toggle" role="group" aria-label="Theme" data-theme-toggle></div>
+      </div>
+    </header>
+
+    <main class="desk">
+      <section class="hero">
+        <h1>Dynamics 365 and Outlook opportunities, checked against the AWS funding framework.</h1>
+        <p>The agent fetches opportunities from Dynamics and from your Outlook mailbox into one list. Opportunities found in both are combined,
+          and the Data source column shows where each one came from. It works out segment, workload and AWS spend (ARR = MRR × 12)
+          and applies the AWS Funding Programs Decision Framework. Check one opportunity or the whole pipeline at once.</p>
+      </section>
+
+      <!-- Sign-in gate -->
+      <section class="card gate" id="gate" hidden aria-labelledby="gate-title">
+        <div class="title-row">
+          <div class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+          <div><h2 id="gate-title">Sign in with Microsoft</h2></div>
+        </div>
+        <p class="card-sub">The Intake Agent reads opportunities from Dynamics 365 and your Outlook mailbox (read-only) and adds the funding decision to them, so it needs your Microsoft account.</p>
+        <button id="connect" class="btn ms block" type="button">
+          <svg class="ms-logo" viewBox="0 0 21 21" aria-hidden="true"><rect width="10" height="10" fill="#F25022"/><rect x="11" width="10" height="10" fill="#7FBA00"/><rect y="11" width="10" height="10" fill="#00A4EF"/><rect x="11" y="11" width="10" height="10" fill="#FFB900"/></svg>
+          Sign in with Microsoft
+        </button>
+        <div id="device" class="device" hidden>
+          <p class="device-step"><b>1.</b> Copy this code</p>
+          <div class="device-code-row">
+            <output id="device-code" class="device-code" aria-label="Sign-in code"></output>
+            <button id="copy-code" class="btn sm" type="button">Copy</button>
+          </div>
+          <p class="device-step"><b>2.</b> Open the Microsoft page, paste the code and sign in</p>
+          <a id="device-link" class="btn primary block" href="https://microsoft.com/devicelogin" target="_blank" rel="noopener noreferrer">Open microsoft.com/devicelogin ↗</a>
+          <p class="device-wait muted" role="status" aria-live="polite">Waiting for you to sign in…</p>
+          <button id="device-cancel" class="link-btn" type="button">Cancel</button>
+        </div>
+        <p id="gate-note" class="status-line muted" role="status" aria-live="polite"></p>
+      </section>
+
+      <div id="workspace" hidden>
+        <!-- Run control: fetch from Dynamics and check everything, live -->
+        <section class="card runbar" aria-labelledby="run-title">
+          <div class="runbar-head">
+            <div class="title-row">
+              <div class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-14 9V3z"/></svg></div>
+              <div><h2 id="run-title">Run the Intake Agent</h2>
+                <p class="muted small-r" id="run-sub">1. Fetch the opportunities from Dynamics 365 and your Outlook mailbox into one list. 2. Check funding runs the AWS funding framework on each one, live. Clear results empties the screen.</p></div>
+            </div>
+            <div class="runbar-actions">
+              <button id="clear" class="btn" type="button">Clear results</button>
+              <label for="mail-days" class="sr-only">Mailbox period</label>
+              <select id="mail-days" title="How far back to read the mailbox"><option value="1">Mail: last 24 hours</option><option value="7" selected>Mail: last 7 days</option><option value="30">Mail: last 30 days</option></select>
+              <button id="fetch" class="btn trigger" type="button">Fetch opportunities</button>
+              <button id="check-all" class="btn primary trigger" type="button" disabled>▶ Check funding</button>
+            </div>
+          </div>
+          <div id="live" class="live" hidden>
+            <ol class="phases live-phases" id="live-phases" aria-label="Run phases">
+              <li data-p="fetch">Fetch</li><li data-p="check">Check funding</li><li data-p="done">Done</li>
+            </ol>
+            <div class="live-grid">
+              <div>
+                <div class="progress live-progress" role="progressbar" aria-label="Run progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="live-progress"><div id="live-bar"></div></div>
+                <div class="live-counts" aria-live="polite">
+                  <span><b id="l-fetched">0</b> fetched</span><span><b id="l-running">0</b> running</span>
+                  <span><b id="l-done">0</b> checked</span><span><b id="l-funding">–</b> estimated funding</span>
+                  <span class="muted" id="l-time"></span>
+                </div>
+              </div>
+              <div class="feed-wrap">
+                <div class="section-label">Agent activity</div>
+                <ol id="feed" class="feed" aria-label="Agent activity" aria-live="polite"></ol>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Pipeline summary -->
+        <section class="stats desk-stats" aria-label="Pipeline summary">
+          <div class="stat"><b id="s-total">–</b><span>Opportunities</span></div>
+          <div class="stat"><b id="s-unchecked">–</b><span>Pending assessment</span></div>
+          <div class="stat good"><b id="s-decided">–</b><span>Funding determined</span></div>
+          <div class="stat money"><b id="s-funding">–</b><span>Estimated funding</span></div>
+        </section>
+        <div class="programs" id="programs" aria-label="Decisions by program"></div>
+
+        <div class="desk-grid">
+          <section class="card" aria-labelledby="pipe-title">
+            <div class="card-head">
+              <div class="title-row">
+                <div class="icon-tile" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18M3 12h18M3 19h18"/></svg></div>
+                <div><h2 id="pipe-title">Opportunities</h2><p class="muted small-r" id="source-line"></p></div>
+              </div>
+            </div>
+
+            <div class="toolbar">
+              <label for="q" class="sr-only">Search opportunities</label>
+              <input id="q" type="text" maxlength="100" placeholder="Search by opportunity name">
+              <label for="state" class="sr-only">Dynamics status</label>
+              <select id="state">
+                <option value="open">Open</option><option value="won">Won</option><option value="lost">Lost</option><option value="all">All statuses</option>
+              </select>
+            </div>
+            <div class="segmented filter" id="filter" role="group" aria-label="Decision">
+              <button type="button" data-f="all" aria-pressed="true">All</button>
+              <button type="button" data-f="unchecked" aria-pressed="false">Pending assessment</button>
+              <button type="button" data-f="decided" aria-pressed="false">Funding determined</button>
+            </div>
+            <div class="bulk">
+              <button id="check-selected" class="btn primary sm" type="button" disabled>Check selected</button>
+              <button id="seed" class="btn sm ghost" type="button" hidden>Load sample opportunities</button>
+              <span id="bulk-note" class="muted small-r" role="status" aria-live="polite"></span>
+            </div>
+
+            <div class="table-wrap">
+              <table class="pipe" aria-describedby="pipe-title">
+                <thead><tr>
+                  <th class="c-sel"><input type="checkbox" id="sel-all" aria-label="Select all shown"></th>
+                  <th>Opportunity</th><th>Data source</th><th class="num">Est. revenue</th><th>Close</th><th>Funding decision</th><th class="num">Est. funding</th><th></th>
+                </tr></thead>
+                <tbody id="rows"></tbody>
+              </table>
+            </div>
+            <p id="list-note" class="status-line muted" role="status" aria-live="polite"></p>
+          </section>
+
+          <aside class="card detail" id="detail" aria-live="polite" aria-label="Opportunity detail">
+            <div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 5h11M9 12h11M9 19h11M4 5h.01M4 12h.01M4 19h.01"/></svg>
+              <div>Select an opportunity to see its Dynamics record, email details and funding decision.</div></div>
+          </aside>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="form.js"></script>
+  <script src="desk.js"></script>
+</body>
+</html>

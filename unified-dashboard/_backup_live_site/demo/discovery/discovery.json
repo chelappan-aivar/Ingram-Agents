@@ -1,0 +1,987 @@
+{
+  "schema_version": "1.0",
+  "meta": {
+    "engagement": "Demo",
+    "sources": [
+      {
+        "id": "01_kickoff_call.txt",
+        "kind": "transcript",
+        "label": "Oct 6 · Kickoff - Meridian Freight x AWS x Aivar"
+      },
+      {
+        "id": "02_followup_email.eml",
+        "kind": "email",
+        "label": "02_followup_email.eml"
+      },
+      {
+        "id": "03_meeting_minutes.txt",
+        "kind": "document",
+        "label": "03_meeting_minutes.txt"
+      }
+    ],
+    "generated_at": "2026-10-08T05:10:48+00:00",
+    "models": {
+      "extraction": "us.anthropic.claude-sonnet-5-5",
+      "hidden_signals": "us.anthropic.claude-opus-5-5"
+    },
+    "review_status": "pending human review"
+  },
+  "what_we_heard": {
+    "goals": [
+      {
+        "id": "H-1",
+        "text": "Invoices that are clean are matched automatically, leaving a short list of real exceptions for the team to review.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "Invoices matched automatically when they are clean, and a short list of real exceptions for the team to look at.",
+            "speaker": "Marcus Obi"
+          }
+        ]
+      },
+      {
+        "id": "H-2",
+        "text": "A clear record of who approved what.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "I also want a clear record of who approved what.",
+            "speaker": "Marcus Obi"
+          }
+        ]
+      },
+      {
+        "id": "H-3",
+        "text": "Look at supplier onboarding next if the invoice work goes well.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "02_followup_email.eml",
+            "quote": "supplier onboarding is taking us far too long, and if the invoice work goes well I would like to look at it next.",
+            "speaker": "Marcus Obi"
+          }
+        ]
+      },
+      {
+        "id": "H-4",
+        "text": "Reduce dependency on a single person for exception tracking.",
+        "tag": "inferred",
+        "evidence": [
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "Raj keeps a spreadsheet of the open exceptions, uh, and honestly nobody else really touches it.",
+            "speaker": "Dana Whitfield"
+          }
+        ]
+      }
+    ],
+    "pain_points": [
+      {
+        "id": "H-5",
+        "text": "Exceptions (price differences, missing receipts) take about five days and are worse at month end; they are what keep the team late.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "For anything with an exception, a price difference or a missing receipt, it is closer to five days, and at month end it is worse.",
+            "speaker": "Marcus Obi"
+          },
+          {
+            "source": "02_followup_email.eml",
+            "quote": "The exceptions are what keep the team late at month end, and nobody has measured exactly how many there are.",
+            "speaker": "Marcus Obi"
+          }
+        ]
+      },
+      {
+        "id": "H-6",
+        "text": "Open exceptions are tracked in one person's spreadsheet that nobody else touches; when he is out, people are chased by email.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "Raj keeps a spreadsheet of the open exceptions, uh, and honestly nobody else really touches it.",
+            "speaker": "Dana Whitfield"
+          },
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "We chase people by email until he is back. It has happened a couple of times.",
+            "speaker": "Dana Whitfield"
+          }
+        ]
+      },
+      {
+        "id": "H-7",
+        "text": "The approval trail had to be rebuilt from emails when auditors asked.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "Our auditors asked about approvals last quarter, and honestly we had to rebuild the trail from emails.",
+            "speaker": "Dana Whitfield"
+          }
+        ]
+      },
+      {
+        "id": "H-8",
+        "text": "A previous RPA bot broke whenever the supplier portal changed layout and was switched off.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "It broke every time the supplier portal changed its layout, so we switched it off.",
+            "speaker": "Marcus Obi"
+          }
+        ]
+      },
+      {
+        "id": "H-9",
+        "text": "The approval threshold list lives in a SharePoint document that is not always up to date.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "03_meeting_minutes.txt",
+            "quote": "the current list lives in a SharePoint document that is not always up to date.",
+            "speaker": "Tom Becker"
+          }
+        ]
+      },
+      {
+        "id": "H-10",
+        "text": "Previous automation failed because it relied on screen layout, which may make the customers wary of brittle approaches.",
+        "tag": "inferred",
+        "evidence": [
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "It broke every time the supplier portal changed its layout, so we switched it off.",
+            "speaker": "Marcus Obi"
+          }
+        ]
+      }
+    ],
+    "current_state": [
+      {
+        "id": "H-11",
+        "text": "Invoices mostly arrive by email in a shared mailbox, are keyed into NetSuite, then matched against the purchase order and goods receipt.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "most of those arrive by email into a shared mailbox, ap-invoices. Somebody opens each one, keys it into NetSuite",
+            "speaker": "Dana Whitfield"
+          }
+        ]
+      },
+      {
+        "id": "H-12",
+        "text": "Accounts payable team of three people processing about 4,500 invoices a month; later stated as closer to 5,200 in a busy month.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "Our accounts payable team is three people, and we process about 4,500 invoices a month.",
+            "speaker": "Marcus Obi"
+          },
+          {
+            "source": "02_followup_email.eml",
+            "quote": "We are now closer to 5,200 invoices in a busy month, not 4,500",
+            "speaker": "Marcus Obi"
+          }
+        ]
+      },
+      {
+        "id": "H-13",
+        "text": "Clean invoices take about two days from arrival to approval.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "for a clean invoice it is about two days from arrival to approval. That is fine for us.",
+            "speaker": "Dana Whitfield"
+          }
+        ]
+      },
+      {
+        "id": "H-14",
+        "text": "NetSuite is the system of record; the supplier portal has no API and only provides a weekly CSV export.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "NetSuite is our system of record for invoices and purchase orders. The supplier portal is a separate vendor product and it has no API",
+            "speaker": "Lena Kowalski"
+          }
+        ]
+      },
+      {
+        "id": "H-15",
+        "text": "About 60 open exceptions are tracked at any time and the spreadsheet is updated by hand every morning.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "03_meeting_minutes.txt",
+            "quote": "He tracks about 60 open exceptions at any time and updates it by hand every morning.",
+            "speaker": "Tom Becker"
+          }
+        ]
+      },
+      {
+        "id": "H-16",
+        "text": "There is no vendor API in sight for the supplier portal.",
+        "tag": "inferred",
+        "evidence": [
+          {
+            "source": "03_meeting_minutes.txt",
+            "quote": "A request to the portal vendor for an API has been open for a year with no answer.",
+            "speaker": "Tom Becker"
+          }
+        ]
+      }
+    ],
+    "constraints": [
+      {
+        "id": "H-17",
+        "text": "A new tool cannot get direct write access to NetSuite without a security review that takes a few weeks to schedule.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "we cannot give a new tool direct write access to NetSuite without a security review, which usually takes our team a few weeks to schedule.",
+            "speaker": "Lena Kowalski"
+          },
+          {
+            "source": "02_followup_email.eml",
+            "quote": "our security review for any new NetSuite integration needs to be requested early.",
+            "speaker": "Marcus Obi"
+          }
+        ]
+      },
+      {
+        "id": "H-18",
+        "text": "The weekly CSV export is the only supplier portal data feed; an API request to the vendor has been open for a year without an answer.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "03_meeting_minutes.txt",
+            "quote": "A request to the portal vendor for an API has been open for a year with no answer.",
+            "speaker": "Tom Becker"
+          }
+        ]
+      },
+      {
+        "id": "H-19",
+        "text": "Approval thresholds differ by supplier category.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "03_meeting_minutes.txt",
+            "quote": "approval thresholds differ by supplier category",
+            "speaker": "Tom Becker"
+          }
+        ]
+      },
+      {
+        "id": "H-20",
+        "text": "The exceptions spreadsheet owner is not comfortable sharing it outside finance until Marcus agrees.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "03_meeting_minutes.txt",
+            "quote": "Raj said he is not comfortable sharing the spreadsheet outside the finance team until Marcus agrees.",
+            "speaker": "Tom Becker"
+          }
+        ]
+      },
+      {
+        "id": "H-21",
+        "text": "The security review lead time is a likely schedule risk and needs early access requirements.",
+        "tag": "inferred",
+        "evidence": [
+          {
+            "source": "02_followup_email.eml",
+            "quote": "please tell us what access you will need as soon as you know.",
+            "speaker": "Marcus Obi"
+          }
+        ]
+      }
+    ],
+    "stakeholders": [
+      {
+        "id": "H-22",
+        "text": "Leads the customer side of the engagement; raised goals, decides on sharing the spreadsheet.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "03_meeting_minutes.txt",
+            "quote": "Marcus: decide whether the exceptions spreadsheet can be shared.",
+            "speaker": "Tom Becker"
+          }
+        ],
+        "name": "Marcus Obi"
+      },
+      {
+        "id": "H-23",
+        "text": "Describes the AP process and owns the approvers list.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "Dana will own that list.",
+            "speaker": "Marcus Obi"
+          }
+        ],
+        "name": "Dana Whitfield"
+      },
+      {
+        "id": "H-24",
+        "text": "IT; NetSuite and supplier portal knowledge, security review.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "01_kickoff_call.txt",
+            "quote": "From the IT side, NetSuite is our system of record",
+            "speaker": "Lena Kowalski"
+          }
+        ],
+        "name": "Lena Kowalski",
+        "role": "IT"
+      },
+      {
+        "id": "H-25",
+        "text": "Maintains the open exceptions spreadsheet.",
+        "tag": "stated",
+        "evidence": [
+          {
+            "source": "03_meeting_minutes.txt",
+            "quote": "Raj walked through his exceptions spreadsheet.",
+            "speaker": "Tom Becker"
+          }
+        ],
+        "name": "Raj Patel"
+      }
+    ]
+  },
+  "use_cases": [
+    {
+      "title": "Automated matching of clean invoices with a daily exceptions list",
+      "problem": "Invoices are keyed into NetSuite manually and matched against PO and goods receipt; exceptions take about five days and are tracked in a single person's spreadsheet.",
+      "evidence": [
+        {
+          "source": "01_kickoff_call.txt",
+          "quote": "Somebody opens each one, keys it into NetSuite, and then matches it against the purchase order and the goods receipt.",
+          "speaker": "Dana Whitfield"
+        },
+        {
+          "source": "03_meeting_minutes.txt",
+          "quote": "Aivar proposed starting with automated matching of clean invoices, and a daily exceptions list that replaces the spreadsheet.",
+          "speaker": "Tom Becker"
+        }
+      ],
+      "customer_value": "Clean invoices matched automatically and a short list of real exceptions for the team to look at.",
+      "validation_question": "What read/write access to NetSuite can be granted and how soon can the security review be requested?",
+      "confidence": "high",
+      "company_value": "Anchor engagement for AP automation; reusable invoice matching pattern on AWS that can expand to onboarding.",
+      "priority": 1,
+      "systems_involved": [
+        "NetSuite",
+        "supplier portal",
+        "SharePoint"
+      ],
+      "current_process": [
+        "Invoices arrive by email in the ap-invoices shared mailbox",
+        "Somebody opens each invoice and keys it into NetSuite",
+        "Invoice is matched against the purchase order and goods receipt",
+        "Exceptions are tracked in Raj's spreadsheet, updated by hand every morning"
+      ],
+      "data_sources_and_apis": [
+        "NetSuite invoices and purchase orders",
+        "Supplier portal weekly CSV export (no API)",
+        "Exceptions spreadsheet"
+      ],
+      "owners": [
+        {
+          "name": "Raj Patel"
+        },
+        {
+          "name": "Dana Whitfield"
+        }
+      ],
+      "dependencies_and_blockers": [
+        "Security review needed for direct write access to NetSuite, takes a few weeks to schedule",
+        "Supplier portal has no API; weekly CSV only",
+        "Marcus must decide whether the exceptions spreadsheet can be shared"
+      ],
+      "stated_metrics": [
+        "about two days for clean invoices",
+        "closer to five days for exceptions",
+        "three people in accounts payable"
+      ],
+      "status": "planned_by_customer",
+      "category": "EXPLICIT",
+      "id": "UC-1",
+      "rank": 1
+    },
+    {
+      "title": "Read-only first integration that avoids the NetSuite write-access review",
+      "problem": "Write access to NetSuite needs a security review that takes a few weeks to schedule.",
+      "evidence": [
+        {
+          "source": "03_meeting_minutes.txt",
+          "quote": "Lena: confirm what read access to NetSuite can be granted without a full security review.",
+          "speaker": "Tom Becker"
+        },
+        {
+          "source": "02_followup_email.eml",
+          "quote": "please tell us what access you will need as soon as you know.",
+          "speaker": "Marcus Obi"
+        }
+      ],
+      "why_hidden": "Nobody has said whether the solution can deliver value with read-only access, or how results would get back into NetSuite without a direct write.",
+      "customer_value": "Earlier value without waiting on the security review.",
+      "company_value": "De-risks the delivery start; a phased integration architecture.",
+      "confidence": "high",
+      "validation_question": "Could matched results be posted to NetSuite by an AP user or through an existing import, rather than by direct tool write access?",
+      "priority": 1,
+      "systems_involved": [
+        "NetSuite"
+      ],
+      "current_process": [],
+      "data_sources_and_apis": [
+        "NetSuite invoices and purchase orders"
+      ],
+      "owners": [
+        {
+          "name": "Lena Kowalski",
+          "role": "IT"
+        }
+      ],
+      "dependencies_and_blockers": [
+        "Security review for write access takes a few weeks to schedule"
+      ],
+      "stated_metrics": [],
+      "status": "unknown",
+      "category": "IMPLIED",
+      "id": "UC-2",
+      "rank": 2,
+      "hypothesis_label": "hypothesis, not confirmed"
+    },
+    {
+      "title": "Automated invoice capture from the ap-invoices shared mailbox",
+      "problem": "Automatic matching needs structured invoice data. Today every emailed invoice is opened and keyed into NetSuite by hand, so matching cannot be automatic unless intake and data extraction are automated first.",
+      "evidence": [
+        {
+          "source": "01_kickoff_call.txt",
+          "quote": "most of those arrive by email into a shared mailbox, ap-invoices. Somebody opens each one, keys it into NetSuite",
+          "speaker": "Dana Whitfield"
+        },
+        {
+          "source": "02_followup_email.eml",
+          "quote": "We are now closer to 5,200 invoices in a busy month, not 4,500",
+          "speaker": "Marcus Obi"
+        }
+      ],
+      "why_hidden": "The customers asked for automatic matching. Nobody asked to automate the mailbox intake or the extraction of invoice fields, which comes before matching.",
+      "customer_value": "Removes manual keying for a growing invoice volume handled by a three-person team.",
+      "company_value": "Adds a document ingestion and extraction workstream; a reusable intelligent document processing pattern on AWS.",
+      "confidence": "medium",
+      "validation_question": "In what formats do invoices arrive in ap-invoices (PDF, scanned image, email body), and do any invoices arrive outside the mailbox?",
+      "priority": 1,
+      "systems_involved": [
+        "NetSuite"
+      ],
+      "current_process": [
+        "Invoices arrive by email into the ap-invoices shared mailbox",
+        "Somebody opens each one and keys it into NetSuite"
+      ],
+      "data_sources_and_apis": [
+        "ap-invoices shared mailbox"
+      ],
+      "owners": [],
+      "dependencies_and_blockers": [
+        "Write access to NetSuite requires a security review"
+      ],
+      "stated_metrics": [
+        "about 4,500 invoices a month",
+        "closer to 5,200 invoices in a busy month"
+      ],
+      "status": "not_started",
+      "category": "IMPLIED",
+      "id": "UC-3",
+      "rank": 3,
+      "hypothesis_label": "hypothesis, not confirmed"
+    },
+    {
+      "title": "Daily exceptions list depends on a weekly-only supplier portal feed",
+      "problem": "Aivar proposed a daily exceptions list. The supplier portal only provides a weekly CSV export, so any matching that depends on portal data may be up to a week stale. A robust CSV ingestion pipeline is needed because the earlier RPA approach broke.",
+      "evidence": [
+        {
+          "source": "01_kickoff_call.txt",
+          "quote": "The supplier portal is a separate vendor product and it has no API, so we only get data out of it as a weekly CSV export.",
+          "speaker": "Lena Kowalski"
+        },
+        {
+          "source": "03_meeting_minutes.txt",
+          "quote": "Aivar proposed starting with automated matching of clean invoices, and a daily exceptions list that replaces the spreadsheet.",
+          "speaker": "Tom Becker"
+        }
+      ],
+      "why_hidden": "Nobody pointed out that the daily cadence and the weekly feed conflict. It was also not said which matching data (for example goods receipts) comes from the portal.",
+      "customer_value": "Exceptions list that reflects the actual data freshness; no repeat of the RPA failure.",
+      "company_value": "Data ingestion pipeline workstream; sets realistic expectations early.",
+      "confidence": "medium",
+      "validation_question": "Which fields needed for matching come only from the portal CSV, and can the export be run more often than weekly?",
+      "priority": 1,
+      "systems_involved": [
+        "supplier portal",
+        "NetSuite"
+      ],
+      "current_process": [
+        "Weekly CSV export from the supplier portal"
+      ],
+      "data_sources_and_apis": [
+        "Supplier portal weekly CSV export"
+      ],
+      "owners": [
+        {
+          "name": "Lena Kowalski",
+          "role": "IT"
+        }
+      ],
+      "dependencies_and_blockers": [
+        "API request to portal vendor open for a year with no answer"
+      ],
+      "stated_metrics": [],
+      "status": "unknown",
+      "category": "LATENT",
+      "id": "UC-4",
+      "rank": 4,
+      "hypothesis_label": "hypothesis, not confirmed"
+    },
+    {
+      "title": "Exception baseline and root-cause analytics",
+      "problem": "Nobody has measured how many exceptions there are. The only view is a hand-updated spreadsheet of about 60 open items. Without a baseline, the success of the project cannot be shown and the causes of exceptions cannot be addressed.",
+      "evidence": [
+        {
+          "source": "02_followup_email.eml",
+          "quote": "nobody has measured exactly how many there are.",
+          "speaker": "Marcus Obi"
+        },
+        {
+          "source": "03_meeting_minutes.txt",
+          "quote": "He tracks about 60 open exceptions at any time and updates it by hand every morning.",
+          "speaker": "Tom Becker"
+        }
+      ],
+      "why_hidden": "The customers asked for a short exceptions list. They did not ask for measurement, trends, or analysis of exception causes such as price differences or missing receipts.",
+      "customer_value": "Gives a baseline to prove improvement and targets the most common causes of exceptions.",
+      "company_value": "Adds an analytics and reporting layer; measurable success criteria for the engagement.",
+      "confidence": "high",
+      "validation_question": "Would you want exception counts, ageing and causes reported per supplier and per month?",
+      "priority": 2,
+      "systems_involved": [
+        "exceptions spreadsheet"
+      ],
+      "current_process": [
+        "Raj updates the spreadsheet by hand every morning"
+      ],
+      "data_sources_and_apis": [
+        "Exceptions spreadsheet"
+      ],
+      "owners": [
+        {
+          "name": "Raj Patel"
+        }
+      ],
+      "dependencies_and_blockers": [
+        "Marcus must agree before the spreadsheet is shared"
+      ],
+      "stated_metrics": [
+        "about 60 open exceptions at any time",
+        "closer to five days for exceptions"
+      ],
+      "status": "not_started",
+      "category": "LATENT",
+      "id": "UC-5",
+      "rank": 5,
+      "hypothesis_label": "hypothesis, not confirmed"
+    },
+    {
+      "title": "Approval routing and audit trail",
+      "problem": "Approval history had to be rebuilt from emails for auditors, and approval thresholds differ by supplier category and are kept in a SharePoint document that is not always current.",
+      "evidence": [
+        {
+          "source": "01_kickoff_call.txt",
+          "quote": "Our auditors asked about approvals last quarter, and honestly we had to rebuild the trail from emails.",
+          "speaker": "Dana Whitfield"
+        },
+        {
+          "source": "03_meeting_minutes.txt",
+          "quote": "the current list lives in a SharePoint document that is not always up to date.",
+          "speaker": "Tom Becker"
+        }
+      ],
+      "customer_value": "A clear record of who approved what.",
+      "validation_question": "Who are the approvers and what are the thresholds per supplier category?",
+      "confidence": "medium",
+      "company_value": "Extends scope to approval workflow and audit reporting.",
+      "priority": 2,
+      "systems_involved": [
+        "SharePoint",
+        "NetSuite"
+      ],
+      "current_process": [
+        "Approvals happen and the trail is reconstructed from emails when auditors ask"
+      ],
+      "data_sources_and_apis": [
+        "SharePoint approval thresholds document"
+      ],
+      "owners": [
+        {
+          "name": "Dana Whitfield"
+        }
+      ],
+      "dependencies_and_blockers": [
+        "Threshold list is not always up to date"
+      ],
+      "stated_metrics": [],
+      "status": "planned_by_customer",
+      "category": "EXPLICIT",
+      "id": "UC-6",
+      "rank": 6
+    },
+    {
+      "title": "Shared supplier master data linking onboarding and approval routing",
+      "problem": "Approval thresholds depend on supplier category, and the threshold list is out of date. Onboarding is where supplier categories would originate, and the same people are involved in both, so shared supplier master data would serve both processes.",
+      "evidence": [
+        {
+          "source": "03_meeting_minutes.txt",
+          "quote": "Dana confirmed that approval thresholds differ by supplier category, and that the current list lives in a SharePoint document that is not always up to date.",
+          "speaker": "Tom Becker"
+        },
+        {
+          "source": "02_followup_email.eml",
+          "quote": "Some of the same people are involved.",
+          "speaker": "Marcus Obi"
+        }
+      ],
+      "why_hidden": "Onboarding was deferred as a separate topic. Nobody linked supplier category data to invoice routing.",
+      "customer_value": "Routing rules that stay current; less rework later in the onboarding phase.",
+      "company_value": "Natural bridge into the onboarding follow-on engagement.",
+      "confidence": "medium",
+      "validation_question": "Where is a supplier's category recorded today, and who sets it during onboarding?",
+      "priority": 2,
+      "systems_involved": [
+        "SharePoint",
+        "NetSuite"
+      ],
+      "current_process": [],
+      "data_sources_and_apis": [
+        "SharePoint approval thresholds document"
+      ],
+      "owners": [
+        {
+          "name": "Dana Whitfield"
+        }
+      ],
+      "dependencies_and_blockers": [
+        "Threshold list is not always up to date"
+      ],
+      "stated_metrics": [],
+      "status": "not_started",
+      "category": "ADJACENT",
+      "id": "UC-7",
+      "rank": 7,
+      "hypothesis_label": "hypothesis, not confirmed"
+    },
+    {
+      "title": "Replace email as the de facto exception and approval workflow",
+      "problem": "Email is used to chase people when Raj is away and is the only source for rebuilding the approval trail. Email is acting as the workflow and record system.",
+      "evidence": [
+        {
+          "source": "01_kickoff_call.txt",
+          "quote": "We chase people by email until he is back. It has happened a couple of times.",
+          "speaker": "Dana Whitfield"
+        },
+        {
+          "source": "01_kickoff_call.txt",
+          "quote": "Our auditors asked about approvals last quarter, and honestly we had to rebuild the trail from emails.",
+          "speaker": "Dana Whitfield"
+        }
+      ],
+      "why_hidden": "Nobody asked for automated notifications, assignment or escalation of exceptions.",
+      "customer_value": "Removes the dependency on one person; exceptions are routed and escalated automatically.",
+      "company_value": "Workflow and notification scope; a reusable case-management pattern.",
+      "confidence": "medium",
+      "validation_question": "Who needs to act on an exception (suppliers, requesters, approvers), and how are they contacted today?",
+      "priority": 2,
+      "systems_involved": [
+        "email"
+      ],
+      "current_process": [
+        "People are chased by email when Raj is out"
+      ],
+      "data_sources_and_apis": [],
+      "owners": [
+        {
+          "name": "Raj Patel"
+        }
+      ],
+      "dependencies_and_blockers": [],
+      "stated_metrics": [],
+      "status": "not_started",
+      "category": "LATENT",
+      "id": "UC-8",
+      "rank": 8,
+      "hypothesis_label": "hypothesis, not confirmed"
+    },
+    {
+      "title": "Capacity pressure from supplier growth",
+      "problem": "Invoice volume rose because new suppliers were onboarded, while the team stays at three people. Each new supplier adds load, so the solution must scale and onboarding speed affects AP volume.",
+      "evidence": [
+        {
+          "source": "02_followup_email.eml",
+          "quote": "two new suppliers came on in September.",
+          "speaker": "Marcus Obi"
+        },
+        {
+          "source": "01_kickoff_call.txt",
+          "quote": "Our accounts payable team is three people, and we process about 4,500 invoices a month.",
+          "speaker": "Marcus Obi"
+        }
+      ],
+      "why_hidden": "No growth forecast or capacity target was stated.",
+      "customer_value": "Absorbs growth without adding headcount.",
+      "company_value": "Justifies a scalable serverless design and an onboarding follow-on.",
+      "confidence": "medium",
+      "validation_question": "How many new suppliers do you expect over the next year?",
+      "priority": 3,
+      "systems_involved": [],
+      "current_process": [],
+      "data_sources_and_apis": [],
+      "owners": [],
+      "dependencies_and_blockers": [],
+      "stated_metrics": [
+        "three people",
+        "about 4,500 invoices a month"
+      ],
+      "status": "unknown",
+      "category": "LATENT",
+      "id": "UC-9",
+      "rank": 9,
+      "hypothesis_label": "hypothesis, not confirmed"
+    },
+    {
+      "title": "Supplier onboarding (later phase)",
+      "problem": "Supplier onboarding takes far too long.",
+      "evidence": [
+        {
+          "source": "02_followup_email.eml",
+          "quote": "supplier onboarding is taking us far too long, and if the invoice work goes well I would like to look at it next.",
+          "speaker": "Marcus Obi"
+        }
+      ],
+      "customer_value": "Faster supplier onboarding.",
+      "validation_question": "What does the current onboarding process look like and who is involved?",
+      "confidence": "low",
+      "company_value": "Potential follow-on engagement after invoice matching.",
+      "priority": 3,
+      "systems_involved": [],
+      "current_process": [],
+      "data_sources_and_apis": [],
+      "owners": [],
+      "dependencies_and_blockers": [
+        "Customers asked to not mix it in yet; invoice matching first"
+      ],
+      "stated_metrics": [],
+      "status": "not_started",
+      "category": "EXPLICIT",
+      "id": "UC-10",
+      "rank": 10
+    },
+    {
+      "title": "Finance data access governance for the new solution",
+      "problem": "Raj is reluctant to share exception data outside finance. This implies the new solution will need role-based access and data handling rules for finance data.",
+      "evidence": [
+        {
+          "source": "03_meeting_minutes.txt",
+          "quote": "Raj said he is not comfortable sharing the spreadsheet outside the finance team until Marcus agrees.",
+          "speaker": "Tom Becker"
+        }
+      ],
+      "why_hidden": "Nobody discussed access controls or data classification for the future system.",
+      "customer_value": "Finance data is visible only to authorised staff.",
+      "company_value": "Security and governance design scope.",
+      "confidence": "low",
+      "validation_question": "Who outside finance may see exception and invoice data in the new tool?",
+      "priority": 3,
+      "systems_involved": [],
+      "current_process": [],
+      "data_sources_and_apis": [
+        "Exceptions spreadsheet"
+      ],
+      "owners": [
+        {
+          "name": "Marcus Obi"
+        }
+      ],
+      "dependencies_and_blockers": [
+        "Marcus decision pending"
+      ],
+      "stated_metrics": [],
+      "status": "unknown",
+      "category": "IMPLIED",
+      "id": "UC-11",
+      "rank": 11,
+      "hypothesis_label": "hypothesis, not confirmed"
+    }
+  ],
+  "top_hidden_opportunities": [
+    {
+      "use_case_id": "UC-2",
+      "title": "Read-only first integration that avoids the NetSuite write-access review",
+      "why_it_matters": "Earlier value without waiting on the security review."
+    },
+    {
+      "use_case_id": "UC-3",
+      "title": "Automated invoice capture from the ap-invoices shared mailbox",
+      "why_it_matters": "Removes manual keying for a growing invoice volume handled by a three-person team."
+    },
+    {
+      "use_case_id": "UC-4",
+      "title": "Daily exceptions list depends on a weekly-only supplier portal feed",
+      "why_it_matters": "Exceptions list that reflects the actual data freshness; no repeat of the RPA failure."
+    },
+    {
+      "use_case_id": "UC-5",
+      "title": "Exception baseline and root-cause analytics",
+      "why_it_matters": "Gives a baseline to prove improvement and targets the most common causes of exceptions."
+    },
+    {
+      "use_case_id": "UC-7",
+      "title": "Shared supplier master data linking onboarding and approval routing",
+      "why_it_matters": "Routing rules that stay current; less rework later in the onboarding phase."
+    }
+  ],
+  "gaps_and_open_questions": [
+    {
+      "id": "Q-1",
+      "question": "How many invoice exceptions occur per month, and what are their causes?",
+      "reason": "Nobody has measured exactly how many exceptions there are.",
+      "evidence": [
+        {
+          "source": "02_followup_email.eml",
+          "quote": "nobody has measured exactly how many there are.",
+          "speaker": "Marcus Obi"
+        }
+      ]
+    },
+    {
+      "id": "Q-2",
+      "question": "What NetSuite access can be granted without a full security review?",
+      "reason": "Lena's action to confirm read access is outstanding; write access needs a review.",
+      "evidence": [
+        {
+          "source": "03_meeting_minutes.txt",
+          "quote": "Lena: confirm what read access to NetSuite can be granted without a full security review.",
+          "speaker": "Tom Becker"
+        }
+      ]
+    },
+    {
+      "id": "Q-3",
+      "question": "Will Marcus allow the exceptions spreadsheet to be shared?",
+      "reason": "Raj will not share it outside finance until Marcus agrees.",
+      "evidence": [
+        {
+          "source": "03_meeting_minutes.txt",
+          "quote": "Marcus: decide whether the exceptions spreadsheet can be shared.",
+          "speaker": "Tom Becker"
+        }
+      ]
+    },
+    {
+      "id": "Q-4",
+      "question": "Is the current two-day clean-invoice time acceptable?",
+      "reason": "Dana says it is fine, while Marcus pushes back and wants faster handling of exceptions.",
+      "evidence": [
+        {
+          "source": "01_kickoff_call.txt",
+          "quote": "That is fine for us.",
+          "speaker": "Dana Whitfield"
+        },
+        {
+          "source": "01_kickoff_call.txt",
+          "quote": "I would push back a little on that.",
+          "speaker": "Marcus Obi"
+        }
+      ]
+    },
+    {
+      "id": "Q-5",
+      "question": "What is the actual monthly invoice volume?",
+      "reason": "4,500 per month was stated on the call, but a later email says 5,200 in a busy month.",
+      "evidence": [
+        {
+          "source": "02_followup_email.eml",
+          "quote": "We are now closer to 5,200 invoices in a busy month, not 4,500",
+          "speaker": "Marcus Obi"
+        }
+      ]
+    },
+    {
+      "id": "Q-6",
+      "question": "Do any invoices arrive outside the ap-invoices mailbox?",
+      "reason": "Only 'most' invoices were said to arrive by email.",
+      "evidence": [
+        {
+          "source": "01_kickoff_call.txt",
+          "quote": "most of those arrive by email into a shared mailbox, ap-invoices.",
+          "speaker": "Dana Whitfield"
+        }
+      ]
+    },
+    {
+      "id": "Q-7",
+      "question": "Where do goods receipts come from: NetSuite or the supplier portal CSV?",
+      "reason": "Matching uses goods receipts, but the source of goods receipt data was not stated.",
+      "evidence": [
+        {
+          "source": "01_kickoff_call.txt",
+          "quote": "matches it against the purchase order and the goods receipt.",
+          "speaker": "Dana Whitfield"
+        }
+      ]
+    },
+    {
+      "id": "Q-8",
+      "question": "Is supplier onboarding in or out of scope for this engagement?",
+      "reason": "Marcus deferred onboarding on the call, then raised it as the next step in his email.",
+      "evidence": [
+        {
+          "source": "01_kickoff_call.txt",
+          "quote": "Supplier onboarding is another headache, but let us not mix that in yet.",
+          "speaker": "Marcus Obi"
+        },
+        {
+          "source": "02_followup_email.eml",
+          "quote": "if the invoice work goes well I would like to look at it next.",
+          "speaker": "Marcus Obi"
+        }
+      ]
+    },
+    {
+      "id": "Q-9",
+      "question": "Is a daily exceptions list feasible with weekly portal data?",
+      "reason": "The only portal data feed is weekly.",
+      "evidence": [
+        {
+          "source": "03_meeting_minutes.txt",
+          "quote": "Lena confirmed that the weekly CSV export from the supplier portal is the only data feed available.",
+          "speaker": "Tom Becker"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Live Assist test UI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Live Assist test UI</h1>
+  <p id="health">Checking API...</p>
+  <nav class="buttons" aria-label="Screens">
+    <button type="button" id="show-calls" aria-pressed="true">Calls</button>
+    <button type="button" id="show-configs" aria-pressed="false">Checklist configs</button>
+  </nav>
+
+  <section id="configs-screen" hidden aria-labelledby="configs-heading">
+    <h2 id="configs-heading">Checklist configs</h2>
+    <div class="cols">
+      <div>
+        <h3>Profiles</h3>
+        <ul id="config-list"></ul>
+        <label><input type="checkbox" id="config-show-archived"> Show archived</label>
+      </div>
+      <div id="config-editor" hidden>
+        <h3 id="config-title"></h3>
+        <p id="config-meta" class="muted"></p>
+        <div class="buttons">
+          <button type="button" id="config-clone">Clone</button>
+          <button type="button" id="config-validate">Validate</button>
+          <button type="button" id="config-save">Save as new version</button>
+          <button type="button" id="config-archive">Archive</button>
+          <label>Version <select id="config-version"></select></label>
+        </div>
+        <ul id="config-errors" class="errors" role="alert" aria-live="assertive"></ul>
+        <div class="buttons" role="tablist" aria-label="Editor view">
+          <button type="button" role="tab" id="config-tab-form" aria-selected="true">Form</button>
+          <button type="button" role="tab" id="config-tab-json" aria-selected="false">JSON</button>
+        </div>
+        <div id="config-form" role="tabpanel" aria-labelledby="config-tab-form"></div>
+        <div id="config-json-panel" role="tabpanel" aria-labelledby="config-tab-json" hidden>
+          <label for="config-json">Profile JSON (ask_when and examples are edited here)</label>
+          <textarea id="config-json" rows="30" spellcheck="false"></textarea>
+          <button type="button" id="config-json-apply">Apply JSON to the form</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="calls-screen">
+
+  <div class="cols">
+    <section>
+      <h2>Start a call</h2>
+      <form id="start">
+        <label>Title <input name="title" value="Test call"></label>
+        <label>Checklist config <select name="config_id" id="call-config"></select></label>
+        <p id="call-config-topics" class="muted"></p>
+        <fieldset>
+          <legend>Customer (optional, enables memory across calls)</legend>
+          <label>Account <select name="account_id" id="account"><option value="">None</option></select></label>
+          <label>New account <input id="new-account" placeholder="Company name"></label>
+          <button type="button" id="add-account">Add account</button>
+          <label>Opportunity <select name="opportunity_id" id="opportunity" disabled><option value="">None</option></select></label>
+          <label>New opportunity <input id="new-opportunity" placeholder="Opportunity name"></label>
+          <label>Type <select id="new-opportunity-type"><option value="">Decide during the call</option></select></label>
+          <button type="button" id="add-opportunity" disabled>Add opportunity</button>
+          <label>Earlier calls <select name="use_prior_context" id="use-prior-context"></select></label>
+          <p id="memory-status" class="muted"></p>
+        </fieldset>
+        <fieldset>
+          <legend>Suggestion settings</legend>
+          <label>Scope <select name="scope" id="scope"></select></label>
+          <label>Frequency <select name="frequency" id="frequency"></select></label>
+          <label>Questions per run <input name="max_suggestions" type="number" min="1" max="3" value="2"></label>
+          <label>Instructions <textarea name="instructions" rows="2"></textarea></label>
+        </fieldset>
+        <fieldset>
+          <legend>Source</legend>
+          <label><input type="radio" name="type" value="manual" checked> Manual (type lines)</label>
+          <label><input type="radio" name="type" value="recording"> Recording (conversation JSON)</label>
+          <label><input type="radio" name="type" value="audio"> Audio folder (manifest.json + .pcm tracks)</label>
+          <label>Recording file <input type="file" name="recording" accept=".json"></label>
+          <label>Audio folder <input type="file" name="audio" webkitdirectory multiple></label>
+          <label>Speed <input name="speed" type="number" step="0.5" min="0.5" value="1"></label>
+          <label>Stop after seconds (audio, optional) <input name="limit_seconds" type="number" min="1"></label>
+        </fieldset>
+        <button>Start call</button>
+      </form>
+
+      <h2>Calls <button id="refresh" type="button">Refresh</button></h2>
+      <ul id="calls"></ul>
+
+      <section id="account-panel" hidden aria-labelledby="account-heading">
+        <h2 id="account-heading"></h2>
+        <p class="muted">Showing the opportunity chosen above, or the whole account.</p>
+        <h3>Calls</h3>
+        <ul id="account-calls"></ul>
+        <h3>What we remember</h3>
+        <p id="account-memory-status" role="status" aria-live="polite"></p>
+        <h4>About the customer</h4>
+        <ul id="account-facts"></ul>
+        <h4>About this opportunity</h4>
+        <ul id="opportunity-facts"></ul>
+        <h4>Earlier calls</h4>
+        <ul id="account-previous"></ul>
+        <div class="buttons">
+          <button id="forget-opportunity" type="button">Forget this opportunity</button>
+          <button id="forget-account" type="button">Forget the whole account</button>
+        </div>
+      </section>
+
+      <h2>Log</h2>
+      <pre id="log"></pre>
+    </section>
+
+    <section id="call" hidden>
+      <h2 id="call-title"></h2>
+      <p id="call-meta"></p>
+      <div class="buttons">
+        <button id="pause">Pause</button>
+        <button id="resume">Resume</button>
+        <button id="apply">Apply settings from the form</button>
+        <button id="end">End call</button>
+        <button id="handoff">Download handoff</button>
+        <button id="close">Close</button>
+      </div>
+      <section id="minutes-panel" aria-labelledby="minutes-heading">
+        <h3 id="minutes-heading">Minutes</h3>
+        <p id="minutes-status" role="status" aria-live="polite"></p>
+        <div class="buttons">
+          <button id="minutes-regenerate" type="button">Regenerate minutes</button>
+          <button id="minutes-md" type="button">Download Markdown</button>
+          <button id="minutes-json" type="button">Download JSON</button>
+        </div>
+        <div id="minutes"></div>
+      </section>
+      <form id="line">
+        <select name="speaker"><option value="ba">BA</option><option value="cx">Customer</option></select>
+        <input name="text" placeholder="Type a line and press Enter" size="60">
+        <button>Send</button>
+      </form>
+
+      <div class="cols">
+        <div>
+          <h3>Timeline</h3>
+          <div id="timeline"></div>
+        </div>
+        <div>
+          <h3>Suggestions</h3>
+          <ol id="suggestions" reversed></ol>
+          <section id="prior" class="prior" hidden aria-labelledby="prior-heading">
+            <h3 id="prior-heading">From earlier calls (not said in this call)</h3>
+            <div id="prior-body"></div>
+          </section>
+          <h3>Problem</h3>
+          <p id="problem"></p>
+          <h3>Captured</h3>
+          <ul id="captured"></ul>
+          <h3>Open gaps</h3>
+          <ul id="gaps"></ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  </div>
+
+  <script src="app.js"></script>
+  <script src="accounts.js"></script>
+  <script src="configs.js"></script>
+</body>
+</html>

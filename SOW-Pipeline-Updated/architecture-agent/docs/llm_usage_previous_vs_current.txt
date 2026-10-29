@@ -1,0 +1,49 @@
+WHERE THE LLM IS USED: PREVIOUS VS CURRENT APPROACH
+Architecture Agent (SRS -> ADR -> usage -> diagram). Every LLM call is Sonnet 4.6 on Amazon Bedrock.
+
+With a design available, the diagram step no longer uses an LLM at all. The two LLM calls that remain are
+the ADR and the usage estimate.
+
+
+1. LLM USE PER STEP
+-------------------
+
++--------------------------+-------------------------------------+---------------------------------+-------------------------------------+
+| Step                     | What it does                        | Previous                        | Current                             |
++--------------------------+-------------------------------------+---------------------------------+-------------------------------------+
+| ADR Generator            | SRS -> design, adr.md, spec.json    | LLM (1 call)                    | LLM (1 call), unchanged             |
+| Revise ADR               | Applies a user instruction          | LLM (1 call)                    | LLM (1 call), unchanged             |
+| Usage Estimator          | Design -> usage.json                | LLM (1 call) + code rules       | LLM (1 call) + code rules, unchanged|
+| Diagram: Extractor       | Lists components and flows          | LLM (1 call), reads adr.md      | CODE: reads design.json directly    |
+| Diagram: Extractor repair| Fixes a malformed extraction        | LLM (0-1 calls)                 | Not needed                          |
+| Diagram: Assumer         | Adds missing pieces                 | LLM (1 call), additions drawn   | Not needed (ADR decided everything) |
+| Diagram: Layout coder    | Places boxes and groups             | LLM (1 call + up to 2 retries)  | CODE: ELK layout engine             |
+| Diagram: XML, routing,   | Builds and validates the drawing    | Code                            | Code, unchanged                     |
+|   checks, export         |                                     |                                 |                                     |
++--------------------------+-------------------------------------+---------------------------------+-------------------------------------+
+
+
+2. CALLS PER FULL RUN (SRS -> ADR, usage and diagram)
+-----------------------------------------------------
+
++----------------+-----------+-----------+
+|                | Previous  | Current   |
++----------------+-----------+-----------+
+| ADR + usage    | 2         | 2         |
+| Diagram        | 3-6       | 0         |
+| TOTAL          | 5-8       | 2         |
++----------------+-----------+-----------+
+
+
+3. WHEN THE DIAGRAM STILL USES AN LLM
+-------------------------------------
+
+If adr_md or other documents are sent instead of a design, the old document path runs:
+  - Extractor: 1 call, plus a repair call if needed
+  - Assumer:   1 call, now limited to suggestions (never drawn); ASSUMPTIONS_MODE=off skips it
+  - Layout:    still ELK, with no LLM, unless ELK cannot run and the LLM coder takes over as a fallback
+
+
+Note: the previous diagram call counts and timings come from the project's own docs (README, SYSTEM_DESIGN).
+The current numbers were measured in the local test with the Billing Dispute Assistant SRS
+(diagram: 0 model calls, 0 tokens, about 7 s).

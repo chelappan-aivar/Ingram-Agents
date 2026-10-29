@@ -1,0 +1,424 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Project Catalyst - Architecture agent (on demand). Web UI (Amplify Hosting) -> API Gateway (HTTP API)
+  -> Lambda ingram-architecture-api (open, cost guards) -> Lambda ingram-architecture-worker (async)
+  -> AgentCore Runtime ingram_architecture_agent (container: SRS -> ADR, AWS diagram, usage estimate) -> Amazon Bedrock.
+  Runs in DynamoDB, output files in S3.
+
+Metadata:
+  cfn-lint:
+    config:
+      ignore_checks:
+        - W3005   # explicit DependsOn kept for readability
+
+Parameters:
+  UiOrigin:
+    Type: String
+    Default: http://localhost:5173
+    Description: Extra origin allowed by CORS for running the UI locally (the Amplify URL is always allowed).
+  ContainerUri:
+    Type: String
+    AllowedPattern: "^[0-9]{12}\\.dkr\\.ecr\\.[a-z0-9-]+\\.amazonaws\\.com/[a-z0-9._/-]+@sha256:[0-9a-f]{64}$"
+    Description: Agent image pinned by digest (set by scripts/deploy.sh).
+  EcrRepositoryName:
+    Type: String
+    Default: ingram-architecture-agent
+    AllowedPattern: "^[a-z][a-z0-9._/-]{1,100}$"
+    Description: ECR repository holding the agent image (created by scripts/deploy.sh).
+  RuntimeName:
+    Type: String
+    Default: ingram_architecture_agent
+    AllowedPattern: "^[a-zA-Z][a-zA-Z0-9_]{0,47}$"
+  AdrModelId:
+    Type: String
+    Default: us.anthropic.claude-sonnet-4-6
+    Description: Bedrock inference profile for the ADR, revise and usage steps.
+  DiagramModelId:
+    Type: String
+    Default: us.anthropic.claude-sonnet-4-6
+    Description: Bedrock inference profile for the diagram document path (unused when drawing from a design).
+  InferenceProfilePattern:
+    Type: String
+    Default: us.anthropic.claude-sonnet-4-6
+    AllowedPattern: "^[a-z0-9.*:-]+$"
+    Description: IAM resource pattern of the inference profiles the agent may call.
+  LayoutEngine:
+    Type: String
+    Default: elk
+    AllowedValues: [elk, llm]
+  AssumptionsMode:
+    Type: String
+    Default: suggest
+    AllowedValues: [suggest, draw, "off"]
+  NamedServicesOnly:
+    Type: String
+    Default: "true"
+    AllowedValues: ["true", "false"]
+  RunsPerDay:
+    Type: Number
+    Default: 40
+    MinValue: 1
+    Description: Cost guard for the open API - new runs plus revisions per day across all users (each is 2 Bedrock calls).
+  RunsPerIpHour:
+    Type: Number
+    Default: 6
+    MinValue: 1
+    Description: Cost guard for the open API - runs plus revisions one caller IP may start per hour.
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Architectures: [arm64]
+    MemorySize: 256
+    Timeout: 29
+
+Resources:
+  # ------------------------------------------------------------------ DynamoDB: runs, versions, activity log
+  RunsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      TableName: ingram-architecture-runs
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - { AttributeName: pk, AttributeType: S }
+        - { AttributeName: sk, AttributeType: S }
+        - { AttributeName: owner, AttributeType: S }
+        - { AttributeName: created_at, AttributeType: S }
+      KeySchema:
+        - { AttributeName: pk, KeyType: HASH }
+        - { AttributeName: sk, KeyType: RANGE }
+      GlobalSecondaryIndexes:            # run history: only RUN#/META items carry `owner`
+        - IndexName: owner-created
+          KeySchema:
+            - { AttributeName: owner, KeyType: HASH }
+            - { AttributeName: created_at, KeyType: RANGE }
+          Projection:
+            ProjectionType: INCLUDE
+            NonKeyAttributes: [run_id, title, status, stage, finished_at, version, user_name, srs_filename, input_kind]
+      PointInTimeRecoverySpecification: { PointInTimeRecoveryEnabled: true }
+      SSESpecification: { SSEEnabled: true }
+      TimeToLiveSpecification:          # expires the daily cost-guard counters (DAY#)
+        AttributeName: ttl
+        Enabled: true
+
+  # ------------------------------------------------------------------ S3: SRS inputs and output files (private)
+  DataBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !Sub ingram-architecture-data-${AWS::AccountId}-${AWS::Region}
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault: { SSEAlgorithm: AES256 }
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      LifecycleConfiguration:
+        Rules:
+          - Id: abort-incomplete-uploads
+            Status: Enabled
+            AbortIncompleteMultipartUpload: { DaysAfterInitiation: 1 }
+
+  DataBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref DataBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: TlsOnly
+            Effect: Deny
+            Principal: "*"
+            Action: s3:*
+            Resource: [!GetAtt DataBucket.Arn, !Sub "${DataBucket.Arn}/*"]
+            Condition:
+              Bool: { aws:SecureTransport: "false" }
+
+  # ------------------------------------------------------------------ AgentCore Runtime: the Architecture agent (container)
+  # Least privilege, per https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-permissions.html.
+  # The agent is stateless: it pulls its image, writes logs/traces/metrics and calls Bedrock. No S3 or DynamoDB.
+  AgentRuntimeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: { Service: bedrock-agentcore.amazonaws.com }
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals: { aws:SourceAccount: !Ref AWS::AccountId }
+              ArnLike: { aws:SourceArn: !Sub "arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:*" }
+      Policies:
+        - PolicyName: architecture-agent
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: PullAgentImage
+                Effect: Allow
+                Action: [ecr:BatchGetImage, ecr:GetDownloadUrlForLayer]
+                Resource: !Sub "arn:${AWS::Partition}:ecr:${AWS::Region}:${AWS::AccountId}:repository/${EcrRepositoryName}"
+              - Sid: EcrToken
+                Effect: Allow
+                Action: ecr:GetAuthorizationToken
+                Resource: "*"
+              - Sid: Logs
+                Effect: Allow
+                Action: [logs:CreateLogGroup, logs:CreateLogStream, logs:PutLogEvents, logs:DescribeLogStreams]
+                Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/bedrock-agentcore/runtimes/*"
+              - Sid: LogGroups
+                Effect: Allow
+                Action: logs:DescribeLogGroups
+                Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:*"
+              - Sid: Tracing
+                Effect: Allow
+                Action: [xray:PutTraceSegments, xray:PutTelemetryRecords, xray:GetSamplingRules, xray:GetSamplingTargets]
+                Resource: "*"
+              - Sid: Metrics
+                Effect: Allow
+                Action: cloudwatch:PutMetricData
+                Resource: "*"
+                Condition:
+                  StringEquals: { cloudwatch:namespace: bedrock-agentcore }
+              - Sid: WorkloadAccessToken
+                Effect: Allow
+                Action:
+                  - bedrock-agentcore:GetWorkloadAccessToken
+                  - bedrock-agentcore:GetWorkloadAccessTokenForJWT
+                  - bedrock-agentcore:GetWorkloadAccessTokenForUserId
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:workload-identity-directory/default"
+                  - !Sub "arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:workload-identity-directory/default/workload-identity/${RuntimeName}-*"
+              # A us.* inference profile routes to the model in several US Regions: the profile and the
+              # Anthropic foundation models in any Region are both needed.
+              - Sid: InvokeInferenceProfiles
+                Effect: Allow
+                Action: [bedrock:InvokeModel, bedrock:InvokeModelWithResponseStream]
+                Resource: !Sub "arn:${AWS::Partition}:bedrock:${AWS::Region}:${AWS::AccountId}:inference-profile/${InferenceProfilePattern}"
+              - Sid: InvokeAnthropicFoundationModels
+                Effect: Allow
+                Action: [bedrock:InvokeModel, bedrock:InvokeModelWithResponseStream]
+                Resource: !Sub "arn:${AWS::Partition}:bedrock:*::foundation-model/anthropic.*"
+
+  ArchitectureAgentRuntime:
+    Type: AWS::BedrockAgentCore::Runtime
+    Properties:
+      AgentRuntimeName: !Ref RuntimeName
+      Description: SRS to ADR, AWS architecture diagram and usage estimate (Strands, Bedrock, draw.io)
+      RoleArn: !GetAtt AgentRuntimeRole.Arn
+      AgentRuntimeArtifact:
+        ContainerConfiguration:
+          ContainerUri: !Ref ContainerUri
+      ProtocolConfiguration: HTTP
+      NetworkConfiguration:
+        NetworkMode: PUBLIC   # only calls Amazon Bedrock
+      LifecycleConfiguration:
+        IdleRuntimeSessionTimeout: 900
+        MaxLifetime: 3600     # one session per version; a version takes 3-5 minutes
+      # Read by adr_generator/config.py and diagram_generator/config.py. The image sets DRAWIO_CLI.
+      EnvironmentVariables:
+        AWS_REGION: !Ref AWS::Region
+        MODEL_ID: !Ref AdrModelId
+        FALLBACK_MODEL_ID: !Ref AdrModelId
+        EXTRACTOR_MODEL_ID: !Ref DiagramModelId
+        ASSUMER_MODEL_ID: !Ref DiagramModelId
+        CODER_MODEL_ID: !Ref DiagramModelId
+        LAYOUT_ENGINE: !Ref LayoutEngine
+        ASSUMPTIONS_MODE: !Ref AssumptionsMode
+        NAMED_SERVICES_ONLY: !Ref NamedServicesOnly
+        DATA_DIR: /tmp/data
+
+  # ------------------------------------------------------------------ API Gateway + Lambda (UI API) + worker
+  ArchitectureHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      Description: Architecture agent API (open, no sign-in; throttled, with per-IP and daily run caps)
+      CorsConfiguration:
+        # deploy.sh adds config.env CORS_EXTRA_ORIGINS after the stack deploy (SAM breaks intrinsic origin lists).
+        AllowOrigins:
+          - !Sub https://main.${UiApp.DefaultDomain}   # hosted UI (Amplify)
+          - !Ref UiOrigin                               # local dev
+        AllowHeaders: [content-type]
+        AllowMethods: [GET, POST, OPTIONS]
+        MaxAge: 600
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 20
+        ThrottlingRateLimit: 10
+      RouteSettings:          # routes that cost money
+        "POST /runs": { ThrottlingBurstLimit: 3, ThrottlingRateLimit: 1 }
+        "POST /runs/{id}/revise": { ThrottlingBurstLimit: 3, ThrottlingRateLimit: 1 }
+
+  ApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ingram-architecture-api
+      Description: Architecture UI API - start runs and revisions, read results from DynamoDB and S3
+      CodeUri: api/
+      Handler: handler.handler
+      MemorySize: 512
+      LoggingConfig:
+        LogGroup: !Ref ApiLogGroup
+      Environment:
+        Variables:
+          RUNS_TABLE: !Ref RunsTable
+          DATA_BUCKET: !Ref DataBucket
+          WORKER_FUNCTION: !Ref WorkerFunction
+          RUNS_PER_DAY: !Ref RunsPerDay
+          RUNS_PER_IP_HOUR: !Ref RunsPerIpHour
+      Policies:
+        - Statement:
+            - Sid: Runs
+              Effect: Allow
+              Action: [dynamodb:PutItem, dynamodb:UpdateItem, dynamodb:GetItem, dynamodb:Query]
+              Resource:
+                - !GetAtt RunsTable.Arn
+                - !Sub "${RunsTable.Arn}/index/owner-created"
+            - Sid: Files
+              Effect: Allow
+              Action: [s3:GetObject, s3:PutObject]
+              Resource: !Sub "${DataBucket.Arn}/runs/*"
+            - Sid: StartWorker
+              Effect: Allow
+              Action: lambda:InvokeFunction
+              Resource: !GetAtt WorkerFunction.Arn
+      Events:
+        GetSession:
+          Type: HttpApi
+          Properties: { ApiId: !Ref ArchitectureHttpApi, Method: GET, Path: /session }
+        StartRun:
+          Type: HttpApi
+          Properties: { ApiId: !Ref ArchitectureHttpApi, Method: POST, Path: /runs }
+        ListRuns:
+          Type: HttpApi
+          Properties: { ApiId: !Ref ArchitectureHttpApi, Method: GET, Path: /runs }
+        GetRun:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ArchitectureHttpApi
+            Method: GET
+            Path: /runs/{id}
+        Revise:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ArchitectureHttpApi
+            Method: POST
+            Path: /runs/{id}/revise
+        GetFile:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref ArchitectureHttpApi
+            Method: GET
+            Path: /runs/{id}/files/{name}
+
+  ApiLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/ingram-architecture-api
+      RetentionInDays: 30
+
+  WorkerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ingram-architecture-worker
+      Description: Runs one ADR version on the AgentCore Runtime (extract, ADR, diagram, usage) and stores the results
+      CodeUri: api/
+      Handler: worker.handler
+      MemorySize: 1024        # holds the diagram PNG/SVG (base64) while writing them to S3
+      Timeout: 900            # AgentCore's synchronous request limit is 15 minutes too
+      LoggingConfig:
+        LogGroup: !Ref WorkerLogGroup
+      EventInvokeConfig:
+        MaximumRetryAttempts: 0   # every attempt costs model calls; the UI offers a new run instead
+        MaximumEventAgeInSeconds: 900
+      Environment:
+        Variables:
+          RUNS_TABLE: !Ref RunsTable
+          DATA_BUCKET: !Ref DataBucket
+          AGENT_RUNTIME_ARN: !GetAtt ArchitectureAgentRuntime.AgentRuntimeArn
+      Policies:
+        - Statement:
+            - Sid: Runs
+              Effect: Allow
+              Action: [dynamodb:PutItem, dynamodb:UpdateItem, dynamodb:GetItem]
+              Resource: !GetAtt RunsTable.Arn
+            - Sid: Files
+              Effect: Allow
+              Action: [s3:GetObject, s3:PutObject]
+              Resource: !Sub "${DataBucket.Arn}/runs/*"
+            - Sid: InvokeAgent
+              Effect: Allow
+              Action: bedrock-agentcore:InvokeAgentRuntime
+              Resource:
+                - !GetAtt ArchitectureAgentRuntime.AgentRuntimeArn
+                - !Sub "${ArchitectureAgentRuntime.AgentRuntimeArn}/*"
+
+  WorkerLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/lambda/ingram-architecture-worker
+      RetentionInDays: 30
+
+  # ------------------------------------------------------------------ Web UI: AWS Amplify Hosting (manual deploys)
+  UiApp:
+    Type: AWS::Amplify::App
+    Properties:
+      Name: ingram-architecture-ui
+      Description: Ingram Architecture agent web UI (static; uploaded by scripts/deploy.sh)
+      Platform: WEB
+      CustomHeaders: |
+        customHeaders:
+          - pattern: '**'
+            headers:
+              - key: Strict-Transport-Security
+                value: max-age=31536000; includeSubDomains
+              - key: X-Content-Type-Options
+                value: nosniff
+              - key: X-Frame-Options
+                value: SAMEORIGIN
+              - key: Referrer-Policy
+                value: strict-origin-when-cross-origin
+          - pattern: 'config.js'
+            headers:
+              - key: Cache-Control
+                value: no-cache
+
+  UiBranch:
+    Type: AWS::Amplify::Branch
+    Properties:
+      AppId: !GetAtt UiApp.AppId
+      BranchName: main
+      Stage: PRODUCTION
+      EnableAutoBuild: false
+
+Outputs:
+  UiUrl:
+    Description: Hosted web UI
+    Value: !Sub https://main.${UiApp.DefaultDomain}
+  UiAppId:
+    Value: !GetAtt UiApp.AppId
+  ApiUrl:
+    Description: Base URL for the web UI (written to ui/config.js by deploy.sh)
+    Value: !Sub https://${ArchitectureHttpApi}.execute-api.${AWS::Region}.amazonaws.com
+  AgentRuntimeArn:
+    Value: !GetAtt ArchitectureAgentRuntime.AgentRuntimeArn
+  AgentRuntimeId:
+    Value: !GetAtt ArchitectureAgentRuntime.AgentRuntimeId
+  AgentRuntimeVersion:
+    Value: !GetAtt ArchitectureAgentRuntime.AgentRuntimeVersion
+  LogGroup:
+    Value: !Sub "/aws/bedrock-agentcore/runtimes/${ArchitectureAgentRuntime.AgentRuntimeId}-DEFAULT"
+  RepositoryName:
+    Value: !Ref EcrRepositoryName
+  RunsTableName:
+    Value: !Ref RunsTable
+  DataBucketName:
+    Value: !Ref DataBucket

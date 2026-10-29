@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  Project Catalyst - Cost Calculator web UI (static, AWS Amplify Hosting). The backend (HTTP API
+  ingram_cost_calculator_api -> Lambda ingram_cost_calculator_proxy -> AgentCore Runtime ingram_cost_calculator)
+  already exists; this stack only hosts the UI.
+
+Resources:
+  UiApp:
+    Type: AWS::Amplify::App
+    Properties:
+      Name: ingram-cost-ui
+      Description: Ingram Cost Calculator web UI (static; uploaded by scripts/deploy.sh)
+      Platform: WEB
+      Tags:
+        - { Key: Project, Value: ingram-cost }
+      CustomHeaders: |
+        customHeaders:
+          - pattern: '**'
+            headers:
+              - key: Strict-Transport-Security
+                value: max-age=31536000; includeSubDomains
+              - key: X-Content-Type-Options
+                value: nosniff
+              - key: X-Frame-Options
+                value: SAMEORIGIN
+              - key: Referrer-Policy
+                value: strict-origin-when-cross-origin
+          - pattern: 'config.js'
+            headers:
+              - key: Cache-Control
+                value: no-cache
+
+  UiBranch:
+    Type: AWS::Amplify::Branch
+    Properties:
+      AppId: !GetAtt UiApp.AppId
+      BranchName: main
+      Stage: PRODUCTION
+      EnableAutoBuild: false
+
+Outputs:
+  UiUrl:
+    Description: Hosted web UI
+    Value: !Sub https://main.${UiApp.DefaultDomain}
+  UiAppId:
+    Value: !GetAtt UiApp.AppId

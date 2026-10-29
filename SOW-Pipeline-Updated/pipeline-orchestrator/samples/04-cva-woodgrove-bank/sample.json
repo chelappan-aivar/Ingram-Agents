@@ -1,0 +1,7 @@
+{
+  "title": "Woodgrove Bank: AWS Cloud Viability Assessment (Full)",
+  "customer_name": "Woodgrove Bank",
+  "opportunity_id": "USC-2026-0731",
+  "template_id": "cva/full",
+  "summary": "EMEA USC Full CVA for a bank's 420-server VMware estate. Uses the combined CVA SOW template: assessment scope, high-level target architecture and the AWS cost estimate link."
+}

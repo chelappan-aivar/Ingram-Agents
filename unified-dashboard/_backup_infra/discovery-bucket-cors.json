@@ -1,0 +1,22 @@
+{
+    "CORSRules": [
+        {
+            "AllowedHeaders": [
+                "content-type",
+                "x-amz-server-side-encryption",
+                "x-amz-server-side-encryption-aws-kms-key-id"
+            ],
+            "AllowedMethods": [
+                "PUT",
+                "GET"
+            ],
+            "AllowedOrigins": [
+                "*"
+            ],
+            "ExposeHeaders": [
+                "ETag"
+            ],
+            "MaxAgeSeconds": 3000
+        }
+    ]
+}

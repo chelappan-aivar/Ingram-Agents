@@ -1,0 +1,53 @@
+# Edge-label vocabulary (<= 4 words per verb). Loaded by app/catalog/loader.py.
+# Each verb has synonyms (lowercase) that map back to it. Verbs and synonyms are unique across the file.
+groups:
+  request_response:
+    - {verb: invokes, synonyms: [calls, executes]}
+    - {verb: calls API, synonyms: [api request, requests from]}
+    - {verb: routes requests to, synonyms: [forwards to, proxies to, load balances]}
+    - {verb: returns response to, synonyms: [responds to, replies to]}
+    - {verb: serves content from, synonyms: [delivers content, caches from]}
+  data:
+    - {verb: writes to, synonyms: [saves to, puts into, persists to]}
+    - {verb: reads from, synonyms: [fetches from, retrieves from, gets from]}
+    - {verb: stores in, synonyms: [stored in, uploads to]}
+    - {verb: queries, synonyms: [searches, looks up]}
+    - {verb: loads data into, synonyms: [imports into, bulk loads]}
+    - {verb: exports to, synonyms: [unloads to, extracts to]}
+  events:
+    - {verb: publishes to, synonyms: [emits to, sends events to]}
+    - {verb: subscribes to, synonyms: [listens to, receives from]}
+    - {verb: triggers, synonyms: [starts, activates, fires]}
+    - {verb: sends messages to, synonyms: [enqueues to, pushes to, notifies]}
+    - {verb: consumes from, synonyms: [polls, dequeues from, reads messages from]}
+    - {verb: routes events to, synonyms: [dispatches to, event target]}
+  streaming:
+    - {verb: streams to, synonyms: [streams data to, pipes to]}
+    - {verb: ingests into, synonyms: [collects into, captures into]}
+    - {verb: delivers to, synonyms: [delivers data to, forwards data to]}
+    - {verb: processes stream from, synonyms: [analyzes stream, transforms stream]}
+  auth:
+    - {verb: authenticates with, synonyms: [signs in via, logs in with, authenticates via]}
+    - {verb: authorizes via, synonyms: [authorizes with, validates token with, verifies with]}
+    - {verb: encrypts with, synonyms: [encrypted by, uses key from]}
+    - {verb: retrieves secrets from, synonyms: [gets credentials from, reads secrets from]}
+  replication:
+    - {verb: replicates to, synonyms: [mirrors to, copies to, cross-region replication]}
+    - {verb: backs up to, synonyms: [backed up to, snapshots to]}
+    - {verb: syncs with, synonyms: [synchronizes with, syncs to]}
+    - {verb: archives to, synonyms: [tiers to, moves to archive]}
+  connectivity:
+    - {verb: connects to, synonyms: [links to, tunnels to, peers with]}
+    - {verb: routes through, synonyms: [passes through, via]}
+  orchestration:
+    - {verb: orchestrates, synonyms: [coordinates, sequences]}
+    - {verb: schedules, synonyms: [runs on schedule, cron triggers]}
+    - {verb: deploys to, synonyms: [releases to, provisions]}
+  ai:
+    - {verb: sends prompts to, synonyms: [prompts, queries model]}
+    - {verb: retrieves context from, synonyms: [grounds on, rag from]}
+  monitoring:
+    - {verb: logs to, synonyms: [writes logs to, audit logs to]}
+    - {verb: sends metrics to, synonyms: [publishes metrics to, emits metrics to]}
+    - {verb: monitors, synonyms: [watches, observes]}
+    - {verb: alerts via, synonyms: [notifies via, raises alarm to]}

@@ -1,0 +1,335 @@
+{
+  "status": "pass_with_warnings",
+  "summary": {
+    "title": "Billing Dispute Assistant – Northbridge Cloud Distribution",
+    "components": 29,
+    "relationships": 35,
+    "boundaries": 5,
+    "components_by_origin": {
+      "stated": 29,
+      "inferred": 0,
+      "assumed": 0
+    },
+    "relationships_by_origin": {
+      "stated": 31,
+      "inferred": 0,
+      "assumed": 4
+    },
+    "contradictions": 0,
+    "resolutions": 0,
+    "assumptions": 4,
+    "unresolved": 2
+  },
+  "steps": [
+    {
+      "step": "harness_1",
+      "attempt": 1,
+      "ok": false,
+      "in_counts": {
+        "files": 1,
+        "chars": 41949
+      },
+      "out_counts": {
+        "components": 29,
+        "relationships": 31,
+        "boundaries": 5,
+        "contradictions": 0,
+        "resolutions": 0,
+        "unverified_quotes": 1
+      },
+      "added_ids": [],
+      "dropped": [],
+      "errors": [
+        "relationship 'r30' source 'private_subnet_workloads' is not a known component id"
+      ],
+      "warnings": [
+        "unverified quote for r31 (adr.md): quote not found in file"
+      ],
+      "ts": "2026-10-12T08:48:21+00:00"
+    },
+    {
+      "step": "harness_1",
+      "attempt": 2,
+      "ok": true,
+      "in_counts": {
+        "files": 1,
+        "chars": 41949
+      },
+      "out_counts": {
+        "components": 29,
+        "relationships": 31,
+        "boundaries": 5,
+        "contradictions": 0,
+        "resolutions": 0,
+        "unverified_quotes": 0
+      },
+      "added_ids": [],
+      "dropped": [],
+      "errors": [],
+      "warnings": [],
+      "ts": "2026-10-12T08:49:35+00:00"
+    },
+    {
+      "step": "harness_2",
+      "attempt": 1,
+      "ok": true,
+      "in_counts": {
+        "components": 29,
+        "relationships": 31,
+        "boundaries": 5
+      },
+      "out_counts": {
+        "components": 29,
+        "relationships": 35,
+        "boundaries": 5,
+        "assumed_components": 0,
+        "assumed_relationships": 4,
+        "assumed_boundaries": 0,
+        "unresolved": 2,
+        "dropped": 0,
+        "unverified_quotes": 0
+      },
+      "added_ids": [
+        "ar1",
+        "ar2",
+        "ar3",
+        "ar4"
+      ],
+      "dropped": [],
+      "errors": [],
+      "warnings": [],
+      "ts": "2026-10-12T08:49:51+00:00"
+    },
+    {
+      "step": "harness_3",
+      "attempt": 1,
+      "ok": false,
+      "in_counts": {
+        "components": 29,
+        "relationships": 35,
+        "boundaries": 5
+      },
+      "out_counts": {
+        "nodes": 29,
+        "groups": 5,
+        "edges": 35,
+        "layout_errors": 37,
+        "edge_crossings": 17
+      },
+      "added_ids": [],
+      "dropped": [],
+      "errors": [
+        "components 'kms' and 'eventbridge_scheduler' overlap or are closer than 10px",
+        "component 'dispute_api' must sit fully inside its boundary 'private_subnet_us_east_1a' (with 10px padding)",
+        "component 'ingestion_lambda' must sit fully inside its boundary 'private_subnet_us_east_1a' (with 10px padding)",
+        "component 'integration_lambda' must sit fully inside its boundary 'private_subnet_us_east_1a' (with 10px padding)",
+        "component 'dispute_db' must sit fully inside its boundary 'private_subnet_us_east_1a' (with 10px padding)",
+        "component 'billing_s3' (boundary: none) overlaps group 'billing_dispute_vpc' it does not belong to; move it out of that rectangle",
+        "component 'billing_s3' (boundary: none) overlaps group 'az_us_east_1a' it does not belong to; move it out of that rectangle",
+        "component 'sqs_retry' (boundary: none) overlaps group 'billing_dispute_vpc' it does not belong to; move it out of that rectangle",
+        "component 'sqs_retry' (boundary: none) overlaps group 'az_us_east_1a' it does not belong to; move it out of that rectangle",
+        "component 'sqs_retry' (boundary: none) overlaps group 'private_subnet_us_east_1a' it does not belong to; move it out of that rectangle",
+        "component 'athena' (boundary: none) overlaps group 'billing_dispute_vpc' it does not belong to; move it out of that rectangle",
+        "component 'athena' (boundary: none) overlaps group 'az_us_east_1a' it does not belong to; move it out of that rectangle",
+        "component 'glue_catalog' (boundary: none) overlaps group 'billing_dispute_vpc' it does not belong to; move it out of that rectangle",
+        "component 'glue_catalog' (boundary: none) overlaps group 'az_us_east_1a' it does not belong to; move it out of that rectangle",
+        "component 'textract' (boundary: none) overlaps group 'billing_dispute_vpc' it does not belong to; move it out of that rectangle",
+        "component 'textract' (boundary: none) overlaps group 'az_us_east_1a' it does not belong to; move it out of that rectangle",
+        "component 'textract' (boundary: none) overlaps group 'private_subnet_us_east_1a' it does not belong to; move it out of that rectangle",
+        "component 'ses' (boundary: none) overlaps group 'billing_dispute_vpc' it does not belong to; move it out of that rectangle",
+        "component 'ses' (boundary: none) overlaps group 'az_us_east_1a' it does not belong to; move it out of that rectangle",
+        "component 'ses' (boundary: none) overlaps group 'private_subnet_us_east_1a' it does not belong to; move it out of that rectangle",
+        "edge 'r3' (cloudfront -> web_assets_s3) runs through component 'ses'; add or move waypoints to route around it",
+        "edge 'r6' (dispute_api -> cognito) runs through component 'cloudfront'; add or move waypoints to route around it",
+        "edge 'r6' (dispute_api -> cognito) runs through component 'cloudfront'; add or move waypoints to route around it",
+        "edge 'r8' (dispute_api -> athena) runs through component 'dispute_db'; add or move waypoints to route around it",
+        "edge 'r10' (dispute_api -> bedrock) runs through component 'dispute_db'; add or move waypoints to route around it",
+        "edge 'r15' (api_gateway_webhook -> integration_lambda) runs through component 'sqs_retry'; add or move waypoints to route around it",
+        "edge 'r16' (integration_lambda -> dispute_db) runs through component 'ingestion_lambda'; add or move waypoints to route around it",
+        "edge 'r16' (integration_lambda -> dispute_db) runs through component 'ingestion_lambda'; add or move waypoints to route around it",
+        "edge 'r16' (integration_lambda -> dispute_db) runs through component 'billing_s3'; add or move waypoints to route around it",
+        "edge 'r23' (textract -> billing_s3) runs through component 'sqs_retry'; add or move waypoints to route around it",
+        "edge 'r25' (dispute_api -> secrets_manager) runs through component 'dispute_db'; add or move waypoints to route around it",
+        "edge 'r27' (eventbridge_scheduler -> ingestion_lambda) runs through component 'billing_s3'; add or move waypoints to route around it",
+        "edge 'r28' (ecr -> dispute_api) runs through component 'dispute_db'; add or move waypoints to route around it",
+        "edge 'r29' (ses -> billing_agent) runs through component 'vpc_endpoints'; add or move waypoints to route around it",
+        "edge 'ar3' (integration_lambda -> secrets_manager) runs through component 'billing_s3'; add or move waypoints to route around it",
+        "edge 'ar4' (cloudwatch -> billing_s3) runs through component 'cloudtrail'; add or move waypoints to route around it",
+        "edge 'ar4' (cloudwatch -> billing_s3) runs through component 'ses'; add or move waypoints to route around it"
+      ],
+      "warnings": [],
+      "ts": "2026-10-12T08:50:11+00:00"
+    },
+    {
+      "step": "harness_3",
+      "attempt": 2,
+      "ok": false,
+      "in_counts": {
+        "components": 29,
+        "relationships": 35,
+        "boundaries": 5
+      },
+      "out_counts": {
+        "nodes": 29,
+        "groups": 5,
+        "edges": 35,
+        "layout_errors": 18,
+        "edge_crossings": 16
+      },
+      "added_ids": [],
+      "dropped": [],
+      "errors": [
+        "component 'vpc_endpoints' must sit fully inside its boundary 'private_subnet_us_east_1a' (with 10px padding)",
+        "component 'dispute_db' must sit fully inside its boundary 'private_subnet_us_east_1a' (with 10px padding)",
+        "edge 'r8' (dispute_api -> athena) runs through component 'dispute_db'; add or move waypoints to route around it",
+        "edge 'r10' (dispute_api -> bedrock) runs through component 'dispute_db'; add or move waypoints to route around it",
+        "edge 'r10' (dispute_api -> bedrock) runs through component 'athena'; add or move waypoints to route around it",
+        "edge 'r16' (integration_lambda -> dispute_db) runs through component 'ingestion_lambda'; add or move waypoints to route around it",
+        "edge 'r16' (integration_lambda -> dispute_db) runs through component 'ingestion_lambda'; add or move waypoints to route around it",
+        "edge 'r18' (sftp_transfer -> billing_s3) runs through component 'glue_catalog'; add or move waypoints to route around it",
+        "edge 'r22' (ingestion_lambda -> textract) runs through component 'sqs_retry'; add or move waypoints to route around it",
+        "edge 'r23' (textract -> billing_s3) runs through component 'glue_catalog'; add or move waypoints to route around it",
+        "edge 'r25' (dispute_api -> secrets_manager) runs through component 'dispute_db'; add or move waypoints to route around it",
+        "edge 'r25' (dispute_api -> secrets_manager) runs through component 'billing_s3'; add or move waypoints to route around it",
+        "edge 'r27' (eventbridge_scheduler -> ingestion_lambda) runs through component 'glue_catalog'; add or move waypoints to route around it",
+        "edge 'r28' (ecr -> dispute_api) runs through component 'billing_s3'; add or move waypoints to route around it",
+        "edge 'r28' (ecr -> dispute_api) runs through component 'dispute_db'; add or move waypoints to route around it",
+        "edge 'ar2' (ingestion_lambda -> secrets_manager) runs through component 'dispute_db'; add or move waypoints to route around it",
+        "edge 'ar3' (integration_lambda -> secrets_manager) runs through component 'dispute_db'; add or move waypoints to route around it",
+        "edge 'ar4' (cloudwatch -> billing_s3) runs through component 'cloudtrail'; add or move waypoints to route around it"
+      ],
+      "warnings": [],
+      "ts": "2026-10-12T08:50:30+00:00"
+    },
+    {
+      "step": "harness_3",
+      "attempt": 3,
+      "ok": false,
+      "in_counts": {
+        "components": 29,
+        "relationships": 35,
+        "boundaries": 5
+      },
+      "out_counts": {
+        "nodes": 29,
+        "groups": 5,
+        "edges": 35,
+        "layout_errors": 13,
+        "edge_crossings": 9
+      },
+      "added_ids": [],
+      "dropped": [],
+      "errors": [
+        "component 'dispute_api' must sit fully inside its boundary 'private_subnet_us_east_1a' (with 10px padding)",
+        "component 'dispute_db' must sit fully inside its boundary 'private_subnet_us_east_1a' (with 10px padding)",
+        "component 'vpc_endpoints' must sit fully inside its boundary 'private_subnet_us_east_1a' (with 10px padding)",
+        "group 'private_subnet_us_east_1a' must sit fully inside its parent 'az_us_east_1a' (with 10px padding)",
+        "edge 'r10' (dispute_api -> bedrock) runs through component 'athena'; add or move waypoints to route around it",
+        "edge 'r11' (dispute_api -> sqs_retry) runs through component 'billing_s3'; add or move waypoints to route around it",
+        "edge 'r12' (sqs_retry -> integration_lambda) runs through component 'glue_catalog'; add or move waypoints to route around it",
+        "edge 'r18' (sftp_transfer -> billing_s3) runs through component 'glue_catalog'; add or move waypoints to route around it",
+        "edge 'r25' (dispute_api -> secrets_manager) runs through component 'textract'; add or move waypoints to route around it",
+        "edge 'r27' (eventbridge_scheduler -> ingestion_lambda) runs through component 'billing_s3'; add or move waypoints to route around it",
+        "edge 'ar2' (ingestion_lambda -> secrets_manager) runs through component 'textract'; add or move waypoints to route around it",
+        "edge 'ar3' (integration_lambda -> secrets_manager) runs through component 'textract'; add or move waypoints to route around it",
+        "edge 'ar4' (cloudwatch -> billing_s3) runs through component 'cloudtrail'; add or move waypoints to route around it"
+      ],
+      "warnings": [],
+      "ts": "2026-10-12T08:50:48+00:00"
+    },
+    {
+      "step": "harness_3",
+      "attempt": 3,
+      "ok": true,
+      "in_counts": {
+        "components": 29,
+        "relationships": 35,
+        "boundaries": 5
+      },
+      "out_counts": {
+        "components_found": 29,
+        "relationships_found": 35,
+        "boundaries_found": 5,
+        "extra_icons": 0,
+        "edges_total": 35,
+        "nodes": 29,
+        "groups": 5,
+        "edges": 35,
+        "layout_errors": 13,
+        "edge_crossings": 9
+      },
+      "added_ids": [],
+      "dropped": [],
+      "errors": [],
+      "warnings": [
+        "exported with layout problem: component 'dispute_api' must sit fully inside its boundary 'private_subnet_us_east_1a' (with 10px padding)",
+        "exported with layout problem: component 'dispute_db' must sit fully inside its boundary 'private_subnet_us_east_1a' (with 10px padding)",
+        "exported with layout problem: component 'vpc_endpoints' must sit fully inside its boundary 'private_subnet_us_east_1a' (with 10px padding)",
+        "exported with layout problem: group 'private_subnet_us_east_1a' must sit fully inside its parent 'az_us_east_1a' (with 10px padding)",
+        "exported with layout problem: edge 'r10' (dispute_api -> bedrock) runs through component 'athena'; add or move waypoints to route around it",
+        "exported with layout problem: edge 'r11' (dispute_api -> sqs_retry) runs through component 'billing_s3'; add or move waypoints to route around it",
+        "exported with layout problem: edge 'r12' (sqs_retry -> integration_lambda) runs through component 'glue_catalog'; add or move waypoints to route around it",
+        "exported with layout problem: edge 'r18' (sftp_transfer -> billing_s3) runs through component 'glue_catalog'; add or move waypoints to route around it",
+        "exported with layout problem: edge 'r25' (dispute_api -> secrets_manager) runs through component 'textract'; add or move waypoints to route around it",
+        "exported with layout problem: edge 'r27' (eventbridge_scheduler -> ingestion_lambda) runs through component 'billing_s3'; add or move waypoints to route around it",
+        "exported with layout problem: edge 'ar2' (ingestion_lambda -> secrets_manager) runs through component 'textract'; add or move waypoints to route around it",
+        "exported with layout problem: edge 'ar3' (integration_lambda -> secrets_manager) runs through component 'textract'; add or move waypoints to route around it",
+        "exported with layout problem: edge 'ar4' (cloudwatch -> billing_s3) runs through component 'cloudtrail'; add or move waypoints to route around it"
+      ],
+      "ts": "2026-10-12T08:50:48+00:00"
+    },
+    {
+      "step": "export",
+      "attempt": 1,
+      "ok": true,
+      "in_counts": {
+        "drawio": 1
+      },
+      "out_counts": {
+        "png": 1,
+        "svg": 1
+      },
+      "added_ids": [],
+      "dropped": [],
+      "errors": [],
+      "warnings": [],
+      "ts": "2026-10-12T08:50:54+00:00"
+    }
+  ],
+  "diagram_coverage": {
+    "ok": true,
+    "errors": [],
+    "missing_components": [],
+    "missing_relationships": [],
+    "reversed_relationships": [],
+    "missing_boundaries": [],
+    "extra_icon_ids": [],
+    "dangling_edges": [],
+    "unmapped_edges": [],
+    "post_process": "Post-processing: no changes needed"
+  },
+  "warnings": [
+    "harness_1: unverified quote for r31 (adr.md): quote not found in file",
+    "harness_3: exported with layout problem: component 'dispute_api' must sit fully inside its boundary 'private_subnet_us_east_1a' (with 10px padding)",
+    "harness_3: exported with layout problem: component 'dispute_db' must sit fully inside its boundary 'private_subnet_us_east_1a' (with 10px padding)",
+    "harness_3: exported with layout problem: component 'vpc_endpoints' must sit fully inside its boundary 'private_subnet_us_east_1a' (with 10px padding)",
+    "harness_3: exported with layout problem: group 'private_subnet_us_east_1a' must sit fully inside its parent 'az_us_east_1a' (with 10px padding)",
+    "harness_3: exported with layout problem: edge 'r10' (dispute_api -> bedrock) runs through component 'athena'; add or move waypoints to route around it",
+    "harness_3: exported with layout problem: edge 'r11' (dispute_api -> sqs_retry) runs through component 'billing_s3'; add or move waypoints to route around it",
+    "harness_3: exported with layout problem: edge 'r12' (sqs_retry -> integration_lambda) runs through component 'glue_catalog'; add or move waypoints to route around it",
+    "harness_3: exported with layout problem: edge 'r18' (sftp_transfer -> billing_s3) runs through component 'glue_catalog'; add or move waypoints to route around it",
+    "harness_3: exported with layout problem: edge 'r25' (dispute_api -> secrets_manager) runs through component 'textract'; add or move waypoints to route around it",
+    "harness_3: exported with layout problem: edge 'r27' (eventbridge_scheduler -> ingestion_lambda) runs through component 'billing_s3'; add or move waypoints to route around it",
+    "harness_3: exported with layout problem: edge 'ar2' (ingestion_lambda -> secrets_manager) runs through component 'textract'; add or move waypoints to route around it",
+    "harness_3: exported with layout problem: edge 'ar3' (integration_lambda -> secrets_manager) runs through component 'textract'; add or move waypoints to route around it",
+    "harness_3: exported with layout problem: edge 'ar4' (cloudwatch -> billing_s3) runs through component 'cloudtrail'; add or move waypoints to route around it"
+  ],
+  "outputs": [
+    "diagram.png",
+    "diagram.svg",
+    "diagram.drawio",
+    "assumptions.json",
+    "unresolved.json",
+    "contradictions.json"
+  ]
+}

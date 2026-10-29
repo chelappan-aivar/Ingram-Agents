@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ingram Architecture Agent</title>
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self';
+                 connect-src 'self' https://6z8b7f8w27.execute-api.us-east-1.amazonaws.com; img-src 'self' data: blob:">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-view="app">
+  <!-- ============================================================ app -->
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="brand" aria-label="Ingram Micro"><span class="brand-mark">INGRAM</span><span class="brand-sub">MICRO</span></span>
+        <span class="app-name">Architecture Agent</span>
+        <span class="tag">PILOT</span>
+      </div>
+      <div class="topbar-right">
+        <span id="quota" class="muted small"></span>
+        <div class="theme-toggle" role="group" aria-label="Theme" data-theme-toggle></div>
+      </div>
+    </header>
+
+    <main class="dash">
+      <div class="grid">
+        <div class="col-left">
+          <section class="card" aria-labelledby="new-title">
+            <h2 id="new-title">New architecture</h2>
+            <p class="card-sub">Add the software requirements (SRS). The agent writes the ADR, draws the AWS diagram and estimates usage. It takes 3 to 5 minutes.</p>
+            <form id="run-form" novalidate>
+              <label for="title">Title <span class="muted">(optional)</span></label>
+              <input id="title" type="text" maxlength="200" autocomplete="off" placeholder="Billing dispute assistant">
+              <label for="text">Requirements</label>
+              <textarea id="text" rows="9" maxlength="200000" aria-describedby="text-count"
+                        placeholder="Paste the SRS: goals, users, functional and non-functional requirements, constraints, integrations…"></textarea>
+              <div id="drop" class="drop">
+                <label for="file" class="file-pick">Upload a file</label>
+                <span class="muted">or drop it here · .md, .txt, .docx, .pdf up to 4 MB</span>
+                <input id="file" class="sr-only" type="file"
+                       accept=".md,.markdown,.txt,.docx,.pdf,text/markdown,text/plain,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+              </div>
+              <ul id="file-list" class="file-list" aria-label="File to upload"></ul>
+              <div class="actions">
+                <button id="start" type="submit" class="btn primary" disabled>Generate architecture</button>
+                <button id="clear" type="button" class="btn" disabled>Clear</button>
+                <button id="sample" type="button" class="btn ghost">Use a sample</button>
+                <span id="text-count" class="counter">0 / 200,000</span>
+              </div>
+            </form>
+            <p id="form-status" class="status-line muted" role="status" aria-live="polite"></p>
+          </section>
+
+          <section class="card" aria-labelledby="history-title">
+            <div class="card-head">
+              <h2 id="history-title">History</h2>
+              <button id="history-refresh" class="btn sm" type="button">Refresh</button>
+            </div>
+            <ul id="history" class="cards" aria-label="Previous runs"></ul>
+          </section>
+        </div>
+
+        <section class="card" id="result-card" aria-labelledby="result-title">
+          <div id="result-empty" class="empty">
+            <h2 id="result-title">No run selected</h2>
+            <p>Start a new architecture or open one from the history.</p>
+          </div>
+
+          <div id="result" hidden>
+            <div class="detail-head">
+              <div>
+                <h2 id="run-title">Run</h2>
+                <p id="run-sub" class="card-sub"></p>
+              </div>
+              <div class="detail-side">
+                <span id="status-pill" class="pill board-pill"></span>
+                <label for="version-pick" class="sr-only">Version</label>
+                <select id="version-pick"></select>
+              </div>
+            </div>
+
+            <div id="running" class="running" hidden>
+              <div class="progress" role="progressbar" aria-label="Run progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress"><div id="progress-bar"></div></div>
+              <ol id="steps" class="steps" aria-label="Steps"></ol>
+            </div>
+            <p id="run-error" class="error" role="alert" hidden></p>
+
+            <div id="stats" class="stats"></div>
+
+            <nav class="subtabs" aria-label="Outputs">
+              <button type="button" class="subtab" data-out="diagram" aria-current="page">Diagram</button>
+              <button type="button" class="subtab" data-out="adr">Decision record</button>
+              <button type="button" class="subtab" data-out="usage">Usage estimate</button>
+              <button type="button" class="subtab" data-out="review">Gaps &amp; assumptions</button>
+            </nav>
+            <div id="out-diagram" data-out-panel="diagram"></div>
+            <div id="out-adr" data-out-panel="adr" hidden></div>
+            <div id="out-usage" data-out-panel="usage" hidden></div>
+            <div id="out-review" data-out-panel="review" hidden></div>
+
+            <details id="revise-panel" class="section">
+              <summary>Revise the design</summary>
+              <form id="revise-form" class="revise-form" novalidate>
+                <label for="instruction">What should change?</label>
+                <textarea id="instruction" rows="3" maxlength="4000"
+                          placeholder="e.g. Use Aurora Serverless v2 instead of RDS, and make the database Multi-AZ."></textarea>
+                <div class="actions">
+                  <button id="revise" type="submit" class="btn primary">Create new version</button>
+                  <span class="hint">A new version re-runs the ADR, the diagram and the usage estimate (2 model calls).</span>
+                </div>
+                <p id="revise-status" class="status-line muted" role="status" aria-live="polite"></p>
+              </form>
+            </details>
+            <details id="log-panel" class="section">
+              <summary>Agent log</summary>
+              <ol id="log" class="audit"></ol>
+            </details>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="markdown.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

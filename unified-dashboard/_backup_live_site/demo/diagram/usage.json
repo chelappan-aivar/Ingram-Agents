@@ -1,0 +1,117 @@
+{
+  "services": {
+    "networking_and_cdn": [
+      {
+        "service": "Amazon CloudFront",
+        "data_transfer_out_gb": 40,
+        "requests_per_month": 600000,
+        "origin_type": "S3 + ALB",
+        "price_class": "Price Class 100"
+      },
+      {
+        "service": "Application Load Balancer",
+        "load_balancer_count": 1,
+        "lcu_per_hour": 1,
+        "rules_count": 6,
+        "availability_zones": 1
+      },
+      {
+        "service": "NAT Gateway",
+        "gateway_count": 1,
+        "data_processed_gb": 120,
+        "availability_zones": 1
+      },
+      {
+        "service": "Amazon API Gateway",
+        "api_type": "HTTP",
+        "api_calls_per_month": 450000,
+        "data_transfer_out_gb": 10
+      }
+    ],
+    "serverless_compute": [
+      {
+        "service": "AWS Lambda",
+        "invocations_per_month": 180000,
+        "average_duration_seconds": 12,
+        "memory_mb": 1024,
+        "memory_gb": 1,
+        "architecture": "arm64"
+      }
+    ],
+    "containers": [
+      {
+        "service": "AWS Fargate",
+        "vcpu_hours_per_month": 1440,
+        "memory_gb_per_month": 2880,
+        "operating_system": "Linux",
+        "architecture": "arm64"
+      }
+    ],
+    "database": [
+      {
+        "service": "Amazon RDS",
+        "engine": "PostgreSQL",
+        "instance_class": "db.t4g.medium",
+        "instance_count": 1,
+        "storage_gb": 100,
+        "multi_az": false,
+        "backup_retention_days": 7
+      }
+    ],
+    "storage": [
+      {
+        "service": "Amazon S3",
+        "standard_storage_gb": 800,
+        "glacier_flexible_retrieval_gb": 2400,
+        "put_requests_per_month": 300000,
+        "get_requests_per_month": 1200000
+      }
+    ],
+    "analytics": [
+      {
+        "service": "AWS Glue",
+        "worker_type": "G.1X",
+        "workers": 2,
+        "job_hours_per_month": 60,
+        "data_catalog_objects": 200
+      },
+      {
+        "service": "Amazon Athena",
+        "data_scanned_tb_per_month": 1.5,
+        "queries_per_month": 4000,
+        "format": "Parquet"
+      }
+    ],
+    "ai_ml": [
+      {
+        "service": "Amazon Bedrock",
+        "model": "Anthropic Claude Sonnet 4.6",
+        "input_tokens_per_month": 90000000,
+        "output_tokens_per_month": 18000000,
+        "requests_per_month": 36000
+      },
+      {
+        "service": "Amazon Textract",
+        "pages_per_month": 24000,
+        "feature": "DetectDocumentText",
+        "mode": "Asynchronous"
+      }
+    ],
+    "security_and_identity": [
+      {
+        "service": "Amazon Cognito",
+        "tier": "Essentials",
+        "monthly_active_users": 150,
+        "federation": "SAML 2.0"
+      }
+    ],
+    "application_integration": [
+      {
+        "service": "Amazon SQS",
+        "queue_type": "Standard",
+        "requests_per_month": 900000,
+        "dead_letter_queue": true
+      }
+    ]
+  }
+}

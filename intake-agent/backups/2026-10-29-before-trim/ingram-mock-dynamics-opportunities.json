@@ -1,0 +1,1868 @@
+{
+    "Items": [
+        {
+            "ingr_endcustomercontactname": {
+                "S": "Vikram Shah"
+            },
+            "ingr_partnercontacttype": {
+                "S": "Reseller"
+            },
+            "_customerid_value": {
+                "S": "059221f0-b760-4201-9881-61d3b8587613"
+            },
+            "estimatedvalue": {
+                "N": "180000"
+            },
+            "ingr_fundvms": {
+                "N": "100000000"
+            },
+            "createdon": {
+                "S": "2026-10-26T20:26:09Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T20:26:09Z"
+            },
+            "ingr_fundsegment": {
+                "N": "100000000"
+            },
+            "ingr_aceregistered": {
+                "N": "100000000"
+            },
+            "ingr_ingramaccountmanager": {
+                "S": "Rahul Menon"
+            },
+            "ingr_likelihoodselected": {
+                "N": "100000000"
+            },
+            "ingr_partnercontactemail": {
+                "S": "priya.raman@aivar.tech"
+            },
+            "ingr_companyname": {
+                "S": "Aivar Innovations"
+            },
+            "ingr_endcustomercontactphone": {
+                "S": "+91 99000 22110"
+            },
+            "ingr_fundworkload": {
+                "N": "100000000"
+            },
+            "ingr_partoflargerprogram": {
+                "N": "100000001"
+            },
+            "ingr_competition": {
+                "S": "None known."
+            },
+            "ingr_formcompletiontime": {
+                "S": "2026-10-01T09:25:00Z"
+            },
+            "ingr_cstimeline": {
+                "N": "100000001"
+            },
+            "ingr_ingramcontact": {
+                "S": "Anita Desai"
+            },
+            "ingr_requesttype": {
+                "N": "100000001"
+            },
+            "description": {
+                "S": "Seed-funded robotics startup running 35 VMs on VMware in a Bengaluru colo. Wants to rehost on EC2 in ap-south-1 before the colo contract ends in March."
+            },
+            "ingr_endcustomername": {
+                "S": "Tailwind Robotics"
+            },
+            "ingr_partnersowauthority": {
+                "N": "100000000"
+            },
+            "ingr_ingramcontactphone": {
+                "S": "+91 80 4012 5500"
+            },
+            "ingr_endcustomerpostcode": {
+                "S": "560103"
+            },
+            "estimatedclosedate": {
+                "S": "2026-12-15"
+            },
+            "ingr_csvendor": {
+                "N": "100000000"
+            },
+            "ingr_awsopportunitytype": {
+                "N": "100000000"
+            },
+            "ingr_partnercontactphone": {
+                "S": "+91 98450 11223"
+            },
+            "ingr_endcustomerjobtitle": {
+                "S": "CTO"
+            },
+            "name": {
+                "S": "Tailwind Robotics - VMware exit to AWS"
+            },
+            "ingr_campaigncode": {
+                "S": "AWS-MIG-Q4"
+            },
+            "ingr_ingramcountry": {
+                "S": "India"
+            },
+            "ingr_csopportunityid": {
+                "S": "CS-24-1101"
+            },
+            "ingr_formstarttime": {
+                "S": "2026-10-01T09:10:00Z"
+            },
+            "ingr_compellingevent": {
+                "S": "Colocation contract ends 31 March 2027."
+            },
+            "ingr_endcustomerindustry": {
+                "S": "Manufacturing"
+            },
+            "ingr_formresponseid": {
+                "S": "1000"
+            },
+            "ingr_estimatedarr": {
+                "S": "180,000"
+            },
+            "ingr_partnercontactname": {
+                "S": "Priya Raman"
+            },
+            "ingr_aceid": {
+                "S": "O1234567"
+            },
+            "ingr_endcustomercountry": {
+                "S": "India"
+            },
+            "statecode": {
+                "N": "0"
+            },
+            "ingr_endcustomercontactemail": {
+                "S": "vikram@tailwindrobotics.example"
+            },
+            "ingr_endcustomerdomain": {
+                "S": "tailwindrobotics.example"
+            },
+            "ingr_csopportunitytitle": {
+                "S": "Tailwind Robotics VMware exit to AWS"
+            },
+            "ingr_fundmrrusd": {
+                "N": "15000"
+            },
+            "ingr_submittername": {
+                "S": "Priya Raman"
+            },
+            "ingr_closetodecisionmaker": {
+                "N": "100000000"
+            },
+            "ingr_fundmigrationsource": {
+                "N": "100000000"
+            },
+            "ingr_csopportunitydetails": {
+                "S": "Seed-funded robotics startup running 35 VMs on VMware in a Bengaluru colo. Wants to rehost on EC2 in ap-south-1 before the colo contract ends in March."
+            },
+            "ingr_budgetallocated": {
+                "N": "100000000"
+            },
+            "ingr_ingrambu": {
+                "S": "Cloud"
+            },
+            "ingr_csnextstep": {
+                "S": "Migration readiness assessment and a MAP Lite funding request."
+            },
+            "ingr_deliverytimeline": {
+                "N": "100000001"
+            },
+            "opportunityid": {
+                "S": "f5c4fda7-0a65-4cb0-bc39-c87dd5d43372"
+            },
+            "ingr_likelihoodproceed": {
+                "N": "100000000"
+            },
+            "ingr_submitteremail": {
+                "S": "priya.raman@aivar.tech"
+            }
+        },
+        {
+            "ingr_endcustomercontactname": {
+                "S": "Kavya Nair"
+            },
+            "ingr_partnercontacttype": {
+                "S": "Reseller"
+            },
+            "estimatedvalue": {
+                "N": "360000"
+            },
+            "_customerid_value": {
+                "S": "450320c3-423f-4229-b6b5-8e9a38749d16"
+            },
+            "ingr_fundvms": {
+                "N": "100000000"
+            },
+            "createdon": {
+                "S": "2026-10-28T19:36:01Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:36:01Z"
+            },
+            "ingr_fundsegment": {
+                "N": "100000000"
+            },
+            "ingr_ingramaccountmanager": {
+                "S": "Rahul Menon"
+            },
+            "ingr_aceregistered": {
+                "N": "100000001"
+            },
+            "ingr_likelihoodselected": {
+                "N": "100000000"
+            },
+            "ingr_partnercontactemail": {
+                "S": "priya.raman@aivar.tech"
+            },
+            "ingr_companyname": {
+                "S": "Aivar Innovations"
+            },
+            "ingr_fundworkload": {
+                "N": "100000000"
+            },
+            "ingr_endcustomercontactphone": {
+                "S": "+91 80 4555 1200"
+            },
+            "ingr_partoflargerprogram": {
+                "N": "100000001"
+            },
+            "ingr_formcompletiontime": {
+                "S": "2026-10-18T09:42:00Z"
+            },
+            "ingr_cstimeline": {
+                "N": "100000002"
+            },
+            "ingr_ingramcontact": {
+                "S": "Anita Desai"
+            },
+            "ingr_requesttype": {
+                "N": "100000001"
+            },
+            "ingr_endcustomername": {
+                "S": "Orbit Mobility"
+            },
+            "description": {
+                "S": "Series B mobility startup migrating its fleet-tracking platform (60 VMs) from a colocation facility to AWS Mumbai."
+            },
+            "ingr_partnersowauthority": {
+                "N": "100000000"
+            },
+            "ingr_ingramcontactphone": {
+                "S": "+91 80 4012 5500"
+            },
+            "ingr_endcustomerpostcode": {
+                "S": "560001"
+            },
+            "estimatedclosedate": {
+                "S": "2027-03-05"
+            },
+            "ingr_partnercontactphone": {
+                "S": "+91 98450 11223"
+            },
+            "ingr_awsopportunitytype": {
+                "N": "100000000"
+            },
+            "ingr_csvendor": {
+                "N": "100000000"
+            },
+            "ingr_endcustomerjobtitle": {
+                "S": "VP Engineering"
+            },
+            "name": {
+                "S": "Orbit Mobility - fleet platform migration"
+            },
+            "ingr_ingramcountry": {
+                "S": "India"
+            },
+            "ingr_formstarttime": {
+                "S": "2026-10-18T09:27:00Z"
+            },
+            "ingr_csopportunityid": {
+                "S": "CS-24-1320"
+            },
+            "ingr_endcustomerindustry": {
+                "S": "Transportation"
+            },
+            "ingr_formresponseid": {
+                "S": "1017"
+            },
+            "ingr_estimatedarr": {
+                "S": "360,000"
+            },
+            "ingr_partnercontactname": {
+                "S": "Priya Raman"
+            },
+            "ingr_endcustomercontactemail": {
+                "S": "kavya.nair@orbitmobility.example"
+            },
+            "ingr_endcustomercountry": {
+                "S": "India"
+            },
+            "statecode": {
+                "N": "0"
+            },
+            "ingr_endcustomerdomain": {
+                "S": "orbitmobility.example"
+            },
+            "ingr_csopportunitytitle": {
+                "S": "Orbit Mobility fleet platform to AWS"
+            },
+            "ingr_fundmrrusd": {
+                "N": "30000"
+            },
+            "ingr_submittername": {
+                "S": "Priya Raman"
+            },
+            "ingr_closetodecisionmaker": {
+                "N": "100000000"
+            },
+            "ingr_fundmigrationsource": {
+                "N": "100000002"
+            },
+            "ingr_csopportunitydetails": {
+                "S": "Series B mobility startup migrating its fleet-tracking platform (60 VMs) from a colocation facility to AWS Mumbai."
+            },
+            "ingr_budgetallocated": {
+                "N": "100000000"
+            },
+            "ingr_ingrambu": {
+                "S": "Cloud"
+            },
+            "ingr_deliverytimeline": {
+                "N": "100000002"
+            },
+            "opportunityid": {
+                "S": "d74f79fd-4a11-448a-b2b6-3a5818516f8a"
+            },
+            "ingr_likelihoodproceed": {
+                "N": "100000000"
+            },
+            "ingr_submitteremail": {
+                "S": "priya.raman@aivar.tech"
+            }
+        },
+        {
+            "ingr_endcustomercontactname": {
+                "S": "Helen Ward"
+            },
+            "ingr_daidetails": {
+                "S": "Pioneer Mutual is rolling a claims-handling copilot on Amazon Bedrock into production for 800 handlers after a successful pilot. Expected AWS spend is 40,000 USD per month."
+            },
+            "ingr_partnercontacttype": {
+                "S": "Reseller"
+            },
+            "_customerid_value": {
+                "S": "d23fe790-0135-4f38-97fe-4b2c1a937bcf"
+            },
+            "estimatedvalue": {
+                "N": "480000"
+            },
+            "createdon": {
+                "S": "2026-10-28T19:36:06Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:36:06Z"
+            },
+            "ingr_fundsegment": {
+                "N": "100000001"
+            },
+            "ingr_ingramaccountmanager": {
+                "S": "Sophie Turner"
+            },
+            "ingr_likelihoodselected": {
+                "N": "100000000"
+            },
+            "ingr_partnercontactemail": {
+                "S": "daniel.brooks@contosopartners.example"
+            },
+            "ingr_daiopportunityid": {
+                "S": "DAI-24-0501"
+            },
+            "ingr_companyname": {
+                "S": "Contoso Partners"
+            },
+            "ingr_fundgenaistage": {
+                "N": "100000001"
+            },
+            "ingr_endcustomercontactphone": {
+                "S": "+44 161 496 0800"
+            },
+            "ingr_fundworkload": {
+                "N": "100000001"
+            },
+            "ingr_partoflargerprogram": {
+                "N": "100000001"
+            },
+            "ingr_partnersupportareas": {
+                "S": "Solution architecture review and AWS funding paperwork."
+            },
+            "ingr_daivendor": {
+                "N": "100000000"
+            },
+            "ingr_dainextstep": {
+                "S": "Joint scoping call with the AWS Gen AI specialist."
+            },
+            "ingr_formcompletiontime": {
+                "S": "2026-10-19T09:43:00Z"
+            },
+            "ingr_partnercapabilities": {
+                "S": "AWS Advanced Tier partner; 6 certified ML engineers."
+            },
+            "ingr_ingramcontact": {
+                "S": "Alex Parkinson"
+            },
+            "ingr_requesttype": {
+                "N": "100000005"
+            },
+            "description": {
+                "S": "Pioneer Mutual is rolling a claims-handling copilot on Amazon Bedrock into production for 800 handlers after a successful pilot. Expected AWS spend is 40,000 USD per month."
+            },
+            "ingr_endcustomername": {
+                "S": "Pioneer Mutual"
+            },
+            "ingr_partnersowauthority": {
+                "N": "100000000"
+            },
+            "ingr_ingramcontactphone": {
+                "S": "+44 1442 885 000"
+            },
+            "ingr_fundgenaitype": {
+                "N": "100000000"
+            },
+            "ingr_endcustomerpostcode": {
+                "S": "M2 3AB"
+            },
+            "estimatedclosedate": {
+                "S": "2027-02-20"
+            },
+            "ingr_partnercontactphone": {
+                "S": "+44 20 7946 0101"
+            },
+            "ingr_endcustomerjobtitle": {
+                "S": "Chief Data Officer"
+            },
+            "name": {
+                "S": "Pioneer Mutual - claims copilot in production"
+            },
+            "ingr_ingramcountry": {
+                "S": "United Kingdom"
+            },
+            "ingr_formstarttime": {
+                "S": "2026-10-19T09:28:00Z"
+            },
+            "ingr_endcustomerindustry": {
+                "S": "Financial Services"
+            },
+            "ingr_daistage": {
+                "N": "100000003"
+            },
+            "ingr_formresponseid": {
+                "S": "1018"
+            },
+            "ingr_daiprojectkind": {
+                "N": "100000000"
+            },
+            "ingr_partnercontactname": {
+                "S": "Daniel Brooks"
+            },
+            "ingr_endcustomercountry": {
+                "S": "United Kingdom"
+            },
+            "statecode": {
+                "N": "0"
+            },
+            "ingr_endcustomercontactemail": {
+                "S": "helen.ward@pioneermutual.example"
+            },
+            "ingr_endcustomerdomain": {
+                "S": "pioneermutual.example"
+            },
+            "ingr_daitimeline": {
+                "N": "100000001"
+            },
+            "ingr_fundmrrusd": {
+                "N": "40000"
+            },
+            "ingr_submittername": {
+                "S": "Daniel Brooks"
+            },
+            "ingr_closetodecisionmaker": {
+                "N": "100000000"
+            },
+            "ingr_daibudget": {
+                "N": "100000000"
+            },
+            "ingr_budgetallocated": {
+                "N": "100000000"
+            },
+            "ingr_ingrambu": {
+                "S": "Advanced Solutions"
+            },
+            "ingr_deliverytimeline": {
+                "N": "100000001"
+            },
+            "opportunityid": {
+                "S": "34b7314e-50d9-4910-8108-7427d5224c12"
+            },
+            "ingr_submitteremail": {
+                "S": "daniel.brooks@contosopartners.example"
+            },
+            "ingr_daititle": {
+                "S": "Pioneer Mutual claims copilot"
+            },
+            "ingr_likelihoodproceed": {
+                "N": "100000000"
+            }
+        },
+        {
+            "ingr_endcustomercontactname": {
+                "S": "Felix Braun"
+            },
+            "ingr_daidetails": {
+                "S": "Quantum Learn is an edtech startup (25 people) modernising its existing tutoring chatbot to Amazon Bedrock."
+            },
+            "ingr_partnercontacttype": {
+                "S": "Reseller"
+            },
+            "_customerid_value": {
+                "S": "3100397e-3ef0-4b8a-8edb-fc2e44460852"
+            },
+            "estimatedvalue": {
+                "N": "90000"
+            },
+            "createdon": {
+                "S": "2026-10-28T19:36:10Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:36:10Z"
+            },
+            "ingr_fundsegment": {
+                "N": "100000000"
+            },
+            "ingr_ingramaccountmanager": {
+                "S": "Lena Fischer"
+            },
+            "ingr_likelihoodselected": {
+                "N": "100000000"
+            },
+            "ingr_daiopportunityid": {
+                "S": "DAI-24-0522"
+            },
+            "ingr_partnercontactemail": {
+                "S": "priya.raman@aivar.tech"
+            },
+            "ingr_companyname": {
+                "S": "Aivar Innovations"
+            },
+            "ingr_fundgenaistage": {
+                "N": "100000000"
+            },
+            "ingr_endcustomercontactphone": {
+                "S": "+49 69 5550 3300"
+            },
+            "ingr_fundworkload": {
+                "N": "100000001"
+            },
+            "ingr_partoflargerprogram": {
+                "N": "100000001"
+            },
+            "ingr_partnersupportareas": {
+                "S": "Solution architecture review and AWS funding paperwork."
+            },
+            "ingr_dainextstep": {
+                "S": "Joint scoping call with the AWS Gen AI specialist."
+            },
+            "ingr_daivendor": {
+                "N": "100000000"
+            },
+            "ingr_formcompletiontime": {
+                "S": "2026-10-20T09:44:00Z"
+            },
+            "ingr_partnercapabilities": {
+                "S": "AWS Advanced Tier partner; 6 certified ML engineers."
+            },
+            "ingr_ingramcontact": {
+                "S": "Jonas Weber"
+            },
+            "ingr_requesttype": {
+                "N": "100000005"
+            },
+            "ingr_endcustomername": {
+                "S": "Quantum Learn"
+            },
+            "description": {
+                "S": "Quantum Learn is an edtech startup (25 people) modernising its existing tutoring chatbot to Amazon Bedrock."
+            },
+            "ingr_partnersowauthority": {
+                "N": "100000000"
+            },
+            "ingr_ingramcontactphone": {
+                "S": "+49 89 4208 0"
+            },
+            "ingr_fundgenaitype": {
+                "N": "100000001"
+            },
+            "ingr_endcustomerpostcode": {
+                "S": "60311"
+            },
+            "estimatedclosedate": {
+                "S": "2027-01-25"
+            },
+            "ingr_partnercontactphone": {
+                "S": "+91 98450 11223"
+            },
+            "ingr_endcustomerjobtitle": {
+                "S": "Co-founder"
+            },
+            "name": {
+                "S": "Quantum Learn - tutor assistant modernisation"
+            },
+            "ingr_ingramcountry": {
+                "S": "Germany"
+            },
+            "ingr_formstarttime": {
+                "S": "2026-10-20T09:29:00Z"
+            },
+            "ingr_endcustomerindustry": {
+                "S": "Education"
+            },
+            "ingr_formresponseid": {
+                "S": "1019"
+            },
+            "ingr_daistage": {
+                "N": "100000002"
+            },
+            "ingr_daiprojectkind": {
+                "N": "100000000"
+            },
+            "ingr_partnercontactname": {
+                "S": "Priya Raman"
+            },
+            "statecode": {
+                "N": "0"
+            },
+            "ingr_endcustomercountry": {
+                "S": "Germany"
+            },
+            "ingr_endcustomercontactemail": {
+                "S": "felix@quantumlearn.example"
+            },
+            "ingr_endcustomerdomain": {
+                "S": "quantumlearn.example"
+            },
+            "ingr_daitimeline": {
+                "N": "100000001"
+            },
+            "ingr_submittername": {
+                "S": "Priya Raman"
+            },
+            "ingr_fundmrrusd": {
+                "N": "7500"
+            },
+            "ingr_daibudget": {
+                "N": "100000000"
+            },
+            "ingr_closetodecisionmaker": {
+                "N": "100000000"
+            },
+            "ingr_budgetallocated": {
+                "N": "100000000"
+            },
+            "ingr_ingrambu": {
+                "S": "Cloud"
+            },
+            "ingr_deliverytimeline": {
+                "N": "100000000"
+            },
+            "opportunityid": {
+                "S": "7861a9d0-4bf1-499c-ac19-53ce495cac0c"
+            },
+            "ingr_daititle": {
+                "S": "Quantum Learn tutor assistant modernisation"
+            },
+            "ingr_submitteremail": {
+                "S": "priya.raman@aivar.tech"
+            },
+            "ingr_likelihoodproceed": {
+                "N": "100000000"
+            }
+        },
+        {
+            "ingr_endcustomercontactname": {
+                "S": "Paul Reeves"
+            },
+            "ingr_partnercontacttype": {
+                "S": "Reseller"
+            },
+            "_customerid_value": {
+                "S": "83595c4b-a530-4397-84b8-676dd2c09319"
+            },
+            "estimatedvalue": {
+                "N": "780000"
+            },
+            "ingr_fundvms": {
+                "N": "100000000"
+            },
+            "createdon": {
+                "S": "2026-10-28T19:35:54Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:35:54Z"
+            },
+            "ingr_fundsegment": {
+                "N": "100000001"
+            },
+            "ingr_aceregistered": {
+                "N": "100000000"
+            },
+            "ingr_ingramaccountmanager": {
+                "S": "Sophie Turner"
+            },
+            "ingr_likelihoodselected": {
+                "N": "100000000"
+            },
+            "ingr_partnercontactemail": {
+                "S": "daniel.brooks@contosopartners.example"
+            },
+            "ingr_companyname": {
+                "S": "Contoso Partners"
+            },
+            "ingr_endcustomercontactphone": {
+                "S": "+44 131 496 0700"
+            },
+            "ingr_fundworkload": {
+                "N": "100000000"
+            },
+            "ingr_partoflargerprogram": {
+                "N": "100000001"
+            },
+            "ingr_formcompletiontime": {
+                "S": "2026-10-16T09:40:00Z"
+            },
+            "ingr_cstimeline": {
+                "N": "100000003"
+            },
+            "ingr_ingramcontact": {
+                "S": "Alex Parkinson"
+            },
+            "ingr_requesttype": {
+                "N": "100000001"
+            },
+            "ingr_endcustomername": {
+                "S": "Initech Energy"
+            },
+            "description": {
+                "S": "Initech Energy (6,000 employees) is moving its customer billing platform from Azure to AWS. About 150 servers and two Oracle databases are in scope."
+            },
+            "ingr_partnersowauthority": {
+                "N": "100000000"
+            },
+            "ingr_ingramcontactphone": {
+                "S": "+44 1442 885 000"
+            },
+            "ingr_endcustomerpostcode": {
+                "S": "EH2 2ER"
+            },
+            "estimatedclosedate": {
+                "S": "2027-04-15"
+            },
+            "ingr_awsopportunitytype": {
+                "N": "100000000"
+            },
+            "ingr_csvendor": {
+                "N": "100000000"
+            },
+            "ingr_partnercontactphone": {
+                "S": "+44 20 7946 0101"
+            },
+            "ingr_endcustomerjobtitle": {
+                "S": "Head of Infrastructure"
+            },
+            "ingr_ingramcountry": {
+                "S": "United Kingdom"
+            },
+            "name": {
+                "S": "Initech Energy - billing platform move to AWS"
+            },
+            "ingr_csopportunityid": {
+                "S": "CS-24-1301"
+            },
+            "ingr_formstarttime": {
+                "S": "2026-10-16T09:25:00Z"
+            },
+            "ingr_endcustomerindustry": {
+                "S": "Energy"
+            },
+            "ingr_compellingevent": {
+                "S": "Azure enterprise agreement ends in April 2027."
+            },
+            "ingr_formresponseid": {
+                "S": "1015"
+            },
+            "ingr_aceid": {
+                "S": "O3345678"
+            },
+            "ingr_estimatedarr": {
+                "S": "780,000"
+            },
+            "ingr_partnercontactname": {
+                "S": "Daniel Brooks"
+            },
+            "ingr_endcustomercountry": {
+                "S": "United Kingdom"
+            },
+            "statecode": {
+                "N": "0"
+            },
+            "ingr_endcustomercontactemail": {
+                "S": "paul.reeves@initechenergy.example"
+            },
+            "ingr_endcustomerdomain": {
+                "S": "initechenergy.example"
+            },
+            "ingr_csopportunitytitle": {
+                "S": "Initech Energy billing platform to AWS"
+            },
+            "ingr_fundmrrusd": {
+                "N": "65000"
+            },
+            "ingr_submittername": {
+                "S": "Daniel Brooks"
+            },
+            "ingr_closetodecisionmaker": {
+                "N": "100000000"
+            },
+            "ingr_fundmigrationsource": {
+                "N": "100000001"
+            },
+            "ingr_csopportunitydetails": {
+                "S": "Initech Energy (6,000 employees) is moving its customer billing platform from Azure to AWS. About 150 servers and two Oracle databases are in scope."
+            },
+            "ingr_budgetallocated": {
+                "N": "100000000"
+            },
+            "ingr_ingrambu": {
+                "S": "Advanced Solutions"
+            },
+            "ingr_deliverytimeline": {
+                "N": "100000003"
+            },
+            "opportunityid": {
+                "S": "0c7c9263-d0f6-412f-9bc6-0da702090a0c"
+            },
+            "ingr_submitteremail": {
+                "S": "daniel.brooks@contosopartners.example"
+            },
+            "ingr_likelihoodproceed": {
+                "N": "100000000"
+            }
+        },
+        {
+            "ingr_endcustomercontactname": {
+                "S": "Nisha Kapoor"
+            },
+            "ingr_daidetails": {
+                "S": "Proseware is a Series A startup (40 people) building a brand-new customer support assistant on Amazon Bedrock. Nothing exists today."
+            },
+            "ingr_partnercontacttype": {
+                "S": "Reseller"
+            },
+            "estimatedvalue": {
+                "N": "96000"
+            },
+            "_customerid_value": {
+                "S": "3f5db80d-9ddb-4345-b6b6-13c8dfcccfdb"
+            },
+            "createdon": {
+                "S": "2026-10-26T20:26:18Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T20:26:18Z"
+            },
+            "ingr_fundsegment": {
+                "N": "100000000"
+            },
+            "ingr_ingramaccountmanager": {
+                "S": "Rahul Menon"
+            },
+            "ingr_likelihoodselected": {
+                "N": "100000000"
+            },
+            "ingr_daiopportunityid": {
+                "S": "DAI-24-0412"
+            },
+            "ingr_partnercontactemail": {
+                "S": "priya.raman@aivar.tech"
+            },
+            "ingr_companyname": {
+                "S": "Aivar Innovations"
+            },
+            "ingr_endcustomercontactphone": {
+                "S": "+91 98860 44556"
+            },
+            "ingr_fundworkload": {
+                "N": "100000001"
+            },
+            "ingr_partoflargerprogram": {
+                "N": "100000001"
+            },
+            "ingr_partnersupportareas": {
+                "S": "Solution architecture review and AWS funding paperwork."
+            },
+            "ingr_dainextstep": {
+                "S": "Joint scoping call with the AWS Gen AI specialist."
+            },
+            "ingr_daivendor": {
+                "N": "100000000"
+            },
+            "ingr_formcompletiontime": {
+                "S": "2026-10-05T09:29:00Z"
+            },
+            "ingr_partnercapabilities": {
+                "S": "AWS Advanced Tier partner; 6 certified ML engineers."
+            },
+            "ingr_ingramcontact": {
+                "S": "Anita Desai"
+            },
+            "ingr_requesttype": {
+                "N": "100000005"
+            },
+            "description": {
+                "S": "Proseware is a Series A startup (40 people) building a brand-new customer support assistant on Amazon Bedrock. Nothing exists today."
+            },
+            "ingr_endcustomername": {
+                "S": "Proseware"
+            },
+            "ingr_partnersowauthority": {
+                "N": "100000000"
+            },
+            "ingr_ingramcontactphone": {
+                "S": "+91 80 4012 5500"
+            },
+            "ingr_fundgenaitype": {
+                "N": "100000000"
+            },
+            "ingr_endcustomerpostcode": {
+                "S": "411014"
+            },
+            "estimatedclosedate": {
+                "S": "2026-12-31"
+            },
+            "ingr_partnercontactphone": {
+                "S": "+91 98450 11223"
+            },
+            "ingr_endcustomerjobtitle": {
+                "S": "Founder & CEO"
+            },
+            "name": {
+                "S": "Proseware - AI support assistant"
+            },
+            "ingr_ingramcountry": {
+                "S": "India"
+            },
+            "ingr_formstarttime": {
+                "S": "2026-10-05T09:14:00Z"
+            },
+            "ingr_endcustomerindustry": {
+                "S": "Software"
+            },
+            "ingr_daistage": {
+                "N": "100000002"
+            },
+            "ingr_formresponseid": {
+                "S": "1004"
+            },
+            "ingr_daiprojectkind": {
+                "N": "100000000"
+            },
+            "ingr_partnercontactname": {
+                "S": "Priya Raman"
+            },
+            "statecode": {
+                "N": "0"
+            },
+            "ingr_endcustomercountry": {
+                "S": "India"
+            },
+            "ingr_endcustomercontactemail": {
+                "S": "nisha@proseware.example"
+            },
+            "ingr_endcustomerdomain": {
+                "S": "proseware.example"
+            },
+            "ingr_daitimeline": {
+                "N": "100000001"
+            },
+            "ingr_submittername": {
+                "S": "Priya Raman"
+            },
+            "ingr_fundmrrusd": {
+                "N": "8000"
+            },
+            "ingr_daibudget": {
+                "N": "100000000"
+            },
+            "ingr_closetodecisionmaker": {
+                "N": "100000000"
+            },
+            "ingr_budgetallocated": {
+                "N": "100000000"
+            },
+            "ingr_ingrambu": {
+                "S": "Cloud"
+            },
+            "ingr_deliverytimeline": {
+                "N": "100000000"
+            },
+            "opportunityid": {
+                "S": "23e223bb-76cc-4b38-81dd-cc2d20bd6373"
+            },
+            "ingr_likelihoodproceed": {
+                "N": "100000000"
+            },
+            "ingr_submitteremail": {
+                "S": "priya.raman@aivar.tech"
+            },
+            "ingr_daititle": {
+                "S": "Proseware AI support assistant"
+            }
+        },
+        {
+            "ingr_endcustomercontactname": {
+                "S": "Liam O'Connor"
+            },
+            "ingr_partnercontacttype": {
+                "S": "Reseller"
+            },
+            "estimatedvalue": {
+                "N": "150000"
+            },
+            "_customerid_value": {
+                "S": "062df61e-721e-431d-aab9-dcb773b62573"
+            },
+            "createdon": {
+                "S": "2026-10-26T20:26:28Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T20:26:28Z"
+            },
+            "ingr_fundsegment": {
+                "N": "100000001"
+            },
+            "ingr_aceregistered": {
+                "N": "100000001"
+            },
+            "ingr_ingramaccountmanager": {
+                "S": "Sophie Turner"
+            },
+            "ingr_likelihoodselected": {
+                "N": "100000000"
+            },
+            "ingr_partnercontactemail": {
+                "S": "priya.raman@aivar.tech"
+            },
+            "ingr_companyname": {
+                "S": "Aivar Innovations"
+            },
+            "ingr_fundworkload": {
+                "N": "100000002"
+            },
+            "ingr_endcustomercontactphone": {
+                "S": "+353 1 555 0199"
+            },
+            "ingr_partoflargerprogram": {
+                "N": "100000001"
+            },
+            "ingr_formcompletiontime": {
+                "S": "2026-10-10T09:34:00Z"
+            },
+            "ingr_cstimeline": {
+                "N": "100000001"
+            },
+            "ingr_ingramcontact": {
+                "S": "Alex Parkinson"
+            },
+            "ingr_requesttype": {
+                "N": "100000001"
+            },
+            "ingr_endcustomername": {
+                "S": "A. Datum Software"
+            },
+            "description": {
+                "S": "A. Datum, an ISV, is migrating its SaaS product to AWS so it can list it on AWS Marketplace."
+            },
+            "ingr_partnersowauthority": {
+                "N": "100000000"
+            },
+            "ingr_ingramcontactphone": {
+                "S": "+44 1442 885 000"
+            },
+            "ingr_endcustomerpostcode": {
+                "S": "D02 X285"
+            },
+            "estimatedclosedate": {
+                "S": "2027-01-15"
+            },
+            "ingr_csvendor": {
+                "N": "100000000"
+            },
+            "ingr_awsopportunitytype": {
+                "N": "100000002"
+            },
+            "ingr_partnercontactphone": {
+                "S": "+91 98450 11223"
+            },
+            "ingr_endcustomerjobtitle": {
+                "S": "CTO"
+            },
+            "ingr_ingramcountry": {
+                "S": "United Kingdom"
+            },
+            "name": {
+                "S": "A. Datum - ISV product on AWS Marketplace"
+            },
+            "ingr_csopportunityid": {
+                "S": "CS-24-1261"
+            },
+            "ingr_formstarttime": {
+                "S": "2026-10-10T09:19:00Z"
+            },
+            "ingr_endcustomerindustry": {
+                "S": "Software"
+            },
+            "ingr_formresponseid": {
+                "S": "1009"
+            },
+            "ingr_estimatedarr": {
+                "S": "150,000"
+            },
+            "ingr_partnercontactname": {
+                "S": "Priya Raman"
+            },
+            "ingr_endcustomercountry": {
+                "S": "Ireland"
+            },
+            "statecode": {
+                "N": "0"
+            },
+            "ingr_endcustomercontactemail": {
+                "S": "liam@adatum.example"
+            },
+            "ingr_endcustomerdomain": {
+                "S": "adatum.example"
+            },
+            "ingr_csopportunitytitle": {
+                "S": "A. Datum SaaS product to AWS and Marketplace"
+            },
+            "ingr_submittername": {
+                "S": "Priya Raman"
+            },
+            "ingr_fundmrrusd": {
+                "N": "12500"
+            },
+            "ingr_closetodecisionmaker": {
+                "N": "100000000"
+            },
+            "ingr_csopportunitydetails": {
+                "S": "A. Datum, an ISV, is migrating its SaaS product to AWS so it can list it on AWS Marketplace."
+            },
+            "ingr_budgetallocated": {
+                "N": "100000000"
+            },
+            "ingr_ingrambu": {
+                "S": "Advanced Solutions"
+            },
+            "ingr_deliverytimeline": {
+                "N": "100000001"
+            },
+            "opportunityid": {
+                "S": "6c80e2f4-2315-46e6-9da6-6e607eb550e2"
+            },
+            "ingr_likelihoodproceed": {
+                "N": "100000000"
+            },
+            "ingr_submitteremail": {
+                "S": "priya.raman@aivar.tech"
+            }
+        },
+        {
+            "ingr_endcustomercontactname": {
+                "S": "Hannah Clarke"
+            },
+            "ingr_totalsqlservers": {
+                "N": "60"
+            },
+            "ingr_sourceenvironment": {
+                "N": "100000000"
+            },
+            "ingr_endcustomertpid": {
+                "S": "TP-889201"
+            },
+            "ingr_partnercontacttype": {
+                "S": "Reseller"
+            },
+            "estimatedvalue": {
+                "N": "720000"
+            },
+            "_customerid_value": {
+                "S": "25586c7d-660f-4556-a87c-9726ecd38a57"
+            },
+            "createdon": {
+                "S": "2026-10-26T20:26:11Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T20:26:11Z"
+            },
+            "ingr_fundsegment": {
+                "N": "100000001"
+            },
+            "ingr_ingramaccountmanager": {
+                "S": "Sophie Turner"
+            },
+            "ingr_partnercontactemail": {
+                "S": "daniel.brooks@contosopartners.example"
+            },
+            "ingr_companyname": {
+                "S": "Contoso Partners"
+            },
+            "ingr_endcustomercontactphone": {
+                "S": "+44 20 7946 0200"
+            },
+            "ingr_fundworkload": {
+                "N": "100000000"
+            },
+            "ingr_formcompletiontime": {
+                "S": "2026-10-02T09:26:00Z"
+            },
+            "ingr_acevalidated": {
+                "N": "100000000"
+            },
+            "ingr_ingramcontact": {
+                "S": "Alex Parkinson"
+            },
+            "ingr_requesttype": {
+                "N": "100000000"
+            },
+            "ingr_assessmentvendor": {
+                "N": "100000000"
+            },
+            "ingr_endcustomername": {
+                "S": "Woodgrove Bank"
+            },
+            "description": {
+                "S": "Exit two on-premises data centres before the hardware refresh in 2027 and cut hosting costs."
+            },
+            "ingr_partnersowauthority": {
+                "N": "100000000"
+            },
+            "ingr_ingramcontactphone": {
+                "S": "+44 1442 885 000"
+            },
+            "ingr_serviceselection": {
+                "S": "Migration assessment (MAP Assess)"
+            },
+            "ingr_anticipatedstartdate": {
+                "S": "2026-12-01"
+            },
+            "ingr_keydriver": {
+                "S": "Exit two on-premises data centres before the hardware refresh in 2027 and cut hosting costs."
+            },
+            "ingr_endcustomerpostcode": {
+                "S": "EC2V 7HH"
+            },
+            "estimatedclosedate": {
+                "S": "2027-03-31"
+            },
+            "ingr_partnercontactphone": {
+                "S": "+44 20 7946 0101"
+            },
+            "ingr_totalservers": {
+                "N": "400"
+            },
+            "ingr_endcustomerjobtitle": {
+                "S": "CIO"
+            },
+            "name": {
+                "S": "Woodgrove Bank - data centre exit assessment"
+            },
+            "ingr_ingramcountry": {
+                "S": "United Kingdom"
+            },
+            "ingr_formstarttime": {
+                "S": "2026-10-02T09:11:00Z"
+            },
+            "ingr_endcustomerindustry": {
+                "S": "Financial Services"
+            },
+            "ingr_formresponseid": {
+                "S": "1001"
+            },
+            "ingr_totalsqlcores": {
+                "N": "480"
+            },
+            "ingr_partnercontactname": {
+                "S": "Daniel Brooks"
+            },
+            "statecode": {
+                "N": "0"
+            },
+            "ingr_endcustomercountry": {
+                "S": "United Kingdom"
+            },
+            "ingr_endcustomercontactemail": {
+                "S": "hannah.clarke@woodgrovebank.example"
+            },
+            "ingr_endcustomerdomain": {
+                "S": "woodgrovebank.example"
+            },
+            "ingr_fundmrrusd": {
+                "N": "60000"
+            },
+            "ingr_submittername": {
+                "S": "Daniel Brooks"
+            },
+            "ingr_fundmigrationsource": {
+                "N": "100000000"
+            },
+            "ingr_ingrambu": {
+                "S": "Advanced Solutions"
+            },
+            "ingr_aceidassessment": {
+                "S": "O7654321"
+            },
+            "ingr_totalwindowsservers": {
+                "N": "260"
+            },
+            "opportunityid": {
+                "S": "73a90dc9-81a8-4c7d-b2d4-b8b85cf1a03c"
+            },
+            "ingr_discoverytoolpermitted": {
+                "N": "100000000"
+            },
+            "ingr_submitteremail": {
+                "S": "daniel.brooks@contosopartners.example"
+            }
+        },
+        {
+            "ingr_endcustomercontactname": {
+                "S": "Dr Sam Patel"
+            },
+            "ingr_daidetails": {
+                "S": "Northwind Health is a 12,000-employee hospital group. They want a proof of concept for summarising clinical notes with Amazon Bedrock. Expected AWS spend is about 25,000 USD per month once live."
+            },
+            "ingr_partnercontacttype": {
+                "S": "Reseller"
+            },
+            "_customerid_value": {
+                "S": "62a0c491-691b-4c46-9892-32431cb806cd"
+            },
+            "estimatedvalue": {
+                "N": "300000"
+            },
+            "createdon": {
+                "S": "2026-10-26T20:26:14Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T20:26:14Z"
+            },
+            "ingr_fundsegment": {
+                "N": "100000002"
+            },
+            "ingr_ingramaccountmanager": {
+                "S": "Sophie Turner"
+            },
+            "ingr_likelihoodselected": {
+                "N": "100000000"
+            },
+            "ingr_partnercontactemail": {
+                "S": "daniel.brooks@contosopartners.example"
+            },
+            "ingr_daiopportunityid": {
+                "S": "DAI-24-0310"
+            },
+            "ingr_companyname": {
+                "S": "Contoso Partners"
+            },
+            "ingr_fundgenaistage": {
+                "N": "100000002"
+            },
+            "ingr_endcustomercontactphone": {
+                "S": "+44 161 496 0300"
+            },
+            "ingr_fundworkload": {
+                "N": "100000001"
+            },
+            "ingr_partoflargerprogram": {
+                "N": "100000001"
+            },
+            "ingr_partnersupportareas": {
+                "S": "Solution architecture review and AWS funding paperwork."
+            },
+            "ingr_dainextstep": {
+                "S": "Joint scoping call with the AWS Gen AI specialist."
+            },
+            "ingr_daivendor": {
+                "N": "100000000"
+            },
+            "ingr_formcompletiontime": {
+                "S": "2026-10-03T09:27:00Z"
+            },
+            "ingr_partnercapabilities": {
+                "S": "AWS Advanced Tier partner; 6 certified ML engineers."
+            },
+            "ingr_ingramcontact": {
+                "S": "Alex Parkinson"
+            },
+            "ingr_requesttype": {
+                "N": "100000005"
+            },
+            "description": {
+                "S": "Northwind Health is a 12,000-employee hospital group. They want a proof of concept for summarising clinical notes with Amazon Bedrock. Expected AWS spend is about 25,000 USD per month once live."
+            },
+            "ingr_endcustomername": {
+                "S": "Northwind Health"
+            },
+            "ingr_partnersowauthority": {
+                "N": "100000000"
+            },
+            "ingr_ingramcontactphone": {
+                "S": "+44 1442 885 000"
+            },
+            "ingr_fundgenaitype": {
+                "N": "100000000"
+            },
+            "ingr_endcustomerpostcode": {
+                "S": "M1 1AE"
+            },
+            "estimatedclosedate": {
+                "S": "2027-01-31"
+            },
+            "ingr_partnercontactphone": {
+                "S": "+44 20 7946 0101"
+            },
+            "ingr_endcustomerjobtitle": {
+                "S": "Chief Digital Officer"
+            },
+            "ingr_ingramcountry": {
+                "S": "United Kingdom"
+            },
+            "name": {
+                "S": "Northwind Health - clinical notes summarisation"
+            },
+            "ingr_formstarttime": {
+                "S": "2026-10-03T09:12:00Z"
+            },
+            "ingr_compellingevent": {
+                "S": "NHS digital funding window closes in March."
+            },
+            "ingr_endcustomerindustry": {
+                "S": "Healthcare"
+            },
+            "ingr_formresponseid": {
+                "S": "1002"
+            },
+            "ingr_daistage": {
+                "N": "100000001"
+            },
+            "ingr_daiprojectkind": {
+                "N": "100000000"
+            },
+            "ingr_partnercontactname": {
+                "S": "Daniel Brooks"
+            },
+            "ingr_endcustomercountry": {
+                "S": "United Kingdom"
+            },
+            "statecode": {
+                "N": "0"
+            },
+            "ingr_endcustomercontactemail": {
+                "S": "sam.patel@northwindhealth.example"
+            },
+            "ingr_endcustomerdomain": {
+                "S": "northwindhealth.example"
+            },
+            "ingr_daitimeline": {
+                "N": "100000001"
+            },
+            "ingr_submittername": {
+                "S": "Daniel Brooks"
+            },
+            "ingr_closetodecisionmaker": {
+                "N": "100000000"
+            },
+            "ingr_daibudget": {
+                "N": "100000000"
+            },
+            "ingr_budgetallocated": {
+                "N": "100000000"
+            },
+            "ingr_ingrambu": {
+                "S": "Advanced Solutions"
+            },
+            "ingr_deliverytimeline": {
+                "N": "100000001"
+            },
+            "opportunityid": {
+                "S": "7d6f0d5b-8877-4272-bebe-23bb12d4900c"
+            },
+            "ingr_submitteremail": {
+                "S": "daniel.brooks@contosopartners.example"
+            },
+            "ingr_daititle": {
+                "S": "Clinical notes summarisation on Amazon Bedrock"
+            },
+            "ingr_likelihoodproceed": {
+                "N": "100000000"
+            }
+        },
+        {
+            "ingr_endcustomercontactname": {
+                "S": "Mark Jensen"
+            },
+            "ingr_partnercontacttype": {
+                "S": "Reseller"
+            },
+            "estimatedvalue": {
+                "N": "240000"
+            },
+            "_customerid_value": {
+                "S": "4edd77fc-f48f-472a-8169-ed9dfdbfb94b"
+            },
+            "ingr_fundvms": {
+                "N": "100000000"
+            },
+            "createdon": {
+                "S": "2026-10-26T20:26:16Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T20:26:16Z"
+            },
+            "ingr_fundsegment": {
+                "N": "100000001"
+            },
+            "ingr_aceregistered": {
+                "N": "100000001"
+            },
+            "ingr_ingramaccountmanager": {
+                "S": "Lena Fischer"
+            },
+            "ingr_likelihoodselected": {
+                "N": "100000000"
+            },
+            "ingr_partnercontactemail": {
+                "S": "karl.schmidt@fabrikamreseller.example"
+            },
+            "ingr_companyname": {
+                "S": "Fabrikam Reseller"
+            },
+            "ingr_endcustomercontactphone": {
+                "S": "+49 89 5550 1100"
+            },
+            "ingr_fundworkload": {
+                "N": "100000000"
+            },
+            "ingr_partoflargerprogram": {
+                "N": "100000001"
+            },
+            "ingr_competition": {
+                "S": "Azure retention offer from Microsoft."
+            },
+            "ingr_formcompletiontime": {
+                "S": "2026-10-04T09:28:00Z"
+            },
+            "ingr_cstimeline": {
+                "N": "100000002"
+            },
+            "ingr_ingramcontact": {
+                "S": "Jonas Weber"
+            },
+            "ingr_requesttype": {
+                "N": "100000001"
+            },
+            "ingr_endcustomername": {
+                "S": "Litware Inc"
+            },
+            "description": {
+                "S": "Litware is a mid-sized logistics software company (800 employees) moving its customer portal from Microsoft Azure to AWS."
+            },
+            "ingr_partnersowauthority": {
+                "N": "100000001"
+            },
+            "ingr_ingramcontactphone": {
+                "S": "+49 89 4208 0"
+            },
+            "ingr_endcustomerpostcode": {
+                "S": "80331"
+            },
+            "estimatedclosedate": {
+                "S": "2027-02-28"
+            },
+            "ingr_partnercontactphone": {
+                "S": "+49 30 1234 567"
+            },
+            "ingr_awsopportunitytype": {
+                "N": "100000000"
+            },
+            "ingr_csvendor": {
+                "N": "100000000"
+            },
+            "ingr_endcustomerjobtitle": {
+                "S": "VP Engineering"
+            },
+            "ingr_ingramcountry": {
+                "S": "Germany"
+            },
+            "name": {
+                "S": "Litware - customer portal move from Azure"
+            },
+            "ingr_csopportunityid": {
+                "S": "CS-24-1188"
+            },
+            "ingr_formstarttime": {
+                "S": "2026-10-04T09:13:00Z"
+            },
+            "ingr_sowsigneremail": {
+                "S": "meera.iyer@fabrikamreseller.example"
+            },
+            "ingr_endcustomerindustry": {
+                "S": "Software"
+            },
+            "ingr_formresponseid": {
+                "S": "1003"
+            },
+            "ingr_partnercontactname": {
+                "S": "Karl Schmidt"
+            },
+            "ingr_estimatedarr": {
+                "S": "240,000"
+            },
+            "ingr_endcustomercontactemail": {
+                "S": "mark.jensen@litware.example"
+            },
+            "statecode": {
+                "N": "0"
+            },
+            "ingr_endcustomercountry": {
+                "S": "Germany"
+            },
+            "ingr_endcustomerdomain": {
+                "S": "litware.example"
+            },
+            "ingr_csopportunitytitle": {
+                "S": "Litware customer portal from Azure to AWS"
+            },
+            "ingr_fundmrrusd": {
+                "N": "20000"
+            },
+            "ingr_sowsignername": {
+                "S": "Meera Iyer"
+            },
+            "ingr_submittername": {
+                "S": "Karl Schmidt"
+            },
+            "ingr_fundmigrationsource": {
+                "N": "100000001"
+            },
+            "ingr_closetodecisionmaker": {
+                "N": "100000000"
+            },
+            "ingr_csopportunitydetails": {
+                "S": "Litware is a mid-sized logistics software company (800 employees) moving its customer portal from Microsoft Azure to AWS."
+            },
+            "ingr_budgetallocated": {
+                "N": "100000000"
+            },
+            "ingr_ingrambu": {
+                "S": "Cloud"
+            },
+            "ingr_deliverytimeline": {
+                "N": "100000002"
+            },
+            "opportunityid": {
+                "S": "74fb7b6c-48c7-4ee1-beb1-59f1ec5469c7"
+            },
+            "ingr_submitteremail": {
+                "S": "karl.schmidt@fabrikamreseller.example"
+            },
+            "ingr_likelihoodproceed": {
+                "N": "100000001"
+            }
+        },
+        {
+            "ingr_endcustomercontactname": {
+                "S": "Clara Meyer"
+            },
+            "ingr_partnercontacttype": {
+                "S": "Reseller"
+            },
+            "_customerid_value": {
+                "S": "f7903723-23f9-4bd0-b321-ee1079491fe5"
+            },
+            "estimatedvalue": {
+                "N": "144000"
+            },
+            "ingr_fundvms": {
+                "N": "100000001"
+            },
+            "createdon": {
+                "S": "2026-10-28T19:35:58Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:35:58Z"
+            },
+            "ingr_fundsegment": {
+                "N": "100000000"
+            },
+            "ingr_aceregistered": {
+                "N": "100000001"
+            },
+            "ingr_ingramaccountmanager": {
+                "S": "Lena Fischer"
+            },
+            "ingr_likelihoodselected": {
+                "N": "100000000"
+            },
+            "ingr_partnercontactemail": {
+                "S": "karl.schmidt@fabrikamreseller.example"
+            },
+            "ingr_companyname": {
+                "S": "Fabrikam Reseller"
+            },
+            "ingr_fundworkload": {
+                "N": "100000000"
+            },
+            "ingr_endcustomercontactphone": {
+                "S": "+49 30 5550 4400"
+            },
+            "ingr_partoflargerprogram": {
+                "N": "100000001"
+            },
+            "ingr_formcompletiontime": {
+                "S": "2026-10-17T09:41:00Z"
+            },
+            "ingr_cstimeline": {
+                "N": "100000001"
+            },
+            "ingr_ingramcontact": {
+                "S": "Jonas Weber"
+            },
+            "ingr_requesttype": {
+                "N": "100000001"
+            },
+            "description": {
+                "S": "Seed-funded payments startup moving a container platform from a hosting provider to AWS. Application refactored already; no virtual machines to rehost."
+            },
+            "ingr_endcustomername": {
+                "S": "Nimbus Payments"
+            },
+            "ingr_partnersowauthority": {
+                "N": "100000001"
+            },
+            "ingr_ingramcontactphone": {
+                "S": "+49 89 4208 0"
+            },
+            "ingr_endcustomerpostcode": {
+                "S": "10115"
+            },
+            "estimatedclosedate": {
+                "S": "2027-02-10"
+            },
+            "ingr_csvendor": {
+                "N": "100000000"
+            },
+            "ingr_partnercontactphone": {
+                "S": "+49 30 1234 567"
+            },
+            "ingr_awsopportunitytype": {
+                "N": "100000000"
+            },
+            "ingr_endcustomerjobtitle": {
+                "S": "CTO"
+            },
+            "ingr_ingramcountry": {
+                "S": "Germany"
+            },
+            "name": {
+                "S": "Nimbus Payments - rehost 20 Linux VMs"
+            },
+            "ingr_csopportunityid": {
+                "S": "CS-24-1312"
+            },
+            "ingr_formstarttime": {
+                "S": "2026-10-17T09:26:00Z"
+            },
+            "ingr_sowsigneremail": {
+                "S": "meera.iyer@fabrikamreseller.example"
+            },
+            "ingr_endcustomerindustry": {
+                "S": "Financial Services"
+            },
+            "ingr_formresponseid": {
+                "S": "1016"
+            },
+            "ingr_partnercontactname": {
+                "S": "Karl Schmidt"
+            },
+            "ingr_estimatedarr": {
+                "S": "144,000"
+            },
+            "ingr_endcustomercontactemail": {
+                "S": "clara.meyer@nimbuspayments.example"
+            },
+            "ingr_endcustomercountry": {
+                "S": "Germany"
+            },
+            "statecode": {
+                "N": "0"
+            },
+            "ingr_endcustomerdomain": {
+                "S": "nimbuspayments.example"
+            },
+            "ingr_csopportunitytitle": {
+                "S": "Nimbus Payments Linux rehost"
+            },
+            "ingr_sowsignername": {
+                "S": "Meera Iyer"
+            },
+            "ingr_fundmrrusd": {
+                "N": "12000"
+            },
+            "ingr_submittername": {
+                "S": "Karl Schmidt"
+            },
+            "ingr_closetodecisionmaker": {
+                "N": "100000000"
+            },
+            "ingr_fundmigrationsource": {
+                "N": "100000002"
+            },
+            "ingr_csopportunitydetails": {
+                "S": "Seed-funded payments startup moving a container platform from a hosting provider to AWS. Application refactored already; no virtual machines to rehost."
+            },
+            "ingr_budgetallocated": {
+                "N": "100000000"
+            },
+            "ingr_ingrambu": {
+                "S": "Cloud"
+            },
+            "ingr_deliverytimeline": {
+                "N": "100000001"
+            },
+            "opportunityid": {
+                "S": "e2dde659-69cf-41a2-b667-04a947150031"
+            },
+            "ingr_likelihoodproceed": {
+                "N": "100000000"
+            },
+            "ingr_submitteremail": {
+                "S": "karl.schmidt@fabrikamreseller.example"
+            }
+        }
+    ],
+    "Count": 11,
+    "ScannedCount": 11,
+    "ConsumedCapacity": null
+}

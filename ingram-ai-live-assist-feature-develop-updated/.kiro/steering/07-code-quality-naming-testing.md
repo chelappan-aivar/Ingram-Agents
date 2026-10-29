@@ -1,0 +1,169 @@
+---
+inclusion: always
+---
+
+<!-- GENERATED FILE — do not edit directly. Source: project-rules.md (Code Quality, Naming, Testing & CI) -->
+
+## 29. Type Safety
+
+Use the strongest practical type system available.
+
+Avoid unnecessary dynamic typing.
+
+TypeScript example:
+
+```ts
+// Avoid unnecessary `any`.
+function parseResponse(value: unknown) {
+  // Validate/narrow before use.
+}
+```
+
+Python example:
+
+```python
+def get_user(user_id: str) -> User:
+    ...
+```
+
+## 30. Naming
+
+Names should describe intent.
+
+Prefer:
+
+```text
+calculateInvoiceTotal()
+validateUserPermission()
+getActiveProjects()
+```
+
+Avoid vague names such as:
+
+```text
+process()
+handle()
+doStuff()
+data()
+temp()
+```
+
+### 30.1 Files, Folders, and Project Structure Naming
+
+Naming must be consistent across the team regardless of which AI tool or developer
+authored the code. Follow the project's established convention; where none exists yet,
+apply the following defaults:
+
+```text
+Folders                    kebab-case              user-profile/
+React components (files)   PascalCase               UserProfileCard.tsx
+Hooks                      camelCase, "use" prefix  useUserProfile.ts
+Utilities/services         camelCase or kebab-case  formatCurrency.ts
+Non-component modules      kebab-case               api-client.ts
+Constants                  UPPER_SNAKE_CASE         MAX_RETRY_COUNT
+Environment variables      UPPER_SNAKE_CASE         DATABASE_URL
+Python modules/packages    snake_case               user_service.py
+Database tables/columns    snake_case               created_at
+API routes/endpoints       kebab-case, plural       /user-profiles
+CSS classes                kebab-case (or the project's utility-CSS convention)
+```
+
+Do not introduce a second naming convention for the same category of file (for example,
+mixing `userProfile.ts` and `UserProfile.ts` for the same kind of module) just because a
+different AI tool or developer generated it. When extending an existing project, match
+the convention already in use even if it differs from the defaults above.
+
+## 31. Comments and Documentation
+
+Comments should explain why, not simply repeat what the code does.
+
+Document:
+
+- Non-obvious business rules
+- Security decisions
+- Workarounds
+- External system constraints
+- Important assumptions
+
+## 32. Testing
+
+New behavior should have appropriate tests covering, where relevant:
+
+- Happy paths
+- Validation
+- Authorization
+- Edge cases
+- Failure paths
+- Business rules
+- Security-sensitive behavior
+
+Use the appropriate level:
+
+```text
+Unit
+Integration
+API
+Component
+End-to-End
+```
+
+Tests must be deterministic and independent of production systems, live third-party
+services, or real user data. Use fixtures, seeded test data, or service doubles instead.
+
+## 33. Regression Prevention
+
+When fixing a bug:
+
+1. Identify the root cause.
+2. Add/update a regression test where practical.
+3. Fix the underlying issue.
+4. Check related paths.
+5. Avoid unrelated refactoring unless necessary.
+
+Do not patch only the symptom.
+
+## 34. Linting and Formatting
+
+Every project must have automated quality checks appropriate to its stack.
+
+At minimum, where supported:
+
+```text
+Lint
+Format
+Type checking
+Build validation
+Tests
+Secret scanning
+```
+
+Examples:
+
+```text
+React/TypeScript → ESLint, Prettier, TypeScript
+Python → Ruff, Black, Pyright/mypy, pytest
+```
+
+Project-specific tooling may differ.
+
+Use a shared `.editorconfig` (indentation style/size, line endings, charset, trailing
+newline) so formatting stays consistent across editors, AI tools, and contributors.
+
+## 35. CI/CD Quality Gates
+
+Pull requests should automatically validate relevant quality gates:
+
+```text
+Lint
+ ↓
+Type Check
+ ↓
+Tests
+ ↓
+Security / Secret Scan
+ ↓
+Build
+```
+
+Critical security or correctness failures must not be ignored to unblock a merge.
+

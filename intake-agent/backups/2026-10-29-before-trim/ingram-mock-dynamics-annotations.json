@@ -1,0 +1,1939 @@
+{
+    "Items": [
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 240,000 USD ARR: MAP Lite (25% of ARR (5% Assess + 20% Mobilize)).\nProgram: MAP Lite\nFunding: 25% of ARR (5% Assess + 20% Mobilize)\nEstimated funding: 60,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 20,000 USD x 12 = ARR 240,000 USD\n\nNotes:\n  - MAP Lite needs a migration from on-premises or any cloud.\n\nChecked 2026-10-28T12:17:54.210765Z by the Ingram funding agent (587192a040d84fd8a0ce7bf597e1a229)."
+            },
+            "createdon": {
+                "S": "2026-10-28T12:17:54Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T12:17:54Z"
+            },
+            "_objectid_value": {
+                "S": "74fb7b6c-48c7-4ee1-beb1-59f1ec5469c7"
+            },
+            "annotationid": {
+                "S": "e3d77dce-0e89-4c08-af80-27cb23abfff1"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: POC"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, Gen AI project, 300,000 USD ARR: POC (10% of ARR).\nProgram: POC\nFunding: 10% of ARR\nEstimated funding: 30,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Gen AI project\n  AWS spend: MRR 25,000 USD x 12 = ARR 300,000 USD\n\nChecked 2026-10-27T09:48:55.658746Z by the Ingram funding agent (548ce23e191c48e99fe137e495d4328a)."
+            },
+            "createdon": {
+                "S": "2026-10-27T09:48:55Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-27T09:48:55Z"
+            },
+            "_objectid_value": {
+                "S": "7d6f0d5b-8877-4272-bebe-23bb12d4900c"
+            },
+            "annotationid": {
+                "S": "fa929b51-8fdf-43dd-8058-52322a63cd28"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: POC"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, Gen AI project, 300,000 USD ARR: POC (10% of ARR).\nProgram: POC\nFunding: 10% of ARR\nEstimated funding: 30,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Gen AI project\n  AWS spend: MRR 25,000 USD x 12 = ARR 300,000 USD\n\nChecked 2026-10-26T21:19:25.731023Z by the Ingram funding agent (716256a9056c4a6f8614af202b5c7f2e)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:19:25Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:19:25Z"
+            },
+            "_objectid_value": {
+                "S": "7d6f0d5b-8877-4272-bebe-23bb12d4900c"
+            },
+            "annotationid": {
+                "S": "daf7f96b-6a2f-49a4-b324-55654c104448"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: Promotional credits"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nISV workload migration: Promotional credits (Promotional credits only).\nProgram: Promotional credits\nFunding: Promotional credits only\n\nDecision path:\n  Segment: Non-startup\n  Workload: ISV workload migration\n  AWS spend: MRR 12,500 USD x 12 = ARR 150,000 USD\n\nNotes:\n  - ISV workload migrations have no segment split and no ARR-based funding.\n\nChecked 2026-10-26T21:38:20.259197Z by the Ingram funding agent (4e52ac494fdc4fcb90520b785638d327)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:38:20Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:38:20Z"
+            },
+            "_objectid_value": {
+                "S": "6c80e2f4-2315-46e6-9da6-6e607eb550e2"
+            },
+            "annotationid": {
+                "S": "44bb8f86-9506-4363-ac98-2ccbd4b4acc4"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: POC"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, Gen AI project, 300,000 USD ARR: POC (10% of ARR).\nProgram: POC\nFunding: 10% of ARR\nEstimated funding: 30,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Gen AI project\n  AWS spend: MRR 25,000 USD x 12 = ARR 300,000 USD\n\nChecked 2026-10-26T21:37:32.869202Z by the Ingram funding agent (2b63fdebded74049b027e1901da0d3a5)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:37:32Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:37:32Z"
+            },
+            "_objectid_value": {
+                "S": "7d6f0d5b-8877-4272-bebe-23bb12d4900c"
+            },
+            "annotationid": {
+                "S": "55f3ce08-02ef-416c-b756-eb8fa8266739"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 720,000 USD ARR: MAP (Per MAP terms).\nProgram: MAP\nFunding: Per MAP terms\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 60,000 USD x 12 = ARR 720,000 USD\n\nNotes:\n  - Above 500,000 USD ARR, migrations go to MAP in both segments.\n\nChecked 2026-10-26T21:37:30.783093Z by the Ingram funding agent (599f10528ba5464b9fe953c92d021567)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:37:30Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:37:30Z"
+            },
+            "_objectid_value": {
+                "S": "73a90dc9-81a8-4c7d-b2d4-b8b85cf1a03c"
+            },
+            "annotationid": {
+                "S": "d00dd842-1a0a-436d-a49c-86324b505a2f"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: Promotional credits"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nISV workload migration: Promotional credits (Promotional credits only).\nProgram: Promotional credits\nFunding: Promotional credits only\n\nDecision path:\n  Segment: Non-startup\n  Workload: ISV workload migration\n  AWS spend: MRR 12,500 USD x 12 = ARR 150,000 USD\n\nNotes:\n  - ISV workload migrations have no segment split and no ARR-based funding.\n\nChecked 2026-10-26T21:37:26.094353Z by the Ingram funding agent (46b8f16fe66b4f5eb5c004118973a439)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:37:26Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:37:26Z"
+            },
+            "_objectid_value": {
+                "S": "6c80e2f4-2315-46e6-9da6-6e607eb550e2"
+            },
+            "annotationid": {
+                "S": "07565164-ef5b-49e0-a8ef-989b8bc58eab"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: IW Assess, then IW Build"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, Gen AI project, 96,000 USD ARR: IW Assess, then IW Build (5,000 USD, then 25% of ARR).\nProgram: IW Assess, then IW Build\nFunding: 5,000 USD, then 25% of ARR\nEstimated funding: 29,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Gen AI project\n  AWS spend: MRR 8,000 USD x 12 = ARR 96,000 USD\n\nNotes:\n  - IW Build applies to fresh workloads.\n\nChecked 2026-10-26T21:22:02.310990Z by the Ingram funding agent (0a8ca18352764397a05fc5822fa7fd7f)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:22:02Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:22:02Z"
+            },
+            "_objectid_value": {
+                "S": "23e223bb-76cc-4b38-81dd-cc2d20bd6373"
+            },
+            "annotationid": {
+                "S": "289d85f7-4697-495f-93a6-52fa31bef00c"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: Promotional credits"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nISV workload migration: Promotional credits (Promotional credits only).\nProgram: Promotional credits\nFunding: Promotional credits only\n\nDecision path:\n  Segment: Non-startup\n  Workload: ISV workload migration\n  AWS spend: MRR 12,500 USD x 12 = ARR 150,000 USD\n\nNotes:\n  - ISV workload migrations have no segment split and no ARR-based funding.\n\nChecked 2026-10-26T20:27:26.259109Z by the Ingram funding agent (9dc537e20e5344369c19a7e89fcc01ed)."
+            },
+            "createdon": {
+                "S": "2026-10-26T20:27:26Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T20:27:26Z"
+            },
+            "_objectid_value": {
+                "S": "6c80e2f4-2315-46e6-9da6-6e607eb550e2"
+            },
+            "annotationid": {
+                "S": "a8c63f4f-edb5-447a-b428-b273315c4359"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 240,000 USD ARR: MAP Lite (25% of ARR (5% Assess + 20% Mobilize)).\nProgram: MAP Lite\nFunding: 25% of ARR (5% Assess + 20% Mobilize)\nEstimated funding: 60,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 20,000 USD x 12 = ARR 240,000 USD\n\nNotes:\n  - MAP Lite needs a migration from on-premises or any cloud.\n\nChecked 2026-10-26T21:37:27.488313Z by the Ingram funding agent (cf7bb73820dc41c4a4a39cc56ad3ceaf)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:37:27Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:37:27Z"
+            },
+            "_objectid_value": {
+                "S": "74fb7b6c-48c7-4ee1-beb1-59f1ec5469c7"
+            },
+            "annotationid": {
+                "S": "1ac5750b-ae46-4655-8572-9a4cbea6d142"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: Promotional credits"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Funding determined\n\nISV workload migration: Promotional credits (Promotional credits only).\nProgram: Promotional credits\nFunding: Promotional credits only\n\nDecision path:\n  Segment: Non-startup\n  Workload: ISV workload migration\n  AWS spend: MRR 12,500 USD x 12 = ARR 150,000 USD\n\nNotes:\n  - ISV workload migrations have no segment split and no ARR-based funding.\n\nChecked 2026-10-28T19:47:30.235205Z by the Ingram funding agent (554a02b4a3974bf193c89e98732935a7)."
+            },
+            "createdon": {
+                "S": "2026-10-28T19:47:30Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:47:30Z"
+            },
+            "_objectid_value": {
+                "S": "6c80e2f4-2315-46e6-9da6-6e607eb550e2"
+            },
+            "annotationid": {
+                "S": "9143475b-6aa2-45bf-8ee4-1948403e47ca"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: IW Assess, then IW Build"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, Gen AI project, 96,000 USD ARR: IW Assess, then IW Build (5,000 USD, then 25% of ARR).\nProgram: IW Assess, then IW Build\nFunding: 5,000 USD, then 25% of ARR\nEstimated funding: 29,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Gen AI project\n  AWS spend: MRR 8,000 USD x 12 = ARR 96,000 USD\n\nNotes:\n  - IW Build applies to fresh workloads.\n\nChecked 2026-10-27T09:48:49.925916Z by the Ingram funding agent (9842dcf3ae8e45cdbcec42bcce5f6e20)."
+            },
+            "createdon": {
+                "S": "2026-10-27T09:48:49Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-27T09:48:49Z"
+            },
+            "_objectid_value": {
+                "S": "23e223bb-76cc-4b38-81dd-cc2d20bd6373"
+            },
+            "annotationid": {
+                "S": "418143a8-5a2b-4b1a-a349-22c0e5d25888"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 240,000 USD ARR: MAP Lite (25% of ARR (5% Assess + 20% Mobilize)).\nProgram: MAP Lite\nFunding: 25% of ARR (5% Assess + 20% Mobilize)\nEstimated funding: 60,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 20,000 USD x 12 = ARR 240,000 USD\n\nNotes:\n  - MAP Lite needs a migration from on-premises or any cloud.\n\nChecked 2026-10-26T20:27:27.635674Z by the Ingram funding agent (49780b8338de41fda595650d9c3bbea5)."
+            },
+            "createdon": {
+                "S": "2026-10-26T20:27:27Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T20:27:27Z"
+            },
+            "_objectid_value": {
+                "S": "74fb7b6c-48c7-4ee1-beb1-59f1ec5469c7"
+            },
+            "annotationid": {
+                "S": "6219e5a5-7b36-4a50-a40b-089aed3141bd"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: IW Assess, then IW Build"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, Gen AI project, 96,000 USD ARR: IW Assess, then IW Build (5,000 USD, then 25% of ARR).\nProgram: IW Assess, then IW Build\nFunding: 5,000 USD, then 25% of ARR\nEstimated funding: 29,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Gen AI project\n  AWS spend: MRR 8,000 USD x 12 = ARR 96,000 USD\n\nNotes:\n  - IW Build applies to fresh workloads.\n\nChecked 2026-10-28T04:56:53.624569Z by the Ingram funding agent (f4b095d6070e4aab975c8bb414ff0fe5)."
+            },
+            "createdon": {
+                "S": "2026-10-28T04:56:53Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T04:56:53Z"
+            },
+            "_objectid_value": {
+                "S": "23e223bb-76cc-4b38-81dd-cc2d20bd6373"
+            },
+            "annotationid": {
+                "S": "54e5b674-b683-440c-ac1d-f5399f0fa00a"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: POC"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, Gen AI project, 300,000 USD ARR: POC (10% of ARR).\nProgram: POC\nFunding: 10% of ARR\nEstimated funding: 30,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Gen AI project\n  AWS spend: MRR 25,000 USD x 12 = ARR 300,000 USD\n\nChecked 2026-10-26T21:22:08.183605Z by the Ingram funding agent (34b89d8422fa4226bf920d30f05047eb)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:22:08Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:22:08Z"
+            },
+            "_objectid_value": {
+                "S": "7d6f0d5b-8877-4272-bebe-23bb12d4900c"
+            },
+            "annotationid": {
+                "S": "e7cdc230-6d8e-48ff-a60b-9d92a6b10af3"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: IW Assess, then IW Build"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Funding determined\n\nStartup, Gen AI project, 96,000 USD ARR: IW Assess, then IW Build (5,000 USD, then 25% of ARR).\nProgram: IW Assess, then IW Build\nFunding: 5,000 USD, then 25% of ARR\nEstimated funding: 29,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Gen AI project\n  AWS spend: MRR 8,000 USD x 12 = ARR 96,000 USD\n\nNotes:\n  - IW Build applies to fresh workloads.\n\nChecked 2026-10-28T19:47:35.039566Z by the Ingram funding agent (fafb1cdd180e48ec8e0c8c0b4abe09ab)."
+            },
+            "createdon": {
+                "S": "2026-10-28T19:47:35Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:47:35Z"
+            },
+            "_objectid_value": {
+                "S": "23e223bb-76cc-4b38-81dd-cc2d20bd6373"
+            },
+            "annotationid": {
+                "S": "1de51e95-90d0-4ea5-a73d-696f732aa8bc"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Funding determined\n\nStartup, migration, 180,000 USD ARR: MAP Lite (5% Assess + 20% Mobilize).\nProgram: MAP Lite\nFunding: 5% Assess + 20% Mobilize\nEstimated funding: 45,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Migration\n  AWS spend: MRR 15,000 USD x 12 = ARR 180,000 USD\n\nNotes:\n  - For startups, MAP Lite is the better option wherever VMs are involved.\n\nChecked 2026-10-28T19:47:35.516162Z by the Ingram funding agent (848bc9fdb8d04587a555a57ba6e1dc0f)."
+            },
+            "createdon": {
+                "S": "2026-10-28T19:47:35Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:47:35Z"
+            },
+            "_objectid_value": {
+                "S": "f5c4fda7-0a65-4cb0-bc39-c87dd5d43372"
+            },
+            "annotationid": {
+                "S": "eacf1c97-d263-4ec1-a7fe-8609ae1f3c1c"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 720,000 USD ARR: MAP (Per MAP terms).\nProgram: MAP\nFunding: Per MAP terms\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 60,000 USD x 12 = ARR 720,000 USD\n\nNotes:\n  - Above 500,000 USD ARR, migrations go to MAP in both segments.\n\nChecked 2026-10-28T04:56:58.401754Z by the Ingram funding agent (445c60d4d4f046669660733cad4f1cd3)."
+            },
+            "createdon": {
+                "S": "2026-10-28T04:56:58Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T04:56:58Z"
+            },
+            "_objectid_value": {
+                "S": "73a90dc9-81a8-4c7d-b2d4-b8b85cf1a03c"
+            },
+            "annotationid": {
+                "S": "37c0a95b-d8be-4679-8976-c60696881919"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 720,000 USD ARR: MAP (Per MAP terms).\nProgram: MAP\nFunding: Per MAP terms\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 60,000 USD x 12 = ARR 720,000 USD\n\nNotes:\n  - Above 500,000 USD ARR, migrations go to MAP in both segments.\n\nChecked 2026-10-26T21:45:58.331820Z by the Ingram funding agent (1e3671820560451184909021b2a2952e)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:45:58Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:45:58Z"
+            },
+            "_objectid_value": {
+                "S": "73a90dc9-81a8-4c7d-b2d4-b8b85cf1a03c"
+            },
+            "annotationid": {
+                "S": "11331ba9-70d5-492f-9431-a0e45e049916"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Funding determined\n\nNon-startup, migration, 240,000 USD ARR: MAP Lite (25% of ARR (5% Assess + 20% Mobilize)).\nProgram: MAP Lite\nFunding: 25% of ARR (5% Assess + 20% Mobilize)\nEstimated funding: 60,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 20,000 USD x 12 = ARR 240,000 USD\n\nNotes:\n  - MAP Lite needs a migration from on-premises or any cloud.\n\nChecked 2026-10-28T19:47:35.162828Z by the Ingram funding agent (4da6d94a53e540a898428c82893011f5)."
+            },
+            "createdon": {
+                "S": "2026-10-28T19:47:35Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:47:35Z"
+            },
+            "_objectid_value": {
+                "S": "74fb7b6c-48c7-4ee1-beb1-59f1ec5469c7"
+            },
+            "annotationid": {
+                "S": "4d2a1927-1e26-482e-a0a0-b84841dde60b"
+            }
+        },
+        {
+            "subject": {
+                "S": "Call notes 14 Oct"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "Spoke to the CIO. Woodgrove is a listed retail bank with 9,000 staff. Wave 1 starts in January."
+            },
+            "createdon": {
+                "S": "2026-10-26T20:26:12Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T20:26:12Z"
+            },
+            "_objectid_value": {
+                "S": "73a90dc9-81a8-4c7d-b2d4-b8b85cf1a03c"
+            },
+            "annotationid": {
+                "S": "6b0edeed-966e-4674-bba4-124488934a71"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: Production funding"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Funding determined\n\nNon-startup, Gen AI project, 480,000 USD ARR: Production funding (15% of ARR).\nProgram: Production funding\nFunding: 15% of ARR\nEstimated funding: 72,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Gen AI project\n  AWS spend: MRR 40,000 USD x 12 = ARR 480,000 USD\n\nChecked 2026-10-28T19:47:28.938589Z by the Ingram funding agent (d03470688f2d4c029ad6b155d57ac4b5)."
+            },
+            "createdon": {
+                "S": "2026-10-28T19:47:28Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:47:28Z"
+            },
+            "_objectid_value": {
+                "S": "34b7314e-50d9-4910-8108-7427d5224c12"
+            },
+            "annotationid": {
+                "S": "cee4ce4b-8f16-4a2f-b5ea-d1a3f49e3cc2"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: IW Assess, then IW Build"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, Gen AI project, 96,000 USD ARR: IW Assess, then IW Build (5,000 USD, then 25% of ARR).\nProgram: IW Assess, then IW Build\nFunding: 5,000 USD, then 25% of ARR\nEstimated funding: 29,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Gen AI project\n  AWS spend: MRR 8,000 USD x 12 = ARR 96,000 USD\n\nNotes:\n  - IW Build applies to fresh workloads.\n\nChecked 2026-10-26T20:27:27.336221Z by the Ingram funding agent (79effcf02897476e93bf84f42e1c6841)."
+            },
+            "createdon": {
+                "S": "2026-10-26T20:27:27Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T20:27:27Z"
+            },
+            "_objectid_value": {
+                "S": "23e223bb-76cc-4b38-81dd-cc2d20bd6373"
+            },
+            "annotationid": {
+                "S": "65bae660-17a6-4c15-a166-bad18c2fe9da"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: Promotional credits"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nISV workload migration: Promotional credits (Promotional credits only).\nProgram: Promotional credits\nFunding: Promotional credits only\n\nDecision path:\n  Segment: Non-startup\n  Workload: ISV workload migration\n  AWS spend: MRR 12,500 USD x 12 = ARR 150,000 USD\n\nNotes:\n  - ISV workload migrations have no segment split and no ARR-based funding.\n\nChecked 2026-10-27T09:27:49.194679Z by the Ingram funding agent (316829e75ad94342b91f1dae051ee3cc)."
+            },
+            "createdon": {
+                "S": "2026-10-27T09:27:49Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-27T09:27:49Z"
+            },
+            "_objectid_value": {
+                "S": "6c80e2f4-2315-46e6-9da6-6e607eb550e2"
+            },
+            "annotationid": {
+                "S": "033fc678-1e9f-4057-afbd-89cfd37f2dad"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, migration, 180,000 USD ARR: MAP Lite (5% Assess + 20% Mobilize).\nProgram: MAP Lite\nFunding: 5% Assess + 20% Mobilize\nEstimated funding: 45,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Migration\n  AWS spend: MRR 15,000 USD x 12 = ARR 180,000 USD\n\nNotes:\n  - For startups, MAP Lite is the better option wherever VMs are involved.\n\nChecked 2026-10-28T04:56:58.400910Z by the Ingram funding agent (d1ee8387c6ff443b87d0495f1aaf80b5)."
+            },
+            "createdon": {
+                "S": "2026-10-28T04:56:58Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T04:56:58Z"
+            },
+            "_objectid_value": {
+                "S": "f5c4fda7-0a65-4cb0-bc39-c87dd5d43372"
+            },
+            "annotationid": {
+                "S": "a2fec285-71d2-41bc-b966-608c1a7338f9"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: POC only"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Funding determined\n\nStartup, Gen AI project, 90,000 USD ARR: POC only (POC funding).\nProgram: POC only\nFunding: POC funding\n\nDecision path:\n  Segment: Startup\n  Workload: Gen AI project\n  AWS spend: MRR 7,500 USD x 12 = ARR 90,000 USD\n\nNotes:\n  - Startup Gen AI modernization receives POC funding only. The framework gives no amount; confirm it with the AWS partner team.\n\nChecked 2026-10-28T19:47:29.833247Z by the Ingram funding agent (3e2900833d0b4fef863b17c35087c762)."
+            },
+            "createdon": {
+                "S": "2026-10-28T19:47:29Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:47:29Z"
+            },
+            "_objectid_value": {
+                "S": "7861a9d0-4bf1-499c-ac19-53ce495cac0c"
+            },
+            "annotationid": {
+                "S": "a445f966-f6fb-4f4b-9360-48ca35c718ce"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: MAP"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Funding determined\n\nNon-startup, migration, 720,000 USD ARR: MAP (Per MAP terms).\nProgram: MAP\nFunding: Per MAP terms\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 60,000 USD x 12 = ARR 720,000 USD\n\nNotes:\n  - Above 500,000 USD ARR, migrations go to MAP in both segments.\n\nChecked 2026-10-28T19:47:35.374268Z by the Ingram funding agent (f78ff5473b654674b4cd5569e5789d53)."
+            },
+            "createdon": {
+                "S": "2026-10-28T19:47:35Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:47:35Z"
+            },
+            "_objectid_value": {
+                "S": "73a90dc9-81a8-4c7d-b2d4-b8b85cf1a03c"
+            },
+            "annotationid": {
+                "S": "89a46ed5-a2fb-454f-a6b5-ba72d70aefa8"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: POC"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, Gen AI project, 300,000 USD ARR: POC (10% of ARR).\nProgram: POC\nFunding: 10% of ARR\nEstimated funding: 30,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Gen AI project\n  AWS spend: MRR 25,000 USD x 12 = ARR 300,000 USD\n\nChecked 2026-10-26T21:38:27.598538Z by the Ingram funding agent (5952166b476a4691b5c452d52dc455c6)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:38:27Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:38:27Z"
+            },
+            "_objectid_value": {
+                "S": "7d6f0d5b-8877-4272-bebe-23bb12d4900c"
+            },
+            "annotationid": {
+                "S": "345aef62-0adf-444f-9bbe-30f8109f6845"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, migration, 180,000 USD ARR: MAP Lite (5% Assess + 20% Mobilize).\nProgram: MAP Lite\nFunding: 5% Assess + 20% Mobilize\nEstimated funding: 45,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Migration\n  AWS spend: MRR 15,000 USD x 12 = ARR 180,000 USD\n\nNotes:\n  - For startups, MAP Lite is the better option wherever VMs are involved.\n\nChecked 2026-10-27T09:48:53.380007Z by the Ingram funding agent (7b7e4bc226784288ac6de1f82326464b)."
+            },
+            "createdon": {
+                "S": "2026-10-27T09:48:53Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-27T09:48:53Z"
+            },
+            "_objectid_value": {
+                "S": "f5c4fda7-0a65-4cb0-bc39-c87dd5d43372"
+            },
+            "annotationid": {
+                "S": "0fed45f3-7366-4657-8c21-030ddb9c224a"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 240,000 USD ARR: MAP Lite (25% of ARR (5% Assess + 20% Mobilize)).\nProgram: MAP Lite\nFunding: 25% of ARR (5% Assess + 20% Mobilize)\nEstimated funding: 60,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 20,000 USD x 12 = ARR 240,000 USD\n\nNotes:\n  - MAP Lite needs a migration from on-premises or any cloud.\n\nChecked 2026-10-26T21:22:02.616183Z by the Ingram funding agent (5e0fd60f77ce4d5e8da70ccfec58f339)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:22:02Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:22:02Z"
+            },
+            "_objectid_value": {
+                "S": "74fb7b6c-48c7-4ee1-beb1-59f1ec5469c7"
+            },
+            "annotationid": {
+                "S": "6d7fcac4-3fd8-41ee-9938-b145f15d0a13"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 720,000 USD ARR: MAP (Per MAP terms).\nProgram: MAP\nFunding: Per MAP terms\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 60,000 USD x 12 = ARR 720,000 USD\n\nNotes:\n  - Above 500,000 USD ARR, migrations go to MAP in both segments.\n\nChecked 2026-10-27T09:48:53.087119Z by the Ingram funding agent (d84315d8b1054b0c948b34d455c33aa4)."
+            },
+            "createdon": {
+                "S": "2026-10-27T09:48:53Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-27T09:48:53Z"
+            },
+            "_objectid_value": {
+                "S": "73a90dc9-81a8-4c7d-b2d4-b8b85cf1a03c"
+            },
+            "annotationid": {
+                "S": "fc1ca7f2-756f-436a-a446-bffcf299fc45"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 240,000 USD ARR: MAP Lite (25% of ARR (5% Assess + 20% Mobilize)).\nProgram: MAP Lite\nFunding: 25% of ARR (5% Assess + 20% Mobilize)\nEstimated funding: 60,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 20,000 USD x 12 = ARR 240,000 USD\n\nNotes:\n  - MAP Lite needs a migration from on-premises or any cloud.\n\nChecked 2026-10-26T21:45:54.691225Z by the Ingram funding agent (e80f30d1ed92453f9d057dbdb5acc2f2)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:45:54Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:45:54Z"
+            },
+            "_objectid_value": {
+                "S": "74fb7b6c-48c7-4ee1-beb1-59f1ec5469c7"
+            },
+            "annotationid": {
+                "S": "bfb246af-b1af-4b91-b04f-1798e643292b"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, migration, 180,000 USD ARR: MAP Lite (5% Assess + 20% Mobilize).\nProgram: MAP Lite\nFunding: 5% Assess + 20% Mobilize\nEstimated funding: 45,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Migration\n  AWS spend: MRR 15,000 USD x 12 = ARR 180,000 USD\n\nNotes:\n  - For startups, MAP Lite is the better option wherever VMs are involved.\n\nChecked 2026-10-26T21:27:00.499764Z by the Ingram funding agent (8d5bfcb2518d41eba7456c0a0a1328c5)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:27:00Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:27:00Z"
+            },
+            "_objectid_value": {
+                "S": "f5c4fda7-0a65-4cb0-bc39-c87dd5d43372"
+            },
+            "annotationid": {
+                "S": "e819d1dc-850a-4078-888f-f2d042ac62f3"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: IW Assess, then IW Build"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, Gen AI project, 96,000 USD ARR: IW Assess, then IW Build (5,000 USD, then 25% of ARR).\nProgram: IW Assess, then IW Build\nFunding: 5,000 USD, then 25% of ARR\nEstimated funding: 29,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Gen AI project\n  AWS spend: MRR 8,000 USD x 12 = ARR 96,000 USD\n\nNotes:\n  - IW Build applies to fresh workloads.\n\nChecked 2026-10-26T21:38:21.544676Z by the Ingram funding agent (40f39bff912a4b5da11347b59f32338f)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:38:21Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:38:21Z"
+            },
+            "_objectid_value": {
+                "S": "23e223bb-76cc-4b38-81dd-cc2d20bd6373"
+            },
+            "annotationid": {
+                "S": "9e68a459-cb4c-404e-96a4-583d893fe573"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: Promotional credits"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nISV workload migration: Promotional credits (Promotional credits only).\nProgram: Promotional credits\nFunding: Promotional credits only\n\nDecision path:\n  Segment: Non-startup\n  Workload: ISV workload migration\n  AWS spend: MRR 12,500 USD x 12 = ARR 150,000 USD\n\nNotes:\n  - ISV workload migrations have no segment split and no ARR-based funding.\n\nChecked 2026-10-26T21:22:01.101711Z by the Ingram funding agent (38b38b95d25048bc983f76687184a55d)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:22:01Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:22:01Z"
+            },
+            "_objectid_value": {
+                "S": "6c80e2f4-2315-46e6-9da6-6e607eb550e2"
+            },
+            "annotationid": {
+                "S": "30017d0d-e4bc-49d4-b89e-0afbf7181fd1"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, migration, 180,000 USD ARR: MAP Lite (5% Assess + 20% Mobilize).\nProgram: MAP Lite\nFunding: 5% Assess + 20% Mobilize\nEstimated funding: 45,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Migration\n  AWS spend: MRR 15,000 USD x 12 = ARR 180,000 USD\n\nNotes:\n  - For startups, MAP Lite is the better option wherever VMs are involved.\n\nChecked 2026-10-26T21:37:31.083173Z by the Ingram funding agent (8d985f69db2a4630acdf91e75fe131e7)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:37:31Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:37:31Z"
+            },
+            "_objectid_value": {
+                "S": "f5c4fda7-0a65-4cb0-bc39-c87dd5d43372"
+            },
+            "annotationid": {
+                "S": "129b640b-d5c1-4cca-96dd-d8ab78be35a4"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: IW Assess, then IW Build"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, Gen AI project, 96,000 USD ARR: IW Assess, then IW Build (5,000 USD, then 25% of ARR).\nProgram: IW Assess, then IW Build\nFunding: 5,000 USD, then 25% of ARR\nEstimated funding: 29,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Gen AI project\n  AWS spend: MRR 8,000 USD x 12 = ARR 96,000 USD\n\nNotes:\n  - IW Build applies to fresh workloads.\n\nChecked 2026-10-26T21:45:54.388165Z by the Ingram funding agent (35574bbec47049fbb11c793429a51d35)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:45:54Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:45:54Z"
+            },
+            "_objectid_value": {
+                "S": "23e223bb-76cc-4b38-81dd-cc2d20bd6373"
+            },
+            "annotationid": {
+                "S": "f0a7050b-ccd8-407b-b2d2-98b741244e40"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: POC"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, Gen AI project, 300,000 USD ARR: POC (10% of ARR).\nProgram: POC\nFunding: 10% of ARR\nEstimated funding: 30,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Gen AI project\n  AWS spend: MRR 25,000 USD x 12 = ARR 300,000 USD\n\nChecked 2026-10-26T20:27:33.376766Z by the Ingram funding agent (6a5bf2a2fe2f4a098ab71d230fcdf4f2)."
+            },
+            "createdon": {
+                "S": "2026-10-26T20:27:33Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T20:27:33Z"
+            },
+            "_objectid_value": {
+                "S": "7d6f0d5b-8877-4272-bebe-23bb12d4900c"
+            },
+            "annotationid": {
+                "S": "a42999f6-7704-43d2-b11b-e610ce415a10"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: IW Assess, then IW Build"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, Gen AI project, 96,000 USD ARR: IW Assess, then IW Build (5,000 USD, then 25% of ARR).\nProgram: IW Assess, then IW Build\nFunding: 5,000 USD, then 25% of ARR\nEstimated funding: 29,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Gen AI project\n  AWS spend: MRR 8,000 USD x 12 = ARR 96,000 USD\n\nNotes:\n  - IW Build applies to fresh workloads.\n\nChecked 2026-10-26T21:26:56.123957Z by the Ingram funding agent (700fc61bad064b1ab8b5f63d0c7a4b8e)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:26:56Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:26:56Z"
+            },
+            "_objectid_value": {
+                "S": "23e223bb-76cc-4b38-81dd-cc2d20bd6373"
+            },
+            "annotationid": {
+                "S": "5ffd92b3-03e1-4bb3-b524-a5a862a2e9e8"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 720,000 USD ARR: MAP (Per MAP terms).\nProgram: MAP\nFunding: Per MAP terms\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 60,000 USD x 12 = ARR 720,000 USD\n\nNotes:\n  - Above 500,000 USD ARR, migrations go to MAP in both segments.\n\nChecked 2026-10-26T21:27:00.500298Z by the Ingram funding agent (3c98492164644429920228957d065b59)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:27:00Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:27:00Z"
+            },
+            "_objectid_value": {
+                "S": "73a90dc9-81a8-4c7d-b2d4-b8b85cf1a03c"
+            },
+            "annotationid": {
+                "S": "2f94ce8d-efaf-45ad-bee3-8cba7b3f4ad9"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: IW Assess, then IW Build"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, Gen AI project, 96,000 USD ARR: IW Assess, then IW Build (5,000 USD, then 25% of ARR).\nProgram: IW Assess, then IW Build\nFunding: 5,000 USD, then 25% of ARR\nEstimated funding: 29,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Gen AI project\n  AWS spend: MRR 8,000 USD x 12 = ARR 96,000 USD\n\nNotes:\n  - IW Build applies to fresh workloads.\n\nChecked 2026-10-26T21:37:27.204421Z by the Ingram funding agent (d1b6190d66ec4a63ad227c3354a423c0)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:37:27Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:37:27Z"
+            },
+            "_objectid_value": {
+                "S": "23e223bb-76cc-4b38-81dd-cc2d20bd6373"
+            },
+            "annotationid": {
+                "S": "755a482c-ebe2-4bbe-9dee-ab5278630e23"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: POC"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, Gen AI project, 300,000 USD ARR: POC (10% of ARR).\nProgram: POC\nFunding: 10% of ARR\nEstimated funding: 30,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Gen AI project\n  AWS spend: MRR 25,000 USD x 12 = ARR 300,000 USD\n\nChecked 2026-10-26T21:27:01.828491Z by the Ingram funding agent (edd713e69c7f4be69962a3b7c33b1aa8)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:27:01Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:27:01Z"
+            },
+            "_objectid_value": {
+                "S": "7d6f0d5b-8877-4272-bebe-23bb12d4900c"
+            },
+            "annotationid": {
+                "S": "207d2c15-77a8-4859-8582-5705ff43e1e1"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: IW Assess, then IW Build"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, Gen AI project, 96,000 USD ARR: IW Assess, then IW Build (5,000 USD, then 25% of ARR).\nProgram: IW Assess, then IW Build\nFunding: 5,000 USD, then 25% of ARR\nEstimated funding: 29,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Gen AI project\n  AWS spend: MRR 8,000 USD x 12 = ARR 96,000 USD\n\nNotes:\n  - IW Build applies to fresh workloads.\n\nChecked 2026-10-26T21:19:19.791872Z by the Ingram funding agent (080d5b8f526345cebd295bddde2beb0b)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:19:19Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:19:19Z"
+            },
+            "_objectid_value": {
+                "S": "23e223bb-76cc-4b38-81dd-cc2d20bd6373"
+            },
+            "annotationid": {
+                "S": "3de97254-d773-4f0c-890c-6d4f83e526fa"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, migration, 180,000 USD ARR: MAP Lite (5% Assess + 20% Mobilize).\nProgram: MAP Lite\nFunding: 5% Assess + 20% Mobilize\nEstimated funding: 45,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Migration\n  AWS spend: MRR 15,000 USD x 12 = ARR 180,000 USD\n\nNotes:\n  - For startups, MAP Lite is the better option wherever VMs are involved.\n\nChecked 2026-10-26T21:24:08.220648Z by the Ingram funding agent (1fa0c2720d0d4afda97508ff1941c55c)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:24:08Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:24:08Z"
+            },
+            "_objectid_value": {
+                "S": "f5c4fda7-0a65-4cb0-bc39-c87dd5d43372"
+            },
+            "annotationid": {
+                "S": "dea0aa74-2da6-4076-8753-b0e2ffb07f06"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: MAP"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Funding determined\n\nNon-startup, migration, 780,000 USD ARR: MAP (Per MAP terms).\nProgram: MAP\nFunding: Per MAP terms\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 65,000 USD x 12 = ARR 780,000 USD\n\nNotes:\n  - Above 500,000 USD ARR, migrations go to MAP in both segments.\n\nChecked 2026-10-28T19:47:29.264860Z by the Ingram funding agent (200162a57a234d3daa81e0bb6ae2e3a9)."
+            },
+            "createdon": {
+                "S": "2026-10-28T19:47:29Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:47:29Z"
+            },
+            "_objectid_value": {
+                "S": "0c7c9263-d0f6-412f-9bc6-0da702090a0c"
+            },
+            "annotationid": {
+                "S": "229da5cf-6ffb-4702-9d12-6429bceb64cf"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: IW Assess, then IW Build"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, Gen AI project, 96,000 USD ARR: IW Assess, then IW Build (5,000 USD, then 25% of ARR).\nProgram: IW Assess, then IW Build\nFunding: 5,000 USD, then 25% of ARR\nEstimated funding: 29,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Gen AI project\n  AWS spend: MRR 8,000 USD x 12 = ARR 96,000 USD\n\nNotes:\n  - IW Build applies to fresh workloads.\n\nChecked 2026-10-27T09:27:50.235728Z by the Ingram funding agent (08e1e7b0b85a442197f6e3419b314104)."
+            },
+            "createdon": {
+                "S": "2026-10-27T09:27:50Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-27T09:27:50Z"
+            },
+            "_objectid_value": {
+                "S": "23e223bb-76cc-4b38-81dd-cc2d20bd6373"
+            },
+            "annotationid": {
+                "S": "7a91dbda-702a-486c-be17-992d5ea46649"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Funding determined\n\nStartup, migration, 360,000 USD ARR: MAP Lite (25% of ARR (5% Assess + 20% Mobilize)).\nProgram: MAP Lite\nFunding: 25% of ARR (5% Assess + 20% Mobilize)\nEstimated funding: 90,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Migration\n  AWS spend: MRR 30,000 USD x 12 = ARR 360,000 USD\n\nNotes:\n  - For startups, MAP Lite is the better option above 264,000 USD ARR.\n\nChecked 2026-10-28T19:47:29.686879Z by the Ingram funding agent (4da2f6dfa5614f6c9abbfa95019997e2)."
+            },
+            "createdon": {
+                "S": "2026-10-28T19:47:29Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:47:29Z"
+            },
+            "_objectid_value": {
+                "S": "d74f79fd-4a11-448a-b2b6-3a5818516f8a"
+            },
+            "annotationid": {
+                "S": "2dc1bdb3-39e4-482c-af9b-74cd0347d266"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: POC"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, Gen AI project, 300,000 USD ARR: POC (10% of ARR).\nProgram: POC\nFunding: 10% of ARR\nEstimated funding: 30,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Gen AI project\n  AWS spend: MRR 25,000 USD x 12 = ARR 300,000 USD\n\nChecked 2026-10-28T12:17:59.642435Z by the Ingram funding agent (cfaa485e4e6c4211845d0b60729fc776)."
+            },
+            "createdon": {
+                "S": "2026-10-28T12:17:59Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T12:17:59Z"
+            },
+            "_objectid_value": {
+                "S": "7d6f0d5b-8877-4272-bebe-23bb12d4900c"
+            },
+            "annotationid": {
+                "S": "97561b98-c2f1-4f4d-b092-6cedc2376298"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, migration, 180,000 USD ARR: MAP Lite (5% Assess + 20% Mobilize).\nProgram: MAP Lite\nFunding: 5% Assess + 20% Mobilize\nEstimated funding: 45,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Migration\n  AWS spend: MRR 15,000 USD x 12 = ARR 180,000 USD\n\nNotes:\n  - For startups, MAP Lite is the better option wherever VMs are involved.\n\nChecked 2026-10-26T21:38:25.547465Z by the Ingram funding agent (5201714135e24ab9b797fefeb3e84725)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:38:25Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:38:25Z"
+            },
+            "_objectid_value": {
+                "S": "f5c4fda7-0a65-4cb0-bc39-c87dd5d43372"
+            },
+            "annotationid": {
+                "S": "90b82c37-2f01-45a7-91f4-f61eaf89e88c"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 720,000 USD ARR: MAP (Per MAP terms).\nProgram: MAP\nFunding: Per MAP terms\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 60,000 USD x 12 = ARR 720,000 USD\n\nNotes:\n  - Above 500,000 USD ARR, migrations go to MAP in both segments.\n\nChecked 2026-10-28T12:17:57.135388Z by the Ingram funding agent (82f9831555744434beef87f808b5e977)."
+            },
+            "createdon": {
+                "S": "2026-10-28T12:17:57Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T12:17:57Z"
+            },
+            "_objectid_value": {
+                "S": "73a90dc9-81a8-4c7d-b2d4-b8b85cf1a03c"
+            },
+            "annotationid": {
+                "S": "cfa009ad-af01-462b-99dc-73ed671ef44b"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 240,000 USD ARR: MAP Lite (25% of ARR (5% Assess + 20% Mobilize)).\nProgram: MAP Lite\nFunding: 25% of ARR (5% Assess + 20% Mobilize)\nEstimated funding: 60,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 20,000 USD x 12 = ARR 240,000 USD\n\nNotes:\n  - MAP Lite needs a migration from on-premises or any cloud.\n\nChecked 2026-10-27T09:48:50.261231Z by the Ingram funding agent (27c1d5a81a584987ae6c703795cc606e)."
+            },
+            "createdon": {
+                "S": "2026-10-27T09:48:50Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-27T09:48:50Z"
+            },
+            "_objectid_value": {
+                "S": "74fb7b6c-48c7-4ee1-beb1-59f1ec5469c7"
+            },
+            "annotationid": {
+                "S": "a609a7f1-44a8-484a-867f-1960629568b1"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 720,000 USD ARR: MAP (Per MAP terms).\nProgram: MAP\nFunding: Per MAP terms\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 60,000 USD x 12 = ARR 720,000 USD\n\nNotes:\n  - Above 500,000 USD ARR, migrations go to MAP in both segments.\n\nChecked 2026-10-26T21:38:25.261270Z by the Ingram funding agent (b7fc5cb481c54363ade7dc238b9e0fdf)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:38:25Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:38:25Z"
+            },
+            "_objectid_value": {
+                "S": "73a90dc9-81a8-4c7d-b2d4-b8b85cf1a03c"
+            },
+            "annotationid": {
+                "S": "8002cc85-b4a3-4b88-b6c1-b99dd18e24a5"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 720,000 USD ARR: MAP (Per MAP terms).\nProgram: MAP\nFunding: Per MAP terms\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 60,000 USD x 12 = ARR 720,000 USD\n\nNotes:\n  - Above 500,000 USD ARR, migrations go to MAP in both segments.\n\nChecked 2026-10-27T09:27:53.488710Z by the Ingram funding agent (3320dfe5ad1a4b8a92fe84f32d1d2506)."
+            },
+            "createdon": {
+                "S": "2026-10-27T09:27:53Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-27T09:27:53Z"
+            },
+            "_objectid_value": {
+                "S": "73a90dc9-81a8-4c7d-b2d4-b8b85cf1a03c"
+            },
+            "annotationid": {
+                "S": "883d82d3-df46-4cb6-9bb8-3692a2863481"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: IW Migrate"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Funding determined\n\nStartup, migration, 144,000 USD ARR: IW Migrate (Single phase, up to 264,000 USD ARR, no assessment).\nProgram: IW Migrate\nFunding: Single phase, up to 264,000 USD ARR, no assessment\n\nDecision path:\n  Segment: Startup\n  Workload: Migration\n  AWS spend: MRR 12,000 USD x 12 = ARR 144,000 USD\n\nNotes:\n  - IW Migrate (MRR under 22,000 USD) is a single phase with no assessment.\n\nChecked 2026-10-28T19:47:29.749812Z by the Ingram funding agent (aad621795b634fefaef5e91c01b85a44)."
+            },
+            "createdon": {
+                "S": "2026-10-28T19:47:29Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:47:29Z"
+            },
+            "_objectid_value": {
+                "S": "e2dde659-69cf-41a2-b667-04a947150031"
+            },
+            "annotationid": {
+                "S": "d671c955-8ec6-4f23-b203-7ade3cd244cc"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: Promotional credits"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nISV workload migration: Promotional credits (Promotional credits only).\nProgram: Promotional credits\nFunding: Promotional credits only\n\nDecision path:\n  Segment: Non-startup\n  Workload: ISV workload migration\n  AWS spend: MRR 12,500 USD x 12 = ARR 150,000 USD\n\nNotes:\n  - ISV workload migrations have no segment split and no ARR-based funding.\n\nChecked 2026-10-27T09:48:48.803059Z by the Ingram funding agent (3082678a9644432b9dc79cdb42a25125)."
+            },
+            "createdon": {
+                "S": "2026-10-27T09:48:48Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-27T09:48:48Z"
+            },
+            "_objectid_value": {
+                "S": "6c80e2f4-2315-46e6-9da6-6e607eb550e2"
+            },
+            "annotationid": {
+                "S": "bb71d298-cceb-4ca4-b2d7-f3d671f4d3a2"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: Promotional credits"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nISV workload migration: Promotional credits (Promotional credits only).\nProgram: Promotional credits\nFunding: Promotional credits only\n\nDecision path:\n  Segment: Non-startup\n  Workload: ISV workload migration\n  AWS spend: MRR 12,500 USD x 12 = ARR 150,000 USD\n\nNotes:\n  - ISV workload migrations have no segment split and no ARR-based funding.\n\nChecked 2026-10-28T12:17:52.656667Z by the Ingram funding agent (be22d9e31aae4e93b345c59e30d3a6c5)."
+            },
+            "createdon": {
+                "S": "2026-10-28T12:17:52Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T12:17:52Z"
+            },
+            "_objectid_value": {
+                "S": "6c80e2f4-2315-46e6-9da6-6e607eb550e2"
+            },
+            "annotationid": {
+                "S": "f2582213-3010-427e-a839-71de8fd8500c"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, migration, 180,000 USD ARR: MAP Lite (5% Assess + 20% Mobilize).\nProgram: MAP Lite\nFunding: 5% Assess + 20% Mobilize\nEstimated funding: 45,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Migration\n  AWS spend: MRR 15,000 USD x 12 = ARR 180,000 USD\n\nNotes:\n  - For startups, MAP Lite is the better option wherever VMs are involved.\n\nChecked 2026-10-26T21:45:58.627996Z by the Ingram funding agent (133de50c2582405bb2f21787af131c32)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:45:58Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:45:58Z"
+            },
+            "_objectid_value": {
+                "S": "f5c4fda7-0a65-4cb0-bc39-c87dd5d43372"
+            },
+            "annotationid": {
+                "S": "88184413-d80c-4267-b0ee-78af0f8e2f7d"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: Promotional credits"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nISV workload migration: Promotional credits (Promotional credits only).\nProgram: Promotional credits\nFunding: Promotional credits only\n\nDecision path:\n  Segment: Non-startup\n  Workload: ISV workload migration\n  AWS spend: MRR 12,500 USD x 12 = ARR 150,000 USD\n\nNotes:\n  - ISV workload migrations have no segment split and no ARR-based funding.\n\nChecked 2026-10-26T21:19:19.067810Z by the Ingram funding agent (8271fe1d64174c2a98a75fc176dadebf)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:19:19Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:19:19Z"
+            },
+            "_objectid_value": {
+                "S": "6c80e2f4-2315-46e6-9da6-6e607eb550e2"
+            },
+            "annotationid": {
+                "S": "460c90a4-79bb-400b-aca8-81d85d59caa1"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: IW Assess, then IW Build"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, Gen AI project, 96,000 USD ARR: IW Assess, then IW Build (5,000 USD, then 25% of ARR).\nProgram: IW Assess, then IW Build\nFunding: 5,000 USD, then 25% of ARR\nEstimated funding: 29,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Gen AI project\n  AWS spend: MRR 8,000 USD x 12 = ARR 96,000 USD\n\nNotes:\n  - IW Build applies to fresh workloads.\n\nChecked 2026-10-28T12:17:53.899067Z by the Ingram funding agent (0733c56375c743d9894d740c0fb887ed)."
+            },
+            "createdon": {
+                "S": "2026-10-28T12:17:53Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T12:17:53Z"
+            },
+            "_objectid_value": {
+                "S": "23e223bb-76cc-4b38-81dd-cc2d20bd6373"
+            },
+            "annotationid": {
+                "S": "84a64b5d-5a19-4e8c-9d2a-7254a2b5bf51"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: Promotional credits"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nISV workload migration: Promotional credits (Promotional credits only).\nProgram: Promotional credits\nFunding: Promotional credits only\n\nDecision path:\n  Segment: Non-startup\n  Workload: ISV workload migration\n  AWS spend: MRR 12,500 USD x 12 = ARR 150,000 USD\n\nNotes:\n  - ISV workload migrations have no segment split and no ARR-based funding.\n\nChecked 2026-10-26T21:45:53.654515Z by the Ingram funding agent (b8cddc3327464644982783579e90f2f7)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:45:53Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:45:53Z"
+            },
+            "_objectid_value": {
+                "S": "6c80e2f4-2315-46e6-9da6-6e607eb550e2"
+            },
+            "annotationid": {
+                "S": "eb76e388-f9ec-4c65-a38c-4f27c9b92dd2"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 240,000 USD ARR: MAP Lite (25% of ARR (5% Assess + 20% Mobilize)).\nProgram: MAP Lite\nFunding: 25% of ARR (5% Assess + 20% Mobilize)\nEstimated funding: 60,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 20,000 USD x 12 = ARR 240,000 USD\n\nNotes:\n  - MAP Lite needs a migration from on-premises or any cloud.\n\nChecked 2026-10-27T09:27:50.532287Z by the Ingram funding agent (50d1346a74e746748196115865ad3798)."
+            },
+            "createdon": {
+                "S": "2026-10-27T09:27:50Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-27T09:27:50Z"
+            },
+            "_objectid_value": {
+                "S": "74fb7b6c-48c7-4ee1-beb1-59f1ec5469c7"
+            },
+            "annotationid": {
+                "S": "77551db3-ee2e-4eff-97cc-cce822316fd9"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 240,000 USD ARR: MAP Lite (25% of ARR (5% Assess + 20% Mobilize)).\nProgram: MAP Lite\nFunding: 25% of ARR (5% Assess + 20% Mobilize)\nEstimated funding: 60,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 20,000 USD x 12 = ARR 240,000 USD\n\nNotes:\n  - MAP Lite needs a migration from on-premises or any cloud.\n\nChecked 2026-10-28T04:56:53.976787Z by the Ingram funding agent (f6349b5ca9da44a2a4abca8f9e376771)."
+            },
+            "createdon": {
+                "S": "2026-10-28T04:56:54Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T04:56:54Z"
+            },
+            "_objectid_value": {
+                "S": "74fb7b6c-48c7-4ee1-beb1-59f1ec5469c7"
+            },
+            "annotationid": {
+                "S": "04f84492-47e6-4aa1-87e1-de88f27c83ac"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: POC"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, Gen AI project, 300,000 USD ARR: POC (10% of ARR).\nProgram: POC\nFunding: 10% of ARR\nEstimated funding: 30,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Gen AI project\n  AWS spend: MRR 25,000 USD x 12 = ARR 300,000 USD\n\nChecked 2026-10-28T04:56:59.565295Z by the Ingram funding agent (188b9e7907594408bd366016c6370c59)."
+            },
+            "createdon": {
+                "S": "2026-10-28T04:56:59Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T04:56:59Z"
+            },
+            "_objectid_value": {
+                "S": "7d6f0d5b-8877-4272-bebe-23bb12d4900c"
+            },
+            "annotationid": {
+                "S": "34d0d1a0-525e-449c-afc8-5c76fada6992"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: Promotional credits"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nISV workload migration: Promotional credits (Promotional credits only).\nProgram: Promotional credits\nFunding: Promotional credits only\n\nDecision path:\n  Segment: Non-startup\n  Workload: ISV workload migration\n  AWS spend: MRR 12,500 USD x 12 = ARR 150,000 USD\n\nNotes:\n  - ISV workload migrations have no segment split and no ARR-based funding.\n\nChecked 2026-10-26T21:24:02.266726Z by the Ingram funding agent (751d8f6df82c4e1980ecdc9cbb8abf0f)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:24:02Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:24:02Z"
+            },
+            "_objectid_value": {
+                "S": "6c80e2f4-2315-46e6-9da6-6e607eb550e2"
+            },
+            "annotationid": {
+                "S": "bedb3958-c49d-4da5-9101-324a6e601ac7"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, migration, 180,000 USD ARR: MAP Lite (5% Assess + 20% Mobilize).\nProgram: MAP Lite\nFunding: 5% Assess + 20% Mobilize\nEstimated funding: 45,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Migration\n  AWS spend: MRR 15,000 USD x 12 = ARR 180,000 USD\n\nNotes:\n  - For startups, MAP Lite is the better option wherever VMs are involved.\n\nChecked 2026-10-27T09:27:53.759137Z by the Ingram funding agent (4daabbf1f3a34a40a3b5e16fa3c9333f)."
+            },
+            "createdon": {
+                "S": "2026-10-27T09:27:53Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-27T09:27:53Z"
+            },
+            "_objectid_value": {
+                "S": "f5c4fda7-0a65-4cb0-bc39-c87dd5d43372"
+            },
+            "annotationid": {
+                "S": "1abbc224-500d-4600-bb4e-54a42b9bc859"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 240,000 USD ARR: MAP Lite (25% of ARR (5% Assess + 20% Mobilize)).\nProgram: MAP Lite\nFunding: 25% of ARR (5% Assess + 20% Mobilize)\nEstimated funding: 60,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 20,000 USD x 12 = ARR 240,000 USD\n\nNotes:\n  - MAP Lite needs a migration from on-premises or any cloud.\n\nChecked 2026-10-26T21:38:21.826011Z by the Ingram funding agent (cb56312b67f648ebbf327b5b6c8a7c5e)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:38:21Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:38:21Z"
+            },
+            "_objectid_value": {
+                "S": "74fb7b6c-48c7-4ee1-beb1-59f1ec5469c7"
+            },
+            "annotationid": {
+                "S": "5b5f49c9-6fcf-400f-8865-a6a78c955d65"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 240,000 USD ARR: MAP Lite (25% of ARR (5% Assess + 20% Mobilize)).\nProgram: MAP Lite\nFunding: 25% of ARR (5% Assess + 20% Mobilize)\nEstimated funding: 60,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 20,000 USD x 12 = ARR 240,000 USD\n\nNotes:\n  - MAP Lite needs a migration from on-premises or any cloud.\n\nChecked 2026-10-26T21:19:20.064587Z by the Ingram funding agent (026e360edec44cc6a9a864215016b19f)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:19:20Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:19:20Z"
+            },
+            "_objectid_value": {
+                "S": "74fb7b6c-48c7-4ee1-beb1-59f1ec5469c7"
+            },
+            "annotationid": {
+                "S": "5bada71c-d420-4e07-83f9-0d30ae4f20b6"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: POC"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Funding determined\n\nNon-startup, Gen AI project, 300,000 USD ARR: POC (10% of ARR).\nProgram: POC\nFunding: 10% of ARR\nEstimated funding: 30,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Gen AI project\n  AWS spend: MRR 25,000 USD x 12 = ARR 300,000 USD\n\nChecked 2026-10-28T19:47:40.214914Z by the Ingram funding agent (0c5be244d51843dd8e8750337e6d4df4)."
+            },
+            "createdon": {
+                "S": "2026-10-28T19:47:40Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T19:47:40Z"
+            },
+            "_objectid_value": {
+                "S": "7d6f0d5b-8877-4272-bebe-23bb12d4900c"
+            },
+            "annotationid": {
+                "S": "a03ae47b-02ff-4980-88a7-81a9a696a3ba"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, migration, 180,000 USD ARR: MAP Lite (5% Assess + 20% Mobilize).\nProgram: MAP Lite\nFunding: 5% Assess + 20% Mobilize\nEstimated funding: 45,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Migration\n  AWS spend: MRR 15,000 USD x 12 = ARR 180,000 USD\n\nNotes:\n  - For startups, MAP Lite is the better option wherever VMs are involved.\n\nChecked 2026-10-26T20:27:31.438122Z by the Ingram funding agent (ea60672f623143f3b3da443b27a048d0)."
+            },
+            "createdon": {
+                "S": "2026-10-26T20:27:31Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T20:27:31Z"
+            },
+            "_objectid_value": {
+                "S": "f5c4fda7-0a65-4cb0-bc39-c87dd5d43372"
+            },
+            "annotationid": {
+                "S": "d1364a1f-ca7e-40f6-9d10-99b69f07c740"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: POC"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, Gen AI project, 300,000 USD ARR: POC (10% of ARR).\nProgram: POC\nFunding: 10% of ARR\nEstimated funding: 30,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Gen AI project\n  AWS spend: MRR 25,000 USD x 12 = ARR 300,000 USD\n\nChecked 2026-10-27T09:27:55.705902Z by the Ingram funding agent (64c4f162ca3a458d810c45122dc65f17)."
+            },
+            "createdon": {
+                "S": "2026-10-27T09:27:55Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-27T09:27:55Z"
+            },
+            "_objectid_value": {
+                "S": "7d6f0d5b-8877-4272-bebe-23bb12d4900c"
+            },
+            "annotationid": {
+                "S": "b03a92d6-41f8-40db-8057-81ac52d3af22"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, migration, 180,000 USD ARR: MAP Lite (5% Assess + 20% Mobilize).\nProgram: MAP Lite\nFunding: 5% Assess + 20% Mobilize\nEstimated funding: 45,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Migration\n  AWS spend: MRR 15,000 USD x 12 = ARR 180,000 USD\n\nNotes:\n  - For startups, MAP Lite is the better option wherever VMs are involved.\n\nChecked 2026-10-26T21:19:24.504741Z by the Ingram funding agent (ae4ceff06b4d49248b82e804db737433)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:19:24Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:19:24Z"
+            },
+            "_objectid_value": {
+                "S": "f5c4fda7-0a65-4cb0-bc39-c87dd5d43372"
+            },
+            "annotationid": {
+                "S": "04aace46-5b3d-473e-b915-37adcd7490d3"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: Promotional credits"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nISV workload migration: Promotional credits (Promotional credits only).\nProgram: Promotional credits\nFunding: Promotional credits only\n\nDecision path:\n  Segment: Non-startup\n  Workload: ISV workload migration\n  AWS spend: MRR 12,500 USD x 12 = ARR 150,000 USD\n\nNotes:\n  - ISV workload migrations have no segment split and no ARR-based funding.\n\nChecked 2026-10-26T21:26:55.118830Z by the Ingram funding agent (c3799b60758346c2a8d1316979df7248)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:26:55Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:26:55Z"
+            },
+            "_objectid_value": {
+                "S": "6c80e2f4-2315-46e6-9da6-6e607eb550e2"
+            },
+            "annotationid": {
+                "S": "4039b7e2-1d77-48a4-9e05-95398b479b06"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 720,000 USD ARR: MAP (Per MAP terms).\nProgram: MAP\nFunding: Per MAP terms\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 60,000 USD x 12 = ARR 720,000 USD\n\nNotes:\n  - Above 500,000 USD ARR, migrations go to MAP in both segments.\n\nChecked 2026-10-26T21:22:06.052728Z by the Ingram funding agent (1222e7266a744d5295f7b747d548b7cc)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:22:06Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:22:06Z"
+            },
+            "_objectid_value": {
+                "S": "73a90dc9-81a8-4c7d-b2d4-b8b85cf1a03c"
+            },
+            "annotationid": {
+                "S": "355bee3e-7a37-44ad-8481-5b963ccfe6b5"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 720,000 USD ARR: MAP (Per MAP terms).\nProgram: MAP\nFunding: Per MAP terms\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 60,000 USD x 12 = ARR 720,000 USD\n\nNotes:\n  - Above 500,000 USD ARR, migrations go to MAP in both segments.\n\nChecked 2026-10-26T20:27:31.162227Z by the Ingram funding agent (8f8546ffe9fd4c2d9e7e28e314164a97)."
+            },
+            "createdon": {
+                "S": "2026-10-26T20:27:31Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T20:27:31Z"
+            },
+            "_objectid_value": {
+                "S": "73a90dc9-81a8-4c7d-b2d4-b8b85cf1a03c"
+            },
+            "annotationid": {
+                "S": "7509c5f0-da46-455b-9e4f-8a19472bbf5a"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 720,000 USD ARR: MAP (Per MAP terms).\nProgram: MAP\nFunding: Per MAP terms\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 60,000 USD x 12 = ARR 720,000 USD\n\nNotes:\n  - Above 500,000 USD ARR, migrations go to MAP in both segments.\n\nChecked 2026-10-26T21:24:07.877631Z by the Ingram funding agent (4df97c50ff724f9da496d74d5ae5bd54)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:24:07Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:24:07Z"
+            },
+            "_objectid_value": {
+                "S": "73a90dc9-81a8-4c7d-b2d4-b8b85cf1a03c"
+            },
+            "annotationid": {
+                "S": "290861f6-77e7-4104-9dff-1dbd5701fa3e"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, migration, 180,000 USD ARR: MAP Lite (5% Assess + 20% Mobilize).\nProgram: MAP Lite\nFunding: 5% Assess + 20% Mobilize\nEstimated funding: 45,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Migration\n  AWS spend: MRR 15,000 USD x 12 = ARR 180,000 USD\n\nNotes:\n  - For startups, MAP Lite is the better option wherever VMs are involved.\n\nChecked 2026-10-28T12:17:57.475606Z by the Ingram funding agent (c6a5d66dcfbc43af833e5253451383cd)."
+            },
+            "createdon": {
+                "S": "2026-10-28T12:17:57Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T12:17:57Z"
+            },
+            "_objectid_value": {
+                "S": "f5c4fda7-0a65-4cb0-bc39-c87dd5d43372"
+            },
+            "annotationid": {
+                "S": "54796d9e-3d1f-48b2-bb33-3c177f802731"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 240,000 USD ARR: MAP Lite (25% of ARR (5% Assess + 20% Mobilize)).\nProgram: MAP Lite\nFunding: 25% of ARR (5% Assess + 20% Mobilize)\nEstimated funding: 60,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 20,000 USD x 12 = ARR 240,000 USD\n\nNotes:\n  - MAP Lite needs a migration from on-premises or any cloud.\n\nChecked 2026-10-26T21:24:03.727272Z by the Ingram funding agent (018d06f5bcd1446ca36df559b817ac1d)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:24:03Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:24:03Z"
+            },
+            "_objectid_value": {
+                "S": "74fb7b6c-48c7-4ee1-beb1-59f1ec5469c7"
+            },
+            "annotationid": {
+                "S": "31099411-1a97-4dbf-8440-fa2f3cc8e403"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: POC"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, Gen AI project, 300,000 USD ARR: POC (10% of ARR).\nProgram: POC\nFunding: 10% of ARR\nEstimated funding: 30,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Gen AI project\n  AWS spend: MRR 25,000 USD x 12 = ARR 300,000 USD\n\nChecked 2026-10-26T21:24:09.264225Z by the Ingram funding agent (b8f3ffec9ddb43aea40a303d1378af7f)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:24:09Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:24:09Z"
+            },
+            "_objectid_value": {
+                "S": "7d6f0d5b-8877-4272-bebe-23bb12d4900c"
+            },
+            "annotationid": {
+                "S": "b75bbc6b-360e-4c59-b4e8-faa598a14933"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 240,000 USD ARR: MAP Lite (25% of ARR (5% Assess + 20% Mobilize)).\nProgram: MAP Lite\nFunding: 25% of ARR (5% Assess + 20% Mobilize)\nEstimated funding: 60,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 20,000 USD x 12 = ARR 240,000 USD\n\nNotes:\n  - MAP Lite needs a migration from on-premises or any cloud.\n\nChecked 2026-10-26T21:26:56.426405Z by the Ingram funding agent (c62f01472e504ed78b4ee93d488501f7)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:26:56Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:26:56Z"
+            },
+            "_objectid_value": {
+                "S": "74fb7b6c-48c7-4ee1-beb1-59f1ec5469c7"
+            },
+            "annotationid": {
+                "S": "a8e465e2-73d9-4550-8e5f-c50656a35a89"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: MAP"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, migration, 720,000 USD ARR: MAP (Per MAP terms).\nProgram: MAP\nFunding: Per MAP terms\n\nDecision path:\n  Segment: Non-startup\n  Workload: Migration\n  AWS spend: MRR 60,000 USD x 12 = ARR 720,000 USD\n\nNotes:\n  - Above 500,000 USD ARR, migrations go to MAP in both segments.\n\nChecked 2026-10-26T21:19:24.220569Z by the Ingram funding agent (bc7f0be9ad1547aca8fec4867cd441d6)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:19:24Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:19:24Z"
+            },
+            "_objectid_value": {
+                "S": "73a90dc9-81a8-4c7d-b2d4-b8b85cf1a03c"
+            },
+            "annotationid": {
+                "S": "05f8b37e-312a-4e91-9241-4481c5a8e825"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: Promotional credits"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nISV workload migration: Promotional credits (Promotional credits only).\nProgram: Promotional credits\nFunding: Promotional credits only\n\nDecision path:\n  Segment: Non-startup\n  Workload: ISV workload migration\n  AWS spend: MRR 12,500 USD x 12 = ARR 150,000 USD\n\nNotes:\n  - ISV workload migrations have no segment split and no ARR-based funding.\n\nChecked 2026-10-28T04:56:52.781878Z by the Ingram funding agent (d8e628142e664e238b6ad35dfac2fa5a)."
+            },
+            "createdon": {
+                "S": "2026-10-28T04:56:52Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-28T04:56:52Z"
+            },
+            "_objectid_value": {
+                "S": "6c80e2f4-2315-46e6-9da6-6e607eb550e2"
+            },
+            "annotationid": {
+                "S": "097d4a8e-d3e5-4c34-b1f4-2c80a0d4954d"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: POC"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nNon-startup, Gen AI project, 300,000 USD ARR: POC (10% of ARR).\nProgram: POC\nFunding: 10% of ARR\nEstimated funding: 30,000 USD\n\nDecision path:\n  Segment: Non-startup\n  Workload: Gen AI project\n  AWS spend: MRR 25,000 USD x 12 = ARR 300,000 USD\n\nChecked 2026-10-26T21:46:00.191210Z by the Ingram funding agent (d5fedfb441e14d3880e1efcee86047ab)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:46:00Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:46:00Z"
+            },
+            "_objectid_value": {
+                "S": "7d6f0d5b-8877-4272-bebe-23bb12d4900c"
+            },
+            "annotationid": {
+                "S": "2a15e596-da27-4619-af8d-aa6615c3e05b"
+            }
+        },
+        {
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "subject": {
+                "S": "AWS funding check: MAP Lite"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, migration, 180,000 USD ARR: MAP Lite (5% Assess + 20% Mobilize).\nProgram: MAP Lite\nFunding: 5% Assess + 20% Mobilize\nEstimated funding: 45,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Migration\n  AWS spend: MRR 15,000 USD x 12 = ARR 180,000 USD\n\nNotes:\n  - For startups, MAP Lite is the better option wherever VMs are involved.\n\nChecked 2026-10-26T21:22:06.333910Z by the Ingram funding agent (f54a2b2b9de7459fba587063ff5d6f19)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:22:06Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:22:06Z"
+            },
+            "_objectid_value": {
+                "S": "f5c4fda7-0a65-4cb0-bc39-c87dd5d43372"
+            },
+            "annotationid": {
+                "S": "a74c2807-5106-433e-afb5-0e8ecbfe127e"
+            }
+        },
+        {
+            "subject": {
+                "S": "AWS funding check: IW Assess, then IW Build"
+            },
+            "objecttypecode": {
+                "S": "opportunity"
+            },
+            "notetext": {
+                "S": "AWS Funding Programs Decision Framework — Decided\n\nStartup, Gen AI project, 96,000 USD ARR: IW Assess, then IW Build (5,000 USD, then 25% of ARR).\nProgram: IW Assess, then IW Build\nFunding: 5,000 USD, then 25% of ARR\nEstimated funding: 29,000 USD\n\nDecision path:\n  Segment: Startup\n  Workload: Gen AI project\n  AWS spend: MRR 8,000 USD x 12 = ARR 96,000 USD\n\nNotes:\n  - IW Build applies to fresh workloads.\n\nChecked 2026-10-26T21:24:03.402393Z by the Ingram funding agent (9110e3ebb1b5473c9f362e74bfc5b2c3)."
+            },
+            "createdon": {
+                "S": "2026-10-26T21:24:03Z"
+            },
+            "modifiedon": {
+                "S": "2026-10-26T21:24:03Z"
+            },
+            "_objectid_value": {
+                "S": "23e223bb-76cc-4b38-81dd-cc2d20bd6373"
+            },
+            "annotationid": {
+                "S": "e753e4d3-9668-4c97-b36e-334f500f4f67"
+            }
+        }
+    ],
+    "Count": 84,
+    "ScannedCount": 84,
+    "ConsumedCapacity": null
+}

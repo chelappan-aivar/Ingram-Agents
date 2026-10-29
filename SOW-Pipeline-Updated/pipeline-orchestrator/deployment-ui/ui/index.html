@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ingram Pipeline</title>
+  <!-- deploy.sh pins connect-src to the exact API host; the wildcard is only for running the UI locally. -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self';
+                 connect-src 'self' https://*.execute-api.us-east-1.amazonaws.com; img-src 'self' data: blob:">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-view="app">
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="brand" aria-label="Ingram Micro"><span class="brand-mark">INGRAM</span><span class="brand-sub">MICRO</span></span>
+        <span class="app-name">Pipeline</span>
+        <span class="tag">PILOT</span>
+      </div>
+      <div class="topbar-right">
+        <span id="quota" class="muted small" role="status" aria-live="polite"></span>
+        <div class="theme-toggle" role="group" aria-label="Theme" data-theme-toggle></div>
+      </div>
+    </header>
+
+    <main class="dash">
+      <div class="grid">
+        <div class="col-left">
+          <!-- ====================================================== samples -->
+          <section class="card" aria-labelledby="samples-title">
+            <h2 id="samples-title">Samples</h2>
+            <p class="card-sub">Fictional engagements to try the pipeline. <b>Use sample</b> fills the form so the SOW is drafted from scratch. <b>Use with example SOW</b> also loads the finished SOW, which skips drafting for a quicker demo.</p>
+            <ul id="samples" class="samples" aria-label="Sample engagements"></ul>
+          </section>
+
+          <!-- ====================================================== start a run -->
+          <section class="card" aria-labelledby="new-title">
+            <h2 id="new-title">New run</h2>
+            <p class="card-sub">SOW first, then the Solutions Architect reviews the draft, then a Well-Architected review, the architecture diagram, the cost estimate and a final SOW review. The run pauses for the architect, and a high finding stops it before the diagram is drawn.</p>
+            <form id="run-form" novalidate>
+              <div class="two">
+                <div>
+                  <label for="customer">Customer name</label>
+                  <input id="customer" type="text" maxlength="200" autocomplete="organization" required placeholder="Acme Corp">
+                </div>
+                <div>
+                  <label for="opportunity">Opportunity id <span class="muted">(optional)</span></label>
+                  <input id="opportunity" type="text" maxlength="100" autocomplete="off" placeholder="OPP-1234">
+                </div>
+              </div>
+              <label for="template">Template</label>
+              <select id="template" required aria-describedby="template-status"><option value="">Loading templates…</option></select>
+              <p id="template-status" class="hint" role="status" aria-live="polite"></p>
+
+              <label for="details">Project details</label>
+              <textarea id="details" rows="7" maxlength="50000" placeholder="What the customer wants, volumes, constraints, timeline. The SOW is drafted from this and the intake data."></textarea>
+
+              <details id="upstream-panel" class="section">
+                <summary>Intake data (UpstreamInputs JSON, optional)</summary>
+                <textarea id="upstream" rows="6" class="mono" spellcheck="false" aria-describedby="upstream-status"
+                          placeholder='{"meta": {...}, "intake": {"customer_name": "Acme"}}'></textarea>
+                <p id="upstream-status" class="hint" role="status" aria-live="polite">Intake and discovery only. The architecture and cost blocks are produced by this pipeline, so leave them out. Without this, a minimal handoff is built from the customer name.</p>
+              </details>
+
+              <details id="sow-panel" class="section">
+                <summary>Already have a SOW? (skips drafting)</summary>
+                <textarea id="sow" rows="6" class="mono" spellcheck="false" placeholder="Paste the SOW markdown. It is still reviewed, then used as the scope for the architecture."></textarea>
+              </details>
+
+              <label class="check"><input id="stop-on-blocked" type="checkbox" checked>
+                <span>Pause for the Solutions Architect, and stop when the Well-Architected review raises a high finding
+                  <span class="hint">Recommended. The architect reviews the draft before anything is built on it, and a finding caught here costs one SOW edit, not a loop through the diagram and the price. Turn off for a fully automated run.</span></span>
+              </label>
+              <div class="actions">
+                <button id="start" type="submit" class="btn primary">Start the pipeline</button>
+              </div>
+              <p id="form-status" class="status-line" role="status" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <!-- ====================================================== history -->
+          <section class="card" aria-labelledby="history-title">
+            <h2 id="history-title">Recent runs</h2>
+            <ul id="history" class="cards" aria-label="Recent runs"></ul>
+          </section>
+        </div>
+
+        <!-- ====================================================== the run -->
+        <section class="card" id="run-card" aria-labelledby="run-title">
+          <div id="empty" class="empty">
+            <h2>No run selected</h2>
+            <p>Pick a sample and start the pipeline, or open a recent run.</p>
+          </div>
+
+          <div id="run" hidden>
+            <div class="card-head">
+              <div>
+                <h2 id="run-title">Run</h2>
+                <p id="run-sub" class="card-sub"></p>
+              </div>
+              <span id="run-pill" class="pill"></span>
+            </div>
+            <div class="progress" aria-hidden="true"><div id="bar"></div></div>
+            <p id="run-error" class="error" role="alert"></p>
+
+            <ol id="stages" class="pipe" aria-label="Pipeline stages"></ol>
+
+            <div id="blocked" class="review-panel" role="alert" hidden>
+              <b>Stopped for review</b>
+              <p id="blocked-detail"></p>
+              <p class="hint">Ask the AI to fix the SOW under <b>Change this run with AI</b> below, which re-runs the review, or continue past the finding. Continuing is logged.</p>
+              <div class="actions"><button id="continue" type="button" class="btn">Continue anyway</button></div>
+            </div>
+
+            <div id="sa-review" class="review-panel" role="region" hidden>
+              <b>Solutions Architect review</b>
+              <p id="sa-detail"></p>
+              <p class="hint">Edit the draft with AI under <b>Change this run with AI</b> below, or leave a comment for the record, then approve to run the Well-Architected review.</p>
+              <textarea id="sa-comment" rows="3" maxlength="2000" placeholder="Optional note for the record, e.g. confirmed AWS KMS and IAM are in scope but priced separately."></textarea>
+              <div class="actions">
+                <button id="sa-comment-add" type="button" class="btn">Add comment</button>
+                <button id="sa-approve" type="button" class="btn primary">Approve &amp; continue</button>
+                <span id="sa-status" class="muted small" role="status" aria-live="polite"></span>
+              </div>
+              <ol id="sa-comments" class="audit" aria-label="Architect comments"></ol>
+            </div>
+
+            <details id="revise-panel" class="section revise">
+              <summary>Change this run with AI</summary>
+              <form id="revise-form" class="revise-form" novalidate>
+                <p class="hint">Say what to change in plain words. The AI edits the SOW, the architecture design or the cost estimate, and the stages after it run again so the diagram, the price and the review match.</p>
+                <label for="revise-target">What to change</label>
+                <select id="revise-target" aria-describedby="revise-target-hint">
+                  <option value="sow">SOW</option>
+                  <option value="architecture">Architecture design</option>
+                  <option value="cost">Cost estimate</option>
+                </select>
+                <p id="revise-target-hint" class="hint"></p>
+                <label for="revise-instruction">Your instruction</label>
+                <textarea id="revise-instruction" rows="3" maxlength="2000"></textarea>
+                <div class="actions">
+                  <button id="revise-send" type="submit" class="btn primary">Apply change</button>
+                  <span id="revise-status" class="muted small" role="status" aria-live="polite"></span>
+                </div>
+              </form>
+              <ol id="revisions" class="audit" aria-label="Changes made to this run"></ol>
+            </details>
+
+            <div class="downloads" id="downloads" hidden>
+              <span class="muted">Final output</span>
+              <button id="export" type="button" class="btn sm primary" title="The final SOW with the architecture diagram and the real cost estimate link, as Word">Download combined SOW (.docx)</button>
+              <a id="calc-link" class="btn sm" target="_blank" rel="noopener noreferrer" hidden>Open cost estimate</a>
+              <span id="export-status" class="muted small" role="status" aria-live="polite"></span>
+            </div>
+
+            <div class="subtabs" role="tablist" aria-label="Run outputs">
+              <button class="subtab" role="tab" type="button" data-tab="sow" aria-current="page">SOW</button>
+              <button class="subtab" role="tab" type="button" data-tab="review">Well-Architected <span id="review-count" class="count" hidden></span></button>
+              <button class="subtab" role="tab" type="button" data-tab="arch">Architecture</button>
+              <button class="subtab" role="tab" type="button" data-tab="cost">Cost &amp; scope</button>
+              <button class="subtab" role="tab" type="button" data-tab="log">Activity</button>
+            </div>
+            <div id="tab-sow" class="tab-panel"><div id="sow-view" class="md md-scroll sow-preview"></div></div>
+            <div id="tab-review" class="tab-panel" hidden><div id="review-view"></div></div>
+            <div id="tab-arch" class="tab-panel" hidden><div id="arch-view"></div></div>
+            <div id="tab-cost" class="tab-panel" hidden><div id="cost-view"></div></div>
+            <div id="tab-log" class="tab-panel" hidden><ol id="log" class="audit"></ol></div>
+          </div>
+
+          <div id="viewer" hidden>
+            <div class="card-head">
+              <h2 id="viewer-title">Example</h2>
+              <button id="viewer-close" class="btn sm" type="button">Close</button>
+            </div>
+            <div id="viewer-body" class="md md-scroll sow-preview"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="config.js"></script>
+  <script src="templates.js"></script>
+  <script src="samples.js"></script>
+  <script src="markdown.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

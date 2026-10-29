@@ -1,0 +1,3 @@
+config.env
+build/
+__pycache__/

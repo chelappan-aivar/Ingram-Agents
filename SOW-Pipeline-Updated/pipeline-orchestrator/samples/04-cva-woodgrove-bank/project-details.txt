@@ -1,0 +1,34 @@
+Woodgrove Bank - AWS Cloud Viability Assessment (Full)
+
+Customer: Woodgrove Bank, a retail and SME bank in the Netherlands, about 4,200 employees.
+Partner: Contoso Cloud Partners (Ingram Micro reseller). Opportunity: USC-2026-0731. Template: CVA (Full).
+Ingram Micro entity: Ingram Micro BV (Netherlands). Delivery: Ingram Micro EMEA Unified Services Centre, remote.
+
+Situation
+- Woodgrove runs about 420 virtual servers on VMware vSphere in two Dutch data centres. The hosting contract ends in
+  September 2027 and the board wants a fact-based view of AWS before deciding to renew or move.
+- Estate: roughly 300 Windows Server (2012 R2 to 2022), 90 Linux (RHEL 8/9) and 30 hosts running SQL Server
+  (Standard and Enterprise). About 180 TB of allocated storage.
+- Licensing: an Enterprise Agreement with Microsoft, SQL Server Enterprise with Software Assurance. No licence audit
+  has been done for three years.
+- No data collection tool is installed. Woodgrove has agreed to the AWS Migration Evaluator collector, read-only access
+  to vCenter, and a 21-day observation period.
+
+What Woodgrove wants from the assessment
+- A server inventory with real utilisation (not allocation) so AWS is sized on what is used.
+- Rightsized AWS instance blueprint (family, size, count, tenancy, region eu-west-1 with eu-central-1 as the alternative).
+- 1-year and 3-year Reserved Instance and Savings Plan scenarios, and a 5-year comparison with the current data centres.
+- BYOL versus License Included for Windows Server and SQL Server.
+- A high-level target architecture (landing zone, accounts, network segmentation) and the migration approach (6Rs).
+- A view of the AWS MAP funding Woodgrove could qualify for.
+
+Constraints and assumptions
+- Assessment only. No migration, remediation, build or proof of concept.
+- Target environment must be multi-AZ: Woodgrove's regulator expects the production landing zone to span two
+  Availability Zones.
+- Banking data stays in the EU. Any AWS region used must be in the EU.
+- Timeline: 8 weeks from kick-off. Partner and customer stakeholders available for the workshop in week 2.
+
+Out of scope
+- Migration, refactoring or re-platforming work; detailed design, runbooks or infrastructure as code.
+- Licence procurement or entitlement validation. Managed services after the assessment.

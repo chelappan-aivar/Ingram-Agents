@@ -1,0 +1,6 @@
+# Pinned so the bedrock-agentcore client (runtimeUserId) is available regardless of the Lambda-bundled boto3.
+boto3==1.43.114
+# Uploaded seller notes (PDF) and CRM records (Excel .xlsx); both pure Python.
+pypdf==6.21.1
+openpyxl==3.1.5
+et-xmlfile==2.0.0

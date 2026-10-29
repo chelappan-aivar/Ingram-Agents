@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Intake Agent · Ingram Micro Agents Dashboard</title>
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="stylesheet" href="/pipeline/assets/pipeline.css" />
+    <script src="/pipeline/assets/theme.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="shell">
+      <aside class="sidebar" aria-label="Navigation">
+        <a class="brand" href="/agents/" aria-label="Ingram Micro agents">INGRAM <span>MICRO</span></a>
+        <nav>
+          <a class="nav-item" href="/agents/">Agents</a>
+          <a class="nav-item" href="/pipeline/">Pipeline Runs</a>
+          <p class="nav-group">Connected agents</p>
+          <ol class="nav-flow">
+            <li><a href="/agents/intake-agent/" aria-current="page" class="current">Intake</a></li>
+            <li><a href="/agents/live-assist-agent/">Live Assist</a></li>
+            <li><a href="/agents/discovery-agent/">Discovery</a></li>
+            <li><a href="/agents/catalyst-sow-generator-agent/">SOW Generator</a></li>
+            <li><a href="/agents/architecture-agent/">Architecture</a></li>
+            <li><a href="/agents/cost-calculator-agent/">Cost Estimate</a></li>
+          </ol>
+        </nav>
+      </aside>
+      <div class="main-col">
+        <header class="topbar">
+          <p class="crumbs">Ingram Micro Agents Dashboard <span aria-hidden="true">/</span> <a href="/agents/">Agents</a> <span aria-hidden="true">/</span> <strong>Intake Agent</strong></p>
+        </header>
+        <main id="main" class="content content-frame">
+          <iframe class="app-frame" title="Intake Agent" src="/apps/intake/" allow="microphone; clipboard-write"></iframe>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

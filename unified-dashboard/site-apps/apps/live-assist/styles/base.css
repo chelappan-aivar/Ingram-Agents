@@ -1,0 +1,67 @@
+/* Design tokens, page frame, header and hero. Matches the Ingram Micro pilot console look. */
+:root {
+  --bg: #f3f4f6; --card: #ffffff; --tile: #f7f8fa; --line: #e5e7eb; --line-strong: #d1d5db;
+  --ink: #111827; --mute: #6b7280; --brand: #0b5fd9; --brand-ink: #ffffff; --brand-soft: #e8f0fe;
+  --ok: #15803d; --ok-soft: #e3f4ea; --warn: #b45309; --warn-soft: #fdf1dc; --bad: #b91c1c; --bad-soft: #fde8e8;
+  --hero-a: #0a56c2; --hero-b: #0a3a80; --focus: #0b5fd9;
+  --radius: 14px; --radius-sm: 10px; --shadow: 0 1px 2px rgba(16, 24, 40, .04);
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+:root[data-resolved="dark"] {
+  --bg: #0a1020; --card: #101a30; --tile: #0d1528; --line: #1e2a48; --line-strong: #2b3a5e;
+  --ink: #e6eaf2; --mute: #93a1ba; --brand: #5b9bff; --brand-ink: #06122b; --brand-soft: #152a52;
+  --ok: #4ade80; --ok-soft: #123223; --warn: #fbbf24; --warn-soft: #3a2a0e; --bad: #f87171; --bad-soft: #3d1717;
+  --hero-a: #0e3f8f; --hero-b: #0a2556; --focus: #8ab8ff; --shadow: none;
+}
+
+* { box-sizing: border-box; }
+html { color-scheme: light dark; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 var(--font); -webkit-font-smoothing: antialiased; }
+:root[data-resolved="light"] { color-scheme: light; }
+:root[data-resolved="dark"] { color-scheme: dark; }
+h1, h2, h3, p { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+svg { width: 1em; height: 1em; flex: none; }
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+[hidden] { display: none !important; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14px 0; }
+.skip { position: absolute; left: -999px; top: 8px; background: var(--card); padding: 8px 12px; border-radius: 8px; z-index: 10; }
+.skip:focus { left: 8px; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; height: 52px; padding: 0 clamp(14px, 4vw, 32px);
+  background: var(--card); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; }
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.wordmark { width: 104px; height: 24px; }
+.wordmark-main { font: italic 800 22px/1 var(--font); fill: var(--brand); letter-spacing: .5px; }
+.wordmark-sub { font: 700 6.5px/1 var(--font); fill: var(--mute); letter-spacing: 1.2px; }
+.brand-divider { width: 1px; height: 22px; background: var(--line-strong); }
+.product { font-weight: 600; font-size: 13px; white-space: nowrap; }
+
+.theme-switch { display: flex; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); }
+.theme-switch button { width: 28px; height: 28px; display: grid; place-items: center; border: 0; border-radius: 999px; background: transparent; color: var(--mute); cursor: pointer; }
+.theme-switch button svg { width: 15px; height: 15px; }
+.theme-switch button[aria-pressed="true"] { background: var(--brand-soft); color: var(--brand); }
+.theme-switch button:hover { color: var(--ink); }
+
+main { max-width: 1120px; margin: 0 auto; padding: 22px clamp(14px, 4vw, 32px) 56px; }
+
+.hero { position: relative; overflow: hidden; border-radius: var(--radius); color: #fff; padding: 24px 28px 26px;
+  background: linear-gradient(100deg, var(--hero-a), var(--hero-b)); }
+.hero h1 { font-size: 21px; font-weight: 700; letter-spacing: -.01em; position: relative; }
+.hero p { margin-top: 6px; max-width: 62ch; font-size: 13px; line-height: 1.55; color: rgba(255, 255, 255, .85); position: relative; }
+.hero-wave { position: absolute; right: 0; bottom: 0; width: 70%; height: 100%; fill: rgba(255, 255, 255, .07); }
+
+.grid { display: grid; grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); gap: 18px; margin-top: 18px; align-items: start; }
+@media (max-width: 900px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+
+.muted { color: var(--mute); font-size: 12.5px; }
+.note, .hint { color: var(--mute); font-size: 12px; margin-top: 6px; }
+.hint { display: block; }
+.error { margin-top: 10px; padding: 9px 12px; border-radius: var(--radius-sm); background: var(--bad-soft); color: var(--bad); font-size: 13px; }
+
+.toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); max-width: min(92vw, 520px); padding: 10px 16px;
+  border-radius: 999px; background: var(--ink); color: var(--bg); font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .2s; }
+.toast.show { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

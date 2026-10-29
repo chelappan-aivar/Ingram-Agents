@@ -1,0 +1,29 @@
+.git
+.gitignore
+.venv
+.pytest_cache
+__pycache__
+*.pyc
+
+# Secrets and local config
+.env
+.env.*
+
+# Not needed at runtime
+tests
+scripts
+ui
+docs
+tmp
+dist
+deploy
+replayer
+req.md
+pytest.ini
+requirements-dev.txt
+Dockerfile
+.dockerignore
+api
+temp_code
+task.md
+testui

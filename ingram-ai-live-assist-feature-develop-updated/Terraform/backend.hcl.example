@@ -1,0 +1,7 @@
+# Remote state. Copy to backend.<env>.hcl (git-ignored) and fill in, or set TF_STATE_BUCKET for deploy.sh.
+# The bucket must already exist, with versioning and encryption on. Locking uses S3 itself (Terraform 1.10+).
+bucket       = "YOUR-TERRAFORM-STATE-BUCKET"
+key          = "live-assist/dev/terraform.tfstate"
+region       = "us-east-1"
+encrypt      = true
+use_lockfile = true

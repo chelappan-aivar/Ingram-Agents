@@ -1,0 +1,31 @@
+{
+  "opportunity_type": "hardware_refresh",
+  "label": "Hardware Refresh",
+  "description": "Replacing or upgrading the customer's physical hardware (servers, endpoints, networking gear).",
+  "required_fields": [
+    {
+      "id": "current_hardware_inventory",
+      "label": "Current hardware inventory",
+      "description": "What hardware is currently in place and due for refresh?",
+      "required": true
+    },
+    {
+      "id": "target_timeline",
+      "label": "Expected rollout timeline",
+      "description": "When does the customer want the refresh completed?",
+      "required": true
+    },
+    {
+      "id": "site_locations",
+      "label": "Site locations involved",
+      "description": "Which physical sites/locations need hardware replaced?",
+      "required": true
+    },
+    {
+      "id": "budget_range",
+      "label": "Budget range",
+      "description": "Approximate budget available for the engagement.",
+      "required": false
+    }
+  ]
+}

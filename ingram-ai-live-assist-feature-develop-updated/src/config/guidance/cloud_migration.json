@@ -1,0 +1,37 @@
+{
+  "opportunity_type": "cloud_migration",
+  "label": "Cloud Migration",
+  "description": "Moving workloads from on-prem or another cloud into a target cloud environment.",
+  "required_fields": [
+    {
+      "id": "current_environment",
+      "label": "Current infrastructure / environment description",
+      "description": "On-prem, cloud, hybrid? Key workloads and systems involved?",
+      "required": true
+    },
+    {
+      "id": "target_timeline",
+      "label": "Expected go-live / target timeline",
+      "description": "When does the customer want the migration completed?",
+      "required": true
+    },
+    {
+      "id": "workload_inventory",
+      "label": "Workload / application inventory",
+      "description": "Which applications, servers, or services need to move?",
+      "required": true
+    },
+    {
+      "id": "compliance_requirements",
+      "label": "Compliance or data residency requirements",
+      "description": "Any regulatory constraints on where data/workloads can live?",
+      "required": false
+    },
+    {
+      "id": "budget_range",
+      "label": "Budget range",
+      "description": "Approximate budget available for the engagement.",
+      "required": false
+    }
+  ]
+}

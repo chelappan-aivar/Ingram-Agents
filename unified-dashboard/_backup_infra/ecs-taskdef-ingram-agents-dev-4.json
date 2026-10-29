@@ -1,0 +1,212 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:us-east-1:455162169375:task-definition/ingram-agents-dev:4",
+    "containerDefinitions": [
+        {
+            "name": "backend",
+            "image": "455162169375.dkr.ecr.us-east-1.amazonaws.com/cdk-ingramdash-container-assets-455162169375-us-east-1:3a11b1e7bc3d88536981052019841fd8cc257646a62f3009874ed31aeeb0ea4d",
+            "cpu": 0,
+            "links": [],
+            "portMappings": [
+                {
+                    "containerPort": 8000,
+                    "hostPort": 8000,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "entryPoint": [],
+            "command": [],
+            "environment": [
+                {
+                    "name": "CORS_ALLOWED_ORIGINS",
+                    "value": "https://d257wmhppqdfnv.cloudfront.net"
+                },
+                {
+                    "name": "TRUSTED_PROXY_COUNT",
+                    "value": "2"
+                },
+                {
+                    "name": "AWS_REGION",
+                    "value": "us-east-1"
+                },
+                {
+                    "name": "APP_ENV",
+                    "value": "dev"
+                },
+                {
+                    "name": "ALLOWED_EMAIL_DOMAINS",
+                    "value": "aivar.tech"
+                },
+                {
+                    "name": "AWS_DEFAULT_REGION",
+                    "value": "us-east-1"
+                },
+                {
+                    "name": "COGNITO_USER_POOL_ID",
+                    "value": "us-east-1_0cYHkw99D"
+                },
+                {
+                    "name": "LIVE_ASSIST_ACCESS_KEY_SECRET_ID",
+                    "value": "ila-dev/access-key"
+                },
+                {
+                    "name": "SECRETS_MANAGER_REGION",
+                    "value": "us-east-1"
+                },
+                {
+                    "name": "LIVE_ASSIST_API_URL",
+                    "value": "https://jgodxn68tf.execute-api.us-east-1.amazonaws.com"
+                },
+                {
+                    "name": "SECRETS_MANAGER_SECRET_ID",
+                    "value": "ingram-agents/dev/backend"
+                },
+                {
+                    "name": "COGNITO_REGION",
+                    "value": "us-east-1"
+                },
+                {
+                    "name": "COGNITO_APP_CLIENT_ID",
+                    "value": "7571apoo0ck61kpa4j2kgoovnq"
+                },
+                {
+                    "name": "LOG_LEVEL",
+                    "value": "INFO"
+                }
+            ],
+            "environmentFiles": [],
+            "mountPoints": [
+                {
+                    "sourceVolume": "tmp",
+                    "containerPath": "/tmp",
+                    "readOnly": false
+                }
+            ],
+            "volumesFrom": [],
+            "linuxParameters": {
+                "capabilities": {
+                    "add": [],
+                    "drop": [
+                        "ALL"
+                    ]
+                },
+                "devices": [],
+                "initProcessEnabled": true,
+                "tmpfs": []
+            },
+            "secrets": [
+                {
+                    "name": "DATABASE_URL",
+                    "valueFrom": "arn:aws:secretsmanager:us-east-1:455162169375:secret:ingram-agents/dev/database-url-qh9SAt"
+                }
+            ],
+            "stopTimeout": 30,
+            "readonlyRootFilesystem": true,
+            "dnsServers": [],
+            "dnsSearchDomains": [],
+            "extraHosts": [],
+            "dockerSecurityOptions": [],
+            "dockerLabels": {},
+            "ulimits": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/ingram-agents-dev",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "backend"
+                },
+                "secretOptions": []
+            },
+            "healthCheck": {
+                "command": [
+                    "CMD",
+                    "python",
+                    "-c",
+                    "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health/live', timeout=2)"
+                ],
+                "interval": 30,
+                "timeout": 5,
+                "retries": 3,
+                "startPeriod": 30
+            },
+            "systemControls": [],
+            "credentialSpecs": []
+        }
+    ],
+    "family": "ingram-agents-dev",
+    "taskRoleArn": "arn:aws:iam::455162169375:role/ingram-agents-dev-app-BackendTaskDefinitionTaskRole-yix5hYmtq653",
+    "executionRoleArn": "arn:aws:iam::455162169375:role/ingram-agents-dev-app-BackendTaskDefinitionExecutio-lFGZQU5PAHNy",
+    "networkMode": "awsvpc",
+    "revision": 4,
+    "volumes": [
+        {
+            "name": "tmp",
+            "host": {}
+        }
+    ],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.17"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "ecs.capability.container-health-check"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.22"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "ecs.capability.secrets.asm.environment-variables"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.25"
+        },
+        {
+            "name": "ecs.capability.container-ordering"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE",
+        "MANAGED_INSTANCES"
+    ],
+    "runtimePlatform": {
+        "cpuArchitecture": "ARM64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "512",
+    "memory": "1024",
+    "registeredAt": "2026-10-25T01:39:12.584000+05:30",
+    "registeredBy": "arn:aws:sts::455162169375:assumed-role/cdk-ingramdash-cfn-exec-role-455162169375-us-east-1/AWSCloudFormation"
+}

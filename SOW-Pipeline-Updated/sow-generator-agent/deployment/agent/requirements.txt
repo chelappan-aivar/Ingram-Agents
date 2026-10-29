@@ -1,0 +1,10 @@
+bedrock-agentcore==1.24.1
+boto3==1.43.114
+strands-agents==1.61.1
+pydantic==2.14.1
+# .docx export and transcript reading (pdf, docx, xlsx); all ship linux arm64 wheels or are pure Python
+python-docx==1.2.0
+pypdf==6.21.1
+openpyxl==3.1.5
+et-xmlfile==2.0.0
+PyYAML==6.0.3
